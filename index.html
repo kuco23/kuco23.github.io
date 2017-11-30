@@ -1,0 +1,657 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+<title>Learning purposses</title>
+<link rel="stylesheet" type="text/css" href="Sidebar.css" />
+<link rel="stylesheet" type="text/css" href="Navigation.css" />
+<link rel="stylesheet" type="text/css" href="SidebarItemClass.css" />
+
+<style>
+
+body {
+background-color: rgb(30,30,30);
+margin: 0;
+padding: 0;
+}
+
+h1 {
+color: rgb(229, 228, 226);
+text-align: center;
+font-style: oblique;
+}
+
+.middleground {
+width: 55%;
+position: absolute;
+left: 22%
+}
+
+.middleground pre {
+overflow: auto;
+}
+
+.important {
+color: red;
+}
+
+#pythonSystem, #pythonSystemNav, #sidebar {
+  display: block;
+}
+
+#pythonPackages, #pythonPackagesNav,
+#pythonLinks, #pythonLinksNav,
+#javaBasics, #javaBasicsNav,
+#javaLinks, #javaLinksNav {
+  display: none;
+}
+
+</style>
+</head>
+
+<body>
+<script>
+
+function HideSidebar() {
+  var sideB = document.getElementById('sidebar');
+  var hideSideB = document.getElementById('SideBarHide');
+  var elementsMiddle = document.getElementsByClassName('middleground');
+  if (sideB.style.display == 'none') {
+    sideB.style.display = 'block';
+    hideSideB.style.right = '20%';
+    for (i=0; i < elementsMiddle.length; i++) {
+      elementsMiddle[i].style.width = '55%';
+      }
+    }
+  else {
+    sideB.style.display = 'none';
+    hideSideB.style.right = '0';
+    for (i=0; i < elementsMiddle.length; i++) {
+      elementsMiddle[i].style.width = '75%';
+      }
+    }
+  }
+
+function HideAllExcept(iden) {
+  var All = ['pythonSystem', 'pythonPackages', 'pythonLinks', 'javaBasics', 'javaLinks'];
+  for (i=0; i<All.length; i++) {
+    if (All[i] != iden) {
+      document.getElementById(All[i]).style.display = "none";
+      document.getElementById(All[i]+"Nav").style.display = "none";
+      }
+    }
+  }
+
+function Hide(iden) {
+  var obj = document.getElementById(iden);
+  if (obj.style.display != 'none') {
+    obj.style.display = 'none';
+  } else {obj.style.display = 'block';}
+}
+
+function Show(iden) {
+  var allesId = ['pythonSystem', 'pythonPackages', 'pythonLinks', 'javaBasics', 'javaLinks'];
+  var allesNav = ['pythonSystemNav', 'pythonPackagesNav','pythonLinksNav', 'javaBasicsNav', 'javaLinksNav'];
+  var obj = document.getElementById(iden);
+  var nav = document.getElementById(iden + "Nav");
+
+  if (obj.style.display == "none" || obj.style.display == "") {
+    var len = allesId.length;
+    for (i=0;i<len;i++) {
+        document.getElementById(allesId[i]).style.display = 'none';
+        document.getElementById(allesNav[i]).style.display = 'none';
+        }
+    obj.style.display = 'block';
+    nav.style.display = 'block';
+    }
+  }
+
+</script>
+
+<div class='sidebar' id='sidebar'>
+  <ul>
+    <li><a href='javascript:void(0)' onclick="Hide('pythonUnder')">Python</a></li>
+	    <div class='under' id='pythonUnder'>
+	       <li><a href='javascript:void(0);' onclick='Show("pythonSystem")'>System</a></li>
+	       <li><a href='javascript:void(0);' onclick='Show("pythonPackages")'>Packages</a></li>
+         <li><a href='javascript:void(0);' onclick='Show("pythonLinks")'>Links</a></li>
+	     </div>
+
+    <li><a href='javascript:void(0)' onclick='Hide("javaUnder")'>Java</a></li>
+	     <div class='under' id='javaUnder'>
+	        <li><a href='javascript:void(0);' onclick='Show("javaBasics")'>Basics</a></li>
+          <li><a href='javascript:void(0);' onclick='Show("javaLinks")'>Links</a></li>
+	     </div>
+
+    <li><a href='javascript:void(0)' onclick=''>HTML</a></li>
+  </ul>
+</div>
+
+<div class='SideBarHide' id='SideBarHide'>
+  <a href='javascript:void(0);' onclick='HideSidebar()'><span title='close' style='opacity:transparent;'> x </span></a>
+</div>
+
+
+<div class='Navigation'>
+  <ul>
+
+    <div id='pythonSystemNav'>
+      <li><a href='#classes'>Classes</a></li>
+      <li><a href='#classMethods'>Class Methods</a></li>
+      <li><a href='#subclassing'>Subclassing</a></li>
+      <li><a href='#argsKwargs'>Args & Kwargs</a></li>
+      <li><a href='#handlingExceptions'>Handling Exceptions</a></li>
+      <li><a href='#tuples'>Tuples</a></li>
+      <li><a href='#yield'>Yield</a></li>
+      <li><a href='#pipInfo'>Pip Info</a></li>
+    </div>
+
+    <div id='pythonPackagesNav'>
+      <li><a href='#bs4'>Beautiful Soup</a></li>
+      <li><a href='#fbchat'>FbChat</a></li>
+      <li><a href='#os'>Os</a></li>
+      <li><a href='#plotly'>Plotly</a></li>
+    </div>
+
+    <div id='pythonLinksNav'>
+      <li><a href='#pythonLinks'>Links</a></li>
+    </div>
+
+
+    <div id='javaBasicsNav'>
+      <li><a href='#basicSyntax'>Basic Syntax</a></li>
+    </div>
+
+    <div id='javaLinksNav'>
+      <li><a href='#links'>Links</a></li>
+    </div>
+
+  </ul>
+</div>
+
+<!-- &&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&6 Python System DIV $$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$ -->
+
+<div class='PythonClass middleground' id='pythonSystem'>
+<h1>Python System</h1><br>
+
+
+<!-- ############################## first NavItem ################33############################## -->
+
+<ul>
+
+<div id='classes'>
+<li><h2>Classes</h2></li>
+<pre>
+
+class neki:
+    def __init__(self):
+	*init code*
+
+    def function(*args):
+	return *code*
+
+>>> neki.function(args)
+>>> *code*
+
+class neki:
+    def __init__(self):
+	*init code*
+
+    def function(self, *args):
+	return *code*
+
+>>> neki.function(self_placeholder_arg, args)
+>>> *code*
+
+<span class='important'>YOU CAN CALL ANY FUNCTION FROM CLASS WITHOUT INITIALIZING CLASS,
+IF YOU PROVIDE SELF_PLACEHOLDEDR_ARG! </span>
+</pre><br>
+
+<!-- ############################### new NavItem ################################################# -->
+
+<li id='classMethods'><h2>Class Methods</h2></li>
+<pre>
+__name__
+
+file1
+def foo():
+    return __name__
+
+>>> foo()
+>>> __main__
+
+file2
+import file1
+
+>>> file1.foo()
+>>> file1 # returns the name of the module (file1),
+	    if the module is current returns '__main__'
+
+
+__call__
+
+class MyClass:
+    def __init__(self, id):
+	*code*
+
+    def __call__(fun):
+	print("MyClass call: {}".format(fun()))
+
+>>> obj = MyClass(id)
+>>> @ obj
+    def myfunct("n"): # has to be the definition of a function and not just a function
+	return("n")
+
+>>> MyClass call: n
+
+</pre><br>
+</div>
+
+<!-- ########################### new NavItem ############################################# -->
+
+
+<div id='subclassing'>
+<li><h2>Subclassing</h2></li>
+<pre>
+
+<b>You can basically subclass any class to overwrite it, or inherit some things</b>
+
+class SuperClass(SubClass):
+    def __init__(self, *args, **kwargs):
+        super(SuperClass, self).__init__(args, kwargs)
+	# putting SuperClass, self as arguments in super is unecessary
+
+# this works as inheritance, SuperClass inherited the whole SubClass.
+# Now SuperClass has every SubClass function.
+
+class SuperClass(SubClass1, Subclass2):
+    def __init__(self, arg, *args, **kwargs):
+	super(Superclass, self).__init__(arg, *args, **kwargs)
+	# super initializes all subclasses, passes arg, *args to all of them
+
+class Overwrite(SubClass):
+    def Function_from_SubClass_to_overwrite(args *args(dont need))
+	# args have to have the same name and sequence as does the overwritten funct
+
+	# do_something else, that you want with
+	# overwritten function, having all others stay the same
+	# (inherited from SubClass)
+
+<span class=important>BASICALLY EVERYTHING FROM SUBCLASS YOU DO NOT RENAME IN SUPERCLASS REMAINS THE SAME</span>
+(EVEN __INIT__)
+
+class SubClass_copy(SubClass):
+    pass
+
+SubClass_copy = (the same) = SubClass
+
+</pre><br>
+</div>
+
+<!-- ######################################### new NavItem ################################################### -->
+
+<div id='argsKwargs'>
+<li><h2>Args & Kwargs</h2></li>
+<pre>
+**kwargs
+
+def function(**kwargs):
+   return **kwargs
+
+>>> function(a=1,b=2)
+>>> {'a':1, 'b':2} #returns dict
+
+def function2(*args):
+   for key, value in kwargs.iteritems():
+	print("%s == %s" % (key, value))
+
+>>> function2(a=2, b=3)
+>>> a == 2
+    b == 3
+
+*args
+
+def function(*args):
+   for arg in args:
+	print("arg {}").format(arg))
+
+>>> function(1,2)
+>>> arg 1
+    arg 2
+
+</pre><br>
+</div>
+
+<!-- ################################# newNavItem ############################################# -->
+
+
+<div id='handlingExceptions'>
+<li><h2>Handling Exceptions</h2></li>
+<pre>
+try:
+   #lines of code to be executed
+
+except TypeError:
+   #do in case of TypeError
+
+except Exception as e:
+   print(e)
+   #prints ExceptionType as string
+
+except (TypeError2, TypeError3):
+   #in case of any error in tuple
+
+except:
+   #except all errors
+
+finally:
+   # executes no matter what, even if in function it comes before return
+   # (if try returns smth)
+   <span class='important'>#EXECUTES NO MATTER WHAT HAPPENS BEFORE (EVEN IF THE WORLD DIES)</span>
+
+Error Examples:
+    raise TypeError
+    raise NameError('nameErroor')
+    raise KeyboardInterrupt
+</pre>
+<br>
+</div>
+
+<!-- ################################ new NavItem ################################################ -->
+
+
+<div id='tuples'>
+<li><h2>Tuples</h2></li>
+<pre>
+Tuples:
+
+>>> tup = [(1,2,3), (2,3,4), (3,4,5)]
+>>> for i,j,k in tup:
+	print(i,j,k)
+
+>>> prints 1 2 3
+	   2 3 4
+	   3 4 5
+
+# it acts as for elt in tup: i=elt[0], j = elt[1], k = elt[2]
+
+<b>this is how zip(a,b) works:
+it packages paired indexed iterations of a in b into tuple (e.g. (a[0], b[0])),
+so you can iterate through the tuple and act as you are iterating through
+both a and b</b>
+
+>>> i, j = (1, 2)
+    ==
+>>> i, j = 1, 2
+
+</pre><br>
+</div>
+
+<!-- ################################# new NavItem ######################################## -->
+
+<div id='yield'>
+<li><h2>Yield</h2></li>
+<pre>
+def function(n):
+   while True:
+	yield(n)
+	n += 1
+
+>>> a = function(0)
+>>> print(a)
+>>> <basically a is generator>
+
+# a is generator, because the run function doesnt have the value
+# returned and stored as a, but only generated.
+
+# Generators are iterators (like strings or lists), but you can iterate
+# over them only once. They do not store all values in the memory.
+
+>>> for i in range(10):
+	print(next(a))
+
+>>> prints numbers 0-9
+
+>>> for gen in a:
+	print(gen)
+
+>>> prints numbers 0-Inf
+
+Generators store where you left over the last iteration
+
+>>> generator = (x for x in range(10))
+# acts as a generator (can use next(generator), loop through,...)
+# can convert generator to tuple: tup = tuple(generator),
+# though this acts as a iteration through the generator, that fills the tuple
+# with its content, so after calling tuple(generator), generator = ().
+# (also, if partial iteration has been used through generator, tuple will go from there on.
+
+<span class='important'># GENERATOR = FUNCTION_THAT_YIELDS() OR TUPLE GENERATOR (i for i in range(10))
+# TUPLE(GENERATOR) EMPTIES THE GENERATOR INTO TUPLE (same for list(generator))</span>
+</pre>
+</div>
+<br>
+
+<!-- ################################### new NavItem ####################################################### -->
+
+<div id='pipInfo'>
+<li><h2>Pip Info</h2></li>
+<pre>
+<span class='imortant'>IMPORTED PACKAGE DOESNT WORK</span>
+mkdir directory_name #empty directory
+import package
+package.__path__ #which dir package was imported from
+<span class='important'>RENAME ANY FUCKING FILE THAT HAS THE SAME NAME AS THE PACKAGE!!!</span>
+
+<span class='important'>INSTALLING PACKAGE ON PYTHON</span>
+pip on your path
+pip install package
+python -m pip install package
+</pre>
+</div>
+
+</ul>
+</div>
+
+<!-- ################################## new SidebarItem ######################################## -->
+
+
+<div class='PythonClass middleground' id='pythonPackages'>
+
+<h1>Python Packages</h1><br>
+
+<ul>
+
+<div id='bs4'>
+<li><h2>Beautiful Soup</h2></li>
+<pre>
+from urllib.request import urlopen
+import bs4
+
+url = 'url'
+opened = urlopen(url)
+soup = BeautifulSoup(opened)
+
+soup.find_all('<tag>') //finds all tags
+soup.get('arg in tag') // extracts things in the middle of tags with those arguments
+soup.find('<tag>', _class='neki') // finds all <tag> with class='neki'
+</pre>
+</div>
+<br>
+
+<!-- ##################################### New NavItem ####################################### -->
+
+<div id='fbchat'>
+<li><h2>FbChat</h2></li>
+<pre>
+ME = '100004586734701'
+INUS = '1829555784'
+
+#user_id=thread_id if thread_type == client.ThreadType.USER
+
+
+from fbchat import Client
+from fbchat.models import *
+
+client = Client('mail', 'pass')
+
+threads = user.fetchAllThreads() // fetches first 20 threads in the chat list
+
+client.searchForUsers(user_name) // search user_id by typing name
+client.FetchAllUsers() // a list of all users ur chatting with
+client.sendMessage('message', thread_id='userid', thread_type=ThreadType.USER/GROUP)
+
+class user: //user=user.searchForUsers('name')
+	user.uid // returns user id
+	user.name // returns user name
+	user.photo
+	user.url // probably url to profile
+
+
+
+######################react_auto########################################################
+client.listen() // listen reacts to actions happening inside clients chat, so
+		// subclass Client in a class and define reaction
+		//def onMessage!!
+
+class neki(Client):
+	def onMessage(self, person_who_sent_mes_id, message,
+		      thread_id, thread_type, **kwargs)
+
+client.changeThreadColor(MESSENGER_*color*, thread_id='thread_id')
+client.changeNickname('nickname_change', user_id='person whose id ull change',
+		       thread_id='thread_id', thread_type=ThreadType.USER/GROUP)
+########################################################################################
+
+
+################groups_only##############################################################
+client.removeUserFromGroup('user_id', thread_id='')
+
+user_id = user.uid
+	client.addUsersToGroup('user_id', thread_id='')
+	client.addUsersToGroup(['user1',...,'usern'], thread_id='')
+#########################################################################################
+
+
+client.isLoggedIn() //True if logged in
+client.logout() // logs u out
+
+client.sendLocalImage('image path', message='', thread_id='', thread_type='')
+messages = client.fetchThreadMessages(thread_id='thread_id', limit=10)
+	   // 10 last messages from user
+messages.reverse()
+</pre><br>
+
+<li id='os'><h2>Os</h2></li>
+<pre>
+>>> os.listdir()
+>>> [files in dir]
+</pre>
+</div>
+<br>
+
+<!-- ############################## new NavItem ########################################## -->
+
+<div id='plotly'>
+<li><h2>Plotly</h2></li>
+<pre>
+import plotly
+plotly.tools.set_credentials_file(username='kuco23', api_key='3piBe5vMcn2srfCqgADT')
+
+import numpy as ny
+import plotly.plotly as pl
+import plotly.graph_objs as go
+
+>>> x_os = ny.linspace(zacetek, konec, stevilo_pik)
+>>> ran = ny.random.randn(dimenzija)
+>>> ny.array(object)
+
+/* To change other object into array */
+
+>>> source = go.Scatter(x=x_os, y=y_os, name='name', mode='lines/markers/lines+markers')
+>>> data = [source]
+>>> pl.plot(data, filename='filename')
+</pre>
+</div>
+
+</ul>
+</div>
+
+<!-- ######################## New SidebarItem ################################### -->
+
+<div class='PythonClass middleground' id='pythonLinks'>
+  <h1>Links</h1>
+  <ul style='list-style-type: none;'>
+    <li><a href='https://en.wikibooks.org/wiki/Python_Programming/Exceptions' target='_blank'>Exceptions Link</a></li>
+  </ul>
+</div>
+
+<!--
+endPython
+$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$
+$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$
+-->
+
+<div class='JavaClass middleground' id='javaBasics'>
+  <h1>Java Basics</h1>
+
+  <ul>
+    <div id='basicSyntax'>
+      <li><h2>Basic Syntax</h2></li>
+      <pre>
+
+static -> declaration of variables, functions. Static functions can access static variables,
+also static functions can be accessed outside the class, without calling the constructor
+(works like python self)
+
+int -> declaration of integer, that can apply to function return or variable
+String -> declaration of string
+double ->
+void -> meaning it has no return, usually applies to function return (if it has none)
+
+public class Neki {                		/* class definition is required */
+    static int/String/double instanceVariable;
+
+    public Neki(String name) {     		/* class constructor should have the same name as class
+	*initialize*;    	   		(works the same as python __init__())
+    }   					you don't have to define constructor */
+
+
+    public classFunction(Type variable) {
+	*do something*;
+    }
+
+    public static void main(String []arg) {	/* String []arg takes list of strings as funct input */
+	*do what you want to be compiled*
+	Neki name = new Neki("name");
+	name.classFunction(typeArg);
+	System.out.println(instanceVariable);
+    }
+}
+
+import java.io.*   /* by importing java.io. running the program compiles all the files in the
+	             directory java_installation/java/io, not just the one being run */
+
+      </pre>
+    </div>
+  </ul>
+</div>
+
+<div class='JavaClass middleground' id='javaLinks'>
+  <h1>Links</h1>
+
+  <div id='links'>
+    <ul style='list-style-type: none;'>
+      <li><a href='https://www.tutorialspoint.com/java/' target='_blank'>TutorialsPoint</a></li>
+    </ul>
+  </div>
+
+</div>
+
+<script>
+HideAllExcept('pythonSystem');
+Hide('javaUnder');
+Hide('pythonUnder');
+</script>
+
+</body>
+</html>

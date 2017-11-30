@@ -1,0 +1,42 @@
+.Navigation {
+float: left;
+background-color: rgba(20,20,20,.9);
+width: 20%;
+top: 0;
+left: 0;
+height: 100%;
+overflow: auto;
+position: fixed;
+}
+
+.Navigation ul {
+list-style-type: none;
+margin: 5px 0;
+padding: 0;
+}
+
+.Navigation li {
+margin: 0;
+padding: 0;
+text-align: center;
+border: 2px solid transparent;
+}
+
+.Navigation li a {
+text-decoration: none;
+display: block;
+padding: 10%;
+border: 2px solid rgba(0,0,0,.5);
+color: rgba(250,250,250,.5);
+overflow:auto;
+}
+
+.Navigation li a:hover {
+background-color: rgba(40,40,40,1);
+border: 2px solid rgba(0,0,0,1);
+color: white;
+}
+
+.Navigation li:hover {
+border: 2px solid red;
+}

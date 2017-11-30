@@ -1,0 +1,40 @@
+.PythonClass {
+  color: rgb(127,255,0);
+}
+
+.PythonClass pre {
+  color: powderblue;
+}
+
+.PythonClass a {
+  color: rgba(204,0,204,.5);
+  text-decoration: none;
+  font-weight: bold;
+  font-size: 20px;
+}
+
+.PythonClass a:hover {
+  color: rgba(204,0,204,1);
+  text-shadow: 2px 2px 5px red;
+}
+
+
+.JavaClass {
+  color: rgb(0,255,255);
+}
+
+.JavaClass pre {
+  color: rgb(255,69,0);
+}
+
+.JavaClass a {
+  color: rgba(153, 198, 142, .5);
+  text-decoration: none;
+  font-size: 20px;
+  font-weight: bold;
+}
+
+.JavaClass a:hover {
+  color: rgba(153, 198, 142, 1);
+  text-shadow: 2px 2px 5px green;
+}
