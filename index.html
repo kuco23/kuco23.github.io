@@ -28,6 +28,7 @@ left: 22%
 
 .middleground pre {
 overflow: auto;
+/* word-wrap: break-word; */
 }
 
 .important {
@@ -90,7 +91,6 @@ function Hide(iden) {
 
 function Show(iden) {
   var allesId = ['pythonSystem', 'pythonPackages', 'pythonLinks', 'javaBasics', 'javaLinks'];
-  var allesNav = ['pythonSystemNav', 'pythonPackagesNav','pythonLinksNav', 'javaBasicsNav', 'javaLinksNav'];
   var obj = document.getElementById(iden);
   var nav = document.getElementById(iden + "Nav");
 
@@ -98,7 +98,7 @@ function Show(iden) {
     var len = allesId.length;
     for (i=0;i<len;i++) {
         document.getElementById(allesId[i]).style.display = 'none';
-        document.getElementById(allesNav[i]).style.display = 'none';
+        document.getElementById(allesId[i] + "Nav").style.display = 'none';
         }
     obj.style.display = 'block';
     nav.style.display = 'block';
@@ -141,7 +141,7 @@ function Show(iden) {
       <li><a href='#argsKwargs'>Args & Kwargs</a></li>
       <li><a href='#handlingExceptions'>Handling Exceptions</a></li>
       <li><a href='#tuples'>Tuples</a></li>
-      <li><a href='#yield'>Yield</a></li>
+      <li><a href='#statements'>Yield</a></li>
       <li><a href='#pipInfo'>Pip Info</a></li>
     </div>
 
@@ -159,6 +159,7 @@ function Show(iden) {
 
     <div id='javaBasicsNav'>
       <li><a href='#basicSyntax'>Basic Syntax</a></li>
+      <li><a href='#dataTypes'>Data Types</a></li>
     </div>
 
     <div id='javaLinksNav'>
@@ -210,6 +211,14 @@ IF YOU PROVIDE SELF_PLACEHOLDEDR_ARG! </span>
 
 <li id='classMethods'><h2>Class Methods</h2></li>
 <pre>
+
+__init__(self) /* class constructor */
+__repr__(self) /* official representation of class (must return string) */
+__str__(self) /* unofficial representation of class */
+__mul__(self, other) /* multiplication between the object and other */
+__rmul__(self, other) /* right-sided multiplication */
+__pow__(self, p) /* defines object**p */
+__getitem__(self, ind) /* indexing object, eg. object[ind] */
 __name__
 
 file1
@@ -388,8 +397,8 @@ both a and b</b>
 
 <!-- ################################# new NavItem ######################################## -->
 
-<div id='yield'>
-<li><h2>Yield</h2></li>
+<div id='statements'>
+<li><h2>Statements</h2></li>
 <pre>
 def function(n):
    while True:
@@ -424,6 +433,13 @@ Generators store where you left over the last iteration
 # though this acts as a iteration through the generator, that fills the tuple
 # with its content, so after calling tuple(generator), generator = ().
 # (also, if partial iteration has been used through generator, tuple will go from there on.
+
+assert:
+assert False
+raises AssertionError
+
+assert True
+#nothing happens
 
 <span class='important'># GENERATOR = FUNCTION_THAT_YIELDS() OR TUPLE GENERATOR (i for i in range(10))
 # TUPLE(GENERATOR) EMPTIES THE GENERATOR INTO TUPLE (same for list(generator))</span>
@@ -582,6 +598,9 @@ import plotly.graph_objs as go
   <h1>Links</h1>
   <ul style='list-style-type: none;'>
     <li><a href='https://en.wikibooks.org/wiki/Python_Programming/Exceptions' target='_blank'>Exceptions Link</a></li>
+    <li><a href='https://www.thecodeship.com/patterns/guide-to-python-function-decorators/' target='_blank'>Decorators</a></li>
+    <li><a href='https://infohost.nmt.edu/tcc/help/pubs/python/web/special-methods.html' target='_blank'>Reserved Class Methods</a></li>
+    <li><a href='https://docs.python.org/2/reference/simple_stmts.html' target='_blank'>Statements</a></li>
   </ul>
 </div>
 
@@ -603,9 +622,6 @@ static -> declaration of variables, functions. Static functions can access stati
 also static functions can be accessed outside the class, without calling the constructor
 (works like python self)
 
-int -> declaration of integer, that can apply to function return or variable
-String -> declaration of string
-double ->
 void -> meaning it has no return, usually applies to function return (if it has none)
 
 public class Neki {                		/* class definition is required */
@@ -633,6 +649,47 @@ import java.io.*   /* by importing java.io. running the program compiles all the
 
       </pre>
     </div>
+
+    <div id='dataTypes'>
+      <li><h2>Data Types</h2></li>
+      <pre>
+
+Data Types Declatations
+
+  Number Types:
+
+  byte var /* must be an int between -128 and 127 [-2^7, 2^7-1] */ (8-bit value)
+  short var /* int between -32 768 and 32 767 [-2^15, 2^15-1] (16 bit)
+
+  byte, short save memory (byte is 4 times smaller than int, short 2 times)
+
+  int var /* 32-bit signed integer between [-2 147 483 648, 2147 483 647] (2^32) */
+  <b>(int is considered a standard numeric declaration -> if you dont declare a var its considered int
+  that is a problem when passing arguments between functions that have non int declarations)</b>
+  long var /* 64-bit signed [-2^63, 2^63-1] */
+  float var /* single-precision 32-bit IEEE 754 floating point */
+  double var /* double-precision 64-bit IEEE 754 floating point */
+
+  default value = false for all number types
+
+Bolean:
+  boolean var /* one bit of information (true or false), default value=false */
+  eg. boolean one = true
+
+Char:
+  char var /* single 16-bit Unicode character */
+  eg. char letterA = 'A'
+
+Reference Datatypes:
+  default value of reference variables = null
+
+
+dataType a, b, c; (eg. int a, b, c /* declares a b and c as int */)
+"\" some text \""  /* \ blocks the functionality of a character */
+
+      </pre>
+    </div>
+
   </ul>
 </div>
 
@@ -642,6 +699,7 @@ import java.io.*   /* by importing java.io. running the program compiles all the
   <div id='links'>
     <ul style='list-style-type: none;'>
       <li><a href='https://www.tutorialspoint.com/java/' target='_blank'>TutorialsPoint</a></li>
+      <li><a href='https://docs.oracle.com/javase/tutorial/java/javaOO/accesscontrol.html' target='_blank'>Modifiers</a></li>
     </ul>
   </div>
 
