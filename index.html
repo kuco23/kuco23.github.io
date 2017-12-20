@@ -141,7 +141,7 @@ function Show(iden) {
       <li><a href='#argsKwargs'>Args & Kwargs</a></li>
       <li><a href='#handlingExceptions'>Handling Exceptions</a></li>
       <li><a href='#tuples'>Tuples</a></li>
-      <li><a href='#statements'>Yield</a></li>
+      <li><a href='#statements'>Statements</a></li>
       <li><a href='#pipInfo'>Pip Info</a></li>
     </div>
 
@@ -153,7 +153,8 @@ function Show(iden) {
     </div>
 
     <div id='pythonLinksNav'>
-      <li><a href='#pythonLinks'>Links</a></li>
+      <li><a href='#general'>General</a></li>
+      <li><a href='#packTutorials'>Tutorials</a></li>
     </div>
 
 
@@ -195,16 +196,41 @@ class neki:
 
 class neki:
     def __init__(self):
-	*init code*
+	   *init code*
 
     def function(self, *args):
-	return *code*
+	   return *code*
 
->>> neki.function(self_placeholder_arg, args)
->>> *code*
+    @classmethod
+    def class_funct(cls, *args):
+      return *code*
 
-<span class='important'>YOU CAN CALL ANY FUNCTION FROM CLASS WITHOUT INITIALIZING CLASS,
-IF YOU PROVIDE SELF_PLACEHOLDEDR_ARG! </span>
+    @staticmethod
+    def staic_funct(*args):
+      return *code*
+
+>>> obj = neki()
+>>> obj.function(args) = neki.function(self_placeholder_arg, args)
+
+>>> obj.function
+>>> method bound to instance obj
+>>> obj.class_funct
+>>> method bound to the class neki
+>>> obj.static_funct
+>>> function # bound to nothing
+
+
+
+<span class='important'>instance = object created from class</span>
+>>> a = neki() # a is instance of neki
+>>> isinstance(a, neki)
+>>> True
+
+<span class='important'>THE FIRST ARGUMENT IN CLASS IS BOUND TO CLASS OR <br>
+INITIALIZED OBJECT (CLASS INSTANCE). TO MAKE CLASS METHOD BE BOUND TO CLASS<br>
+(MAKE IT POSSIBLE FOR METHOD TO ACCESS CLASS IT IS IN) USE @classmethod OR IF <br>
+YOU WANT A FUNCTION IN CLASS TO NOT BE ABLE TO ACCESS INSTANCE ATTRIBUTES OR CLASS <br>
+USE @staticmethod  </span>
 </pre><br>
 
 <!-- ############################### new NavItem ################################################# -->
@@ -309,8 +335,8 @@ def function(**kwargs):
 >>> function(a=1,b=2)
 >>> {'a':1, 'b':2} #returns dict
 
-def function2(*args):
-   for key, value in kwargs.iteritems():
+def function2(**kwargs):
+   for key, value in kwargs.items():
 	print("%s == %s" % (key, value))
 
 >>> function2(a=2, b=3)
@@ -561,6 +587,16 @@ messages.reverse()
 <pre>
 >>> os.listdir()
 >>> [files in dir]
+
+Retrieving path of a module:
+
+import <module>
+import os
+
+path = os.path.dirname(module.__file__)
+
+import sys
+sys.path.append(path)
 </pre>
 </div>
 <br>
@@ -595,13 +631,30 @@ import plotly.graph_objs as go
 <!-- ######################## New SidebarItem ################################### -->
 
 <div class='PythonClass middleground' id='pythonLinks'>
-  <h1>Links</h1>
-  <ul style='list-style-type: none;'>
-    <li><a href='https://en.wikibooks.org/wiki/Python_Programming/Exceptions' target='_blank'>Exceptions Link</a></li>
-    <li><a href='https://www.thecodeship.com/patterns/guide-to-python-function-decorators/' target='_blank'>Decorators</a></li>
-    <li><a href='https://infohost.nmt.edu/tcc/help/pubs/python/web/special-methods.html' target='_blank'>Reserved Class Methods</a></li>
-    <li><a href='https://docs.python.org/2/reference/simple_stmts.html' target='_blank'>Statements</a></li>
-  </ul>
+<h1>Links</h1>
+<ul>
+
+  <div id='general'>
+    <li><h2>General</h2></li>
+    <ul style='list-style-type: none;'>
+      <li><a href='http://pythonvisually.com/ebook/primitive-data-types.html' target='_blank'>Python Tutorial</a></li>
+      <li><a href='https://en.wikibooks.org/wiki/Python_Programming/Exceptions' target='_blank'>Exceptions</a></li>
+      <li><a href='https://www.thecodeship.com/patterns/guide-to-python-function-decorators/' target='_blank'>Decorators</a></li>
+      <li><a href='https://infohost.nmt.edu/tcc/help/pubs/python/web/special-methods.html' target='_blank'>Reserved Class Methods</a></li>
+      <li><a href='https://docs.python.org/2/reference/simple_stmts.html' target='_blank'>Statements</a></li>
+    </ul>
+  </div>
+
+  <div id='packTutorials'>
+    <li><h2>Package Tutorials</h2></li>
+    <ul style='list-style-type: none;'>
+      <li><a href='https://shodan.readthedocs.io/en/latest/' target='_blank'>Shodan Tutorial</a></li>
+      <li><a href='https://www.labri.fr/perso/nrougier/teaching/matplotlib/' target='_blank'>Matplotlib Tutorial</a></li>
+      <li><a href='https://www.pygame.org/docs/tut/newbieguide.html' target='_blank'>Pygame Tutorial</a></li>
+    </ul>
+  </div>
+
+</ul>
 </div>
 
 <!--
@@ -650,6 +703,8 @@ import java.io.*   /* by importing java.io. running the program compiles all the
       </pre>
     </div>
 
+<!-- ################################### New NavItem #################################################### -->
+
     <div id='dataTypes'>
       <li><h2>Data Types</h2></li>
       <pre>
@@ -687,11 +742,15 @@ Reference Datatypes:
 dataType a, b, c; (eg. int a, b, c /* declares a b and c as int */)
 "\" some text \""  /* \ blocks the functionality of a character */
 
+<span  class='important'>LONG TYPES ARE SET AS long var = ***L</span>
+
       </pre>
     </div>
 
   </ul>
 </div>
+
+<!--######################################## New SidebarItem ###################################################################-->
 
 <div class='JavaClass middleground' id='javaLinks'>
   <h1>Links</h1>
@@ -700,6 +759,8 @@ dataType a, b, c; (eg. int a, b, c /* declares a b and c as int */)
     <ul style='list-style-type: none;'>
       <li><a href='https://www.tutorialspoint.com/java/' target='_blank'>TutorialsPoint</a></li>
       <li><a href='https://docs.oracle.com/javase/tutorial/java/javaOO/accesscontrol.html' target='_blank'>Modifiers</a></li>
+      <li><a href='https://docs.oracle.com/javase/7/docs/api/java/lang/StringBuilder.html' target='_blank'>StringBuilder</a></li>
+      <li><a href='https://www.msn.com/en-gb/foodanddrink/foodnews/20plus-soup-recipes-to-help-you-beat-weight-gain/ss-BBH1FLA?ocid=spartanntp#image=21'target='_blank'>Soups</a></li>
     </ul>
   </div>
 
