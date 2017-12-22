@@ -83,10 +83,15 @@ function HideAllExcept(iden) {
   }
 
 function Hide(iden) {
+  var list = ['javaUnder', 'pythonUnder'];
   var obj = document.getElementById(iden);
   if (obj.style.display != 'none') {
     obj.style.display = 'none';
   } else {obj.style.display = 'block';}
+
+  for (i=0; i < list.length; i++) {
+    if (list[i] != iden) document.getElementById(list[i]).style.display = 'none';
+  }
 }
 
 function Show(iden) {
@@ -161,6 +166,7 @@ function Show(iden) {
     <div id='javaBasicsNav'>
       <li><a href='#basicSyntax'>Basic Syntax</a></li>
       <li><a href='#dataTypes'>Data Types</a></li>
+      <li><a href='#files'>Files</a></li>
     </div>
 
     <div id='javaLinksNav'>
@@ -746,6 +752,46 @@ dataType a, b, c; (eg. int a, b, c /* declares a b and c as int */)
 
       </pre>
     </div>
+  <div id='files'>
+    <li><h2>Files</h2></li>
+
+    <pre>
+files:
+
+FileInputStream in = null;
+FileOutputStream out = null;
+int c;
+
+try
+in = new FileInputStream(String in_file);
+out = new FileOutputStream(String out_file);
+while ((c=in.read()) != -1) {out.write(c);}
+
+finally
+in.close;
+out.close;
+
+
+
+File var = new File(name);
+FileReader inp = null;
+PrintWriter wri = null;
+
+try
+inp = new FileReader(var);
+wri = PrintWriter(String out_name);
+
+char[] ar = char[n];
+inp.read(a); // reads n characters into ar
+
+inp.printf(--same as System.out.printf--);
+
+finally
+inp.close();
+wri.close();
+
+    </pre>
+  </div>
 
   </ul>
 </div>
@@ -768,8 +814,8 @@ dataType a, b, c; (eg. int a, b, c /* declares a b and c as int */)
 
 <script>
 HideAllExcept('pythonSystem');
-Hide('javaUnder');
-Hide('pythonUnder');
+document.getElementById('javaUnder').style.display = 'none';
+document.getElementById('pythonUnder').style.display = 'none';
 </script>
 
 </body>

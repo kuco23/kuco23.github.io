@@ -31,7 +31,7 @@ overflow:auto;
 
 .Navigation li a:hover {
 background-color: rgba(40,40,40,1);
-border: 2px solid rgba(0,0,0,1);
+border: 2px solid rgba(0,0,0,.8);
 color: white;
 }
 
