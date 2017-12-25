@@ -7,15 +7,15 @@
 }
 
 .PythonClass a {
-  color: rgba(204,0,204,.5);
+  color: rgba(100,100,100,.5);
   text-decoration: none;
   font-weight: bold;
   font-size: 20px;
 }
 
 .PythonClass a:hover {
-  color: rgba(204,0,204,1);
-  text-shadow: 2px 2px 5px red;
+  color: rgb(150,150,150);
+  text-shadow: 2px 2px 5px black;
 }
 
 

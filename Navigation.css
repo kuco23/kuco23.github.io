@@ -2,10 +2,9 @@
 float: left;
 background-color: rgba(20,20,20,.9);
 width: 20%;
-top: 0;
 left: 0;
+top: 0;
 height: 100%;
-overflow: auto;
 position: fixed;
 }
 

@@ -5,7 +5,6 @@
 <link rel="stylesheet" type="text/css" href="Sidebar.css" />
 <link rel="stylesheet" type="text/css" href="Navigation.css" />
 <link rel="stylesheet" type="text/css" href="SidebarItemClass.css" />
-
 <style>
 
 body {
@@ -136,7 +135,7 @@ function Show(iden) {
 </div>
 
 
-<div class='Navigation'>
+<div class='Navigation' id='Navigation'>
   <ul>
 
     <div id='pythonSystemNav'>
@@ -154,6 +153,7 @@ function Show(iden) {
       <li><a href='#bs4'>Beautiful Soup</a></li>
       <li><a href='#fbchat'>FbChat</a></li>
       <li><a href='#os'>Os</a></li>
+      <li><a href='#decimal'>Decimal</a></li>
       <li><a href='#plotly'>Plotly</a></li>
     </div>
 
@@ -296,29 +296,29 @@ class MyClass:
 
 <b>You can basically subclass any class to overwrite it, or inherit some things</b>
 
-class SuperClass(SubClass):
+class SubClass(SuperClass):
     def __init__(self, *args, **kwargs):
-        super(SuperClass, self).__init__(args, kwargs)
-	# putting SuperClass, self as arguments in super is unecessary
+        super(SubClass, self).__init__(args, kwargs)
+	# putting SubClass, self as arguments in super is unecessary
 
-# this works as inheritance, SuperClass inherited the whole SubClass.
-# Now SuperClass has every SubClass function.
+# this works as inheritance, SubClass inherited the whole SuperClass.
+# Now SubClass has every SuperClass function.
 
-class SuperClass(SubClass1, Subclass2):
+class SubClass(SuperClass1, Superclass2):
     def __init__(self, arg, *args, **kwargs):
-	super(Superclass, self).__init__(arg, *args, **kwargs)
+	super(Subclass, self).__init__(arg, *args, **kwargs)
 	# super initializes all subclasses, passes arg, *args to all of them
 
-class Overwrite(SubClass):
-    def Function_from_SubClass_to_overwrite(args *args(dont need))
+class Overwrite(SuperClass):
+    def Function_from_SuperClass_to_overwrite(args *args(dont need))
 	# args have to have the same name and sequence as does the overwritten funct
 
 	# do_something else, that you want with
 	# overwritten function, having all others stay the same
-	# (inherited from SubClass)
+	# (inherited from SuperClass)
 
-<span class=important>BASICALLY EVERYTHING FROM SUBCLASS YOU DO NOT RENAME IN SUPERCLASS REMAINS THE SAME</span>
-(EVEN __INIT__)
+<span class=important>BASICALLY EVERYTHING FROM SUBCLASS YOU DO NOT RENAME IN SUPERCLASS REMAINS THE SAME
+(EVEN __INIT__)</span>
 
 class SubClass_copy(SubClass):
     pass
@@ -588,8 +588,10 @@ messages = client.fetchThreadMessages(thread_id='thread_id', limit=10)
 	   // 10 last messages from user
 messages.reverse()
 </pre><br>
+</div>
 
-<li id='os'><h2>Os</h2></li>
+<div id='os'>
+<li><h2>Os</h2></li>
 <pre>
 >>> os.listdir()
 >>> [files in dir]
@@ -606,6 +608,24 @@ sys.path.append(path)
 </pre>
 </div>
 <br>
+
+<!-- ############################## new NavItem ########################################## -->
+
+<div id='decimal'>
+  <li><h2>Decimal</h2></li>
+
+  <pre>
+
+Decimal:
+
+>>> from decimal import*
+>>> getcontext().prec = --num_of_dec--
+>>> dec = Decimal(Int)
+>>> divis = dec / Decimal(Int2)
+
+ </pre>
+
+</div>
 
 <!-- ############################## new NavItem ########################################## -->
 
@@ -643,20 +663,22 @@ import plotly.graph_objs as go
   <div id='general'>
     <li><h2>General</h2></li>
     <ul style='list-style-type: none;'>
-      <li><a href='http://pythonvisually.com/ebook/primitive-data-types.html' target='_blank'>Python Tutorial</a></li>
       <li><a href='https://en.wikibooks.org/wiki/Python_Programming/Exceptions' target='_blank'>Exceptions</a></li>
       <li><a href='https://www.thecodeship.com/patterns/guide-to-python-function-decorators/' target='_blank'>Decorators</a></li>
       <li><a href='https://infohost.nmt.edu/tcc/help/pubs/python/web/special-methods.html' target='_blank'>Reserved Class Methods</a></li>
       <li><a href='https://docs.python.org/2/reference/simple_stmts.html' target='_blank'>Statements</a></li>
+      <li><a href='http://book.pythontips.com/en/latest/map_filter.html' target='_blank'>Lots of Cool Python Stuffs</a></li>
     </ul>
   </div>
 
   <div id='packTutorials'>
     <li><h2>Package Tutorials</h2></li>
     <ul style='list-style-type: none;'>
+      <li><a href='http://pythonvisually.com/ebook/primitive-data-types.html' target='_blank'>Python Tutorial</a></li>
       <li><a href='https://shodan.readthedocs.io/en/latest/' target='_blank'>Shodan Tutorial</a></li>
       <li><a href='https://www.labri.fr/perso/nrougier/teaching/matplotlib/' target='_blank'>Matplotlib Tutorial</a></li>
       <li><a href='https://www.pygame.org/docs/tut/newbieguide.html' target='_blank'>Pygame Tutorial</a></li>
+      <li><a href='https://docs.python.org/3/library/decimal.html' target='_blank'>Decimal</a></li>
     </ul>
   </div>
 
