@@ -41,7 +41,8 @@ color: red;
 #pythonPackages, #pythonPackagesNav,
 #pythonLinks, #pythonLinksNav,
 #javaBasics, #javaBasicsNav,
-#javaLinks, #javaLinksNav {
+#javaLinks, #javaLinksNav,
+#HtmlJavaScript, #HtmlJavaScriptNav {
   display: none;
 }
 
@@ -72,7 +73,7 @@ function HideSidebar() {
   }
 
 function HideAllExcept(iden) {
-  var All = ['pythonSystem', 'pythonPackages', 'pythonLinks', 'javaBasics', 'javaLinks'];
+  var All = ['pythonSystem', 'pythonPackages', 'pythonLinks', 'javaBasics', 'javaLinks', 'HtmlJavaScript'];
   for (i=0; i<All.length; i++) {
     if (All[i] != iden) {
       document.getElementById(All[i]).style.display = "none";
@@ -82,7 +83,7 @@ function HideAllExcept(iden) {
   }
 
 function Hide(iden) {
-  var list = ['javaUnder', 'pythonUnder'];
+  var list = ['javaUnder', 'pythonUnder', 'HtmlUnder'];
   var obj = document.getElementById(iden);
   if (obj.style.display != 'none') {
     obj.style.display = 'none';
@@ -94,7 +95,7 @@ function Hide(iden) {
 }
 
 function Show(iden) {
-  var allesId = ['pythonSystem', 'pythonPackages', 'pythonLinks', 'javaBasics', 'javaLinks'];
+  var allesId = ['pythonSystem', 'pythonPackages', 'pythonLinks', 'javaBasics', 'javaLinks', 'HtmlJavaScript'];
   var obj = document.getElementById(iden);
   var nav = document.getElementById(iden + "Nav");
 
@@ -126,7 +127,10 @@ function Show(iden) {
           <li><a href='javascript:void(0);' onclick='Show("javaLinks")'>Links</a></li>
 	     </div>
 
-    <li><a href='javascript:void(0)' onclick=''>HTML</a></li>
+    <li><a href='javascript:void(0)' onclick='Hide("HtmlUnder")'>HTML</a></li>
+      <div class='under' id='HtmlUnder'>
+        <li><a href='javascript:void(0);' onclick='Show("HtmlJavaScript")'>JavaScript</a></li>
+      </div>
   </ul>
 </div>
 
@@ -167,10 +171,16 @@ function Show(iden) {
       <li><a href='#basicSyntax'>Basic Syntax</a></li>
       <li><a href='#dataTypes'>Data Types</a></li>
       <li><a href='#files'>Files</a></li>
+      <li><a href='#JavaMethods'>Methods</a></li>
     </div>
 
     <div id='javaLinksNav'>
       <li><a href='#links'>Links</a></li>
+    </div>
+
+    <div id='HtmlJavaScriptNav'>
+      <li><a href='#DOM'>DOM</a></li>
+      <li><a href='#UsefulShit'>Useful Shit</a></li>
     </div>
 
   </ul>
@@ -224,8 +234,6 @@ class neki:
 >>> method bound to the class neki
 >>> obj.static_funct
 >>> function # bound to nothing
-
-
 
 <span class='important'>instance = object created from class</span>
 >>> a = neki() # a is instance of neki
@@ -774,49 +782,106 @@ dataType a, b, c; (eg. int a, b, c /* declares a b and c as int */)
 
       </pre>
     </div>
+
+<!-- ##################################### newNavItem #######################################################-->
+
   <div id='files'>
     <li><h2>Files</h2></li>
 
     <pre>
-files:
+  files:
 
-FileInputStream in = null;
-FileOutputStream out = null;
-int c;
+  FileInputStream in = null;
+  FileOutputStream out = null;
+  int c;
 
-try
-in = new FileInputStream(String in_file);
-out = new FileOutputStream(String out_file);
-while ((c=in.read()) != -1) {out.write(c);}
+  try
+  in = new FileInputStream(String in_file);
+  out = new FileOutputStream(String out_file);
+  while ((c=in.read()) != -1) {out.write(c);}
 
-finally
-in.close;
-out.close;
+  finally
+  in.close;
+  out.close;
 
 
 
-File var = new File(name);
-FileReader inp = null;
-PrintWriter wri = null;
+  File var = new File(name);
+  FileReader inp = null;
+  PrintWriter wri = null;
 
-try
-inp = new FileReader(var);
-wri = PrintWriter(String out_name);
+  try
+  inp = new FileReader(var);
+  wri = PrintWriter(String out_name);
 
-char[] ar = char[n];
-inp.read(a); // reads n characters into ar
+  char[] ar = char[n];
+  inp.read(a); // reads n characters into ar
 
-inp.printf(--same as System.out.printf--);
+  inp.printf(--same as System.out.printf--);
 
-finally
-inp.close();
-wri.close();
+  finally
+  inp.close();
+  wri.close();
 
     </pre>
   </div>
 
+<!-- ######################################## newNavItem ######################################################################-->
+
+<div id='JavaMethods'>
+  <li><h2>Methods</h2></li>
+  <pre>
+    java Usefull methods
+
+    ArrayList&lt;Object_type&gt; var = new ArrayList&lt;Object_type&gt;()
+    // import java.util.ArrayList;
+    var.size()
+    var.add(index_to_add, value)
+    var.get(index)
+    var.contains(element)
+    var.indexOf(element)
+
+    // import java.util.Arrays
+    ArrayList&lt;Integer&gt; ar = new ArrayList&lt;&gt;(Arrays.asList(*values));
+
+
+    StringBuilder var = new StringBuilder(String)
+    var.length()
+    var.charAt(index_of)
+    var.setCharAt(int index, char ch)
+    var.append(String)
+
+    // every String method is StringBuilder method
+    String var = new String(String)
+    var.split("sign") // split lines sign=\\r?\\n
+    String.join("sign", String[])
+    var.substring(int begin, int end)
+
+
+    String var = new String(char[] varC) // "".join(varC)
+
+    ?? objects need only object.toString(),
+       primitive data needs Type_object.toString(var) ??
+
+    Conversions:
+
+    Integer.parseInt(String)
+    Integer.toString(int)
+    Character.toString(char)
+
+    type var = (type) var2
+    int neki = (int) "2"
+    long var = (long) int
+
+    Character.getNumericValue(char var)
+    Character.isDigit(char var)
+    </pre>
+  </div>
+
+
   </ul>
 </div>
+
 
 <!--######################################## New SidebarItem ###################################################################-->
 
@@ -834,10 +899,78 @@ wri.close();
 
 </div>
 
+<!--
+endJava
+$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$
+$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$
+-->
+<!-- #################################### HTML Javascript ###########################################################################-->
+<div class='PythonClass middleground' id='HtmlJavaScript'>
+  <h1>JavaScript</h1>
+  <ul>
+
+
+    <div id="DOM">
+      <li><h2>DOM</h2></li>
+      <pre>
+
+document.getElementById(id)
+document.getElementsByTagName(div)
+document.getELementsByClassName(classname)
+
+document.createElement(element) // create html element
+document.removeChild(element) // remove an html element
+document.appendChild(element) // add an html element
+document.replaceChild(element) //  replace html element
+document.write(text) // dont use
+
+document.querySelectorAll(".class/ #id") // returns elements that match CSS selector
+
+this --> represents element inside which this is referenced as an object
+
+// works within any element (div, button, ...) or document.element.onmouseover = ''
+onclick="function('this')"
+onmouseover="hoverIn()"
+onmouseout="hoverOut()"
+onmousedown=""
+onmouseup=""
+
+onload="funct" // executes when page finishes loading
+
+
+document.getElementById('id').addEventListener(event, funct);
+events -> "click", "mouseover", "mouseout", "resize"
+useCapture -> true(capturing), false(default-bubbling)
+
+bubbling - inner most element's event is handled first
+capturing - the outer most elemet's event is handled first
+
+element.removeEventListener(event, funct)
+
+      </pre>
+    </div>
+
+<!-- ########################################### newNavItem ####################################### -->
+
+    <div id='UsefulShit'>
+      <li><h2>Useful Shit</li></h2>
+        <pre>
+Latex in html:
+  &lt;script type="text/javascript" src="http://latex.codecogs.com/latexit.js"&gt;&lt;/script&gt;
+  &lt;div lang='latex'&gt;&lt;/div&gt;
+        </pre>
+    </div>
+
+
+  </ul>
+<!-- javascript end div-->
+</div>
+
 <script>
 HideAllExcept('pythonSystem');
 document.getElementById('javaUnder').style.display = 'none';
 document.getElementById('pythonUnder').style.display = 'none';
+document.getElementById('HtmlUnder').style.display = 'none';
 </script>
 
 </body>
