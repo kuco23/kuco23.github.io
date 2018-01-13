@@ -29,12 +29,17 @@ overflow: auto;
 color: rgba(0,100,0,.6);
 font-weight: bold;
 font-size: 20px;
+
+-webkit-transition-property: border, background-color, color;
+-webskit-transition-duration: 0.2s;
+transition-property: border, background-color, color;
+transition-duration: 0.2s;
 }
 
 .sidebar li a:hover {
 border: 1px solid rgb(127,255,0);
-background-color: rgba(0,0,0,1);
-color: green;
+background-color: rgba(0,0,0,.8);
+color: rgb(200,200,200);
 }
 
 .under li a {
@@ -68,6 +73,11 @@ padding: 0 50%;
 background-color: transparent;
 text-decoration: none;
 background-color: rgba(128,255,0,0);
+
+-webkit-transition-property: border, background-color, color;
+-webskit-transition-duration: 0.5s;
+transition-property: border, background-color, color;
+transition-duration: 0.5s;
 }
 
 .SideBarHide a:hover {
