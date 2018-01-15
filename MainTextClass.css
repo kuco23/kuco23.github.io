@@ -1,0 +1,39 @@
+.MainTextClass {
+  color: rgb(127,255,0);
+}
+
+.MainTextClass pre {
+  color: powderblue;
+}
+
+@-webkit-keyframes MainTextLink {
+  0% {left: 0;}
+  50% {left: 10px;}
+  100% {left: 0px;}
+}
+@keyframes MainTextLink {
+  0% {left: 0;}
+  50% {left: 10px;}
+  100% {left: 0px;}
+}
+.MainTextClass a {
+  color: rgba(100,100,100,.5);
+  text-decoration: none;
+  font-weight: bold;
+  font-size: 20px;
+  
+  position: relative;
+  left: 0;
+}
+
+.MainTextClass a:hover {
+  color: rgb(150,150,150);
+  text-shadow: 2px 2px 5px black;
+
+  -webkit-animation-name: MainTextLink;
+  -webkit-animation-duration: 1s;
+  -webkit-animation-iteration-count: infinite;
+  animation-name: MainTextLink;
+  animation-duration: 1s; 
+  animation-iteration-count: infinite;
+}
