@@ -1,3 +1,16 @@
+.middleground {
+  width: 55%;
+  position: absolute;
+  left: 22%;
+}
+
+div.middleground ul {
+  overflow: hidden;
+  color: rgb(200,200,200);
+  font-family: 'Lato', serif;
+  /* word-wrap: break-word; */
+}
+
 .MainTextClass {
   color: rgb(127,255,0);
 }
@@ -32,6 +45,5 @@
 .MovingLinks a:hover {
   color: rgb(150,150,150);
   text-shadow: 2px 2px 5px black;
-
   left: 10px;
 }

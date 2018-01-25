@@ -36,19 +36,6 @@ h3 {
   color: rgb(229, 228, 226);
 }
 
-.middleground {
-  width: 55%;
-  position: absolute;
-  left: 22%;
-}
-
-div.middleground ul {
-  overflow: hidden;
-  color: rgb(200,200,200);
-  font-family: 'Lato', serif;
-  /* word-wrap: break-word; */
-}
-
 .important {
   color: rgb(255,128,0);
 }
@@ -80,9 +67,6 @@ div.middleground ul {
     width: 100%;
     left: 0;
   }
-  .SideBarHide {
-    right: 0;
-  }
 }
 
 </style>
@@ -93,18 +77,18 @@ div.middleground ul {
 
 function HideSidebar() {
   var sideB = document.getElementById('sidebar');
-  var hideSideB = document.getElementById('SideBarHide');
+  var sidebarHide = document.getElementById('SideBarHide');
   var elementsMiddle = document.getElementsByClassName('middleground');
-  if (sideB.style.display == 'none') {
-    sideB.style.display = 'block';
-    hideSideB.style.right = '20%';
+  if (sideB.style.height == '0px') {
+    sidebarHide.style.top = '98%';
+    sideB.style.height = '100%';
     for (i=0; i < elementsMiddle.length; i++) {
       elementsMiddle[i].style.width = '55%';
       }
     }
   else {
-    sideB.style.display = 'none';
-    hideSideB.style.right = '0';
+    sidebarHide.style.top = '0';
+    sideB.style.height = '0px';
     for (i=0; i < elementsMiddle.length; i++) {
       elementsMiddle[i].style.width = '75%';
       }
@@ -173,8 +157,8 @@ function Show(iden) {
   </ul>
 </div>
 
-<div class='SideBarHide' id='SideBarHide'>
-  <a href='javascript:void(0);' onclick='HideSidebar()'><span title='close' style='opacity:transparent;'> x </span></a>
+<div class='sideBarHide' id='SideBarHide'>
+  <a href='javascript:void(0)' onclick='HideSidebar()'>x</a>
 </div>
 
 
@@ -611,36 +595,36 @@ function Show(iden) {
   <ul>
 
     <div id='general'>
-    <li><h2>General</h2></li>
-    <ul style='list-style-type: none;'>
-      <li><a href='https://en.wikibooks.org/wiki/Python_Programming/Exceptions' target='_blank'>Exceptions</a></li>
-      <li><a href='https://www.thecodeship.com/patterns/guide-to-python-function-decorators/' target='_blank'>Decorators</a></li>
-      <li><a href='https://infohost.nmt.edu/tcc/help/pubs/python/web/special-methods.html' target='_blank'>Reserved Class Methods</a></li>
-      <li><a href='https://docs.python.org/2/reference/simple_stmts.html' target='_blank'>Statements</a></li>
-      <li><a href='http://book.pythontips.com/en/latest/map_filter.html' target='_blank'>Lots of Cool Python Stuffs</a></li>
-    </ul>
-  </div>
+      <li><h2>General</h2></li>
+      <ul style='list-style-type: none;'>
+        <li><a href='https://en.wikibooks.org/wiki/Python_Programming/Exceptions' target='_blank'>Exceptions</a></li>
+        <li><a href='https://www.thecodeship.com/patterns/guide-to-python-function-decorators/' target='_blank'>Decorators</a></li>
+        <li><a href='https://infohost.nmt.edu/tcc/help/pubs/python/web/special-methods.html' target='_blank'>Reserved Class Methods</a></li>
+        <li><a href='https://docs.python.org/2/reference/simple_stmts.html' target='_blank'>Statements</a></li>
+        <li><a href='http://book.pythontips.com/en/latest/map_filter.html' target='_blank'>Lots of Cool Python Stuffs</a></li>
+      </ul>
+    </div>
 
     <div id='packTutorials'>
-    <li><h2>Package Tutorials</h2></li>
-    <ul style='list-style-type: none;'>
-      <li><a href='http://pythonvisually.com/ebook/primitive-data-types.html' target='_blank'>Python Tutorial</a></li>
-      <li><a href='https://shodan.readthedocs.io/en/latest/' target='_blank'>Shodan Tutorial</a></li>
-      <li><a href='https://www.labri.fr/perso/nrougier/teaching/matplotlib/' target='_blank'>Matplotlib Tutorial</a></li>
-      <li><a href='https://www.pygame.org/docs/tut/newbieguide.html' target='_blank'>Pygame Tutorial</a></li>
-      <li><a href='https://docs.python.org/3/library/decimal.html' target='_blank'>Decimal</a></li>
-      <li><a href='https://www.dataquest.io/blog/web-scraping-tutorial-python/' target='_blank'>Beautiful Soup</a></li>
-      <li><a href='https://docs.djangoproject.com/en/2.0/intro/tutorial01/' target='_blank'>Django</a></li>
-    </ul>
-  </div>
+      <li><h2>Package Tutorials</h2></li>
+      <ul style='list-style-type: none;'>
+        <li><a href='http://pythonvisually.com/ebook/primitive-data-types.html' target='_blank'>Python Tutorial</a></li>
+        <li><a href='https://shodan.readthedocs.io/en/latest/' target='_blank'>Shodan Tutorial</a></li>
+        <li><a href='https://www.labri.fr/perso/nrougier/teaching/matplotlib/' target='_blank'>Matplotlib Tutorial</a></li>
+        <li><a href='https://www.pygame.org/docs/tut/newbieguide.html' target='_blank'>Pygame Tutorial</a></li>
+        <li><a href='https://docs.python.org/3/library/decimal.html' target='_blank'>Decimal</a></li>
+        <li><a href='https://www.dataquest.io/blog/web-scraping-tutorial-python/' target='_blank'>Beautiful Soup</a></li>
+        <li><a href='https://docs.djangoproject.com/en/2.0/intro/tutorial01/' target='_blank'>Django</a></li>
+      </ul>
+    </div>
 
     <div id='projTutorials'>
-    <li><h2>Project Tutorials</h2></li>
-    <ul style='list-style-type:none;'>
-      <li><a href='https://www.pyimagesearch.com/2014/09/01/build-kick-ass-mobile-document-scanner-just-5-minutes/' target='_blank'>Scanner tutorial</a></li>
-      <li><a href='https://realpython.com/blog/python/python-web-scraping-practical-introduction/' target='_blank'>Webscraping</a></li>
-    </ul>
-  </div>
+      <li><h2>Project Tutorials</h2></li>
+      <ul style='list-style-type:none;'>
+        <li><a href='https://www.pyimagesearch.com/2014/09/01/build-kick-ass-mobile-document-scanner-just-5-minutes/' target='_blank'>Scanner tutorial</a></li>
+        <li><a href='https://realpython.com/blog/python/python-web-scraping-practical-introduction/' target='_blank'>Webscraping</a></li>
+      </ul>
+    </div>
 
   </ul>
 </div>
