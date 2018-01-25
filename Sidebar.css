@@ -81,9 +81,9 @@ background-color: transparent;
 text-decoration: none;
 background-color: rgba(128,255,0,0);
 
--webkit-transition-property: border, background-color, color;
+-webkit-transition-property: background-color;
 -webskit-transition-duration: 0.5s;
-transition-property: border, background-color, color;
+transition-property: background-color;
 transition-duration: 0.5s;
 }
 

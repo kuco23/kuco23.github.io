@@ -6,6 +6,9 @@
 <link rel="stylesheet" type="text/css" href="Navigation.css" />
 <link rel="stylesheet" type="text/css" href="MainTextClass.css" />
 
+<link rel="stylesheet" type="text/css" href="http://fonts.googleapis.com/css?family=Tangerine">
+<link rel="stylesheet" type="text/css" href="http://fonts.googleapis.com/css?family=Lato">
+
 <meta name='viewport' content='width=device-width, initial-scale=1.0'>
 <style>
 
@@ -14,30 +17,47 @@
 }
 
 body {
-background-color: rgb(30,30,30);
-margin: 0;
-padding: 0;
+  background-color: rgb(30,30,30);
+  margin: 0;
+  padding: 0;
 }
 
 h1 {
-color: rgb(229, 228, 226);
-text-align: center;
-font-style: oblique;
+  color: rgb(144,238,144);
+  text-align: center;
+  font-family: 'Tangerine', serif;
+  font-size: 55px;
+  font-style: oblique;
+}
+h2 {
+  color: powderblue;
+}
+h3 {
+  color: rgb(229, 228, 226);
 }
 
 .middleground {
-width: 55%;
-position: absolute;
-left: 22%
+  width: 55%;
+  position: absolute;
+  left: 22%;
 }
 
-.middleground pre {
-overflow: auto;
-/* word-wrap: break-word; */
+div.middleground ul {
+  overflow: hidden;
+  color: rgb(200,200,200);
+  font-family: 'Lato', serif;
+  /* word-wrap: break-word; */
 }
 
 .important {
-color: red;
+  color: rgb(255,128,0);
+}
+.usefulTip {
+  color: rgb(128, 255, 0);
+}
+.Code {
+  font-family: monospace;
+  color: rgb(111, 168, 180);
 }
 
 #pythonSystem, #pythonSystemNav, #sidebar {
@@ -163,12 +183,12 @@ function Show(iden) {
 
     <div id='pythonSystemNav'>
       <li><a href='#classes'>Classes</a></li>
-      <li><a href='#classMethods'>Class Methods</a></li>
+      <li><a href='#magicMethods'>Magic Methods</a></li>
       <li><a href='#subclassing'>Subclassing</a></li>
       <li><a href='#argsKwargs'>Args & Kwargs</a></li>
       <li><a href='#handlingExceptions'>Handling Exceptions</a></li>
       <li><a href='#tuples'>Tuples</a></li>
-      <li><a href='#statements'>Statements</a></li>
+      <li><a href='#generators'>Statements</a></li>
       <li><a href='#pipInfo'>Pip Info</a></li>
     </div>
 
@@ -209,486 +229,388 @@ function Show(iden) {
 <!-- &&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&6 Python System DIV $$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$ -->
 
 <div class='MainTextClass middleground' id='pythonSystem'>
-<h1>Python System</h1><br>
-
-
-<!-- ############################## first NavItem ################33############################## -->
-
-<ul>
-
-<div id='classes'>
-<li><h2>Classes</h2></li>
-<pre>
-
-class neki:
-    def __init__(self):
-	*init code*
-
-    def function(*args):
-	return *code*
-
->>> neki.function(args)
->>> *code*
-
-class neki:
-    def __init__(self):
-	   *init code*
-
-    def function(self, *args):
-	   return *code*
-
-    @classmethod
-    def class_funct(cls, *args):
-      return *code*
-
-    @staticmethod
-    def staic_funct(*args):
-      return *code*
-
->>> obj = neki()
->>> obj.function(args) = neki.function(self_placeholder_arg, args)
-
->>> obj.function
->>> method bound to instance obj
->>> obj.class_funct
->>> method bound to the class neki
->>> obj.static_funct
->>> function # bound to nothing
-
-<span class='important'>instance = object created from class</span>
->>> a = neki() # a is instance of neki
->>> isinstance(a, neki)
->>> True
-
-<span class='important'>THE FIRST ARGUMENT IN CLASS IS BOUND TO CLASS OR <br>
-INITIALIZED OBJECT (CLASS INSTANCE). TO MAKE CLASS METHOD BE BOUND TO CLASS<br>
-(MAKE IT POSSIBLE FOR METHOD TO ACCESS CLASS IT IS IN) USE @classmethod OR IF <br>
-YOU WANT A FUNCTION IN CLASS TO NOT BE ABLE TO ACCESS INSTANCE ATTRIBUTES OR CLASS <br>
-USE @staticmethod  </span>
-</pre><br>
-
-<!-- ############################### new NavItem ################################################# -->
-
-<li id='classMethods'><h2>Class Methods</h2></li>
-<pre>
-
-__init__(self) /* class constructor */
-__repr__(self) /* official representation of class (must return string) */
-__str__(self) /* unofficial representation of class */
-__mul__(self, other) /* multiplication between the object and other */
-__rmul__(self, other) /* right-sided multiplication */
-__pow__(self, p) /* defines object**p */
-__getitem__(self, ind) /* indexing object, eg. object[ind] */
-__name__
-
-file1
-def foo():
-    return __name__
-
->>> foo()
->>> __main__
-
-file2
-import file1
-
->>> file1.foo()
->>> file1 # returns the name of the module (file1),
-	    if the module is current returns '__main__'
-
-
-__call__
-
-class MyClass:
-    def __init__(self, id):
-	*code*
-
-    def __call__(fun):
-	print("MyClass call: {}".format(fun()))
-
->>> obj = MyClass(id)
->>> @ obj
-    def myfunct("n"): # has to be the definition of a function and not just a function
-	return("n")
-
->>> MyClass call: n
-
-</pre><br>
-</div>
-
-<!-- ########################### new NavItem ############################################# -->
-
-
-<div id='subclassing'>
-<li><h2>Subclassing</h2></li>
-<pre>
-
-<b>You can basically subclass any class to overwrite it, or inherit some things</b>
-
-class SubClass(SuperClass):
-    def __init__(self, *args, **kwargs):
-        super(SubClass, self).__init__(args, kwargs)
-	# putting SubClass, self as arguments in super is unecessary
-
-# this works as inheritance, SubClass inherited the whole SuperClass.
-# Now SubClass has every SuperClass function.
-
-class SubClass(SuperClass1, Superclass2):
-    def __init__(self, arg, *args, **kwargs):
-	super(Subclass, self).__init__(arg, *args, **kwargs)
-	# super initializes all subclasses, passes arg, *args to all of them
-
-class Overwrite(SuperClass):
-    def Function_from_SuperClass_to_overwrite(args *args(dont need))
-	# args have to have the same name and sequence as does the overwritten funct
-
-	# do_something else, that you want with
-	# overwritten function, having all others stay the same
-	# (inherited from SuperClass)
-
-<span class=important>BASICALLY EVERYTHING FROM SUBCLASS YOU DO NOT RENAME IN SUPERCLASS REMAINS THE SAME
-(EVEN __INIT__)</span>
-
-class SubClass_copy(SubClass):
-    pass
-
-SubClass_copy = (the same) = SubClass
-
-</pre><br>
-</div>
-
-<!-- ######################################### new NavItem ################################################### -->
-
-<div id='argsKwargs'>
-<li><h2>Args & Kwargs</h2></li>
-<pre>
-**kwargs
-
-def function(**kwargs):
-   return **kwargs
-
->>> function(a=1,b=2)
->>> {'a':1, 'b':2} #returns dict
-
-def function2(**kwargs):
-   for key, value in kwargs.items():
-	print("%s == %s" % (key, value))
-
->>> function2(a=2, b=3)
->>> a == 2
-    b == 3
-
-*args
-
-def function(*args):
-   for arg in args:
-	print("arg {}").format(arg))
-
->>> function(1,2)
->>> arg 1
-    arg 2
-
-</pre><br>
-</div>
-
-<!-- ################################# newNavItem ############################################# -->
-
-
-<div id='handlingExceptions'>
-<li><h2>Handling Exceptions</h2></li>
-<pre>
-try:
-   #lines of code to be executed
-
-except TypeError:
-   #do in case of TypeError
-
-except Exception as e:
-   print(e)
-   #prints ExceptionType as string
-
-except (TypeError2, TypeError3):
-   #in case of any error in tuple
-
-except:
-   #except all errors
-
-finally:
-   # executes no matter what, even if in function it comes before return
-   # (if try returns smth)
-   <span class='important'>#EXECUTES NO MATTER WHAT HAPPENS BEFORE (EVEN IF THE WORLD DIES)</span>
-
-Error Examples:
-    raise TypeError
-    raise NameError('nameErroor')
-    raise KeyboardInterrupt
-</pre>
-<br>
-</div>
-
-<!-- ################################ new NavItem ################################################ -->
-
-
-<div id='tuples'>
-<li><h2>Tuples</h2></li>
-<pre>
-Tuples:
-
->>> tup = [(1,2,3), (2,3,4), (3,4,5)]
->>> for i,j,k in tup:
-	print(i,j,k)
-
->>> prints 1 2 3
-	   2 3 4
-	   3 4 5
-
-# it acts as for elt in tup: i=elt[0], j = elt[1], k = elt[2]
-
-<b>this is how zip(a,b) works:
-it packages paired indexed iterations of a in b into tuple (e.g. (a[0], b[0])),
-so you can iterate through the tuple and act as you are iterating through
-both a and b</b>
-
->>> i, j = (1, 2)
-    ==
->>> i, j = 1, 2
-
-</pre><br>
-</div>
-
-<!-- ################################# new NavItem ######################################## -->
-
-<div id='statements'>
-<li><h2>Statements</h2></li>
-<pre>
-def function(n):
-   while True:
-	yield(n)
-	n += 1
-
->>> a = function(0)
->>> print(a)
->>> <basically a is generator>
-
-# a is generator, because the run function doesnt have the value
-# returned and stored as a, but only generated.
-
-# Generators are iterators (like strings or lists), but you can iterate
-# over them only once. They do not store all values in the memory.
-
->>> for i in range(10):
-	print(next(a))
-
->>> prints numbers 0-9
-
->>> for gen in a:
-	print(gen)
-
->>> prints numbers 0-Inf
-
-Generators store where you left over the last iteration
-
->>> generator = (x for x in range(10))
-# acts as a generator (can use next(generator), loop through,...)
-# can convert generator to tuple: tup = tuple(generator),
-# though this acts as a iteration through the generator, that fills the tuple
-# with its content, so after calling tuple(generator), generator = ().
-# (also, if partial iteration has been used through generator, tuple will go from there on.
-
-assert:
-assert False
-raises AssertionError
-
-assert True
-#nothing happens
-
-<span class='important'># GENERATOR = FUNCTION_THAT_YIELDS() OR TUPLE GENERATOR (i for i in range(10))
-# TUPLE(GENERATOR) EMPTIES THE GENERATOR INTO TUPLE (same for list(generator))</span>
-</pre>
-</div>
-<br>
-
-<!-- ################################### new NavItem ####################################################### -->
-
-<div id='pipInfo'>
-<li><h2>Pip Info</h2></li>
-<pre>
-<span class='imortant'>IMPORTED PACKAGE DOESNT WORK</span>
-mkdir directory_name #empty directory
-import package
-package.__path__ #which dir package was imported from
-<span class='important'>RENAME ANY FUCKING FILE THAT HAS THE SAME NAME AS THE PACKAGE!!!</span>
-
-<span class='important'>INSTALLING PACKAGE ON PYTHON</span>
-pip on your path
-pip install package
-python -m pip install package
-</pre>
-</div>
-
-</ul>
+  <h1>Python System</h1><br />
+  <ul>
+
+    <div id='classes'>
+      <li><h2>Classes</h2></li>
+
+      Class initializes an instance throught the __init__ method and <br />
+      stores the instance into the first argument of __init__(<b>instance</b>) function.<br />
+      Later on you can pass the instance around the other functions in class,<br />
+      note that any method called as instance.method() is getting instance passed<br />
+      as a first argument, so instance.method() == type(instance).method(instance).<br />
+      The standard way to save a new instance created through class is by calling it self<br />
+      <span class='usefulTip'>self represents an instance being used or created localy in class methods</span><br />
+      <br />
+      calling the method through instance means the method is bound to instance of class type(instance), <br />
+      calling the method through class (type(instance)) means the method is bound to class of the instance.<br />
+      <br />
+      A way to make a method unbound to its instance while still accessing it through an instance is <br />
+      by using a decorator @staticmethod before defining function in the class.<br />
+      In that case this is true: instance.method() == type(instance).method.<br />
+      <br />
+      A common decorator used is @classmethod, which makes a method called through instance bound<br />
+      to its class rather than the instance.<br />
+      In that case this is true: instance.method() == type(instance).method(type(instance)).<br />
+      <br />
+      <span class='usefulTip'>Instance of a class = an object initialized through said class.</span><br />
+      <span class='usefulTip'>Type of instance = a class from which the instance was created</span><br />
+      a = className() --&gt; a is an instance of className<br />
+      isintance(a, className) --&gt; returns True<br />
+      <br />
+      isinstance(instance, type) == (type(instance) == type)<br />
+      isinstance is better as it checks whether instance is an instance of any superclass of type<br />
+    </div>
+
+    <div id='magicMethods'>
+      <li><h2>Magic Methods</h2></li>
+        Here self will represent an instance of a class in which the method using it is defined<br />
+        Magic Methods are methods that are used to being called on instances from outside the class.<br />
+        __init__(self) -- class constructor: is called when the class is called and creates the instance of its class<br />
+        __repr__(self) -- class representator: is called when an instance is called by itself and must return string<br />
+        __str__(self) -- class string converter: is called when trying to convert object to string (str(self))<br />
+        __mul__(self, other) -- multiplication: defines the result of self * other<br />
+        __rmul__(self, other) -- rightsided multipication: usually used when defining multiplication for different types of instances<br />
+        __pow__(self, n) -- power: defines self^n<br />
+        __getitem__(self, index) -- defines what to return when calling self[index]<br />
+        __eq__(self, other) -- equality: defines what to return when comparing self == other<br />
+        __call__(self) -- defines what to return when calling self - self()<br />
+        __name__(self) -- returns the name of file self class is written in, if it's the same as the one you're calling it from it returns 'main'<br />
+    </div>
+
+    <div id='subclassing'>
+      <li><h2>Subclassing</h2></li>
+
+      Subclassing an existing class to a new class means this:<br />
+      class myNewSubClass(SuperClass)<br />
+      This takes SuperClass' methods and applies it to myNewSubClass<br />
+      (Now myNewSubClass derives from SuperClass; also called inheritance)<br />
+      <span class='usefulTip'>Every method name and the names of instance variables are the same as in SuperClass.</span><br />
+      <br />
+      This is useful when trying to override some of the methods in SuperClass<br />
+      This is done by defining a method in myNewSubClass with the same name as the one you wish to override<br />
+      <span class='important'>This can mess the code if the arguments that instances depend on change</span><br />
+      <br />
+      When overriding a method somethimes you will wish to keep some of the SuperClass code<br />
+      This is done by calling super().method_to_replace(*args)<br />
+      <span class='important'>self is already called with super, so do not put it in *args</span><br />
+      <span class='important'>The old way: super(myNewSubClass, self).method</span><br />
+      <br />
+      If you do not rename or create any new methods in SubClass while SuperClassing SuperClass, then:<br />
+      Subclass == SuperClass<br />
+    </div>
+
+    <div id='argsKwargs'>
+      <li><h2>Args & Kwargs</h2></li>
+
+      <ul>
+        <li><h3>*args</h3></li>
+        args stands for arguments and<br />
+        is a common name in practice, otherwise only the asterix is necessary (eg. *something)<br />
+        Imagine you do not have any need for the arguments in the function, and<br />
+        are just planning to pass them to another function, or maybe you don't know how many<br />
+        arguments your function will take and you just need the first two or something.<br />
+        This is where *args comes in. By writing <span class='Code'> def function(*args) </span><br />
+        The args variable is assigned every argument, passed in function, as a tuple<br />
+        <span class='Code'>function(1,2,3)</span> will return a tuple (1,2,3)<br />
+        Outside functions <span class='Code'>a = 1,2,3</span> also returns a tuple (1,2,3)<br />
+        <br />
+        You could imagine that *args eats up every value (that is left) from an iterable assigned to it<br />
+        This can also be useful for dealing with stuff outside functions<br />
+        Eg. <span class='Code'>*var1, var2 = (1,2,3)</span>, which save (1,2) in var1 and 3 in var2<br />
+        This is called unpacking and is discussed in the Tuple section<br />
+
+        <li><h3>**kwargs</h3></li>
+        Kwargs stands for Keyworded arguments, which basically means that the<br />
+        arguments you pass in a function have a key infront of them (eg. argument1 = 'myKwarg')<br />
+        As with *args, kwargs name is optional and only ** is required<br />
+        <br />
+        So **kwargs eats up all the keyworder arguments, and saves them in a dictionary<br />
+        <span class='Code'>def function(**kwargs): return kwargs</span> if called with<br />
+        <span class='Code'>function(a=10, b=30)</span> will return <span class='Code'>{'a':10, 'b':30}</span></br>
+      </ul>
+    </div>
+
+    <div id='handlingExceptions'>
+      <li><h2>Handling Exceptions</h2></li>
+
+      Exceptions are Exceptional events, and should not be confused with Errors<br />
+      Exceptions can be handled, while Errors should crash the program<br />
+      (memory overflow causes an error, division by zero causes an Exception)<br />
+      <br />
+      In Python exceptions are handled with try-except-finally blocks<br />
+      <span class='Code'>try: 1/0 except ZeroDivisionError as e: print(e)</span><br />
+      The code the code will print the error without stopping the execution of a program<br />
+      <br />
+      This might be useful, if a certain exception is expected to appear often in a program<br />
+      and is not critical to the rest of execution, so there is no need for it to cause<br />
+      the program to crash, and rather be handled.<br />
+      <br />
+
+      <ul>
+        <li><h3>try block</h3></li>
+        try is the beginning of any exception handling and must be written first<br />
+        It tries to execute the code block in it and passes any exception that might happen<br />
+        to exception handlers that are defined within:
+
+        <li><h3>except block</h3></li>
+        <span class='Code'>except ExceptionType as e: doStuff</span><br />
+        If the exception that occured in the try block matches the ExceptionType in<br />
+        the except block, then doStuff gets executed<br />
+        If exceptions do not match Python continues on trying to match the exception<br />
+        to other latter except blocks, until the end of exceptions<br />
+        If it comes to the end of the block without handling the exception, exception causes<br />
+        the program to crash, as it would normally.<br />
+        But what if you need something to be done (notorious example: file closed), no matter<br />
+        what happens within the try-except code. That brings us to:
+
+        <li><h3>finally block</h3></li>
+        The finally block (<span class='Code'>finally: code</span>) executes no matter what<br />
+        This means that if the program should crash, because exception occured, not crash, because<br />
+        the exception was handled, or if handling of the exception was not necessary, the finally<br />
+        code will always execute.<br />
+        (usually used for closing a file, though python provides a better way to do this, which will be discussed later).
+
+        <li><h3>Exception Types</h3></li>
+        Exception -- SuperClass of every exception (<span class='Code'>except Exception</span> handles every exception)<br />
+        StopIteration -- Raised when the next() method of an iterator does not point to any object.<br />
+        ArithmeticError -- Base class for all errors that occur for numeric calculation.<br />
+        OverflowError -- Raised when a calculation exceeds maximum limit for a numeric type.<br />
+        ZeroDivisionError -- Raised when dividing by zero occures<br />
+        KeyboardInterrupt -- Raised when program is interrupted by user (usually with Ctrl-C)
+
+        <li><h3>Custom Exceptions</h3></li>
+        You can define custom exceptions by SuperClassing base class to all exceptions : Exception<br />
+        <span class='Code'>class MyException(Exception)</span><br />
+        Every argument passed to Exception __init__ with super() will be written in red when exception ocurres<br />
+        You raise your exception (or others) by calling <span class='Code'>raise MyException(args)</span>
+      </ul>
+    </div>
+
+    <div id='tuples'>
+      <li><h2>Tuples</h2></li>
+
+      Tuples are like lists except they arent<br />
+      They should be used for containing fixed amount of stuff<br />
+      They can be iterated through and support indexing<br />
+      <br />
+      The most important feature of tuples is unpacking<br />
+      Unpacking basically means that by assigning multiple variables to one tuple is allowed<br />
+      if number of variables &gt;= len(tuple) (&gt; if last argument is started by *)<br />
+      <span class='Code'>var1, var2, var3 = (1,2,3) or var1, *var2 = (1,2,3)</span><br />
+      <br />
+      If you want to save some values into a variable and dispose of others you can do:<br />
+      <span class='Code'>a, b, *_ = (1,2,3,4,5,6)</span><br />
+      <br />
+      The most useful way to use tuples though, is by using them to iterate through<br />
+      by assigning two values every iteration<br />
+      <span class='Code'>for i, j in [(1,2), (2,3), (3,4)]: print(i,j)</span><br />
+      This will return (1,2), (2,3), (3,4)<br />
+      So imagine if you have multiple iterators, you would like to iterate through simultaniously<br />
+      (note that iterators might not support indexing)<br />
+      This is where zip comes in. zip(iter1, ..., iterN) creates a new generator, you can iterate through<br />
+      with N variable assignments every iteration<br />
+      Basically zip(iter1, iter2) = ((iter1[0], iter2[0]), ..., (iter1[N], iter2[N]))<br />
+      <span class='important'>note that this is simplified and that zip creates a generator, which<br />
+      returns objects only when iterated through and will be emptied by the end of an iteration<br />
+      Also iter1 and iter2 might not support indexing, being generators themselves</span>
+
+    </div>
+
+    <div id='generators'>
+      <li><h2>Generators</h2></li>
+      Generator is an iterable that does not store objects, but rather creates them on the fly.<br />
+      There are two methods (that i know of) that create generators.<br />
+      <span class='important'>Generators cannot be created as instances from a class</span>
+      <br />
+      Generators support the method next(var_generator) that returns the next value of var_generator<br />
+      If a generator is not infinite, it can be emptied (reaches its end)<br />
+      <span class='important'>Once you go forward you can never go back</span>
+      Generators support tuple or list conversion, which means they iterate themselves into list/tuple<br />
+
+      <ul>
+        <li><h3>Yield</h3></li>
+        Imagine you do not need a all values stored in a list, you just need<br />
+        to occasionaly generate some with a complicated code<br />
+        This is where yield comes in.<br />
+        By replacing return with yield inside a function, usually yielding value by the end<br />
+        of a single iteration and saving called function in a variable<br />
+        <span class='Code'>var = myGenerator()</span> you create a generator<br />
+
+        <li><h3>Tuple one-line Loop</h3></li>
+        The fastest way to create a simple generator is with an one-line loop<br />
+        <span class='Code'>myGen = (i for i in range(10))</span><br />
+        This creates a generetor that yields values 0 through 9<br />
+
+      </ul>
+    </div>
+
+    <div id='pipInfo'>
+      <li><h2>Pip Info</h2></li>
+
+      Imported package doesn't work:<br />
+      import package<br />
+      package.__path__ # find the dir package was imported from<br />
+
+      # Find out if it is the right package<br />
+      <br />
+      <span class='important'> Rename any fucking file that has the same name as the package!!</span><br />
+      <br />
+      Insalling package on python:<br />
+      go to terminal<br />
+      python -m pip install packageName
+    </div>
+
+  </ul>
 </div>
 
 <!-- ################################## new SidebarItem ######################################## -->
 
 
 <div class='MainTextClass middleground' id='pythonPackages'>
+  <h1>Python Packages</h1><br />
+  <ul>
 
-<h1>Python Packages</h1><br>
+    <div id='bs4'>
+      <li><h2>Beautiful Soup</h2></li>
 
-<ul>
+      <ul>
+        <li><h3>Installation</h3></li>
+        from urllib.request import urlopen<br />
+        from bs4 import BeautifulSoup
 
-<div id='bs4'>
-<li><h2>Beautiful Soup</h2></li>
-<pre>
-from urllib.request import urlopen
-import bs4
+        <li><h3>Terminal</h3></li>
+        raw_html = urlopen('url')<br />
+        soup = BeautifulSoup(raw_html, 'html.parser') --&gt; DOM kind object of url page<br />
 
-url = 'url'
-opened = urlopen(url)
-soup = BeautifulSoup(opened)
+        <li><h3>Common Methods and Attributes</h3></li>
+        soup.tag --> returns first occurance of &lt;tag&gt; node (<span class='usefulTip'>eg. soup.title</span>)<br />
+        soup.tag.string --&gt; returns &lt;tag&gt; text node as string<br />
+        soup.tag.text --&gt; same as soup.tag.string (<span class='usefulTip'>every Tag type instance has a text attribute</span>)<br />
+        <br />
+        soup.find('tag', _class='classname') // finds all &lt;tag&gt; with class='classname'<br />
+        soup.find_all('tag') --&gt; returns a <span class='important'>list of all &lt;tag&gt; nodes</span><br />
+        soup.select('tag') --&gt; returns list of tag nodes<br />
+        <br />
+        soup.find(id='id') --&gt; returns node with id 'id'<br />
+        soup.get('arg in tag') --&gt; unknown<br />
 
-soup.find_all('<tag>') //finds all tags
-soup.get('arg in tag') // extracts things in the middle of tags with those arguments
-soup.find('<tag>', _class='neki') // finds all <tag> with class='neki'
-</pre>
-</div>
-<br>
+        <li><h3>Useful Pages</h3></li>
+        <a href='https://xtools.wmflabs.org/articleinfo' target='_blank'>Get Wiki Page Informations</a>
+        <br />
 
-<!-- ##################################### New NavItem ####################################### -->
+      </ul>
+    </div>
 
-<div id='fbchat'>
-<li><h2>FbChat</h2></li>
-<pre>
-ME = '100004586734701'
-INUS = '1829555784'
+    <div id='fbchat'>
+      <li><h2>FbChat</h2></li>
+      <ul>
 
-#user_id=thread_id if thread_type == client.ThreadType.USER
+        <li><h3>Package Installation</h3></li>
+        from fbchat import Client<br />
+        from fbchat.models import*<br />
 
-
-from fbchat import Client
-from fbchat.models import *
-
-client = Client('mail', 'pass')
-
-threads = user.fetchAllThreads() // fetches first 20 threads in the chat list
-
-client.searchForUsers(user_name) // search user_id by typing name
-client.FetchAllUsers() // a list of all users ur chatting with
-client.sendMessage('message', thread_id='userid', thread_type=ThreadType.USER/GROUP)
-
-class user: //user=user.searchForUsers('name')
-	user.uid // returns user id
-	user.name // returns user name
-	user.photo
-	user.url // probably url to profile
+        <li><h3>Setup</h3></li>
+        user= Client('mail', 'password') --&gt; returns your signed in account as object<br />
+        user.uid --&gt; returns client attribute user ID (string number)<br />
+        user.isLoggedIn() --&gt; returns True if logged in<br />
+        user.logout() --&gt; logs you out of your account<br />
 
 
+        <li><h3>Common Methods and Attributes</h3></li>
+        user.searchForUsers('userName')[0] --&gt; returns the first (most likely) user with userName (eg. Tim)<br />
+        user.fetchAllUsers() --&gt; returns a list of all your friends<br />
+        messsages = user.fetchThreadMessages(thread_id='', limit=int) --&gt; returns int length of latest messages as an iterable<br />
+        messages.revers() --&gt; reverses the order of messages<br />
+        messages[i].text --&gt; returns text value of ith message<br />
+        <br />
+        remote_user = user.fetchUserInfo('uid_user1', ..., 'uid_userN') --&gt; returns list of info of users with uids<br />
+        remote_user.uid --&gt; returns remote_user's ID<br />
+        remote_user.name<br />
+        remote_user.photo<br />
+        remote_user.url --&gt; returns url to remote_user profile<br />
+        <br />
+        user.sendMessage('message', thread_id='thread_id', thread_type=ThreadType.USER / GROUP) --&gt; if thread_type == group then thread_id = uid<br />
+        user.sendLocalImage('image_path', message='', thread_id='', thread_type='')<br />
+        user.changeThreadColor(messenger_color, thread_id='thread_id')<br />
+        user.changeNickname('nickname_change, user_id='person_whose_nickname_is_changed', thread_id='thread_id', thread_type='ThreadType.USER/GROUP')<br />
+        <br />
+        user.addUsersToGroup('user_id', thread_id='thread_id')<br />
+        user.addUsersToGroup(['user_id1', ..., 'user_idN'], thread_id='thread_id')<br />
+        <br />
 
-######################react_auto########################################################
-client.listen() // listen reacts to actions happening inside clients chat, so
-		// subclass Client in a class and define reaction
-		//def onMessage!!
+        <li><h3>Overriding Client Instance Methods</h3></li>
+        class myClient(Client):<br />
+        &nbsp;&nbsp;def onMessage(self, author_id, message, thread_id, thread_type, **kwargs):<br />
+        &nbsp;&nbsp;&nbsp;&nbsp;**code what to do when message is received**
 
-class neki(Client):
-	def onMessage(self, person_who_sent_mes_id, message,
-		      thread_id, thread_type, **kwargs)
+        <li><h3>Useful Links</h3></li>
+        <a href='http://fbchat.readthedocs.io/en/master/examples.html' target='_blank'>Method documentation</a>
+        <br />
 
-client.changeThreadColor(MESSENGER_*color*, thread_id='thread_id')
-client.changeNickname('nickname_change', user_id='person whose id ull change',
-		       thread_id='thread_id', thread_type=ThreadType.USER/GROUP)
-########################################################################################
+      </ul>
+    </div>
 
+    <div id='os'>
+      <li><h2>Os</h2></li>
+      <ul>
+        <li><h3>Package instalation<h3></li>
+        import os<br />
 
-################groups_only##############################################################
-client.removeUserFromGroup('user_id', thread_id='')
+        <li><h3>Basic Methods</h3></li>
+        os.listdir() --&gt; returns list of files in current directory<br />
+        os.chdir('new_dir_path') --&gt; changes current directory to new_dir_path<br />
+        os.getcwd() --&gt; returns the name of current working directory<br />
 
-user_id = user.uid
-	client.addUsersToGroup('user_id', thread_id='')
-	client.addUsersToGroup(['user1',...,'usern'], thread_id='')
-#########################################################################################
+        <li><h3>Getting Path of a Module</h3></li>
+        import module<br />
+        path = os.path.dirname(module.__file__)<br />
+      </ul>
+    </div>
 
+    <div id='decimal'>
+      <li><h2>Decimal</h2></li>
+      <ul>
+        <li><h3>Installation</h3></li>
+        from decimal import*
 
-client.isLoggedIn() //True if logged in
-client.logout() // logs u out
+        <li><h3>Common Methods</h3></li>
+        getcontext().prec = --num_of_decimals-- --&gt; sets the number of decimals<br />
+        number = Decimal(Int) --&gt; creates a new Decimal object<br />
+        result = number / Decimal(Int2) --&gt; division of two decimmals<br />
+      </ul>
+    </div>
 
-client.sendLocalImage('image path', message='', thread_id='', thread_type='')
-messages = client.fetchThreadMessages(thread_id='thread_id', limit=10)
-	   // 10 last messages from user
-messages.reverse()
-</pre><br>
-</div>
+    <div id='plotly'>
+      <li><h2>Plotly</h2></li>
+      <ul>
+        <li><h3>Installation</h3></li>
+        import Plotly<br />
+        plotly.tools.set_credentials_file(usernmae='kuco23', api_key='3piBe5vMcn2srfCqgADT')<br />
+        import numpy as np<br />
+        import plotly.plotly as pl<br />
+        import plotly.graph_objs as go<br />
 
-<div id='os'>
-<li><h2>Os</h2></li>
-<pre>
->>> os.listdir()
->>> [files in dir]
+        <li><h3>Common code</h3></li>
+        x_os = ny,linspace(zacetek, konec, stevilo_tock)<br />
+        y_os = [function(i) for i in x_os]<br />
+        source = go.Scatter(x=x_os, y=y_os, name='name', mode='lines/markers/lines+markers')<br />
+        data = [source]<br />
+        pl.plot(data, filename='filename')<br />
+      </ul>
+    </div>
 
-Retrieving path of a module:
-
-import <module>
-import os
-
-path = os.path.dirname(module.__file__)
-
-import sys
-sys.path.append(path)
-</pre>
-</div>
-<br>
-
-<!-- ############################## new NavItem ########################################## -->
-
-<div id='decimal'>
-  <li><h2>Decimal</h2></li>
-
-  <pre>
-
-Decimal:
-
->>> from decimal import*
->>> getcontext().prec = --num_of_dec--
->>> dec = Decimal(Int)
->>> divis = dec / Decimal(Int2)
-
- </pre>
-
-</div>
-
-<!-- ############################## new NavItem ########################################## -->
-
-<div id='plotly'>
-<li><h2>Plotly</h2></li>
-<pre>
-import plotly
-plotly.tools.set_credentials_file(username='kuco23', api_key='3piBe5vMcn2srfCqgADT')
-
-import numpy as ny
-import plotly.plotly as pl
-import plotly.graph_objs as go
-
->>> x_os = ny.linspace(zacetek, konec, stevilo_pik)
->>> ran = ny.random.randn(dimenzija)
->>> ny.array(object)
-
-/* To change other object into array */
-
->>> source = go.Scatter(x=x_os, y=y_os, name='name', mode='lines/markers/lines+markers')
->>> data = [source]
->>> pl.plot(data, filename='filename')
-</pre>
-</div>
-
-</ul>
+  </ul>
 </div>
 
 <!-- ######################## New SidebarItem ################################### -->
 
-<div class='MainTextClass middleground' id='pythonLinks'>
-<h1>Links</h1>
-<ul>
+<div class='MainTextClass MovingLinks middleground' id='pythonLinks'>
+  <h1>Links</h1>
+  <ul>
 
-  <div id='general'>
+    <div id='general'>
     <li><h2>General</h2></li>
     <ul style='list-style-type: none;'>
       <li><a href='https://en.wikibooks.org/wiki/Python_Programming/Exceptions' target='_blank'>Exceptions</a></li>
@@ -699,7 +621,7 @@ import plotly.graph_objs as go
     </ul>
   </div>
 
-  <div id='packTutorials'>
+    <div id='packTutorials'>
     <li><h2>Package Tutorials</h2></li>
     <ul style='list-style-type: none;'>
       <li><a href='http://pythonvisually.com/ebook/primitive-data-types.html' target='_blank'>Python Tutorial</a></li>
@@ -712,7 +634,7 @@ import plotly.graph_objs as go
     </ul>
   </div>
 
-  <div id='projTutorials'>
+    <div id='projTutorials'>
     <li><h2>Project Tutorials</h2></li>
     <ul style='list-style-type:none;'>
       <li><a href='https://www.pyimagesearch.com/2014/09/01/build-kick-ass-mobile-document-scanner-just-5-minutes/' target='_blank'>Scanner tutorial</a></li>
@@ -720,7 +642,7 @@ import plotly.graph_objs as go
     </ul>
   </div>
 
-</ul>
+  </ul>
 </div>
 
 <!--
@@ -915,7 +837,7 @@ dataType a, b, c; (eg. int a, b, c /* declares a b and c as int */)
 
 <!--######################################## New SidebarItem ###################################################################-->
 
-<div class='MainTextClass middleground' id='javaLinks'>
+<div class='MainTextClass MovingLinks middleground' id='javaLinks'>
   <h1>Links</h1>
 
   <div id='links'>

@@ -7,6 +7,14 @@
 }
 
 .MainTextClass a {
+  text-decoration: none;
+  color: rgb(100,100,100);
+}
+.MainTextClass a:hover {
+  color: rgb(200,200,200);
+}
+
+.MovingLinks a {
   color: rgba(100,100,100,.5);
   text-decoration: none;
   font-weight: bold;
@@ -21,7 +29,7 @@
   -webkit-transition-duration: 1s;
 }
 
-.MainTextClass a:hover {
+.MovingLinks a:hover {
   color: rgb(150,150,150);
   text-shadow: 2px 2px 5px black;
 
