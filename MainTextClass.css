@@ -1,18 +1,20 @@
 .middleground {
   width: 55%;
   position: absolute;
-  left: 22%;
+  left: 20%;
 }
 
 div.middleground ul {
   overflow: hidden;
   color: rgb(200,200,200);
   font-family: 'Lato', serif;
+  list-style-type: none;
   /* word-wrap: break-word; */
 }
 
 .MainTextClass {
   color: rgb(127,255,0);
+  z-index: 99;
 }
 
 .MainTextClass pre {

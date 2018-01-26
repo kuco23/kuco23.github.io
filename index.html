@@ -1,15 +1,15 @@
 <!DOCTYPE HTML>
 <html>
 <head>
-<title>Learning purposses</title>
+<title>Learning purpusses</title>
+<meta name='viewport' content='width=device-width, initial-scale=1.0'>
+
 <link rel="stylesheet" type="text/css" href="Sidebar.css" />
 <link rel="stylesheet" type="text/css" href="Navigation.css" />
 <link rel="stylesheet" type="text/css" href="MainTextClass.css" />
 
 <link rel="stylesheet" type="text/css" href="http://fonts.googleapis.com/css?family=Tangerine">
 <link rel="stylesheet" type="text/css" href="http://fonts.googleapis.com/css?family=Lato">
-
-<meta name='viewport' content='width=device-width, initial-scale=1.0'>
 <style>
 
 * {
@@ -61,7 +61,7 @@ h3 {
 
 @media only screen and (max-width: 600px) {
   #sidebar, #Navigation {
-    display: none;
+    height: none;
   }
   .middleground {
     width: 100%;
@@ -78,8 +78,10 @@ h3 {
 function HideSidebar() {
   var sideB = document.getElementById('sidebar');
   var sidebarHide = document.getElementById('SideBarHide');
+  var sidebarHideLink = document.getElementById('SideBarHideLink');
   var elementsMiddle = document.getElementsByClassName('middleground');
   if (sideB.style.height == '0px') {
+    sidebarHideLink.innerHTML = 'hide';
     sidebarHide.style.top = '98%';
     sideB.style.height = '100%';
     for (i=0; i < elementsMiddle.length; i++) {
@@ -87,10 +89,11 @@ function HideSidebar() {
       }
     }
   else {
+    sidebarHideLink.innerHTML = 'show';
     sidebarHide.style.top = '0';
     sideB.style.height = '0px';
     for (i=0; i < elementsMiddle.length; i++) {
-      elementsMiddle[i].style.width = '75%';
+      elementsMiddle[i].style.width = '78%';
       }
     }
   }
@@ -158,7 +161,7 @@ function Show(iden) {
 </div>
 
 <div class='sideBarHide' id='SideBarHide'>
-  <a href='javascript:void(0)' onclick='HideSidebar()'>x</a>
+  <a id='SideBarHideLink' href='javascript:void(0)' onclick='HideSidebar()'>hide</a>
 </div>
 
 
@@ -172,7 +175,7 @@ function Show(iden) {
       <li><a href='#argsKwargs'>Args & Kwargs</a></li>
       <li><a href='#handlingExceptions'>Handling Exceptions</a></li>
       <li><a href='#tuples'>Tuples</a></li>
-      <li><a href='#generators'>Statements</a></li>
+      <li><a href='#generators'>Generators</a></li>
       <li><a href='#pipInfo'>Pip Info</a></li>
     </div>
 
@@ -189,7 +192,6 @@ function Show(iden) {
       <li><a href='#packTutorials'>Package Tutorials</a></li>
       <li><a href='#projTutorials'>Project Tutorials</a></li>
     </div>
-
 
     <div id='javaBasicsNav'>
       <li><a href='#basicSyntax'>Basic Syntax</a></li>
@@ -381,7 +383,7 @@ function Show(iden) {
       <br />
       The most important feature of tuples is unpacking<br />
       Unpacking basically means that by assigning multiple variables to one tuple is allowed<br />
-      if number of variables &gt;= len(tuple) (&gt; if last argument is started by *)<br />
+      if number of variables &lt;= len(tuple) (&lt; if last argument is started by *)<br />
       <span class='Code'>var1, var2, var3 = (1,2,3) or var1, *var2 = (1,2,3)</span><br />
       <br />
       If you want to save some values into a variable and dispose of others you can do:<br />
@@ -395,7 +397,7 @@ function Show(iden) {
       (note that iterators might not support indexing)<br />
       This is where zip comes in. zip(iter1, ..., iterN) creates a new generator, you can iterate through<br />
       with N variable assignments every iteration<br />
-      Basically zip(iter1, iter2) = ((iter1[0], iter2[0]), ..., (iter1[N], iter2[N]))<br />
+      Basically zip(iter1, iter2) = ((iter1[0], iter2[0]), ..., (iter1[N], iter2[N])), N = min(len(iter1)-1, len(iter2)-1)<br />
       <span class='important'>note that this is simplified and that zip creates a generator, which<br />
       returns objects only when iterated through and will be emptied by the end of an iteration<br />
       Also iter1 and iter2 might not support indexing, being generators themselves</span>
@@ -410,7 +412,7 @@ function Show(iden) {
       <br />
       Generators support the method next(var_generator) that returns the next value of var_generator<br />
       If a generator is not infinite, it can be emptied (reaches its end)<br />
-      <span class='important'>Once you go forward you can never go back</span>
+      <span class='important'>Once you go forward you can never go back</span><br />
       Generators support tuple or list conversion, which means they iterate themselves into list/tuple<br />
 
       <ul>
@@ -419,7 +421,7 @@ function Show(iden) {
         to occasionaly generate some with a complicated code<br />
         This is where yield comes in.<br />
         By replacing return with yield inside a function, usually yielding value by the end<br />
-        of a single iteration and saving called function in a variable<br />
+        of a single iteration, and saving called function in a variable<br />
         <span class='Code'>var = myGenerator()</span> you create a generator<br />
 
         <li><h3>Tuple one-line Loop</h3></li>
@@ -461,24 +463,27 @@ function Show(iden) {
 
       <ul>
         <li><h3>Installation</h3></li>
-        from urllib.request import urlopen<br />
-        from bs4 import BeautifulSoup
+        <span class='Code'>from urllib.request import urlopen</span><br />
+        <span class='Code'>from bs4 import BeautifulSoup</span>
 
         <li><h3>Terminal</h3></li>
-        raw_html = urlopen('url')<br />
-        soup = BeautifulSoup(raw_html, 'html.parser') --&gt; DOM kind object of url page<br />
+        <span class='Code'>raw_html = urlopen('url')</span><br />
+        <span class='Code'>soup = BeautifulSoup(raw_html, 'html.parser')</span> --&gt; DOM kind object of url page<br />
 
         <li><h3>Common Methods and Attributes</h3></li>
-        soup.tag --> returns first occurance of &lt;tag&gt; node (<span class='usefulTip'>eg. soup.title</span>)<br />
-        soup.tag.string --&gt; returns &lt;tag&gt; text node as string<br />
-        soup.tag.text --&gt; same as soup.tag.string (<span class='usefulTip'>every Tag type instance has a text attribute</span>)<br />
+        <span class='Code'>soup.tag</span> --> returns first occurance of &lt;tag&gt; node (<span class='usefulTip'>eg. soup.title</span>)<br />
+        <span class='Code'>soup.tag.string</span> --&gt; returns &lt;tag&gt; text node as string<br />
+        <span class='Code'>soup.tag.text</span> --&gt; same as <span class='Code'>soup.tag.string</span> (<span class='usefulTip'>every Tag type instance has a text attribute</span>)<br />
         <br />
-        soup.find('tag', _class='classname') // finds all &lt;tag&gt; with class='classname'<br />
-        soup.find_all('tag') --&gt; returns a <span class='important'>list of all &lt;tag&gt; nodes</span><br />
-        soup.select('tag') --&gt; returns list of tag nodes<br />
+        <span class='Code'>soup.find('tag', _class='classname')</span> --&gt; finds all &lt;tag&gt; with class='classname'<br />
+        <span class='Code'>soup.find_all('tag')</span> --&gt; returns a <span class='important'>list of all &lt;tag&gt; nodes</span><br />
+        <span class='Code'>soup.select('tag')</span> --&gt; returns list of tag nodes<br />
         <br />
-        soup.find(id='id') --&gt; returns node with id 'id'<br />
-        soup.get('arg in tag') --&gt; unknown<br />
+        <span class='Code'>soup.find(id='id')</span> --&gt; returns node with id 'id'<br />
+        <span class='Code'>soup.get('arg in tag')</span> --&gt; unknown<br />
+        <br>
+        <span class='Code'>tag = soup.find_all('tag')[i]</span><br>
+        <span class='Code'>tag.get_attribute_list('attribute')</span> --&gt; returns every attribute value ('href' would return links)<br>
 
         <li><h3>Useful Pages</h3></li>
         <a href='https://xtools.wmflabs.org/articleinfo' target='_blank'>Get Wiki Page Informations</a>
@@ -489,45 +494,45 @@ function Show(iden) {
 
     <div id='fbchat'>
       <li><h2>FbChat</h2></li>
-      <ul>
 
+      <ul>
         <li><h3>Package Installation</h3></li>
-        from fbchat import Client<br />
-        from fbchat.models import*<br />
+        <span class='Code'>from fbchat import Client</span><br />
+        <span class='Code'>from fbchat.models import*</span><br />
 
         <li><h3>Setup</h3></li>
-        user= Client('mail', 'password') --&gt; returns your signed in account as object<br />
-        user.uid --&gt; returns client attribute user ID (string number)<br />
-        user.isLoggedIn() --&gt; returns True if logged in<br />
-        user.logout() --&gt; logs you out of your account<br />
+        <span class='Code'>user= Client('mail', 'password')</span> --&gt; returns your signed in account as object<br />
+        <span class='Code'>user.uid</span> --&gt; returns client attribute user ID (string number)<br />
+        <span class='Code'>user.isLoggedIn()</span> --&gt; returns True if logged in<br />
+        <span class='Code'>user.logout()</span> --&gt; logs you out of your account<br />
 
 
         <li><h3>Common Methods and Attributes</h3></li>
-        user.searchForUsers('userName')[0] --&gt; returns the first (most likely) user with userName (eg. Tim)<br />
-        user.fetchAllUsers() --&gt; returns a list of all your friends<br />
-        messsages = user.fetchThreadMessages(thread_id='', limit=int) --&gt; returns int length of latest messages as an iterable<br />
-        messages.revers() --&gt; reverses the order of messages<br />
-        messages[i].text --&gt; returns text value of ith message<br />
+        <span class='Code'>user.searchForUsers('userName')[0]</span> --&gt; returns the first (most likely) user with userName (eg. Tim)<br />
+        <span class='Code'>user.fetchAllUsers()</span> --&gt; returns a list of all your friends<br />
+        <span class='Code'>messsages = user.fetchThreadMessages(thread_id='', limit=int)</span> --&gt; returns int length of latest messages as an iterable<br />
+        <span class='Code'>messages.revers()</span> --&gt; reverses the order of messages<br />
+        <span class='Code'>messages[i].text</span> --&gt; returns text value of ith message<br />
         <br />
-        remote_user = user.fetchUserInfo('uid_user1', ..., 'uid_userN') --&gt; returns list of info of users with uids<br />
-        remote_user.uid --&gt; returns remote_user's ID<br />
-        remote_user.name<br />
-        remote_user.photo<br />
-        remote_user.url --&gt; returns url to remote_user profile<br />
+        <span class='Code'>remote_user = user.fetchUserInfo('uid_user1', ..., 'uid_userN')</span> --&gt; returns list of info of users with uids<br />
+        <span class='Code'>remote_user.uid</span> --&gt; returns remote_user's ID<br />
+        <span class='Code'>remote_user.name<br /></span>
+        <span class='Code'>remote_user.photo<br /></span>
+        <span class='Code'>remote_user.url</span> --&gt; returns url to remote_user profile<br />
         <br />
-        user.sendMessage('message', thread_id='thread_id', thread_type=ThreadType.USER / GROUP) --&gt; if thread_type == group then thread_id = uid<br />
-        user.sendLocalImage('image_path', message='', thread_id='', thread_type='')<br />
-        user.changeThreadColor(messenger_color, thread_id='thread_id')<br />
-        user.changeNickname('nickname_change, user_id='person_whose_nickname_is_changed', thread_id='thread_id', thread_type='ThreadType.USER/GROUP')<br />
+        <span class='Code'>user.sendMessage('message', thread_id='thread_id', thread_type=ThreadType.USER / GROUP)</span> --&gt; if thread_type == user, then thread_id = uid<br />
+        <span class='Code'>user.sendLocalImage('image_path', message='', thread_id='', thread_type='')</span><br />
+        <span class='Code'>user.changeThreadColor(messenger_color, thread_id='thread_id')</span><br />
+        <span class='Code'>user.changeNickname('nickname_change, user_id='person_whose_nickname_is_changed', thread_id='thread_id', thread_type='ThreadType.USER/GROUP')</span><br />
         <br />
-        user.addUsersToGroup('user_id', thread_id='thread_id')<br />
-        user.addUsersToGroup(['user_id1', ..., 'user_idN'], thread_id='thread_id')<br />
+        <span class='Code'>user.addUsersToGroup('user_id', thread_id='thread_id')</span><br />
+        <span class='Code'>user.addUsersToGroup(['user_id1', ..., 'user_idN'], thread_id='thread_id')</span><br />
         <br />
 
         <li><h3>Overriding Client Instance Methods</h3></li>
-        class myClient(Client):<br />
+        <span class='Code'>class myClient(Client):<br />
         &nbsp;&nbsp;def onMessage(self, author_id, message, thread_id, thread_type, **kwargs):<br />
-        &nbsp;&nbsp;&nbsp;&nbsp;**code what to do when message is received**
+        &nbsp;&nbsp;&nbsp;&nbsp;**code what to do when message is received**</span>
 
         <li><h3>Useful Links</h3></li>
         <a href='http://fbchat.readthedocs.io/en/master/examples.html' target='_blank'>Method documentation</a>
@@ -540,16 +545,16 @@ function Show(iden) {
       <li><h2>Os</h2></li>
       <ul>
         <li><h3>Package instalation<h3></li>
-        import os<br />
+        <span class='Code'>import os</span><br />
 
         <li><h3>Basic Methods</h3></li>
-        os.listdir() --&gt; returns list of files in current directory<br />
-        os.chdir('new_dir_path') --&gt; changes current directory to new_dir_path<br />
-        os.getcwd() --&gt; returns the name of current working directory<br />
+        <span class='Code'>os.listdir()</span> --&gt; returns list of files in current directory<br />
+        <span class='Code'>os.chdir('new_dir_path')</span> --&gt; changes current directory to new_dir_path<br />
+        <span class='Code'>os.getcwd()</span> --&gt; returns the name of current working directory<br />
 
         <li><h3>Getting Path of a Module</h3></li>
-        import module<br />
-        path = os.path.dirname(module.__file__)<br />
+        <span class='Code'>import module</span><br />
+        <span class='Code'>path = os.path.dirname(module.__file__)</span><br />
       </ul>
     </div>
 
