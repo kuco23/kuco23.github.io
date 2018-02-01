@@ -7,44 +7,18 @@
 <link rel="stylesheet" type="text/css" href="Sidebar.css" />
 <link rel="stylesheet" type="text/css" href="Navigation.css" />
 <link rel="stylesheet" type="text/css" href="MainTextClass.css" />
+<link rel="stylesheet" type="text/css" href="SpecifiedTextClass.css" />
 
 <link rel="stylesheet" type="text/css" href="http://fonts.googleapis.com/css?family=Tangerine">
 <link rel="stylesheet" type="text/css" href="http://fonts.googleapis.com/css?family=Lato">
 <style>
 
-* {
-  box-sizing: border-box;
-}
+* {box-sizing: border-box;}
 
 body {
   background-color: rgb(30,30,30);
   margin: 0;
   padding: 0;
-}
-
-h1 {
-  color: rgb(144,238,144);
-  text-align: center;
-  font-family: 'Tangerine', serif;
-  font-size: 55px;
-  font-style: oblique;
-}
-h2 {
-  color: powderblue;
-}
-h3 {
-  color: rgb(229, 228, 226);
-}
-
-.important {
-  color: rgb(255,128,0);
-}
-.usefulTip {
-  color: rgb(128, 255, 0);
-}
-.Code {
-  font-family: monospace;
-  color: rgb(111, 168, 180);
 }
 
 #pythonSystem, #pythonSystemNav, #sidebar {
@@ -59,16 +33,19 @@ h3 {
   display: none;
 }
 
-@media only screen and (max-width: 600px) {
+@media only screen and (max-width: 1000px) {
   #sidebar {
-    height: none;
+    height: 0px;
   }
- #Navigation {
-   display: none;
+  #Navigation {
+    display: none;
  }
   .middleground {
     width: 100%;
     left: 0;
+  }
+  .sideBarHide {
+    top: 0;
   }
 }
 
@@ -82,22 +59,15 @@ function HideSidebar() {
   var sideB = document.getElementById('sidebar');
   var sidebarHide = document.getElementById('SideBarHide');
   var sidebarHideLink = document.getElementById('SideBarHideLink');
-  var elementsMiddle = document.getElementsByClassName('middleground');
   if (sideB.style.height == '0px') {
     sidebarHideLink.innerHTML = 'hide';
     sidebarHide.style.top = '98%';
     sideB.style.height = '100%';
-    for (i=0; i < elementsMiddle.length; i++) {
-      elementsMiddle[i].style.width = '55%';
-      }
     }
   else {
     sidebarHideLink.innerHTML = 'show';
     sidebarHide.style.top = '0';
     sideB.style.height = '0px';
-    for (i=0; i < elementsMiddle.length; i++) {
-      elementsMiddle[i].style.width = '78%';
-      }
     }
   }
 
@@ -144,22 +114,22 @@ function Show(iden) {
 <div class='sidebar' id='sidebar'>
   <ul>
     <li><a href='javascript:void(0)' onclick="Hide('pythonUnder')">Python</a></li>
-	    <div class='under' id='pythonUnder'>
-	       <li><a href='javascript:void(0);' onclick='Show("pythonSystem")'>System</a></li>
-	       <li><a href='javascript:void(0);' onclick='Show("pythonPackages")'>Packages</a></li>
-         <li><a href='javascript:void(0);' onclick='Show("pythonLinks")'>Links</a></li>
-	     </div>
+	  <div id='pythonUnder'>
+	    <li><a href='javascript:void(0);' onclick='Show("pythonSystem")'>System</a></li>
+	    <li><a href='javascript:void(0);' onclick='Show("pythonPackages")'>Packages</a></li>
+      <li><a href='javascript:void(0);' onclick='Show("pythonLinks")'>Links</a></li>
+	   </div>
 
     <li><a href='javascript:void(0)' onclick='Hide("javaUnder")'>Java</a></li>
-	     <div class='under' id='javaUnder'>
-	        <li><a href='javascript:void(0);' onclick='Show("javaBasics")'>Basics</a></li>
-          <li><a href='javascript:void(0);' onclick='Show("javaLinks")'>Links</a></li>
-	     </div>
+	  <div id='javaUnder'>
+	    <li><a href='javascript:void(0);' onclick='Show("javaBasics")'>Basics</a></li>
+      <li><a href='javascript:void(0);' onclick='Show("javaLinks")'>Links</a></li>
+	  </div>
 
     <li><a href='javascript:void(0)' onclick='Hide("HtmlUnder")'>HTML</a></li>
-      <div class='under' id='HtmlUnder'>
-        <li><a href='javascript:void(0);' onclick='Show("HtmlJavaScript")'>JavaScript</a></li>
-      </div>
+    <div id='HtmlUnder'>
+      <li><a href='javascript:void(0);' onclick='Show("HtmlJavaScript")'>JavaScript</a></li>
+    </div>
   </ul>
 </div>
 
@@ -317,7 +287,7 @@ function Show(iden) {
         <br />
         So **kwargs eats up all the keyworder arguments, and saves them in a dictionary<br />
         <span class='Code'>def function(**kwargs): return kwargs</span> if called with<br />
-        <span class='Code'>function(a=10, b=30)</span> will return <span class='Code'>{'a':10, 'b':30}</span></br>
+        <span class='Code'>function(a=10, b=30)</span> will return <span class='Code'>{'a':10, 'b':30}</span><br />
       </ul>
     </div>
 
@@ -437,6 +407,7 @@ function Show(iden) {
 
     <div id='pipInfo'>
       <li><h2>Pip Info</h2></li>
+      <ul>
 
       Imported package doesn't work:<br />
       import package<br />
@@ -449,6 +420,14 @@ function Show(iden) {
       Insalling package on python:<br />
       go to terminal<br />
       python -m pip install packageName
+
+      <li><h3>Package installation error</h3></li>
+      <span class='error'>Command "python setup.py egg_info" failed with error code 1</span><br>
+      <span class='Code'>pip install --upgrade setuptools</span><br>
+      If the package still won't install:<br>
+      <span class='Code'>easy_install -U setuptools</span>
+
+    </ul>
     </div>
 
   </ul>
@@ -533,9 +512,11 @@ function Show(iden) {
         <br />
 
         <li><h3>Overriding Client Instance Methods</h3></li>
-        <span class='Code'>class myClient(Client):<br />
-        &nbsp;&nbsp;def onMessage(self, author_id, message, thread_id, thread_type, **kwargs):<br />
-        &nbsp;&nbsp;&nbsp;&nbsp;**code what to do when message is received**</span>
+        <div class='CodeFrame'>
+          class myClient(Client):<br />
+          &nbsp;&nbsp;def onMessage(self, author_id, message, thread_id, thread_type, **kwargs):<br />
+          &nbsp;&nbsp;&nbsp;&nbsp;**code what to do when message is received**
+        </div>
 
         <li><h3>Useful Links</h3></li>
         <a href='http://fbchat.readthedocs.io/en/master/examples.html' target='_blank'>Method documentation</a>
@@ -547,13 +528,14 @@ function Show(iden) {
     <div id='os'>
       <li><h2>Os</h2></li>
       <ul>
-        <li><h3>Package instalation<h3></li>
+        <li><h3>Package instalation</h3></li>
         <span class='Code'>import os</span><br />
 
         <li><h3>Basic Methods</h3></li>
         <span class='Code'>os.listdir()</span> --&gt; returns list of files in current directory<br />
         <span class='Code'>os.chdir('new_dir_path')</span> --&gt; changes current directory to new_dir_path<br />
         <span class='Code'>os.getcwd()</span> --&gt; returns the name of current working directory<br />
+        <span class='Code'>os.remove('file/name')</span> --&gt; deletes the specified file<br />
 
         <li><h3>Getting Path of a Module</h3></li>
         <span class='Code'>import module</span><br />
@@ -565,12 +547,12 @@ function Show(iden) {
       <li><h2>Decimal</h2></li>
       <ul>
         <li><h3>Installation</h3></li>
-        from decimal import*
+        <span class='code'>from decimal import*</span>
 
         <li><h3>Common Methods</h3></li>
-        getcontext().prec = --num_of_decimals-- --&gt; sets the number of decimals<br />
-        number = Decimal(Int) --&gt; creates a new Decimal object<br />
-        result = number / Decimal(Int2) --&gt; division of two decimmals<br />
+        <span class='code'>getcontext().prec</span> = --num_of_decimals-- --&gt; sets the number of decimals<br />
+        <span class='code'>number = Decimal(Int)</span> --&gt; creates a new Decimal object<br />
+        <span class='code'>result = number / Decimal(Int2)</span> --&gt; division of two decimmals<br />
       </ul>
     </div>
 
@@ -623,6 +605,7 @@ function Show(iden) {
         <li><a href='https://docs.python.org/3/library/decimal.html' target='_blank'>Decimal</a></li>
         <li><a href='https://www.dataquest.io/blog/web-scraping-tutorial-python/' target='_blank'>Beautiful Soup</a></li>
         <li><a href='https://docs.djangoproject.com/en/2.0/intro/tutorial01/' target='_blank'>Django</a></li>
+        <li><a href='https://pybit.es/requests-session.html' target='_blank'>Webscraping Login pages</a></li>
       </ul>
     </div>
 
@@ -648,12 +631,19 @@ $$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$
 
   <ul>
     <div id='basicSyntax'>
-      <li><h2>Basic Syntax</h2></li>
-      <pre>
+    <li><h2>Basic Syntax</h2></li>
 
-static -> declaration of variables, functions. Static functions can access static variables,
-also static functions can be accessed outside the class, without calling the constructor
-(works like python self)
+    <ul>
+      <li>Prefixes</li>
+      <span class='important'>static</span> --> declaration of variables, functions, methods that are used by instances, but<br>
+      cannot be used on instances, because all instance share the same static methods.<br>
+      Static method belongs only to class containing it.<br>
+      Static functions can be accessed outside the class without calling the constructor<br>
+      <br>
+      <span class='important'>public</span> --> variable, function can be acessed from everywhere, <br>
+      meaning outside class, inside class, in subclasses
+
+
 
 void -> meaning it has no return, usually applies to function return (if it has none)
 
@@ -838,7 +828,7 @@ dataType a, b, c; (eg. int a, b, c /* declares a b and c as int */)
       <li><a href='https://docs.oracle.com/javase/tutorial/java/javaOO/accesscontrol.html' target='_blank'>Modifiers</a></li>
       <li><a href='https://docs.oracle.com/javase/7/docs/api/java/lang/StringBuilder.html' target='_blank'>StringBuilder</a></li>
       <li><a href='http://mrbool.com/java-data-type-conversion/29257' target='_blank'>DataType Conversion</a></li>
-      <li><a href='https://www.msn.com/en-gb/foodanddrink/foodnews/20plus-soup-recipes-to-help-you-beat-weight-gain/ss-BBH1FLA?ocid=spartanntp#image=21'target='_blank'>Soups</a></li>
+      <li><a href='https://www.msn.com/en-gb/foodanddrink/foodnews/20plus-soup-recipes-to-help-you-beat-weight-gain/ss-BBH1FLA?ocid=spartanntp#image=21' target='_blank'>Soups</a></li>
     </ul>
   </div>
 
@@ -898,7 +888,7 @@ element.removeEventListener(event, funct)
 <!-- ########################################### newNavItem ####################################### -->
 
     <div id='UsefulShit'>
-      <li><h2>Useful Shit</li></h2>
+      <li><h2>Useful Shit</h2></li>
         <pre>
 Latex in html:
   &lt;script type="text/javascript" src="http://latex.codecogs.com/latexit.js"&gt;&lt;/script&gt;

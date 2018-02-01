@@ -1,0 +1,36 @@
+h1 {
+  color: rgb(144,238,144);
+  text-align: center;
+  font-family: 'Tangerine', serif;
+  font-size: 50px;
+  font-style: oblique;
+}
+h2 {
+  color: powderblue;
+}
+h3 {
+  color: rgb(229, 228, 226);
+}
+
+.important {
+  color: rgb(255,128,0);
+}
+.usefulTip {
+  color: rgb(128, 255, 0);
+}
+.error {
+  color: rgb(200,0,0);
+}
+.Code {
+  font-family: monospace;
+  color: rgb(111, 168, 180);
+}
+.CodeFrame {
+  font-family: monospace;
+  background-color: rgba(255, 255, 255, .3);
+  color: black;
+  border: 1px solid black;
+  border-radius: 5px;
+  display: inline-block;
+  padding: 15px;
+}
