@@ -1,7 +1,7 @@
 .middleground {
-  width: 78%;
+  width: 76%;
   position: absolute;
-  left: 20%;
+  left: 22%;
 }
 
 div.middleground ul {
@@ -42,6 +42,10 @@ div.middleground ul {
   transition-duration: 1s;
   -webkit-transition-property: left;
   -webkit-transition-duration: 1s;
+}
+.MainTextClass ul {
+  margin: 0;
+  padding: 0;
 }
 
 .MovingLinks a:hover {
