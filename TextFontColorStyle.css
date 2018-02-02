@@ -12,14 +12,17 @@ h3 {
   color: rgb(229, 228, 226);
 }
 
-.important {
+.colorOrange {
   color: rgb(255,128,0);
 }
-.usefulTip {
+.colorLime {
   color: rgb(128, 255, 0);
 }
-.error {
+.colorBrightRed {
   color: rgb(200,0,0);
+}
+.colorPurple {
+  color: rgb(128, 0, 128);
 }
 .Code {
   font-family: monospace;
