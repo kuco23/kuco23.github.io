@@ -4,10 +4,10 @@
 <title>Learning purpusses</title>
 <meta name='viewport' content='width=device-width, initial-scale=1.0'>
 
-<link rel="stylesheet" type="text/css" href="Sidebar.css" />
-<link rel="stylesheet" type="text/css" href="Navigation.css" />
-<link rel="stylesheet" type="text/css" href="MainTextClass.css" />
-<link rel="stylesheet" type="text/css" href="TextFontColorStyle.css" />
+<link rel="stylesheet" type="text/css" href="CSS/Sidebar.css" />
+<link rel="stylesheet" type="text/css" href="CSS/Navigation.css" />
+<link rel="stylesheet" type="text/css" href="CSS/MainTextClass.css" />
+<link rel="stylesheet" type="text/css" href="CSS/TextFontColorStyle.css" />
 
 <link rel="stylesheet" type="text/css" href="http://fonts.googleapis.com/css?family=Tangerine">
 <link rel="stylesheet" type="text/css" href="http://fonts.googleapis.com/css?family=Lato">
@@ -16,6 +16,12 @@
 * {box-sizing: border-box;}
 
 body {
+  background: url("backgrounds/background.jpg") no-repeat center center fixed;
+  -webkit-background-size: cover;
+  -moz-background-size: cover;
+  -o-bacgkround-size: cover;
+  background-size: cover;
+
   background-color: rgb(30,30,30);
   margin: 0;
   padding: 0;
@@ -37,6 +43,7 @@ body {
 @media only screen and (max-width: 1000px) {
   #sidebar {
     height: 0px;
+    width: 50%;
   }
   #Navigation {
     display: none;
@@ -47,6 +54,7 @@ body {
   }
   .sideBarHide {
     top: 0;
+    width: 50%;
   }
 }
 
@@ -875,6 +883,7 @@ function Show(iden) {
         <li><a href='https://docs.oracle.com/javase/7/docs/api/java/lang/StringBuilder.html' target='_blank'>StringBuilder</a></li>
         <li><a href='http://mrbool.com/java-data-type-conversion/29257' target='_blank'>DataType Conversion</a></li>
         <li><a href='https://www.msn.com/en-gb/foodanddrink/foodnews/20plus-soup-recipes-to-help-you-beat-weight-gain/ss-BBH1FLA?ocid=spartanntp#image=21' target='_blank'>Soups</a></li>
+        <li><a href='https://css-tricks.com/perfect-full-page-background-image/' target='_blank'>Html Backgrounds</a></li>
       </ul>
     </div>
 
