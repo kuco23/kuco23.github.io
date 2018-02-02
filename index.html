@@ -21,10 +21,6 @@ body {
   padding: 0;
 }
 
-ul {
-  margin: 0;
-  padding: 0;
-}
 
 #pythonSystem, #pythonSystemNav, #sidebar {
   display: block;
@@ -46,8 +42,8 @@ ul {
     display: none;
  }
   .middleground {
-    width: 100%;
-    left: 0;
+    width: 98%;
+    left: 1%;
   }
   .sideBarHide {
     top: 0;
@@ -173,13 +169,12 @@ function Show(iden) {
 
     <div id='javaBasicsNav'>
       <li><a href='#basicSyntax'>Basic Syntax</a></li>
-      <li><a href='#dataTypes'>Data Types</a></li>
+      <li><a href='#dataTypes'>Data Types Info</a></li>
       <li><a href='#files'>Files</a></li>
-      <li><a href='#JavaMethods'>Methods</a></li>
     </div>
 
     <div id='javaLinksNav'>
-      <li><a href='#links'>Links</a></li>
+      <li><a href='#links'>Basics Links</a></li>
     </div>
 
     <div id='HtmlJavaScriptNav'>
@@ -355,7 +350,7 @@ function Show(iden) {
     <div id='tuples'>
       <li><h2>Tuples</h2></li>
 
-      Tuples are like lists except they arent<br />
+      Tuples are like lists except they are more immutable<br />
       They should be used for containing fixed amount of stuff<br />
       They can be iterated through and support indexing<br />
       <br />
@@ -414,25 +409,25 @@ function Show(iden) {
       <li><h2>Pip Info</h2></li>
       <ul>
 
-      Imported package doesn't work:<br />
-      import package<br />
-      package.__path__ # find the dir package was imported from<br />
+        Installing package on python:<br />
+        go to terminal<br />
+        <span class='Code'>python -m pip install packageName</span>
 
-      # Find out if it is the right package<br />
-      <br />
-      <span class='important'> Rename any fucking file that has the same name as the package!!</span><br />
-      <br />
-      Insalling package on python:<br />
-      go to terminal<br />
-      python -m pip install packageName
+        <li><h3>Package installation errors</h3></li>
+        <span class='error'>Command "python setup.py egg_info" failed with error code 1</span><br />
+        <span class='Code'>pip install --upgrade setuptools</span><br />
+        If the package still won't install:<br />
+        <span class='Code'>easy_install -U setuptools</span><br />
+        <br />
+        <span class='error'>Imported package doesn't work<br />
+        <span class='CodeFrame'>
+          import package<br />
+          package.__path__ # find the dir package was imported from<br />
+          # Find out if it is the right package
+        </span><br />
+        <span class='important'> Rename any fucking file that has the same name as the package!!</span><br />
 
-      <li><h3>Package installation error</h3></li>
-      <span class='error'>Command "python setup.py egg_info" failed with error code 1</span><br>
-      <span class='Code'>pip install --upgrade setuptools</span><br>
-      If the package still won't install:<br>
-      <span class='Code'>easy_install -U setuptools</span>
-
-    </ul>
+      </ul>
     </div>
 
   </ul>
@@ -450,12 +445,16 @@ function Show(iden) {
 
       <ul>
         <li><h3>Installation</h3></li>
-        <span class='Code'>from urllib.request import urlopen</span><br />
-        <span class='Code'>from bs4 import BeautifulSoup</span>
+        <span class='CodeFrame'>
+          from urllib.request import urlopen<br />
+          from bs4 import BeautifulSoup<br />
+        </span>
 
         <li><h3>Terminal</h3></li>
-        <span class='Code'>raw_html = urlopen('url')</span><br />
-        <span class='Code'>soup = BeautifulSoup(raw_html, 'html.parser')</span> --&gt; DOM kind object of url page<br />
+        <span class='CodeFrame'>
+          raw_html = urlopen('url')<br />
+          soup = BeautifulSoup(raw_html, 'html.parser') <span class='error'># DOM kind object of url page</span><br />
+        </span>
 
         <li><h3>Common Methods and Attributes</h3></li>
         <span class='Code'>soup.tag</span> --> returns first occurance of &lt;tag&gt; node (<span class='usefulTip'>eg. soup.title</span>)<br />
@@ -468,9 +467,9 @@ function Show(iden) {
         <br />
         <span class='Code'>soup.find(id='id')</span> --&gt; returns node with id 'id'<br />
         <span class='Code'>soup.get('arg in tag')</span> --&gt; unknown<br />
-        <br>
-        <span class='Code'>tag = soup.find_all('tag')[i]</span><br>
-        <span class='Code'>tag.get_attribute_list('attribute')</span> --&gt; returns every attribute value ('href' would return links)<br>
+        <br />
+        <span class='Code'>tag = soup.find_all('tag')[i]</span><br />
+        <span class='Code'>tag.get_attribute_list('attribute')</span> --&gt; returns every attribute value ('href' would return links)<br />
 
         <li><h3>Useful Pages</h3></li>
         <a href='https://xtools.wmflabs.org/articleinfo' target='_blank'>Get Wiki Page Informations</a>
@@ -517,11 +516,11 @@ function Show(iden) {
         <br />
 
         <li><h3>Overriding Client Instance Methods</h3></li>
-        <div class='CodeFrame'>
+        <span class='CodeFrame'>
           class myClient(Client):<br />
           &nbsp;&nbsp;def onMessage(self, author_id, message, thread_id, thread_type, **kwargs):<br />
           &nbsp;&nbsp;&nbsp;&nbsp;**code what to do when message is received**
-        </div>
+        </span>
 
         <li><h3>Useful Links</h3></li>
         <a href='http://fbchat.readthedocs.io/en/master/examples.html' target='_blank'>Method documentation</a>
@@ -552,12 +551,12 @@ function Show(iden) {
       <li><h2>Decimal</h2></li>
       <ul>
         <li><h3>Installation</h3></li>
-        <span class='code'>from decimal import*</span>
+        <span class='Code'>from decimal import*</span>
 
         <li><h3>Common Methods</h3></li>
-        <span class='code'>getcontext().prec</span> = --num_of_decimals-- --&gt; sets the number of decimals<br />
-        <span class='code'>number = Decimal(Int)</span> --&gt; creates a new Decimal object<br />
-        <span class='code'>result = number / Decimal(Int2)</span> --&gt; division of two decimmals<br />
+        <span class='Code'>getcontext().prec = &lt;num_of_decimals&gt;</span> --&gt; sets the number of decimals<br />
+        <span class='Code'>number = Decimal(Int)</span> --&gt; creates a new Decimal object<br />
+        <span class='Code'>result = number / Decimal(Int2)</span> --&gt; division of two decimmals<br />
       </ul>
     </div>
 
@@ -565,18 +564,22 @@ function Show(iden) {
       <li><h2>Plotly</h2></li>
       <ul>
         <li><h3>Installation</h3></li>
-        import Plotly<br />
-        plotly.tools.set_credentials_file(usernmae='kuco23', api_key='3piBe5vMcn2srfCqgADT')<br />
-        import numpy as np<br />
-        import plotly.plotly as pl<br />
-        import plotly.graph_objs as go<br />
+        <span class='CodeFrame'>
+          &gt;&gt;&gt; import Plotly<br />
+          &gt;&gt;&gt; plotly.tools.set_credentials_file(usernmae='kuco23', api_key='3piBe5vMcn2srfCqgADT')<br />
+          &gt;&gt;&gt; import numpy as np<br />
+          &gt;&gt;&gt; import plotly.plotly as pl<br />
+          &gt;&gt;&gt; import plotly.graph_objs as go<br />
+        </span>
 
         <li><h3>Common code</h3></li>
-        x_os = ny,linspace(zacetek, konec, stevilo_tock)<br />
-        y_os = [function(i) for i in x_os]<br />
-        source = go.Scatter(x=x_os, y=y_os, name='name', mode='lines/markers/lines+markers')<br />
-        data = [source]<br />
-        pl.plot(data, filename='filename')<br />
+        <span class='CodeFrame'>
+          &gt;&gt;&gt; x_os = ny,linspace(zacetek, konec, stevilo_tock)<br />
+          &gt;&gt;&gt; y_os = [function(i) for i in x_os]<br />
+          &gt;&gt;&gt; source = go.Scatter(x=x_os, y=y_os, name='name', mode='lines/markers/lines+markers')<br />
+          &gt;&gt;&gt; data = [source]<br />
+          &gt;&gt;&gt; pl.plot(data, filename='filename')<br />
+        </span>
       </ul>
     </div>
 
@@ -625,225 +628,257 @@ function Show(iden) {
   </ul>
 </div>
 
-<!--
-endPython
-$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$
-$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$
--->
 
+<!-- &&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&& end Python &&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&& -->
+<!-- ################################### start Java ########################################################################## -->
 <div class='MainTextClass middleground' id='javaBasics'>
   <h1>Java Basics</h1>
 
   <ul>
     <div id='basicSyntax'>
-    <li><h2>Basic Syntax</h2></li>
+      <li><h2>Basic Syntax</h2></li>
 
-    <ul>
-      <li>Prefixes</li>
-      <span class='important'>static</span> --> declaration of variables, functions, methods that are used by instances, but<br>
-      cannot be used on instances, because all instance share the same static methods.<br>
-      Static method belongs only to class containing it.<br>
-      Static functions can be accessed outside the class without calling the constructor<br>
-      <br>
-      <span class='important'>public</span> --> variable, function can be acessed from everywhere, <br>
-      meaning outside class, inside class, in subclasses
+      <ul>
+        <li><h3>Accessibility prefixes</h3></li>
+        <span class='important'>public</span> --&gt; variable, function can be accessed from everywhere, <br />
+        meaning outside class, inside class, main subclasses (when superclassing a class in local file)<br />
+        or package subclasses (when superclassing a class in imported file)<br />
+        <br />
+        <span class='important'>protected</span> --&gt; variable, function can be accessed from <b>package</b>,<br />
+        in which it was declared + subclasses or package members<br />
+        <br />
+        <span class='important'>no modifier / default</span> --&gt; variable, function can be used in package, in which it was declared<br />
+        <br />
+        <span class='important'>private</span> --&gt; variable, function can be used in <b>class</b>, in which it was declared<br />
+        <br />
 
+        <table>
+          <tr>
+            <th></th>
+            <td>Class</td>
+            <td>Package</td>
+            <td>Subclass (same package)</td>
+            <td>Subclass (diff package)</td>
+            <td>World</td>
+          </tr>
+          <tr>
+            <th>public</th>
+            <td class='MarkJavaTable'>-</td>
+            <td class='MarkJavaTable'>-</td>
+            <td class='MarkJavaTable'>-</td>
+            <td class='MarkJavaTable'>-</td>
+            <td class='MarkJavaTable'>-</td>
+          </tr>
+          <tr>
+            <th>protected</th>
+            <td class='MarkJavaTable'>-</td>
+            <td class='MarkJavaTable'>-</td>
+            <td class='MarkJavaTable'>-</td>
+            <td class='MarkJavaTable'>-</td>
+            <td></td>
+          </tr>
+          <tr>
+            <th>no modifier</th>
+            <td class='MarkJavaTable'>-</td>
+            <td class='MarkJavaTable'>-</td>
+            <td class='MarkJavaTable'>-</td>
+            <td></td>
+            <td></td>
+          </tr>
+          <tr>
+            <th>private</th>
+            <td class='MarkJavaTable'>-</td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+          </tr>
+        </table>
+        <br />
 
+        <li><h3>Value Type Prefixes</h3></li>
+        <span class='usefulTip'>Used to declare variables or function's return type</span><br />
+        <span class='important'>void</span> --&gt; declaration function doesn't return anything (<span class='usefulTip'>used only on functions</span>)<br />
+        <span class='important'>int</span> --&gt; used to declare primitive-data-type integer of 32-bit signed integers (max +- 2^31)<br />
+        <span class='important'>long</span> --&gt; used to store 64-bit signed integers (max +- 2^63)(<span class='usefulTip'>if declaring a variable use L at the end<br />
+          eg. long var = 10000000000L</span>)<br />
+        <span class='important'>double</span> --&gt; declaration of primitive-data-type of abstract class Double, meaning double-precision (64-bit) numeric values<br />
+        (<span class='usefulTip'>eg. 2.114124134</span>)<br />
+        <span class='important'>float</span> --&gt; same as double, except values are of single precision (32-bit)<br />
+        <span class='important'>short</span> --&gt; used to store max +- 2^15 (16-bit signed) integer<br />
+        <span class='important'>byte</span> --&gt; used to store max +- 2^7 (8-bit signed) integer<br />
+        <span class='important'>boolean</span> --&gt; used to store binary values true and false<br />
+        <span class='important'>String</span> --&gt; used to store strings (they are immutable type - cannot be changed, use StringBuilder for that)<br />
+        <span class='important'>char</span> --&gt; used to store single letters<br />
+        <span class='important'>&lt;data-type&gt;[]</span> --&gt; used to store a list of data-type types<br />
+        <br />
+        <span class='usefulTip'>Every numeric type primitive-data-type (used to perform operations like +-*/ on) has an abstract class<br />
+          used to store methods that can be applied to primitive-types<br />
+          (eg. classes: Integer, Double, Float, Long)</span><br />
 
-void -> meaning it has no return, usually applies to function return (if it has none)
+        <li><h3>Other Type Prefixes</h3></li>
+        <span class='important'>static</span> --&gt; declaration of variables, functions, methods that are used by instances, but<br />
+        cannot be used on instances, because all instance share the same static methods.<br />
+        Static method belongs only to class containing it.<br />
+        Static functions can be accessed outside the class without calling the constructor<br />
+        <br />
 
-public class Neki {                		/* class definition is required */
-    static int/String/double instanceVariable;
-
-    public Neki(String name) {     		/* class constructor should have the same name as class
-	*initialize*;    	   		(works the same as python __init__())
-    }   					you don't have to define constructor */
-
-
-    public classFunction(Type variable) {
-	*do something*;
-    }
-
-    public static void main(String []arg) {	/* String []arg takes list of strings as funct input */
-	*do what you want to be compiled*
-	Neki name = new Neki("name");
-	name.classFunction(typeArg);
-	System.out.println(instanceVariable);
-    }
-}
-
-import java.io.*   /* by importing java.io. running the program compiles all the files in the
-	             directory java_installation/java/io, not just the one being run */
-
-      </pre>
+        <li><h3>Examples</h3></li>
+        <span class='CodeFrame'>
+          public class ClassName {<br />
+          &nbsp;&nbsp;public static void main(String[]) {<br />
+          &nbsp;&nbsp;&nbsp;&nbsp; // do what you want to be compiled<br />
+          &nbsp;&nbsp;&nbsp;&nbsp;}<br />
+          &nbsp;&nbsp;}
+        </span>
+      </ul>
     </div>
 
-<!-- ################################### New NavItem #################################################### -->
 
     <div id='dataTypes'>
-      <li><h2>Data Types</h2></li>
-      <pre>
+      <li><h2>Data Types Info</h2></li>
+      <ul>
+        <li><h3>Integer</h3></li>
+        Subclass of an abstract class Number, representing 32-bit integers between -2 147 483 64 and 2147 483 647<br />
+        <span class='Code'>Integer.toString(int/Integer var)</span> --&gt; returns a String reperesentation of input var<br />
+        <span class='Code'>Integer.parseInt(String)</span> --&gt; returns an Integer representation of String (eg. "200")<br />
 
-Data Types Declatations
+        <li><h3>Double</h3></li>
+        Subclass of an abstract class Number, representing double precision 64-bit decimals<br />
+        <span class='Code'>Double.toString(double/Double var)</span> --&gt; returns a String representation of input var<br />
 
-  Number Types:
+        <li><h3>Float</h3></li>
+        Subclass of an abstract class Number, representing double precision 32-bit decimals<br />
 
-  byte var /* must be an int between -128 and 127 [-2^7, 2^7-1] */ (8-bit value)
-  short var /* int between -32 768 and 32 767 [-2^15, 2^15-1] (16 bit)
+        <li><h3>Short</h3></li>
 
-  byte, short save memory (byte is 4 times smaller than int, short 2 times)
+        <li><h3>Byte</h3></li>
+        Stores an 8-bit value integer (integers between -128 and 127 [-2^7, 2^7-1])<br />
 
-  int var /* 32-bit signed integer between [-2 147 483 648, 2147 483 647] (2^32) */
-  <b>(int is considered a standard numeric declaration -> if you dont declare a var its considered int
-  that is a problem when passing arguments between functions that have non int declarations)</b>
-  long var /* 64-bit signed [-2^63, 2^63-1] */
-  float var /* single-precision 32-bit IEEE 754 floating point */
-  double var /* double-precision 64-bit IEEE 754 floating point */
+        <li><h3>Character</h3></li>
+        Primitive data-type = char<br />
+        Used to save a single letter into a variable<br />
+        <span class='important'>Do not use (int) to convert (char) var into numeric value of char</span><br />
+        <span class='Code'>Character.toString(char)</span> --&gt; returns a String representation of a char<br />
+        <span class='Code'>Character.getNumericValue(char var)</span> --&gt; returns a numeric value of char var<br />
+        <span class='Code'>Character.isDigit(char)</span> --&gt; reuturns true if input char is a char representation of an integer (eg. "200")<br />
 
-  default value = false for all number types
+        <li><h3>String</h3></li>
+        String is not a primitive-data-type, but a class, so it can be instantiated as<br />
+        <span class='Code'>String var = new String("string")</span> or<br />
+        <span class='Code'>String var = new String(char[] var)</span><br />
+        <br />
+        <span class='Code'>StringVar.length()</span> --&gt; returns length of StringVar<br />
+        <span class='Code'>StringVar.charAt(int index)</span> --&gt; gets the char at StrigVar[index]<br />
+        <span class='Code'>StringVar.split("sign")</span> --&gt; returns String[], that has elements of a StringVar split on every "sign" occurance<br />
+        (eg. String[] = "stringastring2".split("ab") --&gt; returns ["string", "string2"])<br />
+        <span class='Code'>String.join("sign", String[])</span> --&gt; returns a String that is a glued-up input String[] with "sign" in the middle []String elements<br />
+        <span class='Code'>StringVar.substring(int begin, int end)</span> --&gt; returns sliced String from begin index letter to (not including) int end index letter<br />
 
-Bolean:
-  boolean var /* one bit of information (true or false), default value=false */
-  eg. boolean one = true
+        <li><h3>StringBuilder</h3></li>
+        Used for String modification. StringBuilder class has every method of String class<br />
+        <span class='Code'>StrinBuilder var = new StringBuilder(String)</span> --&gt; initializing StringBuilder object<br />
+        <span class='Code'>var.setCharAt(int index, char ch)</span> --&gt; changes var[index] to ch<br />
+        <span class='Code'>var.append(String)</span> --&gt; adds String to the end of var<br />
 
-Char:
-  char var /* single 16-bit Unicode character */
-  eg. char letterA = 'A'
+        <li><h3>ArrayList</h3></li>
+        Supports more methods for lists (eg. list appendage)<br />
+        <span class='CodeFrame'>
+          import java.util.ArrayList;<br />
+          ArrayList&lt;Object_type&gt; var = new ArrayList&lt;Object_type&gt;();<br />
+          // creates an ArrayList that stores Object_type<br />
+        </span><br />
+        <span class='Code'>var.size()</span> --&gt; returns the size(length) of an ArrayList<br />
+        <span class='Code'>var.add(int index_to_add, value)</span> --&gt; adds the value to the place of index_to_add<br />
+        <span class='Code'>var.get(int index)</span> --&gt; returns the thing at int index<br />
+        <span class='Code'>var.contains(element)</span> --&gt; if any of the elements stored in var matches element, returns true, else false<br />
+        <span class='Code'>var.indexOf(element)</span> --&gt; returns the index of first occurance of element<br />
 
-Reference Datatypes:
-  default value of reference variables = null
-
-
-dataType a, b, c; (eg. int a, b, c /* declares a b and c as int */)
-"\" some text \""  /* \ blocks the functionality of a character */
-
-<span  class='important'>LONG TYPES ARE SET AS long var = ***L</span>
-
-      </pre>
+      </ul>
     </div>
 
-<!-- ##################################### newNavItem #######################################################-->
+    <div id='files'>
+      <li><h2>Files</h2></li>
+      <span class='important'>import java.io.*</span><br />
+      <ul>
+        <li><h3>File Methods & Objects</h3></li>
+        <span class='important'>FileInputStream</span> --&gt; used for reading from files<br />
+        <span class='Code'>FileInputStream input = new FileInputStream(StringFileName);</span><br />
+        supports method .read(), which generates letters from start of file to finish, and when it reaches<br />
+        the end, it returns -1<br />
+        <br />
+        <span class='important'>FileOutputStream</span> --&gt; used for output stuff in files<br />
+        <span class='Code'>FileOutputStream output = new FileOutputStream(StringFileName);</span><br />
+        <br />
+        <span class='important'>FileReader</span> --&gt; used to read from files<br />
+        <span class='Code'>FileReader reader = new FileReader(new File('fileName'));</span>
+        The FileReader supports instane method .read(char[] var), which fills char[] var with characters read from file<br />
+        <br />
+        <span class='important'>PrintWriter</span> --&gt; used to print/output stuff in its instance file<br />
+        <span class='Code'>PrintWriter writer = new PrintWriter(String fileName);</span><br />
+        acts in a similar way that System.out.&lt;method&gt; does, the differernce being that<br />
+        writer.println("text") prints in fileName<br />
+        <br />
+        <li><h3>Empty File Text Into String Example</h3></li>
+        <span class='CodeFrame'>
+          import java.io.*;<br />
+          <br />
+          public class MyFiles {<br />
+          &nbsp;&nbsp;public static void main(String[] arg) <span class='error'>throws IOException</span> {<br />
+          <br />
+          &nbsp;&nbsp;&nbsp;&nbsp;FileInputStream = null;<br />
+          &nbsp;&nbsp;&nbsp;&nbsp;File myFile = null;<br />
+          &nbsp;&nbsp;&nbsp;&nbsp;FileReader reader = null;<br />
+          &nbsp;&nbsp;&nbsp;&nbsp;PrintWriter writer = null;<br />
+          <br />
+          &nbsp;&nbsp;&nbsp;&nbsp;int n = 0;<br />
+          &nbsp;&nbsp;&nbsp;&nbsp;char[] FileContent = null;<br />
+          <br />
+          &nbsp;&nbsp;&nbsp;&nbsp;try {<br />
+          &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;input = new FileInputStream("MyFileName");<br />
+          &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;while (input.read() != -1) {n += 1;}<br />
+          &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;} finally {input.close();}<br />
+          &nbsp;&nbsp;&nbsp;&nbsp;// we've used FileInputStream to determine the length of text in "MyFileName"<br />
+          <br />
+          &nbsp;&nbsp;&nbsp;&nbsp;try {<br />
+          &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;MyFile = new File("MyFileName");<br />
+          &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;reader = new FileReader(MyFile);<br />
+          &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;FileContent = new char[n];<br />
+          &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;reader.read(FileContent);<br />
+          &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;} finally {reader.close();}<br />
+          &nbsp;&nbsp;&nbsp;&nbsp;String FileText = new String(FileContent);<br />
+          &nbsp;&nbsp;&nbsp;&nbsp;// now we have file text saved in our FileText variable<br />
+          &nbsp;&nbsp;&nbsp;&nbsp;}<br />
+          &nbsp;&nbsp;}<br />
+        </span>
 
-  <div id='files'>
-    <li><h2>Files</h2></li>
-
-    <pre>
-  files:
-
-  FileInputStream in = null;
-  FileOutputStream out = null;
-  int c;
-
-  try
-  in = new FileInputStream(String in_file);
-  out = new FileOutputStream(String out_file);
-  while ((c=in.read()) != -1) {out.write(c);}
-
-  finally
-  in.close;
-  out.close;
-
-
-
-  File var = new File(name);
-  FileReader inp = null;
-  PrintWriter wri = null;
-
-  try
-  inp = new FileReader(var);
-  wri = PrintWriter(String out_name);
-
-  char[] ar = char[n];
-  inp.read(a); // reads n characters into ar
-
-  inp.printf(--same as System.out.printf--);
-
-  finally
-  inp.close();
-  wri.close();
-
-    </pre>
-  </div>
-
-<!-- ######################################## newNavItem ######################################################################-->
-
-<div id='JavaMethods'>
-  <li><h2>Methods</h2></li>
-  <pre>
-    java Usefull methods
-
-    ArrayList&lt;Object_type&gt; var = new ArrayList&lt;Object_type&gt;()
-    // import java.util.ArrayList;
-    var.size()
-    var.add(index_to_add, value)
-    var.get(index)
-    var.contains(element)
-    var.indexOf(element)
-
-    // import java.util.Arrays
-    ArrayList&lt;Integer&gt; ar = new ArrayList&lt;&gt;(Arrays.asList(*values));
-
-
-    StringBuilder var = new StringBuilder(String)
-    var.length()
-    var.charAt(index_of)
-    var.setCharAt(int index, char ch)
-    var.append(String)
-
-    // every String method is StringBuilder method
-    String var = new String(String)
-    var.split("sign") // split lines sign=\\r?\\n
-    String.join("sign", String[])
-    var.substring(int begin, int end)
-
-
-    String var = new String(char[] varC) // "".join(varC)
-
-    ?? objects need only object.toString(),
-       primitive data needs Type_object.toString(var) ??
-
-    Conversions:
-
-    Integer.parseInt(String)
-    Integer.toString(int)
-    Character.toString(char)
-
-    type var = (type) var2
-    int neki = (int) "2"
-    long var = (long) int
-
-    Character.getNumericValue(char var)
-    Character.isDigit(char var)
-    </pre>
-  </div>
-
+      </ul>
+    </div>
 
   </ul>
 </div>
 
 
-<!--######################################## New SidebarItem ###################################################################-->
-
 <div class='MainTextClass MovingLinks middleground' id='javaLinks'>
   <h1>Links</h1>
+  <ul>
 
-  <div id='links'>
-    <ul style='list-style-type: none;'>
-      <li><a href='https://www.tutorialspoint.com/java/' target='_blank'>TutorialsPoint</a></li>
-      <li><a href='https://docs.oracle.com/javase/tutorial/java/javaOO/accesscontrol.html' target='_blank'>Modifiers</a></li>
-      <li><a href='https://docs.oracle.com/javase/7/docs/api/java/lang/StringBuilder.html' target='_blank'>StringBuilder</a></li>
-      <li><a href='http://mrbool.com/java-data-type-conversion/29257' target='_blank'>DataType Conversion</a></li>
-      <li><a href='https://www.msn.com/en-gb/foodanddrink/foodnews/20plus-soup-recipes-to-help-you-beat-weight-gain/ss-BBH1FLA?ocid=spartanntp#image=21' target='_blank'>Soups</a></li>
-    </ul>
-  </div>
+    <div id='links'>
+      <li><h2>Basics Links</h2></li>
+      <ul style='list-style-type: none;'>
+        <li><a href='https://www.tutorialspoint.com/java/' target='_blank'>TutorialsPoint</a></li>
+        <li><a href='https://docs.oracle.com/javase/tutorial/java/javaOO/accesscontrol.html' target='_blank'>Modifiers</a></li>
+        <li><a href='https://docs.oracle.com/javase/7/docs/api/java/lang/StringBuilder.html' target='_blank'>StringBuilder</a></li>
+        <li><a href='http://mrbool.com/java-data-type-conversion/29257' target='_blank'>DataType Conversion</a></li>
+        <li><a href='https://www.msn.com/en-gb/foodanddrink/foodnews/20plus-soup-recipes-to-help-you-beat-weight-gain/ss-BBH1FLA?ocid=spartanntp#image=21' target='_blank'>Soups</a></li>
+      </ul>
+    </div>
 
+  </ul>
 </div>
 
-<!--
-endJava
-$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$
-$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$
--->
+
+<!-- &&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&& end Java &&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&-->
 <!-- #################################### HTML Javascript ###########################################################################-->
 <div class='MainTextClass middleground' id='HtmlJavaScript'>
   <h1>JavaScript</h1>

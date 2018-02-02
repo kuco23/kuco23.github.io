@@ -32,7 +32,7 @@ border: 1px solid rgba(0,0,0,.7);
 background-color: rgba(5,5,5,.6);
 color: black;
 font-weight: bold;
-font-size: 20px;
+font-size: 4vh;
 
 -webkit-transition-property: border, background-color, color;
 -webskit-transition-duration: 0.2s;
@@ -53,7 +53,7 @@ background-color: rgba(30,30,30,.6);
 border-left: 2px solid rgba(20,20,20,.6);
 color: rgba(0,0,0,.6);
 font-weight: normal;
-font-size: 18px;
+font-size: 3vh;
 
 -webkit-transition: text-shadow 1s, color 1s;
 transition: text-shadow 1s, color 1s;

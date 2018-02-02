@@ -9,7 +9,6 @@ div.middleground ul {
   color: rgb(200,200,200);
   font-family: 'Lato', serif;
   list-style-type: none;
-  /* word-wrap: break-word; */
 }
 
 .MainTextClass {
@@ -29,6 +28,32 @@ div.middleground ul {
   color: rgb(200,200,200);
 }
 
+.MainTextClass table {
+  padding: 10px;
+  background-color: rgba(200, 200, 200, .3);
+  border: 2px solid black;
+}
+.MainTextClass table th {
+  float: left;
+}
+.MainTextClass table td {
+  text-align: center;
+}
+.MarkJavaTable {
+  background-color: black;
+}
+
+.MainTextClass ul {
+  margin: 0;
+  padding: 0;
+}
+div.MainTextClass > ul div:not(:first-child) {
+  margin: 100px 0;
+}
+div.MainTextClass > ul div ul div{
+  margin: 0;
+}
+
 .MovingLinks a {
   color: rgba(100,100,100,.5);
   text-decoration: none;
@@ -38,14 +63,8 @@ div.middleground ul {
   position: relative;
   left: 0;
 
-  transition-property: left;
-  transition-duration: 1s;
-  -webkit-transition-property: left;
-  -webkit-transition-duration: 1s;
-}
-.MainTextClass ul {
-  margin: 0;
-  padding: 0;
+  -webkit-transition: left 1s;
+  transition: left 1s;
 }
 
 .MovingLinks a:hover {
