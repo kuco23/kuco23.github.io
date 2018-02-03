@@ -63,7 +63,7 @@ border-top: 2px solid rgba(50, 50, 50, .7);
 .sidebar div li a:hover {
 background-color: rgb(20, 20, 20);
 text-shadow: 2px 2px 2px black;
-color: red;
+color: rgb(120, 0, 0);
 }
 
 .sideBarHide {
@@ -73,10 +73,11 @@ right: 0;
 height: 2%;
 width: 20%;
 overflow: hidden;
-z-index: 100;
 
 -webkit-transition: top 1s;
 transition: top 1s;
+
+z-index: 100;
 }
 
 .sideBarHide a {

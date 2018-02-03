@@ -16,7 +16,7 @@
 * {box-sizing: border-box;}
 
 body {
-  background: url("backgrounds/background.jpg") no-repeat center center fixed;
+  background: url("background.jpg") no-repeat center center fixed;
   -webkit-background-size: cover;
   -moz-background-size: cover;
   -o-bacgkround-size: cover;
@@ -179,6 +179,7 @@ function Show(iden) {
       <li><a href='#basicSyntax'>Basic Syntax</a></li>
       <li><a href='#dataTypes'>Data Types Info</a></li>
       <li><a href='#files'>Files</a></li>
+      <li><a href='#Math'>Math Package</a></li>
     </div>
 
     <div id='javaLinksNav'>
@@ -202,22 +203,22 @@ function Show(iden) {
     <div id='classes'>
       <li><h2>Classes</h2></li>
 
-      Class initializes an instance throught the __init__ method and <br />
-      stores the instance into the first argument of __init__(<b>instance</b>) function.<br />
-      Later on you can pass the instance around the other functions in class,<br />
-      note that any method called as instance.method() is getting instance passed<br />
-      as a first argument, so instance.method() == type(instance).method(instance).<br />
+      Class initializes an instance throught the __init__ method and
+      stores the instance into the first argument of __init__(<b>instance</b>) function.
+      Later on you can pass the instance around the other functions in class,
+      note that any method called as instance.method() is getting instance passed
+      as a first argument, so instance.method() == type(instance).method(instance).
       The standard way to save a new instance created through class is by calling it self<br />
       <span class='colorLime'>self represents an instance being used or created localy in class methods</span><br />
       <br />
-      calling the method through instance means the method is bound to instance of class type(instance), <br />
+      calling the method through instance means the method is bound to instance of class type(instance),
       calling the method through class (type(instance)) means the method is bound to class of the instance.<br />
       <br />
-      A way to make a method unbound to its instance while still accessing it through an instance is <br />
+      A way to make a method unbound to its instance while still being able to access it through an instance is
       by using a decorator <span class='colorPurple'>@staticmethod</span> before defining function in the class.<br />
       In that case this is true: instance.method() == type(instance).method.<br />
       <br />
-      A common decorator used is <span class='colorPurple'>@classmethod</span>, which makes a method called through instance bound<br />
+      A common decorator used is <span class='colorPurple'>@classmethod</span>, which makes a method called through instance bound
       to its class rather than the instance.<br />
       In that case this is true: instance.method() == type(instance).method(type(instance)).<br />
       <br />
@@ -817,14 +818,14 @@ function Show(iden) {
         <span class='colorOrange'>FileInputStream</span> --&gt; used for reading from files<br />
         <span class='Code'>FileInputStream input = new FileInputStream(StringFileName);</span><br />
         supports method .read(), which generates letters from start of file to finish, and when it reaches<br />
-        the end, it returns -1<br />
+        the end, it returns -1 (It generates them by moving forward one letter every time read() is called).<br />
         <br />
         <span class='colorOrange'>FileOutputStream</span> --&gt; used for output stuff in files<br />
         <span class='Code'>FileOutputStream output = new FileOutputStream(StringFileName);</span><br />
         <br />
         <span class='colorOrange'>FileReader</span> --&gt; used to read from files<br />
-        <span class='Code'>FileReader reader = new FileReader(new File('fileName'));</span>
-        The FileReader supports instane method .read(char[] var), which fills char[] var with characters read from file<br />
+        <span class='Code'>FileReader reader = new FileReader(new File('fileName'));</span><br />
+        The FileReader supports instance method .read(char[] var), which fills char[] var with characters read from file<br />
         <br />
         <span class='colorOrange'>PrintWriter</span> --&gt; used to print/output stuff in its instance file<br />
         <span class='Code'>PrintWriter writer = new PrintWriter(String fileName);</span><br />
@@ -867,6 +868,26 @@ function Show(iden) {
       </ul>
     </div>
 
+    <div id='Math'>
+      <li><h2>Math Package</h2></li>
+      <span class='Code'>Math.abs(var)</span> --&gt; returns absolute value of var<br />
+      <span class='Code'>Math.round(var)</span> --&gt; rounds var<br />
+      <span class='Code'>Math.floor(var)</span> --&gt; returns var rounded down to the nearest integer<br />
+      <span class='Code'>Math.ceil(var)</span> --&gt; returns var rounded up to the nearest integer<br />
+      <span class='Code'>Math.rint(double_input)</span> --&gt; returns the closest integer to the double_input as double<br />
+      <span class='Code'>Math.max(type arg1, type arg2)</span> --&gt; returns type max of arg1 and arg2, which have to be same types<br />
+      <span class='Code'>Math.exp(any_primitive_data_type)</span> --&gt; returns e^any_primitive_data_type as a double<br />
+      <span class='Code'>Math.log(any_primitive_data_type)</span> --&gt; returns log_e(any_primitive_data_type) as a double<br />
+      <span class='Code'>Math.pow(base, exp)</span> --&gt; returns base^exp as double (<span class='colorOrange'>exp should be decimal <b>not fraction</b></span>)<br />
+      <span class='Code'>Math.sqrt(arg)</span> --&gt; returns the sqare root of arg as double<br />
+      <span class='Code'>Math.cos(arg); Math.sin(arg); Math.tan(arg); Math.asin(arg); Math.acos(arg); Math.atan(arg);</span><br />
+      <span class='Code'>Math.atan2()</span> --&gt; converts rectangular coordinates (x,y) to polar coordinates (r, theta), returns theta<br />
+      <span class='Code'>Math.toDegrees(arg)</span> --&gt; radians to degrees<br />
+      <span class='Code'>Math.toRadians(arg)</span> --&gt; degrees to radians<br />
+      <span class='Code'>Math.random()</span> --&gt; returns a double-type random number on [0, 1] interval<br />
+    </div>
+
+
   </ul>
 </div>
 
@@ -897,63 +918,72 @@ function Show(iden) {
   <h1>JavaScript</h1>
   <ul>
 
-
     <div id="DOM">
       <li><h2>DOM</h2></li>
-      <pre>
+      <ul>
+        <li><h3>Basic Methods</h3></li>
+        <span class='Code'>document.getElementById('id')</span> --&gt; returns the node with id='id'<br />
+        <span class='Code'>document.getElementsByTagName("div")</span> --&gt; returns an array-like data-type containing all div nodes<br />
+        <span class='Code'>document.getELementsByClassName('className')</span> --&gt; returns an array-like data-type containing all nodes with class='className'<br />
+        <br> />
+        <span class='Code'>document.createElement(element)</span> --&gt; create html element<br />
+        <span class='Code'>document.removeChild(element)</span> --&gt; removes selected child element from parent<br />
+        <span class='Code'>document.appendChild(element)</span> --&gt; adds selected element to parent<br />
+        <span class='Code'>document.replaceChild(newnode, oldnode)</span> --&gt; replaces oldnode element with newnode<br />
+        <span class='Code'>document.write(text)</span> --&gt; writes text in a document (don't use)<br />
+        <br />
+        <span class='Code'>document.querySelectorAll(".class" / "#id")</span> --&gt; returns elements that match CSS selector<br />
+        <br />
+        <span class='colorLime'>Following methods work with any HTML element (div, li, ul, ...)</span><br />
+        <span class='Code'>onclick = "function(this)"</span> --&gt; function(this) runs when user clicks on the node containing the code<br />
+        <span class='Code'>onmouseover = "function(this)"</span> --&gt; function(this) runs when user mouses over element<br />
+        <span class='Code'>onmouseout = "function(this)"</span> --&gt; function(this) runs when user mouses out of element<br />
+        <span class='Code'>onmousedown = "function(this)"</span> --&gt; function(this) runs when user holds the mouse button down <br />
+        <span class='Code'>onmouseup = "function(this)"</span> --&gt; function(this) runs when user lets go of mouse button<br />
+        <br />
+        <span class='Code'>onload = "function()"</span> --&gt; function executes when page finishes loading<br />
+        <br />
+        <span class='Code'>document.getElementById('id').addEvenetListener(event, function)</span><br />
+        <span class='Code'>element.removeEventListener(event, funciton)</span><br />
+        events --&gt; "click", "mouseover", "mouseout", "resize"<br />
+        useCapture -&gt; true(capturing), false(default -- bubbling)<br />
+        <span class='colorOrange'>bubbling</span> -- inner most elemetn's event is handled first<br />
+        <span class='colorOrange'>capturing</span> -- outer most element's event is handled first<br />
 
-document.getElementById(id)
-document.getElementsByTagName(div)
-document.getELementsByClassName(classname)
+        <li><h3>Example</h3></li>
+        <span class='CodeFrame'>
+          &lt;script&gt;<br />
+          &nbsp;&nbsp;function myFunction(node) {<br />
+          &nbsp;&nbsp;&nbsp;&nbsp;node.style.color = "black";<br />
+          &nbsp;&nbsp;}<br />
+          &lt;/script&gt;<br />
+          <br />
+          &lt;div onmouseover='myFunction(this)'&gt;<br />
+          &nbsp;&nbsp;TextyText<br />
+          &lt;/div&gt;<br />
+        </span>
 
-document.createElement(element) // create html element
-document.removeChild(element) // remove an html element
-document.appendChild(element) // add an html element
-document.replaceChild(element) //  replace html element
-document.write(text) // dont use
-
-document.querySelectorAll(".class/ #id") // returns elements that match CSS selector
-
-this --> represents element inside which this is referenced as an object
-
-// works within any element (div, button, ...) or document.element.onmouseover = ''
-onclick="function('this')"
-onmouseover="hoverIn()"
-onmouseout="hoverOut()"
-onmousedown=""
-onmouseup=""
-
-onload="funct" // executes when page finishes loading
-
-
-document.getElementById('id').addEventListener(event, funct);
-events -> "click", "mouseover", "mouseout", "resize"
-useCapture -> true(capturing), false(default-bubbling)
-
-bubbling - inner most element's event is handled first
-capturing - the outer most elemet's event is handled first
-
-element.removeEventListener(event, funct)
-
-      </pre>
+      </ul>
     </div>
 
-<!-- ########################################### newNavItem ####################################### -->
 
     <div id='UsefulShit'>
       <li><h2>Useful Shit</h2></li>
-        <pre>
-Latex in html:
-  &lt;script type="text/javascript" src="http://latex.codecogs.com/latexit.js"&gt;&lt;/script&gt;
-  &lt;div lang='latex'&gt;&lt;/div&gt;
-        </pre>
+      <ul>
+        <li><h3>Using Latex in HTML</h3></li>
+        <span class='CodeFrame'>
+          &lt;script type="text/javascript" src="http://latex.codecogs.com/latexit.js"&gt;&lt;/script&gt;<br />
+          &lt;div lang='latex'&gt;&lt;/div&gt;
+        </span>
+      </ul>
+
     </div>
 
-
   </ul>
-<!-- $$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$ javascript end div $$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$-->
 </div>
 
+
+<!-- $$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$ HTML end $$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$-->
 <script>
 HideAllExcept('pythonSystem');
 document.getElementById('javaUnder').style.display = 'none';

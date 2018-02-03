@@ -1,6 +1,6 @@
 .Navigation {
 float: left;
-background-color: rgba(20,20,20,.9);
+background-color: transparent;
 width: 20%;
 left: 0;
 top: 0;
@@ -34,7 +34,7 @@ transition-duration: 0.5s;
 }
 
 .Navigation li a:hover {
-background-color: rgba(40,40,40,1);
+background-color: rgba(0, 0, 0, .4);
 border: 2px solid rgba(0,0,0,.8);
 color: white;
 }
