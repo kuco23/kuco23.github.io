@@ -29,11 +29,28 @@ h3 {
   color: rgb(111, 168, 180);
 }
 .CodeFrame {
-  font-family: monospace;
   background-color: rgba(255, 255, 255, .3);
-  color: black;
-  border: 1px solid black;
-  border-radius: 5px;
   display: inline-block;
+  padding: 0px;
+  margin: 5px 0 5px 0;
+
+  border: 1px solid black;
+  border-radius: 5px; 
+}
+.CodeFrame span:first-child {
+  font-weight: bold;
+  color: rgba(120, 0, 0, .8);
+  text-align: left;
+  display: block;
+  background-color: rgba(200, 200, 200, .7);
+  padding: 10px;
+
+  border-top-left-radius: 5px;
+  border-top-right-radius: 5px;
+}
+.CodeFrame p {
+  font-family: monospace;
+  color: black;
   padding: 15px;
+  margin: 0;
 }

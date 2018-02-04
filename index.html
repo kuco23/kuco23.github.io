@@ -1,16 +1,19 @@
 <!DOCTYPE HTML>
 <html>
+
 <head>
 <title>Learning purpusses</title>
 <meta name='viewport' content='width=device-width, initial-scale=1.0'>
+
+<script src="jquery-3.3.1.min.js"></script>
 
 <link rel="stylesheet" type="text/css" href="CSS/Sidebar.css" />
 <link rel="stylesheet" type="text/css" href="CSS/Navigation.css" />
 <link rel="stylesheet" type="text/css" href="CSS/MainTextClass.css" />
 <link rel="stylesheet" type="text/css" href="CSS/TextFontColorStyle.css" />
 
-<link rel="stylesheet" type="text/css" href="http://fonts.googleapis.com/css?family=Tangerine">
 <link rel="stylesheet" type="text/css" href="http://fonts.googleapis.com/css?family=Lato">
+<link rel="stylesheet" type="text/css" href="http://fonts.googleapis.com/css?family=Tangerine">
 <style>
 
 * {box-sizing: border-box;}
@@ -52,10 +55,9 @@ body {
     width: 96%;
     left: 2%;
   }
-  .sideBarHide {
-    top: 0;
-    width: 50%;
-  }
+
+  /*<script>HideSidebar()</script>*/
+
 }
 
 </style>
@@ -71,73 +73,67 @@ function HideSidebar() {
   if (sideB.style.height == '0px') {
     sidebarHideLink.innerHTML = 'hide';
     sidebarHide.style.top = '98%';
-    sideB.style.height = '100%';
-    }
+    sideB.style.height = '98%';
+  }
   else {
     sidebarHideLink.innerHTML = 'show';
-    sidebarHide.style.top = '0';
+    sidebarHide.style.top = '0px';
     sideB.style.height = '0px';
-    }
   }
+}
 
-function HideAllExcept(iden) {
-  var All = ['pythonSystem', 'pythonPackages', 'pythonLinks', 'javaBasics', 'javaLinks', 'HtmlJavaScript'];
-  for (i=0; i<All.length; i++) {
-    if (All[i] != iden) {
-      document.getElementById(All[i]).style.display = "none";
-      document.getElementById(All[i]+"Nav").style.display = "none";
-      }
-    }
-  }
-
-function Hide(iden) {
-  var list = ['javaUnder', 'pythonUnder', 'HtmlUnder'];
+function HideSidebarChild(iden) {
+  var list = document.getElementById('sidebar').firstElementChild.children;
   var obj = document.getElementById(iden);
   if (obj.style.display != 'none') {
     obj.style.display = 'none';
   } else {obj.style.display = 'block';}
 
   for (i=0; i < list.length; i++) {
-    if (list[i] != iden) document.getElementById(list[i]).style.display = 'none';
+    if (list[i].id != iden && list[i].nodeName != 'LI') list[i].style.display = 'none';
   }
 }
 
-function Show(iden) {
-  var allesId = ['pythonSystem', 'pythonPackages', 'pythonLinks', 'javaBasics', 'javaLinks', 'HtmlJavaScript'];
+// used only for Navigation and Navigation Section display changes
+function ShowNavigation(iden) {
+  var alles = document.getElementById('Navigation').firstElementChild.children;
   var obj = document.getElementById(iden);
   var nav = document.getElementById(iden + "Nav");
 
   if (obj.style.display == "none" || obj.style.display == "") {
-    var len = allesId.length;
-    for (i=0;i<len;i++) {
-        document.getElementById(allesId[i]).style.display = 'none';
-        document.getElementById(allesId[i] + "Nav").style.display = 'none';
-        }
+    var len = alles.length;
+    for (i=0; i < len; i++) {
+      if (alles[i].id != iden) {
+        document.getElementById(alles[i].id.slice(0,-3)).style.display = 'none';
+        alles[i].style.display = 'none';
+      }
+    }
     obj.style.display = 'block';
     nav.style.display = 'block';
-    }
   }
+}
 
 </script>
 
 <div class='sidebar' id='sidebar'>
   <ul>
-    <li><a href='javascript:void(0)' onclick="Hide('pythonUnder')">Python</a></li>
+    <li><a href='javascript:void(0)' onclick="HideSidebarChild('pythonUnder')">Python</a></li>
 	  <div id='pythonUnder'>
-	    <li><a href='javascript:void(0);' onclick='Show("pythonSystem")'>System</a></li>
-	    <li><a href='javascript:void(0);' onclick='Show("pythonPackages")'>Packages</a></li>
-      <li><a href='javascript:void(0);' onclick='Show("pythonLinks")'>Links</a></li>
+	    <li><a href='javascript:void(0);' onclick='ShowNavigation("pythonSystem")'>System</a></li>
+	    <li><a href='javascript:void(0);' onclick='ShowNavigation("pythonPackages")'>Packages</a></li>
+      <li><a href='javascript:void(0);' onclick='ShowNavigation("pythonLinks")'>Links</a></li>
 	   </div>
 
-    <li><a href='javascript:void(0)' onclick='Hide("javaUnder")'>Java</a></li>
+    <li><a href='javascript:void(0)' onclick='HideSidebarChild("javaUnder")'>Java</a></li>
 	  <div id='javaUnder'>
-	    <li><a href='javascript:void(0);' onclick='Show("javaBasics")'>Basics</a></li>
-      <li><a href='javascript:void(0);' onclick='Show("javaLinks")'>Links</a></li>
+	    <li><a href='javascript:void(0);' onclick='ShowNavigation("javaBasics")'>Basics</a></li>
+      <li><a href='javascript:void(0);' onclick='ShowNavigation("javaLinks")'>Links</a></li>
 	  </div>
 
-    <li><a href='javascript:void(0)' onclick='Hide("HtmlUnder")'>HTML</a></li>
+    <li><a href='javascript:void(0)' onclick='HideSidebarChild("HtmlUnder")'>HTML</a></li>
     <div id='HtmlUnder'>
-      <li><a href='javascript:void(0);' onclick='Show("HtmlJavaScript")'>JavaScript</a></li>
+      <li><a href='javascript:void(0);' onclick='ShowNavigation("HtmlJavaScript")'>JavaScript</a></li>
+      <li><a href='javascript:void(0);' onclick='ShowNavigation("HTMLjQuery")'>jQuery</a></li>
     </div>
   </ul>
 </div>
@@ -171,6 +167,7 @@ function Show(iden) {
 
     <div id='pythonLinksNav'>
       <li><a href='#general'>General</a></li>
+      <li><a href='#documentations'>Package Documentations</a></li>
       <li><a href='#packTutorials'>Package Tutorials</a></li>
       <li><a href='#projTutorials'>Project Tutorials</a></li>
     </div>
@@ -189,6 +186,10 @@ function Show(iden) {
     <div id='HtmlJavaScriptNav'>
       <li><a href='#DOM'>DOM</a></li>
       <li><a href='#UsefulShit'>Useful Shit</a></li>
+    </div>
+
+    <div id='HTMLjQueryNav'>
+      <li><a href='#Basics'>Basics</a></li>
     </div>
 
   </ul>
@@ -225,7 +226,7 @@ function Show(iden) {
       <span class='colorLime'>Instance of a class = an object initialized through said class.</span><br />
       <span class='colorLime'>Type of instance = a class from which the instance was created</span><br />
       a = className() --&gt; a is an instance of className<br />
-      isintance(a, className) --&gt; returns True<br />
+      <span class='colorPurple'>isintance(a, className)</span> --&gt; returns True<br />
       <br />
       isinstance(instance, type) == (type(instance) == type)<br />
       isinstance is better as it checks whether instance is an instance of any superclass of type<br />
@@ -274,28 +275,30 @@ function Show(iden) {
 
       <ul>
         <li><h3>*args</h3></li>
-        args stands for arguments and<br />
-        is a common name in practice, otherwise only the asterix is necessary (eg. *something)<br />
-        Imagine you do not have any need for the arguments in the function, and<br />
-        are just planning to pass them to another function, or maybe you don't know how many<br />
+        args stands for arguments and
+        is a common name in practice, otherwise only the asterix is necessary (eg. *something).
+        Imagine you do not have any need for the arguments in the function, and
+        are just planning to pass them to another function, or maybe you don't know how many
         arguments your function will take and you just need the first two or something.<br />
-        This is where *args comes in. By writing <span class='Code'> def function(*args) </span><br />
-        The args variable is assigned every argument, passed in function, as a tuple<br />
-        <span class='Code'>function(1,2,3)</span> will return a tuple (1,2,3)<br />
-        Outside functions <span class='Code'>a = 1,2,3</span> also returns a tuple (1,2,3)<br />
+        This is where *args comes in. By writing<br />
+        <span class='Code'> def function(*args): return args</span><br />
+        The args variable is assigned every argument, passed to a function, as a tuple
+        <span class='Code'>function(1,2,3)</span> will return <span class='Code'>tuple(1,2,3)</span><br />
+        Outside functions <span class='Code'>a = 1,2,3</span> also returns a tuple <span class='Code'>(1,2,3)</span><br />
         <br />
-        You could imagine that *args eats up every value (that is left) from an iterable assigned to it<br />
-        This can also be useful for dealing with stuff outside functions<br />
-        Eg. <span class='Code'>*var1, var2 = (1,2,3)</span>, which save (1,2) in var1 and 3 in var2<br />
+        You could imagine that *args eats up every value (that is left) from an iterable assigned to it.
+        This can also be useful for dealing with stuff outside functions.
+        Eg. <span class='Code'>*var1, var2 = (1,2,3)</span>, which save (1,2) in var1 and 3 in var2.
         This is called unpacking and is discussed in the Tuple section<br />
 
         <li><h3>**kwargs</h3></li>
-        Kwargs stands for Keyworded arguments, which basically means that the<br />
-        arguments you pass in a function have a key infront of them (eg. argument1 = 'myKwarg')<br />
+        Kwargs stands for Keyworded arguments, which basically means that the
+        arguments you pass in a function have a key infront of them (eg. argument1 = 'myKwarg').
         As with *args, kwargs name is optional and only ** is required<br />
         <br />
         So **kwargs eats up all the keyworder arguments, and saves them in a dictionary<br />
-        <span class='Code'>def function(**kwargs): return kwargs</span> if called with<br />
+        <span class='Code'>def function(**kwargs): return kwargs</span><br />
+        if called with<br />
         <span class='Code'>function(a=10, b=30)</span> will return <span class='Code'>{'a':10, 'b':30}</span><br />
       </ul>
     </div>
@@ -430,10 +433,15 @@ function Show(iden) {
         <br />
         <span class='colorBrightRed'>Imported package doesn't work</span><br />
         <span class='CodeFrame'>
-          import package<br />
-          package.__path__ # find the dir package was imported from<br />
-          # Find out if it is the right package
-        </span><br />
+          <span>Python</span>
+          <p>
+            import package<br />
+            package.__path__<br />
+            # find the dir package was imported from<br />
+            # Find out if it is the right package
+          </p>
+        </span>
+        <br />
         <span class='colorOrange'> Rename any fucking file that has the same name as the package!!</span><br />
 
       </ul>
@@ -451,18 +459,15 @@ function Show(iden) {
 
     <div id='bs4'>
       <li><h2>Beautiful Soup</h2></li>
-
       <ul>
+
         <li><h3>Installation</h3></li>
         <span class='CodeFrame'>
-          from urllib.request import urlopen<br />
-          from bs4 import BeautifulSoup<br />
-        </span>
-
-        <li><h3>Terminal</h3></li>
-        <span class='CodeFrame'>
-          raw_html = urlopen('url')<br />
-          soup = BeautifulSoup(raw_html, 'html.parser') <span class='colorBrightRed'># DOM kind object of url page</span><br />
+          <span>Python</span>
+          <p>
+            from urllib.request import urlopen<br />
+            from bs4 import BeautifulSoup<br />
+          </p>
         </span>
 
         <li><h3>Common Methods and Attributes</h3></li>
@@ -471,14 +476,23 @@ function Show(iden) {
         <span class='Code'>soup.tag.text</span> --&gt; same as <span class='Code'>soup.tag.string</span> (<span class='colorLime'>every Tag type instance has a text attribute</span>)<br />
         <br />
         <span class='Code'>soup.find('tag', _class='classname')</span> --&gt; finds all &lt;tag&gt; with class='classname'<br />
-        <span class='Code'>soup.find_all('tag')</span> --&gt; returns a <span class='colorOrange'>list of all &lt;tag&gt; nodes</span><br />
-        <span class='Code'>soup.select('tag')</span> --&gt; returns list of tag nodes<br />
+        <span class='Code'>soup.find_all('tag')</span> --&gt; returns a list of all &lt;tag&gt; nodes<br />
+        <span class='Code'>soup.select('tag')</span> --&gt; returns list of all &lt;tag&gt; nodes<br />
         <br />
         <span class='Code'>soup.find(id='id')</span> --&gt; returns node with id 'id'<br />
         <span class='Code'>soup.get('arg in tag')</span> --&gt; unknown<br />
         <br />
         <span class='Code'>tag = soup.find_all('tag')[i]</span><br />
         <span class='Code'>tag.get_attribute_list('attribute')</span> --&gt; returns every attribute value ('href' would return links)<br />
+
+        <li><h3>Easy Way Example</h3></li>
+        <span class='CodeFrame'>
+          <span>Pyton</span>
+          <p>
+            raw_html = urlopen('url')<br />
+            soup = BeautifulSoup(raw_html, 'html.parser') <span class='colorBrightRed'># DOM kind object of url page</span><br />
+          </p>
+        </span>
 
         <li><h3>Useful Pages</h3></li>
         <a href='https://xtools.wmflabs.org/articleinfo' target='_blank'>Get Wiki Page Informations</a>
@@ -523,16 +537,25 @@ function Show(iden) {
         <span class='Code'>user.addUsersToGroup('user_id', thread_id='thread_id')</span><br />
         <span class='Code'>user.addUsersToGroup(['user_id1', ..., 'user_idN'], thread_id='thread_id')</span><br />
         <br />
+        <span class='Code'>user.listen()</span> --&gt;triggers onMessage, onColorChange, onUserAdded,...
+        methods automatically when there is a new message, color change, new user added to group, ...<br />
+        By superclassing Client class and overriding those methods, you can make them respond in any way you want<br />
+        <br />
 
         <li><h3>Overriding Client Instance Methods</h3></li>
         <span class='CodeFrame'>
-          class myClient(Client):<br />
-          &nbsp;&nbsp;def onMessage(self, author_id, message, thread_id, thread_type, **kwargs):<br />
-          &nbsp;&nbsp;&nbsp;&nbsp;**code what to do when message is received**
+          <span>Python</span>
+          <p>
+            class myClient(Client):<br />
+            &nbsp;&nbsp;def onMessage(self, author_id, message, thread_id, thread_type, **kwargs):<br />
+            &nbsp;&nbsp;&nbsp;&nbsp;**code what to do when message is received**
+          </p>
         </span>
+        <br />
+
 
         <li><h3>Useful Links</h3></li>
-        <a href='http://fbchat.readthedocs.io/en/master/examples.html' target='_blank'>Method documentation</a>
+        <a href='http://fbchat.readthedocs.io/en/master/examples.html' target='_blank'>Methods</a><br />
         <br />
 
       </ul>
@@ -572,23 +595,30 @@ function Show(iden) {
     <div id='plotly'>
       <li><h2>Plotly</h2></li>
       <ul>
-        <li><h3>Installation</h3></li>
+        <li><h3>Setup</h3></li>
         <span class='CodeFrame'>
-          &gt;&gt;&gt; import Plotly<br />
-          &gt;&gt;&gt; plotly.tools.set_credentials_file(usernmae='kuco23', api_key='3piBe5vMcn2srfCqgADT')<br />
-          &gt;&gt;&gt; import numpy as np<br />
-          &gt;&gt;&gt; import plotly.plotly as pl<br />
-          &gt;&gt;&gt; import plotly.graph_objs as go<br />
+        <span>Python</span>
+          <p>
+            &gt;&gt;&gt; import Plotly<br />
+            &gt;&gt;&gt; plotly.tools.set_credentials_file(username='kuco23', api_key='3piBe5vMcn2srfCqgADT')<br />
+            &gt;&gt;&gt; import numpy as np<br />
+            &gt;&gt;&gt; import plotly.plotly as pl<br />
+            &gt;&gt;&gt; import plotly.graph_objs as go<br />
+          </p>
         </span>
 
         <li><h3>Common code</h3></li>
         <span class='CodeFrame'>
-          &gt;&gt;&gt; x_os = ny,linspace(zacetek, konec, stevilo_tock)<br />
-          &gt;&gt;&gt; y_os = [function(i) for i in x_os]<br />
-          &gt;&gt;&gt; source = go.Scatter(x=x_os, y=y_os, name='name', mode='lines/markers/lines+markers')<br />
-          &gt;&gt;&gt; data = [source]<br />
-          &gt;&gt;&gt; pl.plot(data, filename='filename')<br />
+          <span>Python</span>
+          <p>
+            &gt;&gt;&gt; x_os = ny,linspace(zacetek, konec, stevilo_tock)<br />
+            &gt;&gt;&gt; y_os = [function(i) for i in x_os]<br />
+            &gt;&gt;&gt; source = go.Scatter(x=x_os, y=y_os, name='name', mode='lines/markers/lines+markers')<br />
+            &gt;&gt;&gt; data = [source]<br />
+            &gt;&gt;&gt; pl.plot(data, filename='filename')<br />
+          </p>
         </span>
+
       </ul>
     </div>
 
@@ -612,25 +642,35 @@ function Show(iden) {
       </ul>
     </div>
 
+    <div id='documentations'>
+      <li><h2>Package Documentation</h2></li>
+      <ul style='list-style-type: none;'>
+        <li><a href='https://docs.python.org/3/library/decimal.html' target='_blank'>Decimal</a></li>
+        <li><a href='https://www.crummy.com/software/BeautifulSoup/bs4/doc/' target='_blank'>bs4</a></li>
+        <li><a href='https://docs.python.org/3/library/contextlib.html' target='_blank'>contextlib (closing)</a></li>
+        <a href='Data/FbChatDocumentation.pdf' target='_blank'>FbChat</a>
+      </ul>
+    </div>
+
     <div id='packTutorials'>
       <li><h2>Package Tutorials</h2></li>
       <ul style='list-style-type: none;'>
-        <li><a href='http://pythonvisually.com/ebook/primitive-data-types.html' target='_blank'>Python Tutorial</a></li>
-        <li><a href='https://shodan.readthedocs.io/en/latest/' target='_blank'>Shodan Tutorial</a></li>
-        <li><a href='https://www.labri.fr/perso/nrougier/teaching/matplotlib/' target='_blank'>Matplotlib Tutorial</a></li>
-        <li><a href='https://www.pygame.org/docs/tut/newbieguide.html' target='_blank'>Pygame Tutorial</a></li>
-        <li><a href='https://docs.python.org/3/library/decimal.html' target='_blank'>Decimal</a></li>
-        <li><a href='https://www.dataquest.io/blog/web-scraping-tutorial-python/' target='_blank'>Beautiful Soup</a></li>
+        <li><a href='http://pythonvisually.com/ebook/primitive-data-types.html' target='_blank'>Python</a></li>
         <li><a href='https://docs.djangoproject.com/en/2.0/intro/tutorial01/' target='_blank'>Django</a></li>
-        <li><a href='https://pybit.es/requests-session.html' target='_blank'>Webscraping Login pages</a></li>
+        <li><a href='https://www.pygame.org/docs/tut/newbieguide.html' target='_blank'>Pygame</a></li>
+        <li><a href='https://www.labri.fr/perso/nrougier/teaching/matplotlib/' target='_blank'>Matplotlib</a></li>
+        <li><a href='https://shodan.readthedocs.io/en/latest/' target='_blank'>Shodan</a></li>
+        <li><a href='https://www.dataquest.io/blog/web-scraping-tutorial-python/' target='_blank'>Beautiful Soup</a></li>
+        <li><a href='http://www.pythonforbeginners.com/requests/using-requests-in-python' target='_blank'>Requests</a></li>
       </ul>
     </div>
 
     <div id='projTutorials'>
       <li><h2>Project Tutorials</h2></li>
       <ul style='list-style-type:none;'>
-        <li><a href='https://www.pyimagesearch.com/2014/09/01/build-kick-ass-mobile-document-scanner-just-5-minutes/' target='_blank'>Scanner tutorial</a></li>
+        <li><a href='https://www.pyimagesearch.com/2014/09/01/build-kick-ass-mobile-document-scanner-just-5-minutes/' target='_blank'>Building a Scanner</a></li>
         <li><a href='https://realpython.com/blog/python/python-web-scraping-practical-introduction/' target='_blank'>Webscraping</a></li>
+        <li><a href='https://pybit.es/requests-session.html' target='_blank'>Webscraping Login pages</a></li>
       </ul>
     </div>
 
@@ -732,11 +772,14 @@ function Show(iden) {
 
         <li><h3>Examples</h3></li>
         <span class='CodeFrame'>
-          public class ClassName {<br />
-          &nbsp;&nbsp;public static void main(String[]) {<br />
-          &nbsp;&nbsp;&nbsp;&nbsp; // do what you want to be compiled<br />
-          &nbsp;&nbsp;&nbsp;&nbsp;}<br />
-          &nbsp;&nbsp;}
+          <span>Java</span>
+          <p>
+            public class ClassName {<br />
+            &nbsp;&nbsp;public static void main(String[]) {<br />
+            &nbsp;&nbsp;&nbsp;&nbsp; // do what you want to be compiled<br />
+            &nbsp;&nbsp;&nbsp;&nbsp;}<br />
+            &nbsp;&nbsp;}
+          </p>
         </span>
       </ul>
     </div>
@@ -768,6 +811,9 @@ function Show(iden) {
         <li><h3>Byte</h3></li>
         Stores an 8-bit value integer (integers between -128 and 127 [-2^7, 2^7-1])<br />
 
+        <li><h3>Boolean</h3></li>
+        Stores one bit of information, true or false<br />
+
         <li><h3>Character</h3></li>
         Primitive data-type = char<br />
         Used to save a single letter into a variable<br />
@@ -797,15 +843,20 @@ function Show(iden) {
         <li><h3>ArrayList</h3></li>
         Supports more methods for lists (eg. list appendage)<br />
         <span class='CodeFrame'>
-          import java.util.ArrayList;<br />
-          ArrayList&lt;Object_type&gt; var = new ArrayList&lt;Object_type&gt;();<br />
-          // creates an ArrayList that stores Object_type<br />
-        </span><br />
-        <span class='Code'>var.size()</span> --&gt; returns the size(length) of an ArrayList<br />
-        <span class='Code'>var.add(int index_to_add, value)</span> --&gt; adds the value to the place of index_to_add<br />
-        <span class='Code'>var.get(int index)</span> --&gt; returns the thing at int index<br />
-        <span class='Code'>var.contains(element)</span> --&gt; if any of the elements stored in var matches element, returns true, else false<br />
-        <span class='Code'>var.indexOf(element)</span> --&gt; returns the index of first occurance of element<br />
+          <span>Java</span>
+          <p>
+            import java.util.ArrayList;<br />
+            ArrayList&lt;Object_type&gt; ArListVar = new ArrayList&lt;Object_type&gt;();<br />
+            // creates an ArrayList that stores Object_type<br />
+          </p>
+        </span>
+        <br />
+        <span class='Code'>ArListVar.size()</span> --&gt; returns the size(length) of an ArrayList<br />
+        <span class='Code'>ArListVar.add(int index_to_add, value)</span> --&gt; adds the value to the place of index_to_add<br />
+        <span class='Code'>ArListVar.get(int index)</span> --&gt; returns the thing at int index<br />
+        <span class='Code'>ArListVar.contains(element)</span> --&gt; if any of the elements stored in ArListVar matches element, returns true, else false<br />
+        <span class='Code'>ArListVar.indexOf(element)</span> --&gt; returns the index of first occurance of element<br />
+        <span class='Code'>Object_type[] array = ArListVar.toArray(new Object_type[ArListVar.size()]);</span> --&gt; converts ArrayList to an array of Object_type types<br />
 
       </ul>
     </div>
@@ -817,52 +868,57 @@ function Show(iden) {
         <li><h3>File Methods & Objects</h3></li>
         <span class='colorOrange'>FileInputStream</span> --&gt; used for reading from files<br />
         <span class='Code'>FileInputStream input = new FileInputStream(StringFileName);</span><br />
-        supports method .read(), which generates letters from start of file to finish, and when it reaches<br />
+        supports method .read(), which generates letters from start of file to finish, and when it reaches
         the end, it returns -1 (It generates them by moving forward one letter every time read() is called).<br />
+        <span class='colorBrightRed'>Data generated from instance method .read() produces int type data, that can be converted to char using (char)</span><br />
         <br />
-        <span class='colorOrange'>FileOutputStream</span> --&gt; used for output stuff in files<br />
+        <span class='colorOrange'>FileOutputStream</span> --&gt; used to output stuff in files<br />
         <span class='Code'>FileOutputStream output = new FileOutputStream(StringFileName);</span><br />
         <br />
-        <span class='colorOrange'>FileReader</span> --&gt; used to read from files<br />
+        <span class='colorOrange'>FileReader</span> --&gt; used for reading from files<br />
         <span class='Code'>FileReader reader = new FileReader(new File('fileName'));</span><br />
         The FileReader supports instance method .read(char[] var), which fills char[] var with characters read from file<br />
         <br />
         <span class='colorOrange'>PrintWriter</span> --&gt; used to print/output stuff in its instance file<br />
         <span class='Code'>PrintWriter writer = new PrintWriter(String fileName);</span><br />
-        acts in a similar way that System.out.&lt;method&gt; does, the differernce being that<br />
+        acts in a similar way that System.out.&lt;method&gt; does, the differernce being that
         writer.println("text") prints in fileName<br />
         <br />
+
         <li><h3>Empty File Text Into String Example</h3></li>
         <span class='CodeFrame'>
-          import java.io.*;<br />
-          <br />
-          public class MyFiles {<br />
-          &nbsp;&nbsp;public static void main(String[] arg) <span class='colorBrightRed'>throws IOException</span> {<br />
-          <br />
-          &nbsp;&nbsp;&nbsp;&nbsp;FileInputStream = null;<br />
-          &nbsp;&nbsp;&nbsp;&nbsp;File myFile = null;<br />
-          &nbsp;&nbsp;&nbsp;&nbsp;FileReader reader = null;<br />
-          &nbsp;&nbsp;&nbsp;&nbsp;PrintWriter writer = null;<br />
-          <br />
-          &nbsp;&nbsp;&nbsp;&nbsp;int n = 0;<br />
-          &nbsp;&nbsp;&nbsp;&nbsp;char[] FileContent = null;<br />
-          <br />
-          &nbsp;&nbsp;&nbsp;&nbsp;try {<br />
-          &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;input = new FileInputStream("MyFileName");<br />
-          &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;while (input.read() != -1) {n += 1;}<br />
-          &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;} finally {input.close();}<br />
-          &nbsp;&nbsp;&nbsp;&nbsp;// we've used FileInputStream to determine the length of text in "MyFileName"<br />
-          <br />
-          &nbsp;&nbsp;&nbsp;&nbsp;try {<br />
-          &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;MyFile = new File("MyFileName");<br />
-          &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;reader = new FileReader(MyFile);<br />
-          &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;FileContent = new char[n];<br />
-          &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;reader.read(FileContent);<br />
-          &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;} finally {reader.close();}<br />
-          &nbsp;&nbsp;&nbsp;&nbsp;String FileText = new String(FileContent);<br />
-          &nbsp;&nbsp;&nbsp;&nbsp;// now we have file text saved in our FileText variable<br />
-          &nbsp;&nbsp;&nbsp;&nbsp;}<br />
-          &nbsp;&nbsp;}<br />
+          <span>Java</span>
+          <p>
+            import java.io.*;<br />
+            <br />
+            public class MyFiles {<br />
+            &nbsp;&nbsp;public static void main(String[] arg) <span class='colorBrightRed'>throws IOException</span> {<br />
+            <br />
+            &nbsp;&nbsp;&nbsp;&nbsp;FileInputStream = null;<br />
+            &nbsp;&nbsp;&nbsp;&nbsp;File myFile = null;<br />
+            &nbsp;&nbsp;&nbsp;&nbsp;FileReader reader = null;<br />
+            <br />
+            &nbsp;&nbsp;&nbsp;&nbsp;int n = 0;<br />
+            &nbsp;&nbsp;&nbsp;&nbsp;char[] FileContent = null;<br />
+            <br />
+            &nbsp;&nbsp;&nbsp;&nbsp;try {<br />
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;input = new FileInputStream("MyFileName");<br />
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;while (input.read() != -1) {n += 1;}<br />
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;} finally {input.close();}<br />
+            &nbsp;&nbsp;&nbsp;&nbsp;// we've used FileInputStream to determine<br />
+            &nbsp;&nbsp;&nbsp;&nbsp;// the length of text in "MyFileName"<br />
+            <br />
+            &nbsp;&nbsp;&nbsp;&nbsp;try {<br />
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;MyFile = new File("MyFileName");<br />
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;reader = new FileReader(MyFile);<br />
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;FileContent = new char[n];<br />
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;reader.read(FileContent);<br />
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;} finally {reader.close();}<br />
+            &nbsp;&nbsp;&nbsp;&nbsp;String FileText = new String(FileContent);<br />
+            &nbsp;&nbsp;&nbsp;&nbsp;// now we have file text saved in our FileText variable<br />
+            &nbsp;&nbsp;&nbsp;&nbsp;}<br />
+            &nbsp;&nbsp;}<br />
+          </p>
         </span>
 
       </ul>
@@ -921,11 +977,12 @@ function Show(iden) {
     <div id="DOM">
       <li><h2>DOM</h2></li>
       <ul>
+        Stands for document object model<br />
         <li><h3>Basic Methods</h3></li>
         <span class='Code'>document.getElementById('id')</span> --&gt; returns the node with id='id'<br />
         <span class='Code'>document.getElementsByTagName("div")</span> --&gt; returns an array-like data-type containing all div nodes<br />
         <span class='Code'>document.getELementsByClassName('className')</span> --&gt; returns an array-like data-type containing all nodes with class='className'<br />
-        <br> />
+        <br />
         <span class='Code'>document.createElement(element)</span> --&gt; create html element<br />
         <span class='Code'>document.removeChild(element)</span> --&gt; removes selected child element from parent<br />
         <span class='Code'>document.appendChild(element)</span> --&gt; adds selected element to parent<br />
@@ -943,24 +1000,27 @@ function Show(iden) {
         <br />
         <span class='Code'>onload = "function()"</span> --&gt; function executes when page finishes loading<br />
         <br />
-        <span class='Code'>document.getElementById('id').addEvenetListener(event, function)</span><br />
+        <span class='Code'>document.getElementById('id').addEvenetListener(event, function, useCapture=false)</span><br />
         <span class='Code'>element.removeEventListener(event, funciton)</span><br />
         events --&gt; "click", "mouseover", "mouseout", "resize"<br />
         useCapture -&gt; true(capturing), false(default -- bubbling)<br />
-        <span class='colorOrange'>bubbling</span> -- inner most elemetn's event is handled first<br />
+        <span class='colorOrange'>bubbling</span> -- inner most element's event is handled first<br />
         <span class='colorOrange'>capturing</span> -- outer most element's event is handled first<br />
 
         <li><h3>Example</h3></li>
         <span class='CodeFrame'>
-          &lt;script&gt;<br />
-          &nbsp;&nbsp;function myFunction(node) {<br />
-          &nbsp;&nbsp;&nbsp;&nbsp;node.style.color = "black";<br />
-          &nbsp;&nbsp;}<br />
-          &lt;/script&gt;<br />
-          <br />
-          &lt;div onmouseover='myFunction(this)'&gt;<br />
-          &nbsp;&nbsp;TextyText<br />
-          &lt;/div&gt;<br />
+          <span>HTML</span>
+          <p>
+            &lt;script&gt;<br />
+            &nbsp;&nbsp;function myFunction(node) {<br />
+            &nbsp;&nbsp;&nbsp;&nbsp;node.style.color = "black";<br />
+            &nbsp;&nbsp;}<br />
+            &lt;/script&gt;<br />
+            <br />
+            &lt;div onmouseover='myFunction(this)'&gt;<br />
+            &nbsp;&nbsp;TextyText<br />
+            &lt;/div&gt;<br />
+          </p>
         </span>
 
       </ul>
@@ -972,11 +1032,44 @@ function Show(iden) {
       <ul>
         <li><h3>Using Latex in HTML</h3></li>
         <span class='CodeFrame'>
-          &lt;script type="text/javascript" src="http://latex.codecogs.com/latexit.js"&gt;&lt;/script&gt;<br />
-          &lt;div lang='latex'&gt;&lt;/div&gt;
+          <span>HTML</span>
+          <p>
+            &lt;script type="text/javascript" src="http://latex.codecogs.com/latexit.js"&gt;&lt;/script&gt;<br />
+            &lt;div lang='latex'&gt;&lt;/div&gt;
+          </p>
         </span>
       </ul>
+    </div>
 
+  </ul>
+</div>
+
+<div class='MainTextClass middleground' id='HTMLjQuery'>
+  <h1>jQuery</h1>
+  <ul>
+
+    <div id='Basics'>
+      <li><h2>Basics</h2></li>
+
+      <ul>
+        <li><h3>Download</h3></li>
+        Download jQuery from <a href='http://jquery.com/download/' target='_blank'>here</a><br />
+        <span class='CodeFrame'>
+          <span>HTML</span>
+          <p>
+            &lt;head&gt;<br />
+            &nbsp;&nbsp;&lt;script src="jquery-3.3.1.min.js"&gt;&lt;/script&gt;<br />
+            &lt;/head&gt;<br />
+          </p>
+        </span>
+
+        <li><h3>Selectors</h3></li>
+        <span class='Code'>$(selector).action()</span><br />
+        <span class='colorOrange'>$</span> -- define/access jQuery<br />
+        <span class='colorOrange'>selector</span> -- query(find) HTML elements<br />
+        <span class='colorOrange'>action</span> to be performed on the selected element(s)<br />
+
+      </ul>
     </div>
 
   </ul>
@@ -985,7 +1078,7 @@ function Show(iden) {
 
 <!-- $$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$ HTML end $$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$-->
 <script>
-HideAllExcept('pythonSystem');
+ShowNavigation('pythonSystem');
 document.getElementById('javaUnder').style.display = 'none';
 document.getElementById('pythonUnder').style.display = 'none';
 document.getElementById('HtmlUnder').style.display = 'none';

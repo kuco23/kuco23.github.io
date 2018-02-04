@@ -28,7 +28,7 @@ text-decoration: none;
 display: block;
 padding: 15% 20% 15% 20%;
 
-background-color: rgba(10, 10, 10, .6);
+background-color: rgba(10, 10, 10, 0.9);
 color: black;
 font-weight: bold;
 font-size: 4vh;
@@ -45,7 +45,7 @@ color: rgb(200,200,200);
 .sidebar div li a {
 padding: 10% 10% 10% 10%;
 margin: 0;
-background-color: rgba(30,30,30,.6); /* */
+background-color: rgba(30,30,30,.7); /* */
 color: rgba(0,0,0,.6);
 font-weight: normal;
 font-size: 2.5vh;
@@ -54,10 +54,10 @@ font-size: 2.5vh;
 transition: text-shadow 1s, color 1s;
 }
 .sidebar div li:last-child a {
-border-bottom: 2px solid rgba(50, 50, 50, .7);
+border-bottom: 2px solid rgba(60, 60, 60, .7);
 }
 .sidebar div li:first-child a {
-border-top: 2px solid rgba(50, 50, 50, .7);
+border-top: 2px solid rgba(60, 60, 60, .7);
 }
 
 .sidebar div li a:hover {
