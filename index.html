@@ -12,8 +12,8 @@
 <link rel="stylesheet" type="text/css" href="CSS/MainTextClass.css" />
 <link rel="stylesheet" type="text/css" href="CSS/TextFontColorStyle.css" />
 
-<link rel="stylesheet" type="text/css" href="http://fonts.googleapis.com/css?family=Lato">
-<link rel="stylesheet" type="text/css" href="http://fonts.googleapis.com/css?family=Tangerine">
+<link rel="stylesheet" type="text/css" href="Fonts/Lato.css">
+<link rel="stylesheet" type="text/css" href="Fonts/Tangerine.css">
 <style>
 
 * {box-sizing: border-box;}
@@ -55,9 +55,11 @@ body {
     width: 96%;
     left: 2%;
   }
-
   /*<script>HideSidebar()</script>*/
+}
 
+.make_list {
+  list-style-type: disc;
 }
 
 </style>
@@ -115,6 +117,7 @@ function ShowNavigation(iden) {
 
 </script>
 
+
 <div class='sidebar' id='sidebar'>
   <ul>
     <li><a href='javascript:void(0)' onclick="HideSidebarChild('pythonUnder')">Python</a></li>
@@ -134,6 +137,7 @@ function ShowNavigation(iden) {
     <div id='HtmlUnder'>
       <li><a href='javascript:void(0);' onclick='ShowNavigation("HtmlJavaScript")'>JavaScript</a></li>
       <li><a href='javascript:void(0);' onclick='ShowNavigation("HTMLjQuery")'>jQuery</a></li>
+      <li><a href='javascript:void(0);' onclick='ShowNavigation("HTMLLinks")'>HTML Links</a></li>
     </div>
   </ul>
 </div>
@@ -184,12 +188,17 @@ function ShowNavigation(iden) {
     </div>
 
     <div id='HtmlJavaScriptNav'>
+      <li><a href='#htmlStackingOrder'>Html Stacking Order</a></li>
       <li><a href='#DOM'>DOM</a></li>
       <li><a href='#UsefulShit'>Useful Shit</a></li>
     </div>
 
     <div id='HTMLjQueryNav'>
       <li><a href='#Basics'>Basics</a></li>
+    </div>
+
+    <div id='HTMLLinksNav'>
+      <li><a href='#DownloadFiles'>Download Files</a></li>
     </div>
 
   </ul>
@@ -477,7 +486,7 @@ function ShowNavigation(iden) {
         <br />
         <span class='Code'>soup.find('tag', _class='classname')</span> --&gt; finds all &lt;tag&gt; with class='classname'<br />
         <span class='Code'>soup.find_all('tag')</span> --&gt; returns a list of all &lt;tag&gt; nodes<br />
-        <span class='Code'>soup.select('tag')</span> --&gt; returns list of all &lt;tag&gt; nodes<br />
+        <span class='Code'>soup.select('selector')</span> --&gt; returns list of all elements that match the CSS 'selector' (eg. '.class p li')<br />
         <br />
         <span class='Code'>soup.find(id='id')</span> --&gt; returns node with id 'id'<br />
         <span class='Code'>soup.get('arg in tag')</span> --&gt; unknown<br />
@@ -974,24 +983,55 @@ function ShowNavigation(iden) {
   <h1>JavaScript</h1>
   <ul>
 
+    <div id='htmlStackingOrder'>
+      <li><h2>Html Stacking Order</h2></li>
+      <span class='colorOrange'>Understanding what gets put infront and what behind elements</span><br />
+      <br />
+      <ul class="CustomListStyle">
+        <li>The stacking context's root element (the &lt;html&gt; element usually)</li>
+        <li>Positioned elements (and their children) with negative z-index values
+           (higher values are stacked in front of lower values; elements with the same value are stacked according to appearance in the HTML)</li>
+        <li>Non-positioned elements (ordered by appearance in the HTML)</li>
+        <li>Positioned elements (and their children) with a z-index value of auto (ordered by appearance in the HTML)</li>
+        <li>Positioned elements (and their children) with positive z-index values
+           (higher values are stacked in front of lower values; elements with the same value are stacked according to appearance in the HTML)</li>
+      </ul>
+
+    </div>
+
+
     <div id="DOM">
       <li><h2>DOM</h2></li>
       <ul>
-        Stands for document object model<br />
+        <span class='colorOrange'>Stands for document object model</span><br />
         <li><h3>Basic Methods</h3></li>
         <span class='Code'>document.getElementById('id')</span> --&gt; returns the node with id='id'<br />
         <span class='Code'>document.getElementsByTagName("div")</span> --&gt; returns an array-like data-type containing all div nodes<br />
         <span class='Code'>document.getELementsByClassName('className')</span> --&gt; returns an array-like data-type containing all nodes with class='className'<br />
+        <span class='Code'>document.querySelectorAll(".class" / "#id")</span> --&gt; returns elements that match CSS selector<br />
         <br />
+
+        <li><h3>Basic Element Properties</h3></li>
+        <span class='colorOrange'>Element(or list of elements) can be returned using one of the above methods</span><br />
+        <span class='Code'>element.children</span> --&gt; returns an array of element's children<br />
+        <span class='Code'>element.firstElementChild</span> --&gt; returns the first element (not text) child of element<br />
+        <span class='Code'>element.firstChildNode</span> --&gt; returns first child node of element (Microsoft Edge returns whitespace as empty text node)<br />
+        <span class='Code'>element.cildNodes</span> --&gt; returns all child nodes of element<br />
+        <br />
+        <span class='Code'>element.id</span> --&gt; returns the id property value of element<br />
+        <span class='Code'>element.nodeName</span> --&gt; returns the type of element (eg. 'DIV', 'LI')<br />
+        <br />
+
+        <li><h3>Changing Elements</h3></li>
         <span class='Code'>document.createElement(element)</span> --&gt; create html element<br />
         <span class='Code'>document.removeChild(element)</span> --&gt; removes selected child element from parent<br />
         <span class='Code'>document.appendChild(element)</span> --&gt; adds selected element to parent<br />
         <span class='Code'>document.replaceChild(newnode, oldnode)</span> --&gt; replaces oldnode element with newnode<br />
         <span class='Code'>document.write(text)</span> --&gt; writes text in a document (don't use)<br />
         <br />
-        <span class='Code'>document.querySelectorAll(".class" / "#id")</span> --&gt; returns elements that match CSS selector<br />
-        <br />
-        <span class='colorLime'>Following methods work with any HTML element (div, li, ul, ...)</span><br />
+
+        <li><h3>Adding Events to Elements</h3></li>
+        <span class='colorOrange'>Following methods work with any HTML element (div, li, ul, ...) (eg. div.onclick = function();)</span><br />
         <span class='Code'>onclick = "function(this)"</span> --&gt; function(this) runs when user clicks on the node containing the code<br />
         <span class='Code'>onmouseover = "function(this)"</span> --&gt; function(this) runs when user mouses over element<br />
         <span class='Code'>onmouseout = "function(this)"</span> --&gt; function(this) runs when user mouses out of element<br />
@@ -999,13 +1039,17 @@ function ShowNavigation(iden) {
         <span class='Code'>onmouseup = "function(this)"</span> --&gt; function(this) runs when user lets go of mouse button<br />
         <br />
         <span class='Code'>onload = "function()"</span> --&gt; function executes when page finishes loading<br />
+        <span class='colorOrange'>can be used on document -- document.onload = function()</span><br />
         <br />
+
+        <li><h3>Use If Adding Multiple Events</h3></li>
         <span class='Code'>document.getElementById('id').addEvenetListener(event, function, useCapture=false)</span><br />
         <span class='Code'>element.removeEventListener(event, funciton)</span><br />
-        events --&gt; "click", "mouseover", "mouseout", "resize"<br />
+        events --&gt; <span class='colorBrightRed'>"click"</span>, "mouseover", "mouseout", "resize"<br />
         useCapture -&gt; true(capturing), false(default -- bubbling)<br />
         <span class='colorOrange'>bubbling</span> -- inner most element's event is handled first<br />
         <span class='colorOrange'>capturing</span> -- outer most element's event is handled first<br />
+        <br />
 
         <li><h3>Example</h3></li>
         <span class='CodeFrame'>
@@ -1068,6 +1112,22 @@ function ShowNavigation(iden) {
         <span class='colorOrange'>$</span> -- define/access jQuery<br />
         <span class='colorOrange'>selector</span> -- query(find) HTML elements<br />
         <span class='colorOrange'>action</span> to be performed on the selected element(s)<br />
+
+      </ul>
+    </div>
+
+  </ul>
+</div>
+
+<div class='MainTextClass MovingLinks middleground' id='HTMLLinks'>
+  <h1>Links</h1>
+  <ul>
+
+    <div id='DownloadFiles'>
+      <li><h2>Download Files</h2></li>
+      <ul>
+
+        <li><a href='https://developers.google.com/fonts/docs/getting_started' target='_blank'>Google Free Fonts</a></li>
 
       </ul>
     </div>

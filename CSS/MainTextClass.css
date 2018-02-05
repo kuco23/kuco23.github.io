@@ -9,6 +9,11 @@ div.middleground ul {
   color: rgb(200,200,200);
   font-family: 'Lato', serif;
   list-style-type: none;
+  margin: 0;
+  padding: 0;
+
+/* list-decoreation markers are ul property,
+   so setting padding to 0 overflows them */
 }
 
 .MainTextClass {
@@ -44,6 +49,7 @@ div.middleground ul {
 }
 
 .MainTextClass ul {
+  list-style-type: none;
   margin: 0;
   padding: 0;
 }
@@ -72,4 +78,20 @@ div.MainTextClass ul div ul div{
   color: rgb(150,150,150);
   text-shadow: 2px 2px 5px black;
   left: 10px;
+}
+
+.CustomListStyle {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.CustomListStyle li {
+  padding-left: 16px;
+}
+
+.CustomListStyle li:before {
+  content: "•";
+  padding-right: 8px;
+  color: powderblue;
 }
