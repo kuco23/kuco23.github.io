@@ -12,8 +12,8 @@
 <link rel="stylesheet" type="text/css" href="CSS/MainTextClass.css" />
 <link rel="stylesheet" type="text/css" href="CSS/TextFontColorStyle.css" />
 
-<link rel="stylesheet" type="text/css" href="Fonts/Lato.css">
-<link rel="stylesheet" type="text/css" href="Fonts/Tangerine.css">
+<link rel="stylesheet" type="text/css" href="https://fonts.googleapis.com/css?family=Lato">
+<link rel="stylesheet" type="text/css" href="https://fonts.googleapis.com/css?family=Tangerine">
 <style>
 
 * {box-sizing: border-box;}
@@ -58,10 +58,6 @@ body {
   /*<script>HideSidebar()</script>*/
 }
 
-.make_list {
-  list-style-type: disc;
-}
-
 </style>
 </head>
 
@@ -84,34 +80,17 @@ function HideSidebar() {
   }
 }
 
-function HideSidebarChild(iden) {
-  var list = document.getElementById('sidebar').firstElementChild.children;
-  var obj = document.getElementById(iden);
-  if (obj.style.display != 'none') {
-    obj.style.display = 'none';
-  } else {obj.style.display = 'block';}
-
-  for (i=0; i < list.length; i++) {
-    if (list[i].id != iden && list[i].nodeName != 'LI') list[i].style.display = 'none';
-  }
+function SwitchContent(iden, timer=1000) {
+  $('div.middleground').fadeOut(timer);
+  $('#Navigation ul div').fadeOut(timer);
+  setTimeout(function() { $('#' + iden).fadeIn(timer); }, timer);
+  setTimeout(function() { $('#' + iden + 'Nav').fadeIn(timer); }, timer);
 }
-
-// used only for Navigation and Navigation Section display changes
-function ShowNavigation(iden) {
-  var alles = document.getElementById('Navigation').firstElementChild.children;
-  var obj = document.getElementById(iden);
-  var nav = document.getElementById(iden + "Nav");
-
-  if (obj.style.display == "none" || obj.style.display == "") {
-    var len = alles.length;
-    for (i=0; i < len; i++) {
-      if (alles[i].id != iden) {
-        document.getElementById(alles[i].id.slice(0,-3)).style.display = 'none';
-        alles[i].style.display = 'none';
-      }
-    }
-    obj.style.display = 'block';
-    nav.style.display = 'block';
+function HideSidebarChild(iden) {
+  $('#' + iden).slideToggle(1000);
+  var selection = $('#sidebar ul div');
+  for (i=0; i < selection.length; i++) {
+    if (selection[i].id != iden)  $('#' + selection[i].id).slideUp(1000);
   }
 }
 
@@ -122,22 +101,22 @@ function ShowNavigation(iden) {
   <ul>
     <li><a href='javascript:void(0)' onclick="HideSidebarChild('pythonUnder')">Python</a></li>
 	  <div id='pythonUnder'>
-	    <li><a href='javascript:void(0);' onclick='ShowNavigation("pythonSystem")'>System</a></li>
-	    <li><a href='javascript:void(0);' onclick='ShowNavigation("pythonPackages")'>Packages</a></li>
-      <li><a href='javascript:void(0);' onclick='ShowNavigation("pythonLinks")'>Links</a></li>
+	    <li><a href='javascript:void(0);' onclick='SwitchContent("pythonSystem")'>System</a></li>
+	    <li><a href='javascript:void(0);' onclick='SwitchContent("pythonPackages")'>Packages</a></li>
+      <li><a href='javascript:void(0);' onclick='SwitchContent("pythonLinks")'>Links</a></li>
 	   </div>
 
     <li><a href='javascript:void(0)' onclick='HideSidebarChild("javaUnder")'>Java</a></li>
 	  <div id='javaUnder'>
-	    <li><a href='javascript:void(0);' onclick='ShowNavigation("javaBasics")'>Basics</a></li>
-      <li><a href='javascript:void(0);' onclick='ShowNavigation("javaLinks")'>Links</a></li>
+	    <li><a href='javascript:void(0);' onclick='SwitchContent("javaBasics")'>Basics</a></li>
+      <li><a href='javascript:void(0);' onclick='SwitchContent("javaLinks")'>Links</a></li>
 	  </div>
 
     <li><a href='javascript:void(0)' onclick='HideSidebarChild("HtmlUnder")'>HTML</a></li>
     <div id='HtmlUnder'>
-      <li><a href='javascript:void(0);' onclick='ShowNavigation("HtmlJavaScript")'>JavaScript</a></li>
-      <li><a href='javascript:void(0);' onclick='ShowNavigation("HTMLjQuery")'>jQuery</a></li>
-      <li><a href='javascript:void(0);' onclick='ShowNavigation("HTMLLinks")'>HTML Links</a></li>
+      <li><a href='javascript:void(0);' onclick='SwitchContent("HtmlJavaScript")'>JavaScript</a></li>
+      <li><a href='javascript:void(0);' onclick='SwitchContent("HTMLjQuery")'>jQuery</a></li>
+      <li><a href='javascript:void(0);' onclick='SwitchContent("HTMLLinks")'>HTML Links</a></li>
     </div>
   </ul>
 </div>
@@ -496,7 +475,7 @@ function ShowNavigation(iden) {
 
         <li><h3>Easy Way Example</h3></li>
         <span class='CodeFrame'>
-          <span>Pyton</span>
+          <span>Python</span>
           <p>
             raw_html = urlopen('url')<br />
             soup = BeautifulSoup(raw_html, 'html.parser') <span class='colorBrightRed'># DOM kind object of url page</span><br />
@@ -1138,7 +1117,7 @@ function ShowNavigation(iden) {
 
 <!-- $$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$ HTML end $$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$-->
 <script>
-ShowNavigation('pythonSystem');
+SwitchContent('pythonSystem', 0);
 document.getElementById('javaUnder').style.display = 'none';
 document.getElementById('pythonUnder').style.display = 'none';
 document.getElementById('HtmlUnder').style.display = 'none';
