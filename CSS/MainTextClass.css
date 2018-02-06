@@ -37,6 +37,7 @@ div.middleground ul {
   padding: 10px;
   background-color: rgba(200, 200, 200, .3);
   border: 2px solid black;
+  overflow: auto;
 }
 .MainTextClass table th {
   float: left;
@@ -57,7 +58,7 @@ div.middleground ul {
 div.MainTextClass > ul div:not(:first-child) {
   margin: 100px 0;
 }
-div.MainTextClass ul div ul div{
+div.MainTextClass > ul div div{
   margin: 0;
 }
 

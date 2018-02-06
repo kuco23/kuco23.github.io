@@ -18,7 +18,14 @@
 
 * {box-sizing: border-box;}
 
+html {
+  height: 100%;
+  min-height: 100%;
+}
+
 body {
+  min-height: 100%;
+
   background: url("background.jpg") no-repeat center center fixed;
   -webkit-background-size: cover;
   -moz-background-size: cover;
@@ -43,7 +50,8 @@ body {
   display: none;
 }
 
-@media only screen and (max-width: 1000px) {
+@media only screen and (max-width: 700px) {
+  
   #sidebar {
     height: 0px;
     width: 50%;
@@ -134,7 +142,7 @@ function HideSidebarChild(iden) {
       <li><a href='#magicMethods'>Magic Methods</a></li>
       <li><a href='#subclassing'>Subclassing</a></li>
       <li><a href='#argsKwargs'>Args & Kwargs</a></li>
-      <li><a href='#handlingExceptions'>Handling Exceptions</a></li>
+      <li><a href='#handlingExceptions'>Exceptions</a></li>
       <li><a href='#tuples'>Tuples</a></li>
       <li><a href='#generators'>Generators</a></li>
       <li><a href='#pipInfo'>Pip Info</a></li>
@@ -292,7 +300,7 @@ function HideSidebarChild(iden) {
     </div>
 
     <div id='handlingExceptions'>
-      <li><h2>Handling Exceptions</h2></li>
+      <li><h2>Exceptions</h2></li>
 
       Exceptions are Exceptional events, and should not be confused with Errors<br />
       Exceptions can be handled, while Errors should crash the program<br />
@@ -882,7 +890,7 @@ function HideSidebarChild(iden) {
             public class MyFiles {<br />
             &nbsp;&nbsp;public static void main(String[] arg) <span class='colorBrightRed'>throws IOException</span> {<br />
             <br />
-            &nbsp;&nbsp;&nbsp;&nbsp;FileInputStream = null;<br />
+            &nbsp;&nbsp;&nbsp;&nbsp;FileInputStream input = null;<br />
             &nbsp;&nbsp;&nbsp;&nbsp;File myFile = null;<br />
             &nbsp;&nbsp;&nbsp;&nbsp;FileReader reader = null;<br />
             <br />
@@ -892,16 +900,16 @@ function HideSidebarChild(iden) {
             &nbsp;&nbsp;&nbsp;&nbsp;try {<br />
             &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;input = new FileInputStream("MyFileName");<br />
             &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;while (input.read() != -1) {n += 1;}<br />
-            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;} finally {input.close();}<br />
+            &nbsp;&nbsp;&nbsp;&nbsp;} finally {input.close();}<br />
             &nbsp;&nbsp;&nbsp;&nbsp;// we've used FileInputStream to determine<br />
             &nbsp;&nbsp;&nbsp;&nbsp;// the length of text in "MyFileName"<br />
             <br />
             &nbsp;&nbsp;&nbsp;&nbsp;try {<br />
-            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;MyFile = new File("MyFileName");<br />
-            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;reader = new FileReader(MyFile);<br />
-            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;FileContent = new char[n];<br />
-            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;reader.read(FileContent);<br />
-            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;} finally {reader.close();}<br />
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;MyFile = new File("MyFileName");<br />
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;reader = new FileReader(MyFile);<br />
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;FileContent = new char[n];<br />
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;reader.read(FileContent);<br />
+            &nbsp;&nbsp;&nbsp;&nbsp;} finally {reader.close();}<br />
             &nbsp;&nbsp;&nbsp;&nbsp;String FileText = new String(FileContent);<br />
             &nbsp;&nbsp;&nbsp;&nbsp;// now we have file text saved in our FileText variable<br />
             &nbsp;&nbsp;&nbsp;&nbsp;}<br />
