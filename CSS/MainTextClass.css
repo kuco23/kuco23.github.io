@@ -20,11 +20,6 @@ div.middleground ul {
   color: rgb(127,255,0);
   z-index: 99;
 }
-
-.MainTextClass pre {
-  color: powderblue;
-}
-
 .MainTextClass a {
   text-decoration: none;
   color: rgb(100,100,100);
@@ -33,11 +28,15 @@ div.middleground ul {
   color: rgb(200,200,200);
 }
 
+.tableContainer {
+  display: block;
+  max-width: 100%;
+  overflow: auto;
+}
 .MainTextClass table {
   padding: 10px;
   background-color: rgba(200, 200, 200, .3);
   border: 2px solid black;
-  overflow: auto;
 }
 .MainTextClass table th {
   float: left;
