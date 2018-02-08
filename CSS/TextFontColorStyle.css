@@ -25,6 +25,9 @@ h3 {
 .colorBrightRed {
   color: rgb(200,0,0);
 }
+.colorDarkRed {
+  color: rgb(120, 0, 0);
+}
 .colorPurple {
   color: rgb(172, 120, 184);
 }
@@ -36,7 +39,7 @@ h3 {
   background-color: rgba(255, 255, 255, .3);
   display: inline-block;
   padding: 0px;
-  margin: 5px 0 5px 0;
+  margin: 10px 0;
 
   border: 1px solid black;
   border-radius: 5px; 

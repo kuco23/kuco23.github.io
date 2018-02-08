@@ -5,15 +5,18 @@
 <title>Learning purpusses</title>
 <meta name='viewport' content='width=device-width, initial-scale=1.0'>
 
-<script src="jquery-3.3.1.min.js"></script>
+<link rel="icon" type="image/ico" href="favicon.ico" />
 
 <link rel="stylesheet" type="text/css" href="CSS/Sidebar.css" />
 <link rel="stylesheet" type="text/css" href="CSS/Navigation.css" />
 <link rel="stylesheet" type="text/css" href="CSS/MainTextClass.css" />
 <link rel="stylesheet" type="text/css" href="CSS/TextFontColorStyle.css" />
 
-<link rel="stylesheet" type="text/css" href="https://fonts.googleapis.com/css?family=Lato">
-<link rel="stylesheet" type="text/css" href="https://fonts.googleapis.com/css?family=Tangerine">
+<link rel="stylesheet" type="text/css" href="https://fonts.googleapis.com/css?family=Lato" />
+<link rel="stylesheet" type="text/css" href="https://fonts.googleapis.com/css?family=Tangerine" />
+
+<script src="jquery-3.3.1.min.js"></script>
+
 <style>
 
 * {box-sizing: border-box;}
@@ -80,28 +83,31 @@ body {
 <body>
 <script>
 
-function HideSidebar() {
-  var sideB = document.getElementById('sidebar');
-  var sidebarHide = document.getElementById('SideBarHide');
-  var sidebarHideLink = document.getElementById('SideBarHideLink');
-  if (sideB.style.height == '0px') {
-    sidebarHideLink.innerHTML = 'hide';
-    sidebarHide.style.top = '98%';
-    sideB.style.height = '98%';
-  }
-  else {
-    sidebarHideLink.innerHTML = 'show';
-    sidebarHide.style.top = '0px';
-    sideB.style.height = '0px';
-  }
-}
+$(document).ready(function() {
+
+  $('#SideBarHideLink').click(function() {
+    if ($('#sidebar').height() == '0' || $('#sidebar').height() == '0px') {
+      $('#sidebar').css('height', '98%');
+      $('#SideBarHide').css('top', '98%');
+      $('#SideBarHide a').text('hide');
+    }
+    else {
+      $('#sidebar').css('height', '0');
+      $('#SideBarHide').css('top', '0');
+      $('#SideBarHide a').text('show');
+    }
+  });
+
+});
 
 function SwitchContent(iden, timer=1000) {
+  $('#Navigation ul div').fadeOut(0);
+  $('#' + iden + 'Nav').fadeIn(0);
+
   $('div.middleground').fadeOut(timer);
-  $('#Navigation ul div').fadeOut(timer);
   setTimeout(function() { $('#' + iden).fadeIn(timer); }, timer);
-  setTimeout(function() { $('#' + iden + 'Nav').fadeIn(timer); }, timer);
 }
+
 function HideSidebarChild(iden) {
   $('#' + iden).slideToggle(1000);
   var selection = $('#sidebar ul div');
@@ -109,6 +115,26 @@ function HideSidebarChild(iden) {
     if (selection[i].id != iden)  $('#' + selection[i].id).slideUp(1000);
   }
 }
+
+$(document).ready(function() {
+
+  $('#sidebar').mouseenter(function() {
+    $(this).css('height', '98%');
+    $('#SideBarHide').css('top', '98%');
+  });
+
+  $('#sidebar').mouseleave(function() {
+    $(this).css('height', '0');
+    $('#SideBarHide').css('top', '0');
+  });
+
+  $('#SideBarHide a').mouseenter(function() {
+    $('#sidebar').css('height', '98%');
+    $('#SideBarHide').css('top', '98%');
+  });
+
+});
+
 
 </script>
 
@@ -137,7 +163,7 @@ function HideSidebarChild(iden) {
 </div>
 
 <div class='sideBarHide' id='SideBarHide'>
-  <a id='SideBarHideLink' href='javascript:void(0)' onclick='HideSidebar()'>hide</a>
+  <a href='javascript:void(0)'>hide</a>
 </div>
 
 
@@ -189,6 +215,7 @@ function HideSidebarChild(iden) {
 
     <div id='HTMLjQueryNav'>
       <li><a href='#Basics'>Basics</a></li>
+      <li><a href='#Methods'>Methods & Event Handlers</a></li>
     </div>
 
     <div id='HTMLLinksNav'>
@@ -206,33 +233,88 @@ function HideSidebarChild(iden) {
 
     <div id='classes'>
       <li><h2>Classes</h2></li>
+      <ul>
+        <li><h3>Class Properties</h3></li>
+        The most basic use for a class is to store certain properties and methods in.
+        Imagine you have a bunch of functions that end up doing one task.
+        That's where class comes in. It can store functions or variables or any kind of data that can be stored outside class.<br />
+        The only difference from local and class environment is that functions in class cannot call each other without accessing each other through class they are in.
+        It helps to imagine there is a vacuum between functions in the class environment .<br />
+        Accessing data from outside class (or inside) can be done as ClassName.data<br />
+        It is also possible to assign data to classes, or change class data.<br />
+        <span class='CodeFrame'>
+          <span>Python</span>
+          <p>
+            class MyClass:<br />
+            &nbsp;&nbsp;MyVariable = &lt;data&gt;<br />
+            <br />
+            &nbsp;&nbsp;def MyFunction(args):<br />
+            &nbsp;&nbsp;&nbsp;&nbsp;<span class='colorDarkRed'># do_stuff</span><br />
+            <br />
+            MyClass.MyVariable <span class='colorDarkRed'># returns MyVariable from MyClass</span><br />
+            MyClass.MyFunction(args) <span class='colorDarkRed'># calls MyFunction from MyClass</span><br />
+            MyClass.NewVariable = &lt;data&gt; <span class='colorDarkRed'># assigns &lt;data&gt; to MyClass</span><br/>
+            MyClass.NewVariable = &lt;data2&gt; <span class='colorDarkRed'># overrides &lt;data&gt; with &lt;data2&gt;</span>
+          </p>
+        </span><br />
 
-      Class initializes an instance throught the __init__ method and
-      stores the instance into the first argument of __init__(<b>instance</b>) function.
-      Later on you can pass the instance around the other functions in class,
-      note that any method called as instance.method() is getting instance passed
-      as a first argument, so instance.method() == type(instance).method(instance).
-      The standard way to save a new instance created through class is by calling it self<br />
-      <span class='colorLime'>self represents an instance being used or created localy in class methods</span><br />
-      <br />
-      calling the method through instance means the method is bound to instance of class type(instance),
-      calling the method through class (type(instance)) means the method is bound to class of the instance.<br />
-      <br />
-      A way to make a method unbound to its instance while still being able to access it through an instance is
-      by using a decorator <span class='colorPurple'>@staticmethod</span> before defining function in the class.<br />
-      In that case this is true: instance.method() == type(instance).method.<br />
-      <br />
-      A common decorator used is <span class='colorPurple'>@classmethod</span>, which makes a method called through instance bound
-      to its class rather than the instance.<br />
-      In that case this is true: instance.method() == type(instance).method(type(instance)).<br />
-      <br />
-      <span class='colorLime'>Instance of a class = an object initialized through said class.</span><br />
-      <span class='colorLime'>Type of instance = a class from which the instance was created</span><br />
-      a = className() --&gt; a is an instance of className<br />
-      <span class='colorPurple'>isintance(a, className)</span> --&gt; returns True<br />
-      <br />
-      isinstance(instance, type) == (type(instance) == type)<br />
-      isinstance is better as it checks whether instance is an instance of any superclass of type<br />
+        <li><h3>Class Instances</h3></li>
+        The main reason for using a class though is to create instances. Instances like classes can store data.
+        They share the methods and properties of a class and their own, seperate ones.
+        You can also assign data to instances, or change instance data.
+        You initialize an instance by calling the class (eg. MyClass(args) -- args gets passed to the __init__ method).<br />
+        <br />
+        Class initializes an instance through the __init__ method (called <span class='colorOrange'>constructor</span>) and
+        stores the newly created instance into its first argument (<span class='Code'> __init__(instance)</span>).
+        Later on you can pass the instance around the other functions in class.
+        Note that any method called as instance.method() is getting instance passed
+        as its first argument, so <span class='Code'>instance.method() == type(instance).method(instance)</span>
+        (<span class='colorOrange'>type(instance) returns the class from which instance was instantiated</span>).<br />
+        The standard name to call a newly created instance is by calling it self.<br />
+        <span class='colorOrange'>self represents an instance being used or created localy in class methods.</span><br />
+        <span class='colorOrange'>if constructor is not written one will be created automaically (it will just pass).</span>
+        <br />
+        calling the method through instance means the method is bound to instance of class type(instance),
+        calling the method through class (type(instance)) means the method is bound to class of the instance.<br />
+        <br />
+        A way to make a method unbound to its instance while still being able to access it through an instance is
+        by using a decorator <span class='colorPurple'>@staticmethod</span> before defining function in the class.<br />
+        In that case this is true: instance.method() == type(instance).method.<br />
+        <br />
+        A common decorator used is <span class='colorPurple'>@classmethod</span>, which makes a method called through instance bound
+        to its class rather than the instance.<br />
+        In that case this is true: instance.method() == type(instance).method(type(instance)).<br />
+        <br />
+        <span class='colorLime'>Instance of a class = an object initialized through said class.</span><br />
+        <span class='colorLime'>Type of instance = a class from which the instance was initialized</span><br />
+        <span class='Code'>a = className()</span> --&gt; a is an instance of className<br />
+        <span class='Code'>isinstance(a, className)</span> --&gt; returns True<br />
+        <br />
+        <span class='colorLime'>isinstance(instance, type) == (type(instance) == type)</span><br />
+        isinstance is better as it checks whether instance is an instance of any superclass of type<br />
+
+        <span class='CodeFrame'>
+          <span>Python</span>
+          <p>
+            class MyClass:<br />
+            &nbsp;&nbsp;def __init__(self, args): <span class='colorDarkRed'># constructor</span><br />
+            &nbsp;&nbsp;&nbsp;&nbsp;<span class='colorDarkRed'># create and save instance properties</span><br />
+            <br />
+            &nbsp;&nbsp;def instanceMethod(self):<br />
+            &nbsp;&nbsp;&nbsp;&nbsp;<span class='colorDarkRed'># use instance that was passed to this function </span><br />
+            <br />
+            myInstance = MyClass()<br />
+            <span class='colorDarkRed'># we created (instantiated) our instance</span><br />
+            <br />
+            myInstance.instanceMethod()<br />
+            <span class='colorDarkRed'># note that myInstance gets passed to the<br /># MyClass instanceMethod as the first argument (self)</span><br />
+            <br />
+            myInstance.newVariable = &lt;data&gt;<br />
+            <span class='colorDarkRed'># we assigned &lt;data&gt; to myInstance (not to the class)</span><br />
+          </p>
+        </span><br />
+
+      </ul>
     </div>
 
     <div id='magicMethods'>
@@ -347,12 +429,12 @@ function HideSidebarChild(iden) {
         (usually used for closing a file, though python provides a better way to do this, which will be discussed later).
 
         <li><h3>Exception Types</h3></li>
-        Exception -- SuperClass of every exception (<span class='Code'>except Exception</span> handles every exception)<br />
-        StopIteration -- Raised when the next() method of an iterator does not point to any object.<br />
-        ArithmeticError -- Base class for all errors that occur for numeric calculation.<br />
-        OverflowError -- Raised when a calculation exceeds maximum limit for a numeric type.<br />
-        ZeroDivisionError -- Raised when dividing by zero occures<br />
-        KeyboardInterrupt -- Raised when program is interrupted by user (usually with Ctrl-C)
+        <span class='colorOrange'>Exception</span> -- SuperClass of every exception (<span class='Code'>except Exception</span> handles every exception)<br />
+        <span class='colorOrange'>StopIteration</span> -- Raised when the next() method of an iterator does not point to any object.<br />
+        <span class='colorOrange'>ArithmeticError</span> -- Base class for all errors that occur for numeric calculation.<br />
+        <span class='colorOrange'>OverflowError</span> -- Raised when a calculation exceeds maximum limit for a numeric type.<br />
+        <span class='colorOrange'>ZeroDivisionError</span> -- Raised when dividing by zero occures<br />
+        <span class='colorOrange'>KeyboardInterrupt</span> -- Raised when program is interrupted by user (usually with Ctrl-C)
 
         <li><h3>Custom Exceptions</h3></li>
         You can define custom exceptions by SuperClassing base class to all exceptions : Exception<br />
@@ -715,31 +797,31 @@ function HideSidebarChild(iden) {
           </tr>
           <tr>
             <th>public</th>
-            <td class='MarkJavaTable'>-</td>
-            <td class='MarkJavaTable'>-</td>
-            <td class='MarkJavaTable'>-</td>
-            <td class='MarkJavaTable'>-</td>
-            <td class='MarkJavaTable'>-</td>
+            <td class='MarkJavaTable'>+</td>
+            <td class='MarkJavaTable'>+</td>
+            <td class='MarkJavaTable'>+</td>
+            <td class='MarkJavaTable'>+</td>
+            <td class='MarkJavaTable'>+</td>
           </tr>
           <tr>
             <th>protected</th>
-            <td class='MarkJavaTable'>-</td>
-            <td class='MarkJavaTable'>-</td>
-            <td class='MarkJavaTable'>-</td>
-            <td class='MarkJavaTable'>-</td>
+            <td class='MarkJavaTable'>+</td>
+            <td class='MarkJavaTable'>+</td>
+            <td class='MarkJavaTable'>+</td>
+            <td class='MarkJavaTable'>+</td>
             <td></td>
           </tr>
           <tr>
             <th>no modifier</th>
-            <td class='MarkJavaTable'>-</td>
-            <td class='MarkJavaTable'>-</td>
-            <td class='MarkJavaTable'>-</td>
+            <td class='MarkJavaTable'>+</td>
+            <td class='MarkJavaTable'>+</td>
+            <td class='MarkJavaTable'>+</td>
             <td></td>
             <td></td>
           </tr>
           <tr>
             <th>private</th>
-            <td class='MarkJavaTable'>-</td>
+            <td class='MarkJavaTable'>+</td>
             <td></td>
             <td></td>
             <td></td>
@@ -826,14 +908,16 @@ function HideSidebarChild(iden) {
         <span class='Code'>Character.isDigit(char)</span> --&gt; reuturns true if input char is a char representation of an integer (eg. "200")<br />
 
         <li><h3>String</h3></li>
-        String is not a primitive-data-type, but a class, so it can be instantiated as<br />
-        <span class='Code'>String var = new String("string")</span> or<br />
-        <span class='Code'>String var = new String(char[] var)</span><br />
+        String is an immutable-type, meaning it cannot be altered. If you want to change strings use StringBuilder.<br />
+        String is not a primitive-data-type, but a class, so it can be instantiated as: <br />
+        <span class='Code'>String var = new String("string");</span> or<br />
+        <span class='Code'>String var = new String(char[] var);</span> or the classic way<br />
+        <span class='Code'>String var = "string";</span><br />
         <br />
         <span class='Code'>StringVar.length()</span> --&gt; returns length of StringVar<br />
         <span class='Code'>StringVar.charAt(int index)</span> --&gt; gets the char at StrigVar[index]<br />
         <span class='Code'>StringVar.split("sign")</span> --&gt; returns String[], that has elements of a StringVar split on every "sign" occurance<br />
-        (eg. String[] = "stringastring2".split("ab") --&gt; returns ["string", "string2"])<br />
+        (eg. String[] = "string_string2".split("_") --&gt; returns ["string", "string2"])<br />
         <span class='Code'>String.join("sign", String[])</span> --&gt; returns a String that is a glued-up input String[] with "sign" in the middle []String elements<br />
         <span class='Code'>StringVar.substring(int begin, int end)</span> --&gt; returns sliced String from begin index letter to (not including) int end index letter<br />
 
@@ -1088,8 +1172,8 @@ function HideSidebarChild(iden) {
 
     <div id='Basics'>
       <li><h2>Basics</h2></li>
-
       <ul>
+
         <li><h3>Download</h3></li>
         Download jQuery from <a href='http://jquery.com/download/' target='_blank'>here</a><br />
         <span class='CodeFrame'>
@@ -1101,11 +1185,90 @@ function HideSidebarChild(iden) {
           </p>
         </span>
 
-        <li><h3>Selectors</h3></li>
+        <li><h3>Syntax</h3></li>
         <span class='Code'>$(selector).action()</span><br />
         <span class='colorOrange'>$</span> -- define/access jQuery<br />
         <span class='colorOrange'>selector</span> -- query(find) HTML elements<br />
         <span class='colorOrange'>action</span> to be performed on the selected element(s)<br />
+        <br />
+        If binding events to html elements at the beginning of script it is wise to start as<br />
+        <span class='Code'>$('document').ready(function() { // code });</span>,<br />
+        so the function waits until the whole document is loaded.<br />
+
+        <li><h3>Selectors</h3></li>
+        <span class='colorLime'>All selectors can be combined (eg. 'div li' -- selects all li  that are children of a div)</span><br />
+        <span class='Code'>$("*")</span> --&gt; selects all elements<br />
+        <span class='Code'>$(this)</span> --&gt; current HTMl element<br />
+        <span class='Code'>$("p:first")</span> --&gt; selects first &lt;p&gt; element<br />
+        <span class='Code'>$("ul li:first")</span> --&gt; selects the first &lt;li&gt; child of the first &lt;ul&gt;<br />
+        <span class='Code'>$("ul li:first-child")</span> selects the first &lt;li&gt; child of every &lt;ul&gt;<br />
+        <span class='Code'>$("p.intro")</span> --&gt; all &lt;p&gt; elements with classs='intro'<br />
+        <span class='Code'>$("[href]")</span> --&gt; elements with an href attrubute<br />
+        <span class='Code'>$("a[target='blank']")</span> --&gt; elements with target='_blank' attribute value<br />
+        <span class='Code'>$("a[target!='_blank']")</span> --&gt; selects all &lt;a&gt; elements with target attribute not equal to blank<br  />
+        <span class='Code'>$(":button")</span> --&gt; all &lt;button&gt; elements and &lt;input&gt; elements of type='button'<br />
+        <span class='Code'>$("tr:even")</span> --&gt; selects all even &lt;tr&gt; elements<br />
+        <span class='Code'>$("tr:odd")</span> --&gt; selects all odd &lt;tr&gt; elements<br />
+        <span class='Code'>$("tr, p, li")</span> --&gt; selects all &lt;tr&gt;, &lt;p&gt; and &lt;li&gt; elements<br />
+
+      </ul>
+    </div>
+
+    <div id='Methods'>
+      <li><h2>Methods & Event Handlers</h2></li>
+      <span class='colorLime'>if something is enclosed in tags &lt;&gt; it means that what you should write in that place is of that type</span><br />
+      <ul>
+
+        <li><h3>Event Handlers</h3></li>
+        <span class='Code'>$("&lt;selector&gt;").&lt;EventHandler&gt;(function(){ //action   });</span> -- attach event handler to all &lt;selector&gt; elements.<br />
+        <br />
+        <span class='colorOrange'>Event Handlers:</span><br />
+        <span class='Code'>click(function() { //code });</span> -- user clicks on the selected element<br />
+        <span class='Code'>dblclick(function() { //code});</span> -- user double clicks on the selected element<br />
+        <span class='Code'>mouseenter(function() { //code});</span> -- mouse pointer enters the element<br />
+        <span class='Code'>mouseleave(function() { //code});</span> -- mouse pointer leaves the element<br />
+        <span class='Code'>mousedown(function() { //code});</span> --left, middle, or right mouse button is pressed down<br />
+        <span class='Code'>mouseup(function() { //code});</span> -- left, middle, or right mouse button is released<br />
+        <span class='Code'>hover(function1() { //code }, function2() { //code });</span> -- combination of mouseenter (function1) and mouseleave (function2)<br />
+        <br />
+        <span class='Code'>$("&lt;selector&gt;").on({&lt;method1&gt;:function(){ //code }, &lt;method2&gt;:function(){ //code },..., &lt;methodN&gt;:function() { //code }});</span>
+        -- attaches all the event handlers (methods) to selector.<br />
+
+        <li><h3>Methods</h3></li>
+        <span class='Code'>$("&lt;selector&gt;").&lt;Method&gt;(&lt;arguments&gt;);</span> -- attach event handler to all &lt;selector&gt; elements.<br />
+        <span class='Code'>$('selector').method1().method2()....methodN();</span> -- Chaining<br />
+        <br />
+        <span class='colorOrange'>Element Display:</span><br />
+        <span class='Code'>hide(transitionInMilliseconds);</span> -- sets the selected element's display to 'none'<br />
+        <span class='Code'>fadeIn(transitionInMilliseconds);</span> -- fades In the selected element<br />
+        <span class='Code'>fadeOut(transitionInMilliseconds);</span> -- fades Out the selected element<br />
+        <span class='Code'>fadeToggle(transitionInMilliseconds');</span> -- fades Out selected element if it is faded In, vice-versa<br />
+        <br />
+        <span class='Code'>slideUp(transitionInMilliseconds);</span> -- slides Up (hides) selected element<br />
+        <span class='Code'>slideDown(trasnsitionInMilliseconds);</span> -- slides Down (shows) selected element<br />
+        <span class='Code'>slideToggle(transitionInMilliseconds');</span> -- slides Down element if element is hidden, slides Up if it is slided Down<br />
+        <br />
+        <span class='colorOrange'>Element Data Fetching/Setting:</span><br />
+        <span class='Code'>text();</span> -- gets the text of the selected element<br />
+        <span class='Code'>html();</span> -- gets the html content of the selected element<br />
+        <span class='Code'>attr('&lt;attribute&gt;')</span> -- gets the value of 'attribute' (eg. 'href')<br />
+        <span class='Code'>text(&lt;args&gt;);</span> -- sets 'textyText' in 'selector'<br />
+        <span class='Code'>html(&lt;args&gt;);</span> -- sets the html args to the selected element<br />
+        <span class='Code'>attr('&lt;attribute&gt;', '&lt;value&gt;')</span> -- sets 'value' to attribute<br />
+        <br />
+        <span class='Code'>append("someTextInDaBack");</span><br />
+        <span class='Code'>prepend("someTextInDaFront");</span><br />
+        <span class='Code'>after("someTextAfterMySelector");</span><br />
+        <span class='Code'>before("someTextBeforeMySelector");</span><br />
+        <br />
+        <span class='colorOrange'>Removing Elements/Properties:</span><br />
+        <span class='Code'>remove();</span> -- removes selected element and its children (from DOM completely)<br />
+        <span class='Code'>empty();</span> -- removes ONLY the children of the selected element<br />
+        <span class='Code'>detach();</span> -- removes and returns selected element<br />
+        <span class='Code'>remove("&lt;selector1&gt;, &lt;selector2&gt;, ..., &lt;selectorN&gt;")</span> -- removes all the selected elements put in as arguments<br />
+
+
+
 
       </ul>
     </div>

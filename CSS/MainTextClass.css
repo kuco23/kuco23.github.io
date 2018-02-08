@@ -41,6 +41,7 @@ div.middleground ul {
 }
 .MainTextClass table th {
   float: left;
+  padding-right: 5px;
 }
 .MainTextClass table td {
   text-align: center;
