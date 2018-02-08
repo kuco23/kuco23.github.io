@@ -55,7 +55,7 @@ div.middleground ul {
   padding: 0;
 }
 
-div.MainTextClass > ul div:not(:first-child) {
+div.MainTextClass > ul > div:not(:first-child) {
   margin: 100px 0;
 }
 div.MainTextClass > ul div div{
