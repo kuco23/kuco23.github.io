@@ -3,6 +3,8 @@
 <html>
 <head>
 <title>AnimationProject</title>
+<meta name='viewport' content='width=device-width, initial-scale=1.0'>
+
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
 <link href='https://fonts.googleapis.com/css?family=Alegreya Sans SC' rel='stylesheet'>
 
@@ -12,7 +14,16 @@ body {
   text-align: center;
   background-color: black;
 }
-
+@-webkit-keyframes trippy {
+  0%, 4%, 10%, 14%, 24% {
+    opacity: 0.4;
+    text-shadow: none;
+  }
+  2%, 6%, 12%, 22%, 28% {
+    opacity: 1;
+    text-shadow: 0 0 80px #ffffff, 0 0 30px #008000, 0 0 6px #0000ff;
+  }
+}
 @keyframes trippy_upper {
   0%, 4%, 10%, 14%, 24% {
     opacity: 0.4;
@@ -24,6 +35,16 @@ body {
   }
 }
 
+@-webkit-keyframes trippy_lower {
+  0%, 10%, 12%, 16%, 20% {
+    opacity: 0.4;
+    color: DarkRed;
+  }
+  8%, 11%, 14%, 18%, 24% {
+    opacity: 1;
+    color: FireBrick;
+  }
+}
 @keyframes trippy_lower {
   0%, 10%, 12%, 16%, 20% {
     opacity: 0.4;
@@ -35,10 +56,33 @@ body {
   }
 }
 
+@-webkit-keyframes RotateFall {
+  100% {
+    -webkit-transform: rotateZ(0deg);
+  }
+}
+@keyframes RotateFall {
+  100% {
+    transform: rotateZ(0deg);
+  }
+}
+
+@-webkit-keyframes RotateFall2 {
+  100% {
+    -webkit-transform: rotateZ(0deg);
+  }
+}
+@keyframes RotateFall2 {
+  100% {
+    transform: rotateZ(0deg);
+  }
+}
+
 div.container {
   position: absolute;
   top: 50%;
   transform: translateY(-50%);
+  -webkit-transform: translateY(-50%);
   left: 40%;
 
   font-size: 50px;
@@ -48,53 +92,120 @@ div.container {
   text-shadow: 0 0 80px red, 0 0 30px FireBrick, 0 0 6px DarkRed;
   color: red;
 }
-div.container div:first-child span {
+div.container div:first-child {
   font-family: monospace;
   font-size: 50px;
   text-transform: uppercase;
+  -webkit-text-transform: uppercase;
 
   color: #fff;
   text-shadow: 0 0 80px #ffffff, 0 0 30px #008000, 0 0 6px #0000ff;
 }
-div.container div:first-child span:nth-child(2) {
-  animation-name: trippy_upper;
-  animation-duration: 8s;
-  animation-delay: 0s;
-  animation-iteration-count: infinite;
-}
-div.container div:first-child span:nth-child(3) {
-  animation-name: trippy_upper;
-  animation-duration: 10s;
-  animation-delay: 5s;
-  animation-iteration-count: infinite;
-}
-
 div.container div:last-child {
   font-family: monospace;
   font-size: 30px;
   text-transform: uppercase;
+  -webkit-text-transform: uppercase;
   color: FireBrick;
 
   border-bottom: 2px solid transparent;
   transition: border 1s;
 }
+
+/* **************************** trippy *********************** */
+div.container div:first-child span:nth-child(2) {
+  animation-name: trippy_upper;
+  animation-duration: 8s;
+  animation-delay: 3s;
+  animation-iteration-count: infinite;
+
+  -webkit-animation-name: trippy_upper;
+  -webkit-animation-duration: 8s;
+  -webkit-animation-delay: 3s;
+  -webkit-animation-iteration-count: infinite;
+}
+div.container div:first-child span:nth-child(5) {
+  animation-name: trippy_upper;
+  animation-duration: 10s;
+  animation-delay: 5s;
+  animation-iteration-count: infinite;
+
+  -webkit-animation-name: trippy_upper;
+  -webkit-animation-duration: 10s;
+  -webkit-animation-delay: 5s;
+  -webkit-animation-iteration-count: infinite;
+}
+
 div.container div:last-child span:first-child {
   animation-name: trippy_lower;
   animation-duration: 12s;
   animation-delay: 5s;
   animation-iteration-count: infinite;
+
+  -webkit-animation-name: trippy_lower;
+  -webkit-animation-duration: 12s;
+  -webkit-animation-delay: 5s;
+  -webkit-animation-iteration-count: infinite;
 }
+/* **************************** trippy *********************** */
+
+
 div.container div:last-child span:last-child {
-  animation-name: trippy_lower;
-  animation-duration: 8s;
-  animation-delay: 8s;
-  animation-iteration-count: infinite;
+  color: DarkRed;
+  opacity: 0.4;
 }
 
 div.container div:last-child:hover {
   cursor: pointer;
   border-bottom: 2px solid FireBrick;
   border-radius: 1px;
+}
+
+.container div:first-child span:nth-child(odd) {
+  display: inline-block;
+  transform-origin: left;
+  transform: rotate(10deg);
+
+  -webkit-transform-origin: left;
+  -webkit-transform: rotate(10deg);
+}
+.container div:first-child span:nth-child(evne) {
+  display: inline-block;
+  transform-origin: right;
+  transform: rotate(-10deg);
+
+  -webkit-transform-origin: right;
+  -webkit-transform: rotate(-10deg);
+}
+.FallingDown span:nth-child(odd) {
+  display: inline-block;
+
+  transform-origin: left;
+  animation-name: RotateFall;
+  animation-duration: 3s;
+  animation-iteration-count: 1;
+  animation-fill-mode: forwards;
+
+  -webkit-transform-origin: left;
+  -webkit-animation-name: RotateFall;
+  -webkit-animation-duration: 3s;
+  -webkit-animation-iteration-count: 1;
+  -webkit-animation-fill-mode: forwards;
+}
+.FallingDown span:nth-child(even) {
+  display: inline-block;
+
+  transform-origin: right;
+  animation-name: RotateFall2;
+  animation-duration: 4s;
+  animation-iteration-count: 1;
+  animation-fill-mode: forwards;
+
+  -webkit-transform-origin: right;
+  -webkit-animation-name: RotateFall2;
+  -webkit-animation-duration: 4s;
+  -webkit-animation-iteration-count: 1;
+  -webkit-animation-fill-mode: forwards;
 }
 
 </style>
@@ -105,8 +216,10 @@ div.container div:last-child:hover {
 $(document).ready(function() {
 
   $('div.container div:last-child').click(function() {
-    window.open('Study.html', '_parent');
+    $('div.container div:first-child').addClass('FallingDown');
+    setTimeout(function() {window.open('Study.html', '_parent');}, 4000);
   });
+
 });
 </script>
 
@@ -114,7 +227,7 @@ $(document).ready(function() {
 
 <div class='container'>
   <div>
-    <span>w<span>e</span><span>l</span>co<span>m</span>e
+    <span>w</span><span>e</span><span>l</span><span>c</span><span>o</span><span>m</span><span>e</span>
   </div>
 
   <div style='display:inline-block;'>
