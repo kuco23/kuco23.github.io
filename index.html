@@ -85,28 +85,23 @@ div.container {
   -webkit-transform: translateY(-50%);
   left: 40%;
 
-  font-size: 50px;
-  color: red;
-
   padding: 40px;
-  text-shadow: 0 0 80px red, 0 0 30px FireBrick, 0 0 6px DarkRed;
+
+  text-transform: uppercase;
+  -webkit-text-transform: uppercase;
+  font-family: monospace;
+  font-size: 50px;
   color: red;
 }
 div.container div:first-child {
-  font-family: monospace;
   font-size: 50px;
-  text-transform: uppercase;
-  -webkit-text-transform: uppercase;
-
   color: #fff;
   text-shadow: 0 0 80px #ffffff, 0 0 30px #008000, 0 0 6px #0000ff;
 }
 div.container div:last-child {
-  font-family: monospace;
   font-size: 30px;
-  text-transform: uppercase;
-  -webkit-text-transform: uppercase;
   color: FireBrick;
+  text-shadow: 0 0 80px red, 0 0 30px FireBrick, 0 0 6px DarkRed;
 
   border-bottom: 2px solid transparent;
   transition: border 1s;
@@ -161,6 +156,8 @@ div.container div:last-child:hover {
   border-radius: 1px;
 }
 
+
+/* ******************** starting rotation ******************* */
 .container div:first-child span:nth-child(odd) {
   display: inline-block;
   transform-origin: left;
@@ -169,7 +166,7 @@ div.container div:last-child:hover {
   -webkit-transform-origin: left;
   -webkit-transform: rotate(10deg);
 }
-.container div:first-child span:nth-child(evne) {
+.container div:first-child span:nth-child(even) {
   display: inline-block;
   transform-origin: right;
   transform: rotate(-10deg);
@@ -177,6 +174,14 @@ div.container div:last-child:hover {
   -webkit-transform-origin: right;
   -webkit-transform: rotate(-10deg);
 }
+div.container div:first-child span:nth-child(2), div.container div:first-child span:nth-child(5) {
+  transform: rotate(0deg);
+  -webkit-transform: rotate(0deg);
+}
+/* ******************** starting rotation ******************* */
+
+
+/* ******************** animation post-click **************** */
 .FallingDown span:nth-child(odd) {
   display: inline-block;
 
@@ -207,6 +212,7 @@ div.container div:last-child:hover {
   -webkit-animation-iteration-count: 1;
   -webkit-animation-fill-mode: forwards;
 }
+/* ******************** animation post-click **************** */
 
 </style>
 </head>
