@@ -7,14 +7,15 @@ right: 0;
 background-color: rgba(10, 10, 10, 0.9);
 overflow: hidden;
 
--webkit-transition: height 1.5s;
-transition: height 1.5s;
-
 z-index: 100;
+background-color: transparent;
+
+-webkit-transition: height 1s linear;
+transition: height 1s linear;
 }
 
 .sidebar ul {
-margin: 1% 0 0 0;
+margin: 0 0 0 0;
 padding: 0;
 list-style-type: none;
 }
@@ -28,7 +29,7 @@ text-decoration: none;
 display: block;
 padding: 15% 20% 15% 20%;
 
-background-color: rgba(10, 10, 10, 0.9);
+background-color: rgba(10, 10, 10, 0.99);
 color: black;
 font-weight: bold;
 font-size: 4vh;
@@ -45,7 +46,7 @@ color: rgb(200,200,200);
 .sidebar div li a {
 padding: 10% 10% 10% 10%;
 margin: 0;
-background-color: rgba(30,30,30,.7); /* */
+background-color: rgba(30,30,30,.99); /* */
 color: rgba(0,0,0,.6);
 font-weight: normal;
 font-size: 2.5vh;
@@ -54,15 +55,15 @@ font-size: 2.5vh;
 transition: text-shadow 1s, color 1s;
 }
 .sidebar div li:last-child a {
-border-bottom: 2px solid rgba(60, 60, 60, .7);
+border-bottom: 2px solid rgba(100, 100, 100, .7);
 }
 .sidebar div li:first-child a {
-border-top: 2px solid rgba(60, 60, 60, .7);
+border-top: 2px solid rgba(100, 100, 100, .7);
 }
 
 .sidebar div li a:hover {
-background-color: rgb(20, 20, 20);
-text-shadow: 2px 2px 2px black;
+background-color: rgba(30,30,30,0.99);
+text-shadow: 2px 2px 2px black, 0px 0px 10px black;
 color: rgb(120, 0, 0);
 }
 
@@ -87,12 +88,4 @@ font-size: 1.8vh;
 color: white;
 display: block;
 background-color: rgb(0,0,0);
-
--webkit-transition: background-color 1s color 1s;
-transition: background-color 1s, color 1s;
-}
-
-.sideBarHide a:hover {
-color: black;
-background-color: rgba(200,0,0,.3);
 }

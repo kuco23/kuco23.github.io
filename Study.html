@@ -5,8 +5,6 @@
 <title>Learning purpusses</title>
 <meta name='viewport' content='width=device-width, initial-scale=1.0'>
 
-<link rel="icon" type="image/ico" href="favicon.ico" />
-
 <link rel="stylesheet" type="text/css" href="CSS/Sidebar.css" />
 <link rel="stylesheet" type="text/css" href="CSS/Navigation.css" />
 <link rel="stylesheet" type="text/css" href="CSS/MainTextClass.css" />
@@ -74,6 +72,10 @@ body {
     width: 96%;
     left: 2%;
   }
+
+  #SideBarHide {
+    width: 50%;
+  }
 }
 
 </style>
@@ -81,25 +83,6 @@ body {
 
 <body>
 <script>
-
-/*
-$(document).ready(function() {
-
-  $('#SideBarHideLink').click(function() {
-    if ($('#sidebar').height() == '0' || $('#sidebar').height() == '0px') {
-      $('#sidebar').css('height', '98%');
-      $('#SideBarHide').css('top', '98%');
-      $('#SideBarHide a').text('hide');
-    }
-    else {
-      $('#sidebar').css('height', '0');
-      $('#SideBarHide').css('top', '0');
-      $('#SideBarHide a').text('show');
-    }
-  });
-
-});
-*/
 
 function SwitchContent(iden, timer=1000) {
   $('#Navigation ul div').fadeOut(0);
@@ -110,28 +93,44 @@ function SwitchContent(iden, timer=1000) {
 }
 
 function HideSidebarChild(iden) {
-  $('#' + iden).slideToggle(1000);
+  $('#sidebar').css({'height': '100%'});
+
+  $('#' + iden).slideToggle(1000, function() {
+    var sidebarHeight = $('#sidebar ul').outerHeight();
+    $('#sidebar').css({'height': sidebarHeight});
+  });
+
   var selection = $('#sidebar ul div');
   for (i=0; i < selection.length; i++) {
-    if (selection[i].id != iden)  $('#' + selection[i].id).slideUp(1000);
+    if (selection[i].id != iden)  $('#' + selection[i].id).slideUp(1000), function() {
+      var sidebarHeight = $('#sidebar ul').outerHeight();
+      $('#sidebar').css({'height': sidebarHeight});
+    };
   }
 }
 
 $(document).ready(function() {
 
-  $('#sidebar').mouseenter(function() {
-    $(this).css('height', '98%');
-    $('#SideBarHide').css('top', '98%');
+  var buttonHeight = $('#SideBarHide').outerHeight();
+  var sidebarHeight = $('#sidebar ul').outerHeight();
+  $('#sidebar').css('top', buttonHeight);
+
+  $('div.sidebar').mouseenter(function() {
+    var sidebarHeight = $('#sidebar ul').outerHeight();
+    $('#sidebar').css({'height': sidebarHeight});
+    $('#SideBarHide a').text('-');
   });
 
-  $('#sidebar').mouseleave(function() {
-    $(this).css('height', '0');
-    $('#SideBarHide').css('top', '0');
+  $('div.sidebar').mouseleave(function() {
+    $("#sidebar").css({'height': '0'});
+    $('#SideBarHide a').text('+');
   });
 
   $('#SideBarHide a').mouseenter(function() {
-    $('#sidebar').css('height', '98%');
-    $('#SideBarHide').css('top', '98%');
+    var buttonHeight = $('#SideBarHide').outerHeight();
+    var sidebarHeight = $('#sidebar ul').outerHeight();
+    $('#sidebar').css({'top':buttonHeight, 'height': sidebarHeight});
+    $('#SideBarHide a').text('-');
   });
 
 });
@@ -139,8 +138,13 @@ $(document).ready(function() {
 
 </script>
 
+<div class='sideBarHide' id='SideBarHide'>
+  <a href='javascript:void(0)'>+</a>
+</div>
+
 <div class='sidebar' id='sidebar'>
   <ul>
+
     <li><a href='javascript:void(0)' onclick="HideSidebarChild('pythonUnder')">Python</a></li>
 	  <div id='pythonUnder'>
 	    <li><a href='javascript:void(0);' onclick='SwitchContent("pythonSystem")'>System</a></li>
@@ -163,10 +167,6 @@ $(document).ready(function() {
   </ul>
 </div>
 
-<div class='sideBarHide' id='SideBarHide'>
-  <a href='javascript:void(0)'>hide</a>
-</div>
-
 
 <div class='Navigation' id='Navigation'>
   <ul>
@@ -174,6 +174,7 @@ $(document).ready(function() {
     <div id='pythonSystemNav'>
       <li><a href='#classes'>Classes</a></li>
       <li><a href='#magicMethods'>Magic Methods</a></li>
+      <li><a href='#decorators'>Decorators</a></li>
       <li><a href='#subclassing'>Subclassing</a></li>
       <li><a href='#argsKwargs'>Args & Kwargs</a></li>
       <li><a href='#handlingExceptions'>Exceptions</a></li>
@@ -262,10 +263,13 @@ $(document).ready(function() {
         </span><br />
 
         <li><h3>Class Instances</h3></li>
-        The main reason for using a class though is to create instances. Instances like classes can store data.
+        The main reason for using a class though is to create instances.
+        Instances are objects created from classes.
+        Instances like classes can store data.
         They share the methods and properties of a class and their own, seperate ones.
         You can also assign data to instances, or change instance data.
         Instances are created by calling the class (by calling a class you are actually calling the __init__ constructor method).<br />
+        <span class='colorOrange'>Calling type(object) returns the class of which object is an instance.</span><br />
         <br />
         Class initializes an instance through the __init__ method (called <span class='colorOrange'>constructor</span>) and
         stores the newly created instance into its first argument (<span class='Code'> __init__(instance)</span>).
@@ -273,28 +277,20 @@ $(document).ready(function() {
         Note that any method called as instance.method() is getting instance passed
         as its first argument, so <span class='Code'>instance.method() == type(instance).method(instance)</span>
         (<span class='colorOrange'>type(instance) returns the class from which instance was instantiated</span>).<br />
-        The standard name to call a newly created instance is by calling it self.<br />
+        The standard name to call a newly created instance is "self".<br />
         <span class='colorOrange'>self represents an instance being used or created localy in class methods.</span><br />
-        <span class='colorOrange'>if constructor is not written one will be created automaically (it will just pass).</span>
+        <span class='colorOrange'>if constructor is not written one will be created automaically (it will just pass).</span><br />
         <br />
-        calling the method through instance means the method is bound to instance of class type(instance),
-        calling the method through class (type(instance)) means the method is bound to class of the instance.<br />
-        <br />
-        A way to make a method unbound to its instance while still being able to access it through an instance is
-        by using a decorator <span class='colorPurple'>@staticmethod</span> before defining function in the class.<br />
-        In that case this is true: instance.method() == type(instance).method.<br />
-        <br />
-        A common decorator used is <span class='colorPurple'>@classmethod</span>, which makes a method called through instance bound
-        to its class rather than the instance.<br />
-        In that case this is true: instance.method() == type(instance).method(type(instance)).<br />
+        If the method is accessed through an instance of class (<span class='Code'>instance.method()</span>), we say the method is bound to its the instance.<br />
+        If the method is accessed through class (<span class='Code'>className.method()</span>), we say the method is bound to its class<br />
+        Check <a href='#decorators'>decorators</a> for more on how to make methods "unbound".<br />
         <br />
         <span class='colorLime'>Instance of a class = an object initialized through said class.</span><br />
         <span class='colorLime'>Type of instance = a class from which the instance was initialized</span><br />
         <span class='Code'>a = className()</span> --&gt; a is an instance of className<br />
         <span class='Code'>isinstance(a, className)</span> --&gt; returns True<br />
-        <br />
-        <span class='colorLime'>isinstance(instance, type) == (type(instance) == type)</span><br />
-        isinstance is better as it checks whether instance is an instance of any superclass of type<br />
+        <span class='colorLime'>isinstance(instance, type) ~ (type(instance) == type)</span><br />
+        isinstance is better as it also checks whether instance is an instance of any superclass of type<br />
 
         <span class='CodeFrame'>
           <span>Python</span>
@@ -340,6 +336,23 @@ $(document).ready(function() {
         <span class='colorOrange'>__name__(self)</span> -- returns the name of file self class is written in, if it's the same as the one you're calling it from it returns 'main'<br />
     </div>
 
+    <div id='decorators'>
+      <li><h2>Decorators</h2></li>
+      <ul>
+
+        <li><h3>@staticmethod</h3></li>
+        A way to make a method unbound to its instance while still being able to access it through an instance is
+        by using a decorator <span class='colorPurple'>@staticmethod</span> before defining function in the class.<br />
+        In that case this is true: instance.method() == type(instance).method.<br />
+
+        <li><h3>@classmethod</h3></li>
+        <span class='colorPurple'>@classmethod</span> makes a method called through instance bound to its class rather than the instance.<br />
+        If method is decorated with @classmethod this is true: instance.method() == type(instance).method(type(instance)).<br />
+
+      </ul>
+    </div>
+
+
     <div id='subclassing'>
       <li><h2>Subclassing</h2></li>
 
@@ -351,15 +364,16 @@ $(document).ready(function() {
       <br />
       This is useful when trying to override some of the methods in SuperClass<br />
       This is done by defining a method in myNewSubClass with the same name as the one you wish to override<br />
-      <span class='colorOrange'>This can mess the code if the arguments that instances depend on change</span><br />
+      <span class='colorOrange'>This can mess up the code if the arguments that instances depend on change</span><br />
       <br />
       When overriding a method somethimes you will wish to keep some of the SuperClass code<br />
-      This is done by calling super().method_to_replace(*args)<br />
+      This is done by calling super().method_to_replace(*args) within the method you are overriding.<br />
       <span class='colorOrange'>self is already called with super, so do not put it in *args</span><br />
       <span class='colorOrange'>The old way: super(myNewSubClass, self).method</span><br />
       <br />
       If you do not rename or create any new methods in SubClass while SuperClassing SuperClass, then:<br />
       Subclass == SuperClass<br />
+
     </div>
 
     <div id='argsKwargs'>
@@ -1244,7 +1258,7 @@ $(document).ready(function() {
 
 
     <div id='EventHandlers'>
-      <li><h2>Event Handlers</h3></li>
+      <li><h2>Event Handlers</h2></li>
       <span class='colorLime'>if something is enclosed in tags &lt;&gt; it means that what you should write in that place is of that type</span><br />
       <span class='Code'>$("&lt;selector&gt;").&lt;EventHandler&gt;(function(){ //action   });</span> -- attach event handler to all &lt;selector&gt; elements.<br />
       <br />
