@@ -74,7 +74,6 @@ body {
     width: 96%;
     left: 2%;
   }
-  /*<script>HideSidebar()</script>*/
 }
 
 </style>
@@ -83,6 +82,7 @@ body {
 <body>
 <script>
 
+/*
 $(document).ready(function() {
 
   $('#SideBarHideLink').click(function() {
@@ -99,6 +99,7 @@ $(document).ready(function() {
   });
 
 });
+*/
 
 function SwitchContent(iden, timer=1000) {
   $('#Navigation ul div').fadeOut(0);
@@ -215,7 +216,9 @@ $(document).ready(function() {
 
     <div id='HTMLjQueryNav'>
       <li><a href='#Basics'>Basics</a></li>
-      <li><a href='#Methods'>Methods & Event Handlers</a></li>
+      <li><a href='#Selectors'>Selectors</a></li>
+      <li><a href='#EventHandlers'>Event Handlers</a></li>
+      <li><a href='#Methods'>Methods</a></li>
     </div>
 
     <div id='HTMLLinksNav'>
@@ -262,7 +265,7 @@ $(document).ready(function() {
         The main reason for using a class though is to create instances. Instances like classes can store data.
         They share the methods and properties of a class and their own, seperate ones.
         You can also assign data to instances, or change instance data.
-        You initialize an instance by calling the class (eg. MyClass(args) -- args gets passed to the __init__ method).<br />
+        Instances are created by calling the class (by calling a class you are actually calling the __init__ constructor method).<br />
         <br />
         Class initializes an instance through the __init__ method (called <span class='colorOrange'>constructor</span>) and
         stores the newly created instance into its first argument (<span class='Code'> __init__(instance)</span>).
@@ -303,7 +306,7 @@ $(document).ready(function() {
             &nbsp;&nbsp;def instanceMethod(self):<br />
             &nbsp;&nbsp;&nbsp;&nbsp;<span class='colorDarkRed'># use instance that was passed to this function </span><br />
             <br />
-            myInstance = MyClass()<br />
+            myInstance = MyClass(&lt;args&gt;)<br />
             <span class='colorDarkRed'># we created (instantiated) our instance</span><br />
             <br />
             myInstance.instanceMethod()<br />
@@ -320,10 +323,14 @@ $(document).ready(function() {
     <div id='magicMethods'>
       <li><h2>Magic Methods</h2></li>
         Here self will represent an instance of a class in which the method using it is defined<br />
-        Magic Methods are methods that are used to being called on instances from outside the class.<br />
-        <span class='colorOrange'>__init__(self)</span> -- class constructor: is called when the class is called and creates the instance of its class<br />
+        Magic Methods are methods that are used for being called on instances from outside the class.
+        Usually they are called on instances with a special syntax or simply method(instance) if class contains __method__().<br />
+        <br />
+        <span class='colorOrange'>__init__(self)</span> -- class constructor: is called when the class is called and is the first to get passed the instantiated instance<br />
         <span class='colorOrange'>__repr__(self)</span> -- class representator: is called when an instance is called by itself and must return string<br />
         <span class='colorOrange'>__str__(self)</span> -- class string converter: is called when trying to convert object to string (str(self))<br />
+        <span class='colorOrange'>__add__(self)</span> -- addition: defines the result of self + other<br />
+        <span class='colorOrange'>__sub__(self)</span> -- subtraction: defines the result of self - other<br />
         <span class='colorOrange'>__mul__(self, other)</span> -- multiplication: defines the result of self * other<br />
         <span class='colorOrange'>__rmul__(self, other)</span> -- rightsided multipication: usually used when defining multiplication for different types of instances<br />
         <span class='colorOrange'>__pow__(self, n)</span> -- power: defines self^n<br />
@@ -559,6 +566,7 @@ $(document).ready(function() {
         <span class='Code'>soup.tag</span> --> returns first occurance of &lt;tag&gt; node (<span class='colorLime'>eg. soup.title</span>)<br />
         <span class='Code'>soup.tag.string</span> --&gt; returns &lt;tag&gt; text node as string<br />
         <span class='Code'>soup.tag.text</span> --&gt; same as <span class='Code'>soup.tag.string</span> (<span class='colorLime'>every Tag type instance has a text attribute</span>)<br />
+        <span class='Code'>soup.tag.contents</span> --&gt; returns html content of selected tag</span><br />
         <br />
         <span class='Code'>soup.find('tag', _class='classname')</span> --&gt; finds all &lt;tag&gt; with class='classname'<br />
         <span class='Code'>soup.find_all('tag')</span> --&gt; returns a list of all &lt;tag&gt; nodes<br />
@@ -569,6 +577,7 @@ $(document).ready(function() {
         <br />
         <span class='Code'>tag = soup.find_all('tag')[i]</span><br />
         <span class='Code'>tag.get_attribute_list('attribute')</span> --&gt; returns every attribute value ('href' would return links)<br />
+        <span class='Code'>tag['attribute']</span> --&gt; returns attribute value, if tag has it defined<br />
 
         <li><h3>Easy Way Example</h3></li>
         <span class='CodeFrame'>
@@ -657,6 +666,7 @@ $(document).ready(function() {
         <span class='Code'>os.chdir('new_dir_path')</span> --&gt; changes current directory to new_dir_path<br />
         <span class='Code'>os.getcwd()</span> --&gt; returns the name of current working directory<br />
         <span class='Code'>os.remove('file/name')</span> --&gt; deletes the specified file<br />
+        <span class='Code'>os.rename('oldFileName', 'newFileName')</span> --&gt; renames oldFileName to newFileName<br />
 
         <li><h3>Getting Path of a Module</h3></li>
         <span class='Code'>import module</span><br />
@@ -755,6 +765,7 @@ $(document).ready(function() {
       <ul style='list-style-type:none;'>
         <li><a href='https://www.pyimagesearch.com/2014/09/01/build-kick-ass-mobile-document-scanner-just-5-minutes/' target='_blank'>Building a Scanner</a></li>
         <li><a href='https://realpython.com/blog/python/python-web-scraping-practical-introduction/' target='_blank'>Webscraping</a></li>
+        <li><a href='https://realpython.com/blog/python/modern-web-automation-with-python-and-selenium/' target='_blank'>Webscraping Advanced</a></li>
         <li><a href='https://pybit.es/requests-session.html' target='_blank'>Webscraping Login pages</a></li>
       </ul>
     </div>
@@ -1005,8 +1016,8 @@ $(document).ready(function() {
             &nbsp;&nbsp;&nbsp;&nbsp;} finally {reader.close();}<br />
             &nbsp;&nbsp;&nbsp;&nbsp;String FileText = new String(FileContent);<br />
             &nbsp;&nbsp;&nbsp;&nbsp;// now we have file text saved in our FileText variable<br />
-            &nbsp;&nbsp;&nbsp;&nbsp;}<br />
             &nbsp;&nbsp;}<br />
+            }<br />
           </p>
         </span>
 
@@ -1192,7 +1203,7 @@ $(document).ready(function() {
           <span>HTML</span>
           <p>
             &lt;head&gt;<br />
-            &lt;script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"&gt;&lt;/script&gt;<br />
+            &nbsp;&nbsp;&lt;script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"&gt;&lt;/script&gt;<br />
             &lt;/head&gt;<br />
           </p>
         </span>
@@ -1207,50 +1218,61 @@ $(document).ready(function() {
         <span class='Code'>$('document').ready(function() { // code });</span>,<br />
         so the function waits until the whole document is loaded.<br />
 
-        <li><h3>Selectors</h3></li>
-        <span class='colorLime'>All selectors can be combined (eg. 'div li' -- selects all li  that are children of a div)</span><br />
-        <span class='Code'>$("*")</span> --&gt; selects all elements<br />
-        <span class='Code'>$(this)</span> --&gt; current HTMl element<br />
-        <span class='Code'>$("p:first")</span> --&gt; selects first &lt;p&gt; element<br />
-        <span class='Code'>$("ul li:first")</span> --&gt; selects the first &lt;li&gt; child of the first &lt;ul&gt;<br />
-        <span class='Code'>$("ul li:first-child")</span> selects the first &lt;li&gt; child of every &lt;ul&gt;<br />
-        <span class='Code'>$("p.intro")</span> --&gt; all &lt;p&gt; elements with classs='intro'<br />
-        <span class='Code'>$("[href]")</span> --&gt; elements with an href attrubute<br />
-        <span class='Code'>$("a[target='blank']")</span> --&gt; elements with target='_blank' attribute value<br />
-        <span class='Code'>$("a[target!='_blank']")</span> --&gt; selects all &lt;a&gt; elements with target attribute not equal to blank<br  />
-        <span class='Code'>$(":button")</span> --&gt; all &lt;button&gt; elements and &lt;input&gt; elements of type='button'<br />
-        <span class='Code'>$("tr:even")</span> --&gt; selects all even &lt;tr&gt; elements<br />
-        <span class='Code'>$("tr:odd")</span> --&gt; selects all odd &lt;tr&gt; elements<br />
-        <span class='Code'>$("tr, p, li")</span> --&gt; selects all &lt;tr&gt;, &lt;p&gt; and &lt;li&gt; elements<br />
-
       </ul>
     </div>
 
+
+    <div id='Selectors'>
+      <li><h2>Selectors</h2></li>
+
+      <span class='colorLime'>All selectors can be combined (eg. 'div li' -- selects all li  that are children of a div)</span><br />
+      <span class='Code'>$("*")</span> --&gt; selects all elements<br />
+      <span class='Code'>$(this)</span> --&gt; current HTMl element<br />
+      <span class='Code'>$("p:first")</span> --&gt; selects first &lt;p&gt; element<br />
+      <span class='Code'>$("ul li:first")</span> --&gt; selects the first &lt;li&gt; child of the first &lt;ul&gt;<br />
+      <span class='Code'>$("ul li:first-child")</span> selects the first &lt;li&gt; child of every &lt;ul&gt;<br />
+      <span class='Code'>$("p.intro")</span> --&gt; all &lt;p&gt; elements with classs='intro'<br />
+      <span class='Code'>$("[href]")</span> --&gt; elements with an href attrubute<br />
+      <span class='Code'>$("a[target='blank']")</span> --&gt; elements with target='_blank' attribute value<br />
+      <span class='Code'>$("a[target!='_blank']")</span> --&gt; selects all &lt;a&gt; elements with target attribute not equal to blank<br  />
+      <span class='Code'>$(":button")</span> --&gt; all &lt;button&gt; elements and &lt;input&gt; elements of type='button'<br />
+      <span class='Code'>$("tr:even")</span> --&gt; selects all even &lt;tr&gt; elements<br />
+      <span class='Code'>$("tr:odd")</span> --&gt; selects all odd &lt;tr&gt; elements<br />
+      <span class='Code'>$("tr, p, li")</span> --&gt; selects all &lt;tr&gt;, &lt;p&gt; and &lt;li&gt; elements<br />
+
+    </div>
+
+
+    <div id='EventHandlers'>
+      <li><h2>Event Handlers</h3></li>
+      <span class='colorLime'>if something is enclosed in tags &lt;&gt; it means that what you should write in that place is of that type</span><br />
+      <span class='Code'>$("&lt;selector&gt;").&lt;EventHandler&gt;(function(){ //action   });</span> -- attach event handler to all &lt;selector&gt; elements.<br />
+      <br />
+      <span class='colorOrange'>Event Handlers:</span><br />
+      <span class='Code'>click(function() { //code });</span> -- user clicks on the selected element<br />
+      <span class='Code'>dblclick(function() { //code});</span> -- user double clicks on the selected element<br />
+      <span class='Code'>mouseenter(function() { //code});</span> -- mouse pointer enters the element<br />
+      <span class='Code'>mouseleave(function() { //code});</span> -- mouse pointer leaves the element<br />
+      <span class='Code'>mousedown(function() { //code});</span> --left, middle, or right mouse button is pressed down<br />
+      <span class='Code'>mouseup(function() { //code});</span> -- left, middle, or right mouse button is released<br />
+      <span class='Code'>hover(function1() { //code }, function2() { //code });</span> -- combination of mouseenter (function1) and mouseleave (function2)<br />
+      <br />
+      <span class='Code'>$("&lt;selector&gt;").on({&lt;method1&gt;:function(){ //code }, &lt;method2&gt;:function(){ //code },..., &lt;methodN&gt;:function() { //code }});</span>
+      -- attaches all the event handlers (methods) to selector.<br />
+
+    </div>
+
+
     <div id='Methods'>
-      <li><h2>Methods & Event Handlers</h2></li>
+      <li><h2>Methods</h2></li>
       <span class='colorLime'>if something is enclosed in tags &lt;&gt; it means that what you should write in that place is of that type</span><br />
       <ul>
 
-        <li><h3>Event Handlers</h3></li>
-        <span class='Code'>$("&lt;selector&gt;").&lt;EventHandler&gt;(function(){ //action   });</span> -- attach event handler to all &lt;selector&gt; elements.<br />
-        <br />
-        <span class='colorOrange'>Event Handlers:</span><br />
-        <span class='Code'>click(function() { //code });</span> -- user clicks on the selected element<br />
-        <span class='Code'>dblclick(function() { //code});</span> -- user double clicks on the selected element<br />
-        <span class='Code'>mouseenter(function() { //code});</span> -- mouse pointer enters the element<br />
-        <span class='Code'>mouseleave(function() { //code});</span> -- mouse pointer leaves the element<br />
-        <span class='Code'>mousedown(function() { //code});</span> --left, middle, or right mouse button is pressed down<br />
-        <span class='Code'>mouseup(function() { //code});</span> -- left, middle, or right mouse button is released<br />
-        <span class='Code'>hover(function1() { //code }, function2() { //code });</span> -- combination of mouseenter (function1) and mouseleave (function2)<br />
-        <br />
-        <span class='Code'>$("&lt;selector&gt;").on({&lt;method1&gt;:function(){ //code }, &lt;method2&gt;:function(){ //code },..., &lt;methodN&gt;:function() { //code }});</span>
-        -- attaches all the event handlers (methods) to selector.<br />
-
-        <li><h3>Methods</h3></li>
-        <span class='Code'>$("&lt;selector&gt;").&lt;Method&gt;(&lt;arguments&gt;);</span> -- attach event handler to all &lt;selector&gt; elements.<br />
+        <li><h3>Basic</h3></li>
+        <span class='Code'>$("&lt;selector&gt;").&lt;Method&gt;(&lt;arguments&gt;);</span> -- attach a method to all &lt;selector&gt; elements.<br />
         <span class='Code'>$('selector').method1().method2()....methodN();</span> -- Chaining<br />
-        <br />
-        <span class='colorOrange'>Element Display:</span><br />
+
+        <li><h3>Element Display</h3></li>
         <span class='Code'>hide(transitionInMilliseconds);</span> -- sets the selected element's display to 'none'<br />
         <span class='Code'>fadeIn(transitionInMilliseconds);</span> -- fades In the selected element<br />
         <span class='Code'>fadeOut(transitionInMilliseconds);</span> -- fades Out the selected element<br />
@@ -1259,8 +1281,8 @@ $(document).ready(function() {
         <span class='Code'>slideUp(transitionInMilliseconds);</span> -- slides Up (hides) selected element<br />
         <span class='Code'>slideDown(trasnsitionInMilliseconds);</span> -- slides Down (shows) selected element<br />
         <span class='Code'>slideToggle(transitionInMilliseconds');</span> -- slides Down element if element is hidden, slides Up if it is slided Down<br />
-        <br />
-        <span class='colorOrange'>Element Data Fetching/Setting:</span><br />
+
+        <li><h3>Element Data Fetching/Setting</h3></li>
         <span class='Code'>text();</span> -- gets the text of the selected element<br />
         <span class='Code'>html();</span> -- gets the html content of the selected element<br />
         <span class='Code'>attr('&lt;attribute&gt;')</span> -- gets the value of 'attribute' (eg. 'href')<br />
@@ -1272,14 +1294,67 @@ $(document).ready(function() {
         <span class='Code'>prepend("someTextInDaFront");</span><br />
         <span class='Code'>after("someTextAfterMySelector");</span><br />
         <span class='Code'>before("someTextBeforeMySelector");</span><br />
-        <br />
-        <span class='colorOrange'>Removing Elements/Properties:</span><br />
+
+        <li><h3>Removing Elements/Properties</h3></li>
         <span class='Code'>remove();</span> -- removes selected element and its children (from DOM completely)<br />
         <span class='Code'>empty();</span> -- removes ONLY the children of the selected element<br />
         <span class='Code'>detach();</span> -- removes and returns selected element<br />
         <span class='Code'>remove("&lt;selector1&gt;, &lt;selector2&gt;, ..., &lt;selectorN&gt;")</span> -- removes all the selected elements put in as arguments<br />
 
+        <li><h3>Animation</h3></li>
+        <span class='CodeFrame'>
+          <span>HTML</span>
+          <p>
+            $('document').ready(function() {<br />
+            &nbsp;&nbsp;$('myClass.div').animate({<br />
+            &nbsp;&nbsp;&nbsp;&nbsp;backgroundColor: 'green',<br />
+            &nbsp;&nbsp;&nbsp;&nbsp;color: 'red'<br />
+            &nbsp;&nbsp;}, 1000);<br />
+            });
+          </p>
+        </span><br />
+        <span class='colorBrightRed'>CSS properties must be written in camelcase (non-string)</span><br />
 
+        <li><h3>Class Manipulation</h3></li>
+        <span class='Code'>addClass('&lt;ClassName&gt;');</span> -- adds class to the selected element<br />
+        <span class='Code'>addClass('&lt;ClassName1&gt; &lt;ClassName2&gt; ...');</span> -- adds ClassNameI to selected element<br />
+        <span class='Code'>removeClass('&lt;ClassName&gt;');</span> -- removes className from the selected element<br />
+        <span class='Code'>toggleClass('&lt;ClassName&gt;');</span> -- adds class if class is applied, removes if not<br />
+
+        <li><h3>CSS access (property names should be named like exact CSS properties)</h3></li>
+        <span class='Code'>css('&lt;propertyName&gt;', '&lt;propertyValue&gt;');</span> -- sets the propertyName to propertyValue<br />
+        <span class='Code'>css({'&lt;propertyName1&gt;': '&lt;propertyValue1&gt;', &lt;propertyName2&gt;': '&lt;propertyValue2&gt;, ... });</span> -- sets multiple property Values to multiple properties<br />
+        <span class='Code'>css('propertyName');</span> -- returns value of propertyName<br />
+
+        <li><h3>Elements Size Property Manipulation</h3></li>
+        <span class='Code'>width();</span> -- returns selected element's width<br />
+        <span class='Code'>height();</span> -- returns selected element's height<br />
+        <span class='Code'>height(&lt;size&gt;);</span> -- sets selected element's height to size<br />
+        <span class='Code'>width(&lt;size&gt;);</span> -- sets selected element's width to size<br />
+        <span class='Code'>innerWidth();</span> -- gets element's width + Padding<br />
+        <span class='Code'>innerHeight();</span> -- gets element's height + Padding<br />
+        <span class='Code'>outerWidth();</span> -- gets element's width + Padding + Border<br />
+        <span class='Code'>outerHeight();</span> -- gets element's height + Padding + Border<br />
+        <span class='Code'>outerWidth(true);</span> -- gets element's width + Padding + Border + Margin<br />
+        <span class='Code'>outerHeight(true);</span> -- gets element's heught + Padding + Border + Margin<br />
+        <span class='Code'>$(window).height();</span> -- gets the height of your window<br />
+
+        <li><h3>Traversing Methods</h3></li>
+        <span class='colorOrange'>Traversing - travel through: meaning the DOM tree (methods for getting DOM elements)</span><br />
+        <span class='colorBrightRed'>These are not selectors, but methods! They are used on selectors, and also select elements</span><br />
+        <br />
+        <span class='colorOrange'>Parents</span><br />
+        <span class='Code'>parent();</span> -- returns the parent of the selected element<br />
+        <span class='Code'>parents();</span> -- returns all ancestors of the selected element<br />
+        <span class='Code'>$('&lt;childSelector&gt;').parents('&lt;Selector&gt;');</span> -- returns all ancestors of &lt;childSelector&gt; that are type &lt;Selector&gt;<br />
+        <span class='Code'>parentsUntil('&lt;selector&gt;');</span> -- returns every ancestor until the first ocurrance of &lt;selector&gt;<br />
+        <br />
+        <span class='colorOrange'>Children</span><br />
+        <span class='Code'>children();</span> -- returns all direct children of selected element<br />
+        <span class='Code'>children('&lt;selector&gt;');</span> -- returns all children of selected element that suits the &lt;selector&gt;<br />
+        <span class='Code'>find("*");</span> -- returns all descendants (way down to the last one) of the selected element<br />
+        <span class='Code'>find('&lt;selector&gt;');</span> -- returns all descendants of selected element that suit the selector<br />
+        <br />
 
 
       </ul>

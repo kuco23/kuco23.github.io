@@ -4,9 +4,7 @@
 <head>
 <title>AnimationProject</title>
 <meta name='viewport' content='width=device-width, initial-scale=1.0'>
-
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
-<link href='https://fonts.googleapis.com/css?family=Alegreya Sans SC' rel='stylesheet'>
 
 <style>
 
@@ -14,6 +12,8 @@ body {
   text-align: center;
   background-color: black;
 }
+
+
 @-webkit-keyframes trippy {
   0%, 4%, 10%, 14%, 24% {
     opacity: 0.4;
@@ -62,17 +62,6 @@ body {
   }
 }
 @keyframes RotateFall {
-  100% {
-    transform: rotateZ(0deg);
-  }
-}
-
-@-webkit-keyframes RotateFall2 {
-  100% {
-    -webkit-transform: rotateZ(0deg);
-  }
-}
-@keyframes RotateFall2 {
   100% {
     transform: rotateZ(0deg);
   }
@@ -201,13 +190,13 @@ div.container div:first-child span:nth-child(2), div.container div:first-child s
   display: inline-block;
 
   transform-origin: right;
-  animation-name: RotateFall2;
+  animation-name: RotateFall;
   animation-duration: 4s;
   animation-iteration-count: 1;
   animation-fill-mode: forwards;
 
   -webkit-transform-origin: right;
-  -webkit-animation-name: RotateFall2;
+  -webkit-animation-name: RotateFall;
   -webkit-animation-duration: 4s;
   -webkit-animation-iteration-count: 1;
   -webkit-animation-fill-mode: forwards;
