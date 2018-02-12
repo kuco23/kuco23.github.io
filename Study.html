@@ -93,44 +93,25 @@ function SwitchContent(iden, timer=1000) {
 }
 
 function HideSidebarChild(iden) {
-  $('#sidebar').css({'height': '100%'});
-
-  $('#' + iden).slideToggle(1000, function() {
-    var sidebarHeight = $('#sidebar ul').outerHeight();
-    $('#sidebar').css({'height': sidebarHeight});
-  });
+  $('#' + iden).slideToggle(1000);
 
   var selection = $('#sidebar ul div');
   for (i=0; i < selection.length; i++) {
-    if (selection[i].id != iden)  $('#' + selection[i].id).slideUp(1000), function() {
-      var sidebarHeight = $('#sidebar ul').outerHeight();
-      $('#sidebar').css({'height': sidebarHeight});
-    };
+    if (selection[i].id != iden)  $('#' + selection[i].id).slideUp(1000);
   }
 }
 
 $(document).ready(function() {
 
   var buttonHeight = $('#SideBarHide').outerHeight();
-  var sidebarHeight = $('#sidebar ul').outerHeight();
-  $('#sidebar').css('top', buttonHeight);
+  $('#sidebar').css({'top': buttonHeight});
+  $('#sidebar').slideUp(0);
 
-  $('div.sidebar').mouseenter(function() {
-    var sidebarHeight = $('#sidebar ul').outerHeight();
-    $('#sidebar').css({'height': sidebarHeight});
-    $('#SideBarHide a').text('-');
-  });
-
-  $('div.sidebar').mouseleave(function() {
-    $("#sidebar").css({'height': '0'});
-    $('#SideBarHide a').text('+');
-  });
-
-  $('#SideBarHide a').mouseenter(function() {
-    var buttonHeight = $('#SideBarHide').outerHeight();
-    var sidebarHeight = $('#sidebar ul').outerHeight();
-    $('#sidebar').css({'top':buttonHeight, 'height': sidebarHeight});
-    $('#SideBarHide a').text('-');
+  $('#SideBarHide a').click(function() {
+    $('#sidebar').slideToggle(1000, function() {
+      if ($(this).css('display') == 'block') {$('#SideBarHide a').text('-');}
+      else if ($(this).css('display') == 'none') {$('#SideBarHide a').text('+');}
+    });
   });
 
 });
@@ -1287,6 +1268,7 @@ $(document).ready(function() {
         <span class='Code'>$('selector').method1().method2()....methodN();</span> -- Chaining<br />
 
         <li><h3>Element Display</h3></li>
+        <span class='colorBrightRed'>Methods below all switch css display property either to none or block</span><br />
         <span class='Code'>hide(transitionInMilliseconds);</span> -- sets the selected element's display to 'none'<br />
         <span class='Code'>fadeIn(transitionInMilliseconds);</span> -- fades In the selected element<br />
         <span class='Code'>fadeOut(transitionInMilliseconds);</span> -- fades Out the selected element<br />
