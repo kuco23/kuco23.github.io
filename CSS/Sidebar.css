@@ -71,17 +71,18 @@ z-index: 100;
 }
 
 .sideBarHide a {
-text-align: center;
 text-decoration: none;
+text-align: center;
 font-size: 1.8vh;
 color: white;
-display: block;
-background-color: rgba(0,0,0, 0);
 
-transition: background-color 1s;
--webkit-transition: background-color 1s;
+display: block;
+border: 2px solid transparent;
+
+transition: border 1s;
+-webkit-transition: border 1s;
 }
 
 .sideBarHide a:hover {
-background-color: DarkRed;
+border: 2px solid DarkRed;
 }
