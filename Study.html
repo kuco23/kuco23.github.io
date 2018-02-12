@@ -105,6 +105,11 @@ $(document).ready(function() {
   $('#sidebar').css({'top': buttonHeight});
   $('#sidebar').slideUp(0);
 
+  $(window).resize(function() {
+    var buttonHeight = $('#SideBarHide').outerHeight();
+    $('#sidebar').css({'top': buttonHeight});
+  });
+
   $('#SideBarHide a').click(function() {
     $('#sidebar').slideToggle(1000, function() {
       if ($(this).css('display') == 'block') {$('#SideBarHide a').text('-');}
@@ -1232,6 +1237,8 @@ $(document).ready(function() {
       <span class='Code'>$("tr:even")</span> --&gt; selects all even &lt;tr&gt; elements<br />
       <span class='Code'>$("tr:odd")</span> --&gt; selects all odd &lt;tr&gt; elements<br />
       <span class='Code'>$("tr, p, li")</span> --&gt; selects all &lt;tr&gt;, &lt;p&gt; and &lt;li&gt; elements<br />
+      <span class='Code'>$(document)</span> --&gt; selects the whole document<br />
+      <span class='Code'>$(window)</span> --&gt; selects the window (usually used for getting window size)<br />
 
     </div>
 
@@ -1242,13 +1249,14 @@ $(document).ready(function() {
       <span class='Code'>$("&lt;selector&gt;").&lt;EventHandler&gt;(function(){ //action   });</span> -- attach event handler to all &lt;selector&gt; elements.<br />
       <br />
       <span class='colorOrange'>Event Handlers:</span><br />
-      <span class='Code'>click(function() { //code });</span> -- user clicks on the selected element<br />
-      <span class='Code'>dblclick(function() { //code});</span> -- user double clicks on the selected element<br />
-      <span class='Code'>mouseenter(function() { //code});</span> -- mouse pointer enters the element<br />
-      <span class='Code'>mouseleave(function() { //code});</span> -- mouse pointer leaves the element<br />
-      <span class='Code'>mousedown(function() { //code});</span> --left, middle, or right mouse button is pressed down<br />
-      <span class='Code'>mouseup(function() { //code});</span> -- left, middle, or right mouse button is released<br />
-      <span class='Code'>hover(function1() { //code }, function2() { //code });</span> -- combination of mouseenter (function1) and mouseleave (function2)<br />
+      <span class='Code'>click(function() {});</span> -- user clicks on the selected element<br />
+      <span class='Code'>dblclick(function() {});</span> -- user double clicks on the selected element<br />
+      <span class='Code'>mouseenter(function() {});</span> -- mouse pointer enters the element<br />
+      <span class='Code'>mouseleave(function() {});</span> -- mouse pointer leaves the element<br />
+      <span class='Code'>mousedown(function() {});</span> --left, middle, or right mouse button is pressed down<br />
+      <span class='Code'>mouseup(function() {});</span> -- left, middle, or right mouse button is released<br />
+      <span class='Code'>hover(function1() { }, function2() {});</span> -- combination of mouseenter (function1) and mouseleave (function2)<br />
+      <span class='Code'>resize(function() {});</span> -- triggers when user resizes the selector (usually used on window)<br />
       <br />
       <span class='Code'>$("&lt;selector&gt;").on({&lt;method1&gt;:function(){ //code }, &lt;method2&gt;:function(){ //code },..., &lt;methodN&gt;:function() { //code }});</span>
       -- attaches all the event handlers (methods) to selector.<br />
