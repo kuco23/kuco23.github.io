@@ -21,7 +21,7 @@ body {
   }
   2%, 6%, 12%, 22%, 28% {
     opacity: 1;
-    text-shadow: 0 0 80px #ffffff, 0 0 30px #008000, 0 0 6px #0000ff;
+    text-shadow: 0 0 2em #ffffff, 0 0 0.8em #008000, 0 0 0.1em #0000ff;
   }
 }
 @keyframes trippy_upper {
@@ -31,7 +31,7 @@ body {
   }
   2%, 6%, 12%, 22%, 28% {
     opacity: 1;
-    text-shadow: 0 0 80px #ffffff, 0 0 30px #008000, 0 0 6px #0000ff;
+    text-shadow: 0 0 2em #ffffff, 0 0 0.8em #008000, 0 0 0.1em #0000ff;
   }
 }
 
@@ -69,10 +69,12 @@ body {
 
 div.container {
   position: absolute;
-  top: 50%;
+  top: 40%;
   transform: translateY(-50%);
   -webkit-transform: translateY(-50%);
-  left: 40%;
+  left: 50%;
+  transform: translateX(-50%);
+  -webkit-transform: translateX(-50%);
 
   padding: 40px;
 
@@ -80,17 +82,16 @@ div.container {
   -webkit-text-transform: uppercase;
   font-family: monospace;
   font-size: 50px;
-  color: red;
 }
 div.container div:first-child {
   font-size: 50px;
   color: #fff;
-  text-shadow: 0 0 80px #ffffff, 0 0 30px #008000, 0 0 6px #0000ff;
+  text-shadow: 0 0 2.5em #ffffff, 0 0 1em #008000, 0 0 0.1em #0000ff;
 }
 div.container div:last-child {
   font-size: 30px;
   color: FireBrick;
-  text-shadow: 0 0 80px red, 0 0 30px FireBrick, 0 0 6px DarkRed;
+  text-shadow: 0 0 2em red, 0 0 0.8em FireBrick, 0 0 0.1em DarkRed;
 
   border-bottom: 2px solid transparent;
   transition: border 1s;
@@ -221,6 +222,7 @@ $(document).ready(function() {
 
 
 <div class='container'>
+
   <div>
     <span>w</span><span>e</span><span>l</span><span>c</span><span>o</span><span>m</span><span>e</span>
   </div>
@@ -228,6 +230,7 @@ $(document).ready(function() {
   <div style='display:inline-block;'>
     <span>e</span>nt<span>e</span>r
   </div>
+
 </div>
 
 
