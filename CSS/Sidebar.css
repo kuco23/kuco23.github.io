@@ -9,6 +9,8 @@ background-color: transparent;
 
 max-height: 96%;
 overflow: auto;
+
+display: none;
 }
 
 .sidebar ul {

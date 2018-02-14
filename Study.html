@@ -38,19 +38,6 @@ body {
   height:100%;
 }
 
-
-#pythonSystem, #pythonSystemNav, #sidebar {
-  display: block;
-}
-
-#pythonPackages, #pythonPackagesNav,
-#pythonLinks, #pythonLinksNav,
-#javaBasics, #javaBasicsNav,
-#javaLinks, #javaLinksNav,
-#HtmlJavaScript, #HtmlJavaScriptNav {
-  display: none;
-}
-
 @media only screen and (max-width: 700px) {
 
   html {
@@ -86,17 +73,14 @@ function SwitchContent(iden, timer=1000) {
   $('#Navigation ul div').fadeOut(0);
   $('#' + iden + 'Nav').fadeIn(0);
 
-  $('div.middleground').fadeOut(timer);
-  setTimeout(function() { $('#' + iden).fadeIn(timer, StickyScroll()); }, timer);
+  $('div.middleground[id!="' + iden + '"]').fadeOut(timer, function() {
+    $('#' + iden).fadeIn(timer, function() { StickyScroll(); });
+  });
 }
 
 function HideSidebarChild(iden) {
-  $('#' + iden).slideToggle(1000);
-
-  var selection = $('#sidebar ul div');
-  for (i=0; i < selection.length; i++) {
-    if (selection[i].id != iden)  $('#' + selection[i].id).slideUp(1000);
-  }
+  if (iden != null) $('#' + iden).slideToggle(1000);
+  $('#sidebar ul div[id!="' + iden + '"]').slideUp(1000);
 }
 
 function AdjustSidebarTop() {
@@ -105,6 +89,7 @@ function AdjustSidebarTop() {
 }
 
 // Sidebar sticks to the bottom when scrolling if it overflows
+// also checks if scroll is needed and if not position: fixed is implemented
 function StickyScroll() {
   var screenHeight = $(window).height();
   var screenAwayFromTop = $(window).scrollTop();
@@ -132,9 +117,11 @@ function StickyScroll() {
 
 $(document).ready(function() {
 
+  HideSidebarChild();
+  SwitchContent('pythonSystem', 0);
+
   AdjustSidebarTop();
   StickyScroll();
-  $('#sidebar').slideUp(0);
 
   $(window).scroll(function() {
      StickyScroll();
@@ -177,11 +164,11 @@ $(document).ready(function() {
       <li><a href='javascript:void(0);' onclick='SwitchContent("javaLinks")'>Links</a></li>
 	  </div>
 
-    <li><a href='javascript:void(0)' onclick='HideSidebarChild("HtmlUnder")'>HTML</a></li>
-    <div id='HtmlUnder'>
-      <li><a href='javascript:void(0);' onclick='SwitchContent("HtmlJavaScript")'>JavaScript</a></li>
-      <li><a href='javascript:void(0);' onclick='SwitchContent("HTMLjQuery")'>jQuery</a></li>
-      <li><a href='javascript:void(0);' onclick='SwitchContent("HTMLLinks")'>HTML Links</a></li>
+    <li><a href='javascript:void(0)' onclick='HideSidebarChild("WebUnder")'>Web Dev</a></li>
+    <div id='WebUnder'>
+      <li><a href='javascript:void(0);' onclick='SwitchContent("WebJavaScript")'>JavaScript</a></li>
+      <li><a href='javascript:void(0);' onclick='SwitchContent("WebjQuery")'>jQuery</a></li>
+      <li><a href='javascript:void(0);' onclick='SwitchContent("WebLinks")'>Web Links</a></li>
     </div>
   </ul>
 </div>
@@ -211,9 +198,9 @@ $(document).ready(function() {
     </div>
 
     <div id='pythonLinksNav'>
-      <li><a href='#general'>General</a></li>
-      <li><a href='#documentations'>Package Documentations</a></li>
-      <li><a href='#packTutorials'>Package Tutorials</a></li>
+      <li><a href='#PythonGeneralLinks'>General</a></li>
+      <li><a href='#PythonDocumentations'>Package Documentations</a></li>
+      <li><a href='#PythonPackageTutorials'>Package Tutorials</a></li>
       <li><a href='#projTutorials'>Project Tutorials</a></li>
     </div>
 
@@ -225,24 +212,25 @@ $(document).ready(function() {
     </div>
 
     <div id='javaLinksNav'>
-      <li><a href='#links'>Basics Links</a></li>
+      <li><a href='#JavaLinks'>Basics Links</a></li>
     </div>
 
-    <div id='HtmlJavaScriptNav'>
+    <div id='WebJavaScriptNav'>
       <li><a href='#htmlStackingOrder'>Html Stacking Order</a></li>
       <li><a href='#DOM'>DOM</a></li>
       <li><a href='#UsefulShit'>Useful Shit</a></li>
     </div>
 
-    <div id='HTMLjQueryNav'>
+    <div id='WebjQueryNav'>
       <li><a href='#Basics'>Basics</a></li>
       <li><a href='#Selectors'>Selectors</a></li>
       <li><a href='#EventHandlers'>Event Handlers</a></li>
       <li><a href='#Methods'>Methods</a></li>
     </div>
 
-    <div id='HTMLLinksNav'>
-      <li><a href='#DownloadFiles'>Download Files</a></li>
+    <div id='WebLinksNav'>
+      <li><a href='#WebDownloadFiles'>Download Files</a></li>
+      <li><a href='#WebTutorials'>Web Tutorials</a></li>
     </div>
 
   </ul>
@@ -599,7 +587,7 @@ $(document).ready(function() {
         <span class='Code'>soup.tag</span> --> returns first occurance of &lt;tag&gt; node (<span class='colorLime'>eg. soup.title</span>)<br />
         <span class='Code'>soup.tag.string</span> --&gt; returns &lt;tag&gt; text node as string<br />
         <span class='Code'>soup.tag.text</span> --&gt; same as <span class='Code'>soup.tag.string</span> (<span class='colorLime'>every Tag type instance has a text attribute</span>)<br />
-        <span class='Code'>soup.tag.contents</span> --&gt; returns html content of selected tag</span><br />
+        <span class='Code'>soup.tag.contents</span> --&gt; returns html content of selected tag<br />
         <br />
         <span class='Code'>soup.find('tag', _class='classname')</span> --&gt; finds all &lt;tag&gt; with class='classname'<br />
         <span class='Code'>soup.find_all('tag')</span> --&gt; returns a list of all &lt;tag&gt; nodes<br />
@@ -759,7 +747,7 @@ $(document).ready(function() {
   <h1>Links</h1>
   <ul>
 
-    <div id='general'>
+    <div id='PythonGeneralLinks'>
       <li><h2>General</h2></li>
       <ul style='list-style-type: none;'>
         <li><a href='https://en.wikibooks.org/wiki/Python_Programming/Exceptions' target='_blank'>Exceptions</a></li>
@@ -770,17 +758,18 @@ $(document).ready(function() {
       </ul>
     </div>
 
-    <div id='documentations'>
+    <div id='PythonDocumentations'>
       <li><h2>Package Documentation</h2></li>
       <ul style='list-style-type: none;'>
-        <li><a href='https://docs.python.org/3/library/decimal.html' target='_blank'>Decimal</a></li>
+        <li><a href='https://docs.python.org/3/library/decimal.html' target='_blank'>decimal</a></li>
         <li><a href='https://www.crummy.com/software/BeautifulSoup/bs4/doc/' target='_blank'>bs4</a></li>
         <li><a href='https://docs.python.org/3/library/contextlib.html' target='_blank'>contextlib (closing)</a></li>
+        <li><a href='http://docs.python-requests.org/en/master/user/quickstart/' target='_blank'>requests</a></li>
         <a href='Data/FbChatDocumentation.pdf' target='_blank'>FbChat</a>
       </ul>
     </div>
 
-    <div id='packTutorials'>
+    <div id='PythonPackageTutorials'>
       <li><h2>Package Tutorials</h2></li>
       <ul style='list-style-type: none;'>
         <li><a href='http://pythonvisually.com/ebook/primitive-data-types.html' target='_blank'>Python</a></li>
@@ -1085,7 +1074,7 @@ $(document).ready(function() {
   <h1>Links</h1>
   <ul>
 
-    <div id='links'>
+    <div id='JavaLinks'>
       <li><h2>Basics Links</h2></li>
       <ul style='list-style-type: none;'>
         <li><a href='https://www.tutorialspoint.com/java/' target='_blank'>TutorialsPoint</a></li>
@@ -1103,7 +1092,7 @@ $(document).ready(function() {
 
 <!-- &&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&& end Java &&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&-->
 <!-- #################################### HTML Javascript ###########################################################################-->
-<div class='MainTextClass middleground' id='HtmlJavaScript'>
+<div class='MainTextClass middleground' id='WebJavaScript'>
   <h1>JavaScript</h1>
   <ul>
 
@@ -1212,7 +1201,7 @@ $(document).ready(function() {
   </ul>
 </div>
 
-<div class='MainTextClass middleground' id='HTMLjQuery'>
+<div class='MainTextClass middleground' id='WebjQuery'>
   <h1>jQuery</h1>
   <ul>
 
@@ -1258,7 +1247,10 @@ $(document).ready(function() {
     <div id='Selectors'>
       <li><h2>Selectors</h2></li>
 
-      <span class='colorLime'>All selectors can be combined (eg. 'div li' -- selects all li  that are children of a div)</span><br />
+      All selectors can be combined (eg. 'div li' -- selects all li  that are children of a div).<br />
+      A selector can select multiple elements, and by attaching method / event handler to selector, you attach
+      it to all of them. They can also be looped over, returning one element each iteration<br />
+
       <span class='Code'>$("*")</span> --&gt; selects all elements<br />
       <span class='Code'>$(this)</span> --&gt; current HTMl element<br />
       <span class='Code'>$("p:first")</span> --&gt; selects first &lt;p&gt; element<br />
@@ -1401,7 +1393,7 @@ $(document).ready(function() {
         <span class='Code'>var offset = $('&lt;selector&gt;').offset();</span> -- returns the object<br />
         <span class='Code'>offset.top;</span> -- returns the top property (how far from top is an element)<br />
         <span class='Code'>offset.left;</span> -- returns the left property (how far from left edge is an element)<br />
-        <span class='Code'>$('&lt;selector&gt;').offset({top: &lt;int&gt;, left: &lt;int&gt;});</span> -- sets the top and left properties of an object</span><br />
+        <span class='Code'>$('&lt;selector&gt;').offset({top: &lt;int&gt;, left: &lt;int&gt;});</span> -- sets the top and left properties of an object<br />
 
         <li><h3>scrollTop</h3></li>
         <span class='colorOrange'>scrollTop returns the number of element's pixels that has to be scrolled over to see or sets them</span><br />
@@ -1415,15 +1407,24 @@ $(document).ready(function() {
   </ul>
 </div>
 
-<div class='MainTextClass MovingLinks middleground' id='HTMLLinks'>
+<div class='MainTextClass MovingLinks middleground' id='WebLinks'>
   <h1>Links</h1>
   <ul>
 
-    <div id='DownloadFiles'>
+    <div id='WebDownloadFiles'>
       <li><h2>Download Files</h2></li>
       <ul>
 
         <li><a href='https://developers.google.com/fonts/docs/getting_started' target='_blank'>Google Free Fonts</a></li>
+
+      </ul>
+    </div>
+
+    <div id='WebTutorials'>
+      <li><h2>Tutorials</h2></li>
+      <ul>
+
+        <li><a href='https://docs.microsoft.com/en-us/windows/uwp/get-started/get-started-tutorial-fullstack-web-app' target='_blank'>Backend</a></li>
 
       </ul>
     </div>
@@ -1433,12 +1434,6 @@ $(document).ready(function() {
 
 
 <!-- $$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$ HTML end $$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$-->
-<script>
-SwitchContent('pythonSystem', 0);
-document.getElementById('javaUnder').style.display = 'none';
-document.getElementById('pythonUnder').style.display = 'none';
-document.getElementById('HtmlUnder').style.display = 'none';
-</script>
 
 </body>
 </html>
