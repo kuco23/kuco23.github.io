@@ -3,10 +3,12 @@ width: 20%;
 position: fixed;
 top: 0;
 right: 0;
-overflow: hidden;
 
 z-index: 100;
 background-color: transparent;
+
+max-height: 96%;
+overflow: auto;
 }
 
 .sidebar ul {

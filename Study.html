@@ -99,15 +99,44 @@ function HideSidebarChild(iden) {
   }
 }
 
-$(document).ready(function() {
-
+function AdjustSidebarTop() {
   var buttonHeight = $('#SideBarHide').outerHeight();
   $('#sidebar').css({'top': buttonHeight});
+}
+
+function StickyScroll() {
+  var nav = $('#Navigation');
+  var navHeight = nav.height();
+
+  var screenHeight = $(window).height();
+  var screenAwayFromTop = $(window).scrollTop();
+
+  if (nav.height() > $(window).height()) {
+    if (screenAwayFromTop + screenHeight > parseInt(navHeight) + 20) {
+      var fromTop = screenHeight - navHeight;
+      nav.css('top', fromTop + 'px')
+      nav.addClass('Sticky');
+    }
+    else {
+      nav.css('top', '0');
+      nav.removeClass('Sticky');
+    }
+  } else nav.addClass('Sticky');
+}
+
+
+$(document).ready(function() {
+
+  AdjustSidebarTop();
   $('#sidebar').slideUp(0);
 
+  $(window).scroll(function() {
+     StickyScroll();
+  });
+
   $(window).resize(function() {
-    var buttonHeight = $('#SideBarHide').outerHeight();
-    $('#sidebar').css({'top': buttonHeight});
+    AdjustSidebarTop();
+    StickyScroll();
   });
 
   $('#SideBarHide a').click(function() {
@@ -1257,6 +1286,7 @@ $(document).ready(function() {
       <span class='Code'>mouseup(function() {});</span> -- left, middle, or right mouse button is released<br />
       <span class='Code'>hover(function1() { }, function2() {});</span> -- combination of mouseenter (function1) and mouseleave (function2)<br />
       <span class='Code'>resize(function() {});</span> -- triggers when user resizes the selector (usually used on window)<br />
+      <span class='Code'>scroll(function() {});</span> -- trigers when user scrolls the selected element (or document)<br />
       <br />
       <span class='Code'>$("&lt;selector&gt;").on({&lt;method1&gt;:function(){ //code }, &lt;method2&gt;:function(){ //code },..., &lt;methodN&gt;:function() { //code }});</span>
       -- attaches all the event handlers (methods) to selector.<br />
@@ -1267,6 +1297,7 @@ $(document).ready(function() {
     <div id='Methods'>
       <li><h2>Methods</h2></li>
       <span class='colorLime'>if something is enclosed in tags &lt;&gt; it means that what you should write in that place is of that type</span><br />
+      Most methods accept a second argument - a callback function that gets executed when the method finishes (eg. when element gets slided Up completely)<br />
       <ul>
 
         <li><h3>Basic</h3></li>
@@ -1357,6 +1388,19 @@ $(document).ready(function() {
         <span class='Code'>find("*");</span> -- returns all descendants (way down to the last one) of the selected element<br />
         <span class='Code'>find('&lt;selector&gt;');</span> -- returns all descendants of selected element that suit the selector<br />
         <br />
+        <span class='colorOrange'>Siblings</span><br />
+
+        <li><h3>Offset</h3></li>
+        <span class='colorOrange'>Offset returns an object containing selected element's coordinates on the page view or sets them</span><br />
+        <span class='Code'>var offset = $('&lt;selector&gt;').offset();</span> -- returns the object<br />
+        <span class='Code'>offset.top;</span> -- returns the top property (how far from top is an element)<br />
+        <span class='Code'>offset.left;</span> -- returns the left property (how far from left edge is an element)<br />
+        <span class='Code'>$('&lt;selector&gt;').offset({top: &lt;int&gt;, left: &lt;int&gt;});</span> -- sets the top and left properties of an object</span><br />
+
+        <li><h3>scrollTop</h3></li>
+        <span class='colorOrange'>scrollTop returns the number of element's pixels that has to be scrolled over to see or sets them</span><br />
+        <span class='Code'>$('&lt;selector&gt;').scrollTop();</span> -- returns the number of pixels<br />
+        <span class='Code'>$('&lt;selector&gt;').scrollTop(&lt;int&gt;);</span> -- sets the number of pixels<br />
 
 
       </ul>

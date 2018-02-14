@@ -2,15 +2,19 @@
 float: left;
 background-color: transparent;
 width: 20%;
+
+position: absolute;
 left: 0;
-top: 0;
-height: 100%;
+top: 1%;
+}
+
+.Sticky {
 position: fixed;
 }
 
 .Navigation ul {
 list-style-type: none;
-margin: 5px 0;
+margin: 0;
 padding: 0;
 }
 
