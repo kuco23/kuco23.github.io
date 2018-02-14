@@ -79,12 +79,11 @@ font-size: 1.8vh;
 color: white;
 
 display: block;
-border: 2px solid transparent;
 
-transition: border 1s;
--webkit-transition: border 1s;
+transition: color 1s;
+-webkit-transition: color 1s;
 }
 
 .sideBarHide a:hover {
-border: 2px solid DarkRed;
+color: FireBrick;
 }

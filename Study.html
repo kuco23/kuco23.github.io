@@ -87,7 +87,7 @@ function SwitchContent(iden, timer=1000) {
   $('#' + iden + 'Nav').fadeIn(0);
 
   $('div.middleground').fadeOut(timer);
-  setTimeout(function() { $('#' + iden).fadeIn(timer); }, timer);
+  setTimeout(function() { $('#' + iden).fadeIn(timer, StickyScroll()); }, timer);
 }
 
 function HideSidebarChild(iden) {
@@ -104,30 +104,36 @@ function AdjustSidebarTop() {
   $('#sidebar').css({'top': buttonHeight});
 }
 
+// Sidebar sticks to the bottom when scrolling if it overflows
 function StickyScroll() {
-  var nav = $('#Navigation');
-  var navHeight = nav.height();
-
   var screenHeight = $(window).height();
   var screenAwayFromTop = $(window).scrollTop();
 
+  var nav = $('#Navigation');
+  var navHeight = nav.height();
+  var navTopMargin = screenHeight * 0.01; // css top is set to 1%
+
   if (nav.height() > $(window).height()) {
-    if (screenAwayFromTop + screenHeight > parseInt(navHeight) + 20) {
-      var fromTop = screenHeight - navHeight;
+    if (screenAwayFromTop + screenHeight > navHeight + navTopMargin) {
+      var fromTop = screenHeight - (navHeight + navTopMargin);
       nav.css('top', fromTop + 'px')
       nav.addClass('Sticky');
     }
     else {
-      nav.css('top', '0');
+      nav.css('top', navTopMargin + 'px');
       nav.removeClass('Sticky');
     }
-  } else nav.addClass('Sticky');
+  } else {
+    nav.addClass('Sticky');
+    nav.css('top', navTopMargin + 'px');
+  }
 }
 
 
 $(document).ready(function() {
 
   AdjustSidebarTop();
+  StickyScroll();
   $('#sidebar').slideUp(0);
 
   $(window).scroll(function() {
