@@ -51,7 +51,7 @@ body {
   #sidebar, #SideBarHide {
     width: 50%;
   }
-  
+
   #Navigation {
     display: none;
  }
@@ -132,8 +132,19 @@ $(document).ready(function() {
 
   $('#SideBarHide a').click(function() {
     $('#sidebar').slideToggle(1000, function() {
-      if ($(this).css('display') == 'block') {$('#SideBarHide a').text('-');}
-      else if ($(this).css('display') == 'none') {$('#SideBarHide a').text('+');}
+      if ($(this).css('display') == 'block') {
+        $('#SideBarHide a span').css({
+          'transform': 'rotate(225deg)',
+          '-webkit-transform': 'rotate(225deg)'
+        });
+      }
+      else if ($(this).css('display') == 'none') {
+        $('#SideBarHide a span').css({
+          'transform': 'rotate(0deg)',
+          '-webkit-transform': 'rotate(0deg)'
+        });
+      }
+
     });
   });
 
@@ -143,7 +154,7 @@ $(document).ready(function() {
 </script>
 
 <div class='sideBarHide' id='SideBarHide'>
-  <a href='javascript:void(0)'>+</a>
+  <a href='javascript:void(0)'><span>+</span></a>
 </div>
 
 <div class='sidebar' id='sidebar'>
@@ -320,9 +331,9 @@ $(document).ready(function() {
         The other, a little more complicated is to create classes on the fly.<br />
         type is a metaclass. That means it is a class that can create classes.
         To understand this it is important to understand that everything in python is an object, even classes which construct objects.
-        So a 'thing' that constructs objects is called a metaclass and by default in python, that is type.<br />
+        So a 'thing' that constructs classes is called a metaclass and by default in python, that is type.<br />
         <span class='Code'>MyClass = type('MyClass', (tuple of inherited classes), {dict of MyClass variables})</span><br />
-        The above example creates class MyClass on the fly.<br />
+        The above example creates class MyClass on the fly (creates an anonymous class).<br />
 
         <li><h3>__metaclass__</h3></li>
         It is used for defining how a class gets constructed as an object (default is by type(ClassName, (inheritance), {dict})<br />
@@ -338,7 +349,7 @@ $(document).ready(function() {
         Usually they are called on instances with a special syntax or simply method(instance) if class contains __method__().<br />
         <br />
         <span class='colorOrange'>__init__(self)</span> -- instance constructor: is called when the class is called and gets passed a newly created instance as a first argument<br />
-        <span class='colorOrange'>__new(cls)</span> -- class constructor: is called when the class is called and gets passed its class as a first argument<br />
+        <span class='colorOrange'>__new__(cls)</span> -- class constructor: is called when the class is called and gets passed its class as a first argument<br />
         <span class='colorOrange'>__repr__(self)</span> -- class representator: is called when an instance is called by itself and must return string<br />
         <span class='colorOrange'>__str__(self)</span> -- class string converter: is called when trying to convert object to string (str(self))<br />
         <span class='colorOrange'>__add__(self)</span> -- addition: defines the result of self + other<br />
@@ -434,7 +445,7 @@ $(document).ready(function() {
       <br />
       In Python exceptions are handled with try-except-finally blocks<br />
       <span class='Code'>try: 1/0 except ZeroDivisionError as e: print(e)</span><br />
-      The code the code will print the error without stopping the execution of a program<br />
+      The code will print the error without stopping the execution of a program<br />
       <br />
       This might be useful, if a certain exception is expected to appear often in a program<br />
       and is not critical to the rest of execution, so there is no need for it to cause<br />
