@@ -175,6 +175,7 @@ $(document).ready(function() {
 
     <li><a href='javascript:void(0)' onclick='HideSidebarChild("WebUnder")'>Web Dev</a></li>
     <div id='WebUnder'>
+      <li><a href='javascript:void(0);' onclick='SwitchContent("WebCss")'>Css</a></li>
       <li><a href='javascript:void(0);' onclick='SwitchContent("WebJavaScript")'>JavaScript</a></li>
       <li><a href='javascript:void(0);' onclick='SwitchContent("WebjQuery")'>jQuery</a></li>
       <li><a href='javascript:void(0);' onclick='SwitchContent("WebLinks")'>Web Links</a></li>
@@ -224,6 +225,10 @@ $(document).ready(function() {
       <li><a href='#JavaLinks'>Basics Links</a></li>
     </div>
 
+    <div id='WebCssNav'>
+      <li><a href='#CssBasics'>Css Basics</a></li>
+    </div>
+
     <div id='WebJavaScriptNav'>
       <li><a href='#htmlStackingOrder'>Html Stacking Order</a></li>
       <li><a href='#DOM'>DOM</a></li>
@@ -231,7 +236,7 @@ $(document).ready(function() {
     </div>
 
     <div id='WebjQueryNav'>
-      <li><a href='#Basics'>Basics</a></li>
+      <li><a href='#jQueryBasics'>Basics</a></li>
       <li><a href='#Selectors'>Selectors</a></li>
       <li><a href='#EventHandlers'>Event Handlers</a></li>
       <li><a href='#Methods'>Methods</a></li>
@@ -1112,6 +1117,32 @@ $(document).ready(function() {
 
 
 <!-- &&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&& end Java &&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&-->
+<!-- #################################### HTML Css ##################################################################################-->
+<div class='MainTextClass middleground' id='WebCss'>
+  <h1>Css</h1>
+  <ul>
+
+    <div id='CssBasics'>
+      <li><h2>Basics</h2></li>
+      <ul>
+        <li><h3>Flex</h3></li>
+        Flex helps you position elements in columns or rows.
+        <span class='Code'>display: flex;</span> --> set this to the container of elements that will be manipulated.<br />
+        <span class='Code'>flex-direction: row / row-reverse / column / column-reverse;</span><br />
+        <span class='Code'>flex-wrap: wrap;</span> --> sets the elements in new row / column if the size overflows<br />
+        <span class='Code'>flex-flow: row wrap;</span> --> first element is direction, second is wrap<br />
+        <br />
+        Flex Space<br />
+        Methods for dealing with space that is left from being unfilled by elements with display: flex container<br />
+        <span class='Code'>flex-basis: auto;</span> --> flex elements' size<br />
+        (auto is default and uses their previously specified size, or if not given, the size it takes to show them)<br />
+
+        <a href='https://developer.mozilla.org/en-US/docs/Web/CSS/CSS_Flexible_Box_Layout/Basic_Concepts_of_Flexbox' target='_blank'>Flex Tutorial</a>
+      </ul>
+    </div>
+
+  </ul>
+</div>
 <!-- #################################### HTML Javascript ###########################################################################-->
 <div class='MainTextClass middleground' id='WebJavaScript'>
   <h1>JavaScript</h1>
@@ -1204,7 +1235,6 @@ $(document).ready(function() {
       </ul>
     </div>
 
-
     <div id='UsefulShit'>
       <li><h2>Useful Shit</h2></li>
       <ul>
@@ -1226,7 +1256,7 @@ $(document).ready(function() {
   <h1>jQuery</h1>
   <ul>
 
-    <div id='Basics'>
+    <div id='JqueryBasics'>
       <li><h2>Basics</h2></li>
       <ul>
 
@@ -1446,6 +1476,7 @@ $(document).ready(function() {
       <ul>
 
         <li><a href='https://docs.microsoft.com/en-us/windows/uwp/get-started/get-started-tutorial-fullstack-web-app' target='_blank'>Backend</a></li>
+        <li><a href='https://blog.risingstack.com/your-first-node-js-http-server/' target='blank'>Node.js</a></li>
 
       </ul>
     </div>
