@@ -67,6 +67,7 @@ body {
 <body>
 <script>
 
+// Switching the main content on the page
 function SwitchContent(iden, timer=1000) {
   $('#Navigation ul div').fadeOut(0);
   $('#' + iden + 'Nav').fadeIn(0);
@@ -76,11 +77,13 @@ function SwitchContent(iden, timer=1000) {
   });
 }
 
+// Toggle between iden display, hiding every other sidebar in the process
 function HideSidebarChild(iden) {
   if (iden != null) $('#' + iden).slideToggle(1000);
   $('#sidebar ul div[id!="' + iden + '"]').slideUp(1000);
 }
 
+// Adjusting sidebar away from top so it doesnt overlap with the toggle x div
 function AdjustSidebarTop() {
   var buttonHeight = $('#SideBarHide').outerHeight();
   $('#sidebar').css({'top': buttonHeight});
@@ -130,6 +133,10 @@ $(document).ready(function() {
     StickyScroll();
   });
 
+  $('.CodeFrame span:first-child').click(function() {
+    $(this).siblings().toggle(1000);
+  });
+
   $('#SideBarHide a').click(function() {
     $('#sidebar').slideToggle(1000, function() {
       if ($(this).css('display') == 'block') {
@@ -144,12 +151,10 @@ $(document).ready(function() {
           '-webkit-transform': 'rotate(0deg)'
         });
       }
-
     });
   });
 
 });
-
 
 </script>
 
@@ -1356,6 +1361,7 @@ $(document).ready(function() {
         <li><h3>Element Display</h3></li>
         <span class='colorBrightRed'>Methods below all switch css display property either to none or block</span><br />
         <span class='Code'>hide(transitionInMilliseconds);</span> -- sets the selected element's display to 'none'<br />
+        <span class='Code'>toggle(transitionInMilliseconds);</span> -- toggles display 'block' and 'none'<br />
         <span class='Code'>fadeIn(transitionInMilliseconds);</span> -- fades In the selected element<br />
         <span class='Code'>fadeOut(transitionInMilliseconds);</span> -- fades Out the selected element<br />
         <span class='Code'>fadeToggle(transitionInMilliseconds');</span> -- fades Out selected element if it is faded In, vice-versa<br />
