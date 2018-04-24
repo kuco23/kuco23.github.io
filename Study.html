@@ -210,6 +210,7 @@ $(document).ready(function() {
       <li><a href='#os'>Os</a></li>
       <li><a href='#decimal'>Decimal</a></li>
       <li><a href='#plotly'>Plotly</a></li>
+      <li><a href='#pytesseract'>pytesseract</a></li>
     </div>
 
     <div id='pythonLinksNav'>
@@ -217,6 +218,7 @@ $(document).ready(function() {
       <li><a href='#PythonDocumentations'>Package Documentations</a></li>
       <li><a href='#PythonPackageTutorials'>Package Tutorials</a></li>
       <li><a href='#projTutorials'>Project Tutorials</a></li>
+      <li><a href='#PythonDownloads'>Download Links</a></li>
     </div>
 
     <div id='javaBasicsNav'>
@@ -768,6 +770,18 @@ $(document).ready(function() {
       </ul>
     </div>
 
+    <div id='pytesseract'>
+      <li><h2>PyTesseract</h2></li>
+      <ul>
+        <li><h3>Setup</h3></li>
+        First Download pytesseract Installer from <a href='https://github.com/UB-Mannheim/tesseract/wiki' target='blank'>here</a>.<br />
+        Then install pytesseract package by running <span class='Code'>python -m pip install pytesseract</span> (PIL/Pillow has to be pip-installed already).<br />
+        Run on every script that uses pytesseract:<br /> <span class='Code'>pytesseract.pytesseract.tesseract_cmd = 'C:/Program Files (x86)/Tesseract-OCR/tesseract'</span><br />
+        <a href='https://stackoverflow.com/questions/31217647/error-using-pytesser-winerror-2-the-system-cannot-find-the-file-specified' target='_blank'>This</a> thread might help with any issues.
+
+      </ul>
+    </div>
+
   </ul>
 </div>
 
@@ -820,6 +834,13 @@ $(document).ready(function() {
         <li><a href='https://realpython.com/blog/python/python-web-scraping-practical-introduction/' target='_blank'>Webscraping</a></li>
         <li><a href='https://realpython.com/blog/python/modern-web-automation-with-python-and-selenium/' target='_blank'>Webscraping Advanced</a></li>
         <li><a href='https://pybit.es/requests-session.html' target='_blank'>Webscraping Login pages</a></li>
+      </ul>
+    </div>
+
+    <div id='PythonDownloads'>
+      <li><h2>Python Downloads</h2></li>
+      <ul style='list-style-type:none;'>
+        <li><a href='https://github.com/UB-Mannheim/tesseract/wiki' target='_blank'>PyTesseract (needed for the pip package to work)</a></li>
       </ul>
     </div>
 
