@@ -133,10 +133,6 @@ $(document).ready(function() {
     StickyScroll();
   });
 
-  $('.CodeFrame span:first-child').click(function() {
-    $(this).siblings().toggle(1000);
-  });
-
   $('#SideBarHide a').click(function() {
     $('#sidebar').slideToggle(1000, function() {
       if ($(this).css('display') == 'block') {
@@ -205,12 +201,13 @@ $(document).ready(function() {
     </div>
 
     <div id='pythonPackagesNav'>
-      <li><a href='#bs4'>Beautiful Soup</a></li>
-      <li><a href='#fbchat'>FbChat</a></li>
       <li><a href='#os'>Os</a></li>
       <li><a href='#decimal'>Decimal</a></li>
+      <li><a href='#bs4'>Beautiful Soup</a></li>
+      <li><a href='#fbchat'>FbChat</a></li>
+      <li><a href='#selenium'>Selenium</a></li>
       <li><a href='#plotly'>Plotly</a></li>
-      <li><a href='#pytesseract'>pytesseract</a></li>
+      <li><a href='#pytesseract'>Pytesseract</a></li>
     </div>
 
     <div id='pythonLinksNav'>
@@ -602,6 +599,38 @@ $(document).ready(function() {
   <h1>Python Packages</h1><br />
   <ul>
 
+    <div id='os'>
+      <li><h2>Os</h2></li>
+      <ul>
+        <li><h3>Package instalation</h3></li>
+        <span class='Code'>import os</span><br />
+
+        <li><h3>Basic Methods</h3></li>
+        <span class='Code'>os.listdir()</span> --&gt; returns list of files in current directory<br />
+        <span class='Code'>os.chdir('new_dir_path')</span> --&gt; changes current directory to new_dir_path<br />
+        <span class='Code'>os.getcwd()</span> --&gt; returns the name of current working directory<br />
+        <span class='Code'>os.remove('file/name')</span> --&gt; deletes the specified file<br />
+        <span class='Code'>os.rename('oldFileName', 'newFileName')</span> --&gt; renames oldFileName to newFileName<br />
+
+        <li><h3>Getting Path of a Module</h3></li>
+        <span class='Code'>import module</span><br />
+        <span class='Code'>path = os.path.dirname(module.__file__)</span><br />
+      </ul>
+    </div>
+
+    <div id='decimal'>
+      <li><h2>Decimal</h2></li>
+      <ul>
+        <li><h3>Installation</h3></li>
+        <span class='Code'>from decimal import*</span>
+
+        <li><h3>Common Methods</h3></li>
+        <span class='Code'>getcontext().prec = &lt;num_of_decimals&gt;</span> --&gt; sets the number of decimals<br />
+        <span class='Code'>number = Decimal(Int)</span> --&gt; creates a new Decimal object<br />
+        <span class='Code'>result = number / Decimal(Int2)</span> --&gt; division of two decimmals<br />
+      </ul>
+    </div>
+
     <div id='bs4'>
       <li><h2>Beautiful Soup</h2></li>
       <ul>
@@ -708,35 +737,66 @@ $(document).ready(function() {
       </ul>
     </div>
 
-    <div id='os'>
-      <li><h2>Os</h2></li>
+    <div id='selenium'>
+      <li><h2>Selenium (Firefox)</h2></li>
       <ul>
-        <li><h3>Package instalation</h3></li>
-        <span class='Code'>import os</span><br />
+        <li><h3>Setup</h3></li>
+        First download firefox geckodriver and move it in the same folder as python<br />
+        Then pip install selenium<br />
+        <br />
+        <span class='Code'>from selenium.webdriver import Firefox<br />
+        from selenium.webdriver.firefox.options import Options</span>
 
-        <li><h3>Basic Methods</h3></li>
-        <span class='Code'>os.listdir()</span> --&gt; returns list of files in current directory<br />
-        <span class='Code'>os.chdir('new_dir_path')</span> --&gt; changes current directory to new_dir_path<br />
-        <span class='Code'>os.getcwd()</span> --&gt; returns the name of current working directory<br />
-        <span class='Code'>os.remove('file/name')</span> --&gt; deletes the specified file<br />
-        <span class='Code'>os.rename('oldFileName', 'newFileName')</span> --&gt; renames oldFileName to newFileName<br />
+        <li><h3>Initializing Browser Object</h3></li>
+        <span class='CodeFrame'>
+          <span>Python</span>
+          <p>
+            <span class='colorDarkRed'># First we set the options so firefox runs headless (without this firefox GUI runs in the background)</span><br />
+            opts = Options()<br />
+            opts.set_headless()<br />
+            opts.headless<br />
+            <br />
+            <span class='colorDarkRed'># Now we initialize the browser</span><br />
+            browser = Firefox(options=opts)<br />
+            browser.quit()
+          </p>
+        </span>
 
-        <li><h3>Getting Path of a Module</h3></li>
-        <span class='Code'>import module</span><br />
-        <span class='Code'>path = os.path.dirname(module.__file__)</span><br />
-      </ul>
-    </div>
+        <li><h3>Browser Methods / Properties</h3></li>
+        <span class='Code'>
+          browser.get('link')<br />
+          browser.find_element_by_id('id')<br />
+          browser.find_element_by_class_name('name')<br />
+          browser.find_element_by_css_selector('selector')<br />
+          browser.find_element_by_tag_name('tagname')<br />
+          browser.find_element_by_link_text('linkText')<br />
+          browser.find_element_by_partial_link_text('partial')<br />
+        </span>
 
-    <div id='decimal'>
-      <li><h2>Decimal</h2></li>
-      <ul>
-        <li><h3>Installation</h3></li>
-        <span class='Code'>from decimal import*</span>
+        <li><h3>Html Node Methods</h3></li>
+        <span class='Code'>
+          element = browser.find_element_by_id('id')<br />
+          # for input tag nodes<br />
+          element.send_keys('keys')<br />
+          element.submit()<br />
+          <br />
+          element.get_attribute('href')<br />
+          element.get_property('style')<br />
+          element.value_of_css_property('cssProperty')<br />
+          element.size<br />
+          element.tag_name<br />
+          element.id<br />
+          element.is_displayed()<br />
+          element.text --&gt; returns the node text property<br />
+          element.click()<br />
+        </span>
 
-        <li><h3>Common Methods</h3></li>
-        <span class='Code'>getcontext().prec = &lt;num_of_decimals&gt;</span> --&gt; sets the number of decimals<br />
-        <span class='Code'>number = Decimal(Int)</span> --&gt; creates a new Decimal object<br />
-        <span class='Code'>result = number / Decimal(Int2)</span> --&gt; division of two decimmals<br />
+        <li><h3>Get the page's whole Html</h3></li>
+        <span class='Code'>
+          html = browser.find_element_by_tag_name('html')<br />
+          content = html.get_attribute('innerHTML')<br />
+        </span>
+
       </ul>
     </div>
 
@@ -771,13 +831,20 @@ $(document).ready(function() {
     </div>
 
     <div id='pytesseract'>
-      <li><h2>PyTesseract</h2></li>
+      <li><h2>Pytesseract</h2></li>
       <ul>
         <li><h3>Setup</h3></li>
-        First Download pytesseract Installer from <a href='https://github.com/UB-Mannheim/tesseract/wiki' target='blank'>here</a>.<br />
+        First Download pytesseract Installer from <a href='https://github.com/UB-Mannheim/tesseract/wiki' target='blank'>here</a> and install it.<br />
         Then install pytesseract package by running <span class='Code'>python -m pip install pytesseract</span> (PIL/Pillow has to be pip-installed already).<br />
+        <br />
         Run on every script that uses pytesseract:<br /> <span class='Code'>pytesseract.pytesseract.tesseract_cmd = 'C:/Program Files (x86)/Tesseract-OCR/tesseract'</span><br />
-        <a href='https://stackoverflow.com/questions/31217647/error-using-pytesser-winerror-2-the-system-cannot-find-the-file-specified' target='_blank'>This</a> thread might help with any issues.
+        <br />
+        If you are getting <span class='colorBrightRed'>Tesseract couldn\'t load any languages! Could not initialize tesseract</span> error go to cmd and write:<br />
+        <span clas='Code'>set TESSDATA_PREFIX="C:/Program Files (x86)/Tesseract-OCR/tessdata"</span><br />
+        <br />
+        Threads that might help with issues:<br />
+        <a href='https://stackoverflow.com/questions/31217647/error-using-pytesser-winerror-2-the-system-cannot-find-the-file-specified' target='_blank'>tesseract_cmd</a><br />
+        <a href='https://stackoverflow.com/questions/14951784/how-to-force-tesseract-not-to-use-tessdata-prefix#14951982' target='_blank'>handling above error</a><br />
 
       </ul>
     </div>

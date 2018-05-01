@@ -37,8 +37,6 @@ h3 {
 }
 
 .CodeFrame {
-  min-width: 100%;
-
   background-color: rgba(255, 255, 255, .3);
   display: inline-block;
   padding: 0px;
@@ -47,7 +45,7 @@ h3 {
   border: 1px solid black;
   border-radius: 5px;
 }
-.CodeFrame span:first-child {
+.CodeFrame > span:first-child {
   font-weight: bold;
   color: rgba(120, 0, 0, .8);
   text-align: left;
@@ -58,15 +56,9 @@ h3 {
   border-top-left-radius: 5px;
   border-top-right-radius: 5px;
 }
-.CodeFrame span:first-child:hover {
-  background-color: rgba(200, 200, 200, .9);
-  cursor: pointer;
-}
 .CodeFrame p {
   font-family: monospace;
   color: black;
   padding: 15px;
   margin: 0;
-
-  display: none;
 }
