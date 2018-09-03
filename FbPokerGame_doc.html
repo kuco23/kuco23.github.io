@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+
+<html>
+<head>
+  <title>FbPokerGame documentation</title>
+  <meta name='viewport' content='width=device-width, initial-scale=1.0'>
+
+  <style>
+
+    * {box-sizing: border-box;}
+
+    body {
+      margin: 20px;
+      background-color: rgb(50, 50, 50);
+      color: white;
+    }
+
+    h1 {
+      color: orange;
+      text-align: center;
+      text-shadow: 2px 2px 1px 1px black;
+    }
+
+    h2 {
+      margin-top: 0;
+      color: rgb(200, 200, 250);
+      text-shadow: 1px 1px 1px 1px black;
+    }
+
+    h3 {
+      margin-bottom: 0;
+      font-size: 15px;
+      color: FireBrick;
+    }
+
+    span.sttmnt {
+      display: block;
+      color: lime;
+    }
+
+    div.mainText div a {
+      color: rgb(100,100,100);
+      text-decoration: none;
+    }
+    div.mainText div a:hover {
+      color: white;
+    }
+
+    div.mainText div {
+      margin-top: 20px;
+      margin-bottom: 20px;
+      padding: 15px;
+
+      background-color: rgba(0, 0, 0, .3);
+      border: 2px solid rgba(0, 0, 0, .7);
+    }
+
+    div.mainText div ul li {
+      margin-top: 3px;
+      margin-bottom: 3px;
+    }
+
+  </style>
+</head>
+
+<body>
+
+<div class = 'mainText'>
+  <h1>FbPokerGame documetation</h1>
+
+  <div>
+    <h2>Intro</h2>
+
+    This is the documetation for the PlayMessinger app that allows playing poker on messinger.
+    It depends on the fbchat module, which is used for I/O.
+  </div>
+
+  <div>
+    <h2>Basics</h2>
+
+    The basis of this application is the Dealer account, which can be set to any facebook account.
+    It is recommended for the application user to set up a new account, reserved for the Dealer, or use any other account which is not being used by anyone.
+    The Dealer's account will be automated to send game information (eg. name of the player whose name is expected) to users and group threads.<br />
+    Any player that is removed from the group will be added back by the Dealer.
+    If the Dealer is removed from the table the concequences shall be dire.
+  </div>
+
+  <div>
+    <h2>Player Rules</h2>
+
+    <h3>New Player introduction</h3>
+    Any player that is playing a round for the first time will get 4000 as a starting amount, that will be logged in his datafile in the database directory.
+
+    <h3>Player Money</h3>
+    The player's money and the money that he plays with are seperated.
+    The money that player plays with is entirely within the game and can be withdrawn
+    almost anytime with <a href='#withdraw'>this</a> statement.<br />
+
+    The outside money is seen as the money you can use to buy in to play on other tables, that require a certain amount of money to participate in.<br />
+    If player's outside money is less than game buy-in of 1000, player can buy in with less than 1000 to play in the game,
+    else he must put 1000 of his outside money in game to participate.<br />
+
+    The table money is seen as the money you currently play with on a certain table.
+    Any player who hasnt lost all the table money (his table money is 0) is considered participating.
+    It is not added to the outside money until a player withdraws it or Dealer is removed from the table, after which the game is aborted and the money put in the pot lost.
+  </div>
+
+  <div>
+    <h2>Player Statements</h2>
+
+    <h3>Game Manipulation Statements</h3>
+    <span class = 'sttmnt'>::init</span>
+    Adds the table to the recognized game tables and starts the series of rounds if possible (number of players with money is adequate).
+    <span class = 'sttmnt'>::lastround</span>
+    Toggles the last round status.<br />
+    Every round is pre-configured to begin another after it ends, so with this it is possible to interrupt the following round's execution.
+    The statement must be sent from a participating player as those not participating are considered not in the game and can only observe it.
+    After ::lastround is sent to the table from a participating player it ends the game after the round is finished.
+    The ::lastround command can be canceled (toggled) with writing ::lastround again.
+    After the game has ended it can be restarted by sending ::init to the group<br />
+    After the game has come to an end player's money still remains in the game and has to be withdrawn!
+
+    <h3>Player Group Statements</h3>
+    Statements that are written within a group to get information or affect player's state.
+    <span class = 'sttmnt'>::money</span>
+    Shows the money player has left on the current table by sending it to the group from which the message was sent from.
+
+    <span class = 'sttmnt'>::refill</span>
+    Refills user's money to the table buy-in of 1000 and subtracts the difference from outside money.
+    Works only if the player is folded, not participaating or round is not being played.
+
+    <span class = 'sttmnt' id='withdraw'>::withdraw</span>
+    Withdraws player's money from the table and adds it into the player's outside money.
+    Works only if a player is folded, not participaing in round or a round is not being played.
+
+    <h3>Player Private Statementes</h3>
+    Statements that are written to a Dealer's account directly, requesting info or an action to be taken.
+    <span class = 'sttmnt'>show money</span>
+    Shows the outside money user has left by sending it to the user's account.
+    <span class = 'sttmnt'>gimme moneyz</span>
+    Requests the money of 100 from Dealer which can be given every 4 hours.
+
+  </div>
+
+
+</div>
+
+</body>
+</html>
