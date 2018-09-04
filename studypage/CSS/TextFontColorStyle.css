@@ -1,0 +1,64 @@
+h1 {
+  color: rgb(144,238,144);
+  text-align: center;
+  font-family: 'Tangerine', serif;
+  font-size: 50px;
+  font-style: oblique;
+
+  transform: rotate(3deg);
+  -ms-transform: rotate(3deg);
+  -webkit-transform: rotate(3deg);
+}
+h2 {
+  color: powderblue;
+}
+h3 {
+  color: rgb(229, 228, 226);
+}
+
+.colorOrange {
+  color: rgb(255,128,0);
+}
+.colorLime {
+  color: rgb(128, 255, 0);
+}
+.colorBrightRed {
+  color: rgb(200,0,0);
+}
+.colorDarkRed {
+  color: rgb(120, 0, 0);
+}
+.colorPurple {
+  color: rgb(172, 120, 184);
+}
+.Code {
+  font-family: monospace;
+  color: rgb(111, 168, 180);
+}
+
+.CodeFrame {
+  background-color: rgba(255, 255, 255, .3);
+  display: inline-block;
+  padding: 0px;
+  margin: 10px 0;
+
+  border: 1px solid black;
+  border-radius: 5px;
+}
+.CodeFrame > span:first-child {
+  font-weight: bold;
+  color: rgba(120, 0, 0, .8);
+  text-align: left;
+  display: block;
+  background-color: rgba(200, 200, 200, .7);
+  padding: 10px;
+
+  border-top-left-radius: 5px;
+  border-top-right-radius: 5px;
+}
+.CodeFrame p {
+  font-family: monospace;
+  color: black;
+  padding: 15px;
+  margin: 0;
+}

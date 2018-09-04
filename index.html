@@ -3,7 +3,6 @@
 <html>
 <head>
 <title>AnimationProject</title>
-<meta name='viewport' content='width=device-width, initial-scale=1.0'>
 <script src="jquery-3.3.1.min.js"></script>
 
 <style>
@@ -213,10 +212,10 @@ $(document).ready(function() {
 
   $('div.container div:last-child').click(function() {
     $('div.container div:first-child').addClass('FallingDown');
-    setTimeout(function() {window.open('Study.html', '_parent');}, 4000);
+    setTimeout(function() {window.open('studypage/Study.html', '_parent');}, 4000);
   });
 
-  if ($(window).width() < $(window).height()) window.open('Study.html', '_parent');
+  if ($(window).width() < $(window).height()) window.open('studypage/Study.html', '_parent');
 
 });
 </script>
