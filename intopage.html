@@ -38,6 +38,7 @@
         font-family: Lato;
         margin-top: 10%;
         margin-bottom: 2%;
+        position: absolute;
     }
 
     div.mainText ul {
@@ -83,17 +84,22 @@
         return list[random];
     }
 
+    function setHeight() {
+        var headHeight = $('#headTitle').height();
+        var mainTextHeight = $('div.mainText').height();
+
+        $('div.mainText').css({'top': headHeight + mainTextHeight + 'px'})
+    }
+
     $(document).ready(function() {
-        $('div.underlineAnim div').animate({
-            borderColor: random_choice(colors);
-        }, 4000);
+        setHeight();
     });
 
 </script>
 
 <body>
 
-    <h1>Public Page Selection</h1>
+    <h1 id='headTitle'>Public Page Selection</h1>
 
     <div class = 'mainText'>
 
