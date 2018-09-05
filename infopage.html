@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+
+<html>
+<head>
+<title>Public webpages</title>
+
+<script src = 'jquery-3.3.1.min.js'></script>
+<link rel="stylesheet" type="text/css" href="https://fonts.googleapis.com/css?family=Lato" />
+<link rel="stylesheet" type="text/css" href='https://fonts.googleapis.com/css?family=Bungee Hairline' />
+
+<style>
+
+    * {box-sizing: border-box;}
+
+    @keyframes slideFromLeft {
+      0% {width: 0;}
+      50% {width: 100%;}
+      100% {width: 0; border-color: rgba(100, 255, 100, .5);}
+    }
+    @keyframes slideFromRight {
+      0% {width: 0; right: 0;}
+      50% {width: 100%;}
+      100% {width: 0; right: 0; border-color: rgba(176, 224, 230, .5);}
+    }
+    @-webkit-keyframes slideFromLeft {
+      0% {width: 0;}
+      50% {width: 100%;}
+      100% {width: 0; border-color: rgba(100, 255, 100, .5);}
+    }
+    @-webkit-keyframes sliideFromRight {
+      0% {width: 0; right: 0;}
+      50% {width: 100%;}
+      100% {width: 0; right: 0; border-color: rgba(176, 224, 230, .5);}
+    }
+
+    body {
+        margin: 0;
+        background-color: AliceBlue;
+    }
+
+    h1 {
+        font-family: 'Bungee Hairline';
+        font-size: 2.5em;
+        color: rgb(204, 102, 153);
+        text-align: center;
+    }
+
+    div.mainText {
+        position: absolute;
+        text-align: center;
+        font-family: Lato;
+
+        margin-top: 5%;
+        right: 50%;
+        transform: translateX(50%);
+        -webkit-transform: translateX(50%);
+    }
+
+    div.mainText ul {
+        list-style-type: none;
+        margin: 0;
+        padding: 0;
+    }
+
+    div.mainText ul li a {
+        text-decoration: none;
+        font-size: 1.2em;
+        color: rgb(40, 40, 40);
+
+        position: relative;
+        left: 0;
+        transition: color 1s, left 1s;
+        -webkit-transition: color 1s, left 1s;
+    }
+
+    div.mainText ul li a:hover {
+        color: BlueViolet;
+        left: 15px;
+    }
+
+    div.staticWrapper {
+      display: block;
+      overflow: hidden;
+    }
+
+    div.underlineAnim  div {
+        position: absolute;
+        top: 0;
+        width: 0;
+        margin: 100px 0 0 0;
+    }
+
+    div.underlineAnim div:nth-child(even) {
+        left: 0;
+        animation: slideFromLeft 4s infinite;
+        animation-direction: alternate;
+        -webkit-animation: slideFromLeft 4s infinite;
+        -webkit-animation-direction: alternate;
+        border-bottom: 2px solid rgba(176, 224, 230, .5);
+    }
+    div.underlineAnim div:nth-child(odd) {
+        right: 0;
+        animation: slideFromRight 4s infinite;
+        animation-direction: alternate;
+        -webkit-animation: slideFromRight 4s infinite;
+        -webkit-animation-direction: alternate;
+        border-bottom: 2px solid rgba(100, 255, 100, .5);
+    }
+
+</style>
+
+<script>
+
+</script>
+
+<body>
+
+    <h1 id='headTitle'>Public Page Selection</h1>
+
+    <div class = 'staticWrapper'>
+      <div class = 'underlineAnim'>
+        <div></div>
+        <div></div>
+      </div>
+    </div>
+
+    <div class = 'mainText'>
+
+        <ul>
+            <li><a href='https://kuco23.github.io/studypage/Study.html' target='_blank'>Study Material</a></li>
+            <li><a href='https://kuco23.github.io/pokermessingerpage/documentation.html' target='blank'>PokerMessinger documentation</a></li>
+        </ul>
+
+    </div>
+
+</body>
+</html>
