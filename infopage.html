@@ -118,6 +118,9 @@ function linePosition() {
 
 $(document).ready(function() {
   linePosition();
+  $(window).resize(function() {
+    linePosition();
+  });
 });
 
 </script>
