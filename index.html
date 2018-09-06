@@ -171,7 +171,7 @@ div.container div:first-child span:nth-child(2), div.container div:first-child s
 
 
 /* ******************** animation post-click **************** */
-.FallingDown span:nth-child(odd) {
+.rotateAlign span:nth-child(odd) {
   display: inline-block;
 
   transform-origin: left;
@@ -186,7 +186,7 @@ div.container div:first-child span:nth-child(2), div.container div:first-child s
   -webkit-animation-iteration-count: 1;
   -webkit-animation-fill-mode: forwards;
 }
-.FallingDown span:nth-child(even) {
+.rotateAlign span:nth-child(even) {
   display: inline-block;
 
   transform-origin: right;
@@ -211,8 +211,8 @@ div.container div:first-child span:nth-child(2), div.container div:first-child s
 $(document).ready(function() {
 
   $('div.container div:last-child').click(function() {
-    $('div.container div:first-child').addClass('FallingDown');
-    setTimeout(function() {window.open('studypage/Study.html', '_parent');}, 4000);
+    $('div.container div:first-child').addClass('rotateAlign');
+    setTimeout(function() {window.open('infopage.html', '_parent');}, 4000);
   });
 
   if ($(window).width() < $(window).height()) window.open('studypage/Study.html', '_parent');

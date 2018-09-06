@@ -3,7 +3,7 @@
 <html>
 <head>
 <title>Public webpages</title>
-<meta name='viewport' content='width=device-width, initial-scale=1.0'>
+<meta name='viewport' content='width=device-width, initial-scale=1.0' charset='utf-8' />
 
 <script src = 'jquery-3.3.1.min.js'></script>
 <link rel="stylesheet" type="text/css" href="https://fonts.googleapis.com/css?family=Lato" />
@@ -39,7 +39,9 @@
         background-color: AliceBlue;
     }
 
-    h1 {
+    #headTitle {
+        margin-top: 20px;
+        margin-bottom: 20px;
         font-family: 'Bungee Hairline';
         font-size: 2.5em;
         color: rgb(204, 102, 153);
@@ -79,19 +81,12 @@
         left: 15px;
     }
 
-    div.staticWrapper {
-      display: block;
-      overflow: hidden;
-    }
-
-    div.underlineAnim  div {
+    div.linesAnim div {
         position: absolute;
-        top: 0;
         width: 0;
-        margin: 100px 0 0 0;
     }
 
-    div.underlineAnim div:nth-child(even) {
+    div.linesAnim div:nth-child(even) {
         left: 0;
         animation: slideFromLeft 4s infinite;
         animation-direction: alternate;
@@ -99,7 +94,7 @@
         -webkit-animation-direction: alternate;
         border-bottom: 2px solid rgba(176, 224, 230, .5);
     }
-    div.underlineAnim div:nth-child(odd) {
+    div.linesAnim div:nth-child(odd) {
         right: 0;
         animation: slideFromRight 4s infinite;
         animation-direction: alternate;
@@ -112,17 +107,33 @@
 
 <script>
 
+function linePosition() {
+  const overlines = $('#overline div')
+  const underlines = $('#underline div');
+  const titleOffset = $('#headTitle').offset();
+  const titleHeight = $('#headTitle').innerHeight();
+  overlines.css({'top': titleOffset.top + 'px'});
+  underlines.css({'top': titleOffset.top + titleHeight + 'px'});
+}
+
+$(document).ready(function() {
+  linePosition();
+});
+
 </script>
 
 <body>
 
+  <div class = 'linesAnim' id = 'overline'>
+    <div></div>
+    <div></div>
+  </div>
+
     <h1 id='headTitle'>Public Page Selection</h1>
 
-    <div class = 'staticWrapper'>
-      <div class = 'underlineAnim'>
-        <div></div>
-        <div></div>
-      </div>
+    <div class = 'linesAnim' id = 'underline'>
+      <div></div>
+      <div></div>
     </div>
 
     <div class = 'mainText'>
