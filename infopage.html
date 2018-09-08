@@ -13,6 +13,11 @@
 
     * {box-sizing: border-box;}
 
+    body {
+        margin: 0;
+        background-color: AliceBlue;
+    }
+
     @keyframes slideFromLeft {
       0% {width: 0;}
       50% {width: 100%;}
@@ -34,29 +39,20 @@
       100% {width: 0; right: 0; border-color: rgba(176, 224, 230, .5);}
     }
 
-    body {
-        margin: 0;
-        background-color: AliceBlue;
-    }
-
     #headTitle {
         margin-top: 20px;
         margin-bottom: 20px;
         font-family: 'Bungee Hairline';
-        font-size: 2.5em;
+        font-size: 2em;
         color: rgb(204, 102, 153);
         text-align: center;
     }
 
     div.mainText {
-        position: absolute;
         text-align: center;
         font-family: Lato;
-
         margin-top: 5%;
-        right: 50%;
-        transform: translateX(50%);
-        -webkit-transform: translateX(50%);
+        margin-bottom: 5%;
     }
 
     div.mainText ul {
@@ -94,6 +90,7 @@
         -webkit-animation-direction: alternate;
         border-bottom: 2px solid rgba(176, 224, 230, .5);
     }
+
     div.linesAnim div:nth-child(odd) {
         right: 0;
         animation: slideFromRight 4s infinite;
@@ -116,7 +113,7 @@ function linePosition() {
   underlines.css({'top': titleOffset.top + titleHeight + 'px'});
 }
 
-$(document).ready(function() {
+$(window).on("load", function() {
   linePosition();
   $(window).resize(function() {
     linePosition();
@@ -132,21 +129,25 @@ $(document).ready(function() {
     <div></div>
   </div>
 
-    <h1 id='headTitle'>Public Page Selection</h1>
+  <h1 id='headTitle'>Public Page Selection</h1>
 
-    <div class = 'linesAnim' id = 'underline'>
-      <div></div>
-      <div></div>
-    </div>
+  <div class = 'linesAnim' id = 'underline'>
+    <div></div>
+    <div></div>
+  </div>
 
-    <div class = 'mainText'>
+  <div class = 'mainText'>
 
-        <ul>
-            <li><a href='https://kuco23.github.io/studypage/Study.html' target='_blank'>Study Material</a></li>
-            <li><a href='https://kuco23.github.io/pokermessingerpage/documentation.html' target='blank'>PokerMessinger documentation</a></li>
-        </ul>
+    <ul>
+      <li><a href='studypage/Study.html' target='_parent'>Study Material</a></li>
+      <li><a href='pokermessingerpage/documentation.html' target='_parent'>PokerMessinger documentation</a></li>
+    </ul>
 
-    </div>
+  </div>
+
+<script>
+linePosition();
+</script>
 
 </body>
 </html>
