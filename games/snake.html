@@ -134,8 +134,7 @@
         this.snake = new Snake(SNAKELEN, SNAKEPARTSIZE, SNAKECOLOR, this.object, SNAKESTARTX, SNAKESTARTY);
         window.addEventListener('keydown', function(e) {gameClass.keys[e.keyCode] = true;});
         window.addEventListener('keyup', function(e) {gameClass.keys[e.keyCode] = false;});
-        window.addEventListener('touchstart', function(e) {gameClass.touchPos = [e.pageX, e.pageY];});
-        window.addEventListener('touchend', function(e) {gameClass.touchPos = [];});
+        window.addEventListener('touchmove', function(e) {gameClass.touchPos = [e.touches[0].screenX, e.touches.screenY];});
         setInterval(updateGame, 1000 / FRAMESPERSEC);
         setInterval(directSnake, SNAKEPARTSIZE / (SNAKESPEED * FRAMESPERSEC / 1000));
       }
@@ -147,7 +146,7 @@
     function updateGame() {
       gameClass.object.delete();
       if (gameClass.keys != []) {
-        if (gameClass.keys[37]) {gameClass.object.x -= OBJECTSPEED;}
+        if (gameClass.keys[37]) gameClass.object.x -= OBJECTSPEED;
         if (gameClass.keys[38]) gameClass.object.y -= OBJECTSPEED;
         if (gameClass.keys[39]) gameClass.object.x += OBJECTSPEED;
         if (gameClass.keys[40]) gameClass.object.y += OBJECTSPEED;
