@@ -2,125 +2,127 @@
 
 <html>
 <head>
-<title>Public webpages</title>
-<meta name='viewport' content='width=device-width, initial-scale=1.0' charset='utf-8' />
+  <title>Public webpages</title>
+  <meta name='viewport' content='width=device-width, initial-scale=1.0' charset='utf-8' />
 
-<script src = 'jquery-3.3.1.min.js'></script>
-<link rel="stylesheet" type="text/css" href="https://fonts.googleapis.com/css?family=Lato" />
-<link rel="stylesheet" type="text/css" href='https://fonts.googleapis.com/css?family=Bungee Hairline' />
+  <script src = 'jquery-3.3.1.min.js'></script>
+  <link rel="stylesheet" type="text/css" href="https://fonts.googleapis.com/css?family=Lato" />
+  <link rel="stylesheet" type="text/css" href='https://fonts.googleapis.com/css?family=Bungee Hairline' />
 
-<style>
+  <style>
 
-    * {box-sizing: border-box;}
+      * {box-sizing: border-box;}
 
-    body {
-        margin: 0;
-        background-color: AliceBlue;
-    }
+      body {
+          margin: 0;
+          background-color: AliceBlue;
+      }
 
-    @keyframes slideFromLeft {
-      0% {width: 0;}
-      50% {width: 100%;}
-      100% {width: 0; border-color: rgba(100, 255, 100, .5);}
-    }
-    @keyframes slideFromRight {
-      0% {width: 0; right: 0;}
-      50% {width: 100%;}
-      100% {width: 0; right: 0; border-color: rgba(176, 224, 230, .5);}
-    }
-    @-webkit-keyframes slideFromLeft {
-      0% {width: 0;}
-      50% {width: 100%;}
-      100% {width: 0; border-color: rgba(100, 255, 100, .5);}
-    }
-    @-webkit-keyframes sliideFromRight {
-      0% {width: 0; right: 0;}
-      50% {width: 100%;}
-      100% {width: 0; right: 0; border-color: rgba(176, 224, 230, .5);}
-    }
+      @keyframes slideFromLeft {
+        0% {width: 0;}
+        50% {width: 100%;}
+        100% {width: 0; border-color: rgba(100, 255, 100, .5);}
+      }
+      @keyframes slideFromRight {
+        0% {width: 0; right: 0;}
+        50% {width: 100%;}
+        100% {width: 0; right: 0; border-color: rgba(176, 224, 230, .5);}
+      }
+      @-webkit-keyframes slideFromLeft {
+        0% {width: 0;}
+        50% {width: 100%;}
+        100% {width: 0; border-color: rgba(100, 255, 100, .5);}
+      }
+      @-webkit-keyframes sliideFromRight {
+        0% {width: 0; right: 0;}
+        50% {width: 100%;}
+        100% {width: 0; right: 0; border-color: rgba(176, 224, 230, .5);}
+      }
 
-    #headTitle {
-        margin-top: 20px;
-        margin-bottom: 20px;
-        font-family: 'Bungee Hairline';
-        font-size: 2em;
-        color: rgb(204, 102, 153);
-        text-align: center;
-    }
+      #headTitle {
+          margin-top: 20px;
+          margin-bottom: 20px;
+          font-family: 'Bungee Hairline';
+          font-size: 2em;
+          color: rgb(204, 102, 153);
+          text-align: center;
+      }
 
-    div.mainText {
-        text-align: center;
-        font-family: Lato;
-        margin-top: 5%;
-        margin-bottom: 5%;
-    }
+      div.mainText {
+          text-align: center;
+          font-family: Lato;
+          margin-top: 5%;
+          margin-bottom: 5%;
+      }
 
-    div.mainText ul {
-        list-style-type: none;
-        margin: 0;
-        padding: 0;
-    }
+      div.mainText ul {
+          list-style-type: none;
+          margin: 0;
+          padding: 0;
+      }
 
-    div.mainText ul li a {
-        text-decoration: none;
-        font-size: 1.2em;
-        color: rgb(40, 40, 40);
+      div.mainText ul li a {
+          text-decoration: none;
+          font-size: 1.2em;
+          color: rgb(40, 40, 40);
 
-        position: relative;
-        left: 0;
-        transition: color 1s, left 1s;
-        -webkit-transition: color 1s, left 1s;
-    }
+          position: relative;
+          left: 0;
+          transition: color 1s, left 1s;
+          -webkit-transition: color 1s, left 1s;
+      }
 
-    div.mainText ul li a:hover {
-        color: BlueViolet;
-        left: 15px;
-    }
+      div.mainText ul li a:hover {
+          color: BlueViolet;
+          left: 15px;
+      }
 
-    div.linesAnim div {
-        position: absolute;
-        width: 0;
-    }
+      div.linesAnim div {
+          position: absolute;
+          width: 0;
+      }
 
-    div.linesAnim div:nth-child(even) {
-        left: 0;
-        animation: slideFromLeft 4s infinite;
-        animation-direction: alternate;
-        -webkit-animation: slideFromLeft 4s infinite;
-        -webkit-animation-direction: alternate;
-        border-bottom: 2px solid rgba(176, 224, 230, .5);
-    }
+      div.linesAnim div:nth-child(even) {
+          left: 0;
+          animation: slideFromLeft 4s infinite;
+          animation-direction: alternate;
+          -webkit-animation: slideFromLeft 4s infinite;
+          -webkit-animation-direction: alternate;
+          border-bottom: 2px solid rgba(176, 224, 230, .5);
+      }
 
-    div.linesAnim div:nth-child(odd) {
-        right: 0;
-        animation: slideFromRight 4s infinite;
-        animation-direction: alternate;
-        -webkit-animation: slideFromRight 4s infinite;
-        -webkit-animation-direction: alternate;
-        border-bottom: 2px solid rgba(100, 255, 100, .5);
-    }
+      div.linesAnim div:nth-child(odd) {
+          right: 0;
+          animation: slideFromRight 4s infinite;
+          animation-direction: alternate;
+          -webkit-animation: slideFromRight 4s infinite;
+          -webkit-animation-direction: alternate;
+          border-bottom: 2px solid rgba(100, 255, 100, .5);
+      }
 
-</style>
+  </style>
 
-<script>
+  <script>
 
-function linePosition() {
-  const overlines = $('#overline div')
-  const underlines = $('#underline div');
-  const titleOffset = $('#headTitle').offset();
-  const titleHeight = $('#headTitle').innerHeight();
-  overlines.css({'top': titleOffset.top + 'px'});
-  underlines.css({'top': titleOffset.top + titleHeight + 'px'});
-}
+  function linePosition() {
+    const overlines = $('#overline div')
+    const underlines = $('#underline div');
+    const titleOffset = $('#headTitle').offset();
+    const titleHeight = $('#headTitle').innerHeight();
+    overlines.css({'top': titleOffset.top + 'px'});
+    underlines.css({'top': titleOffset.top + titleHeight + 'px'});
+  }
 
-$(window).on("load", function() {
-  linePosition();
-  $(window).resize(function() {
+  $(window).on('load', function() {
     linePosition();
+    $(window).resize(function() {
+      linePosition();
+    });
   });
-});
 
-</script>
+  </script>
+
+</head>
 
 <body>
 
