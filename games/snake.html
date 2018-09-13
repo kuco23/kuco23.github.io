@@ -15,6 +15,8 @@
   body {
     margin: 0;
     background-color: rgb(211, 211, 211);
+    transition: background-color 1s;
+    -webkit-transition:: background-color 1s;
   }
 
   #firstCanvas {
@@ -30,6 +32,15 @@
     transform: translate(50%, 50%);
   }
 
+  @keyframes blinkinLight {
+    0%, 20%, 40%, 50%, 65% {color: green;}
+    10%, 30%, 60%, 90% {color: lime;}
+  }
+  @-webkit-keyframes blinkinLight {
+    0%, 20%, 40%, 50%, 65% {color: green;}
+    10%, 30%, 60%, 90% {color: lime;}
+  }
+
   #winDiv {
     display: none;
 
@@ -40,8 +51,39 @@
 
     text-align: center;
     font-family: 'Bungee Hairline';
-    font-size: 10em;
+  }
+  #winDiv div:first-child {
+    font-size: 8em;
+    text-shadow: 4px 4px 8px lime, 4px 4px 16px white;
     color: lime;
+  }
+  #winDiv div:first-child span:nth-child(2) {
+    animation: blinkinLight 3s linear -1s infinite;
+    -webkit-animation: blinkinLight 3s linear -1s infinite;
+  }
+  #winDiv div:first-child span:nth-child(4) {
+    animation: blinkinLight 3s linear infinite;
+    -webkit-animation: blinkinLight 3s linear infinite;
+  }
+  #winDiv div:last-child {
+    font-size: 3em;
+    color: purple;
+    font-shadow: 2px 2px 4px purple;
+  }
+  #winDiv div:last-child span:first-child {
+    color: blue;
+    text-shadow: 4px 4px 8px blue;
+    transition: text-shadow 1s;
+    -webkit-transition: text-shadow 1s;
+  }
+  #winDiv div:last-child span:first-child:hover {
+    cursor: pointer;
+    color: blue;
+    text-shadow: 4px 4px 16px blue;
+  }
+  #winDiv div:last-child span:last-child {
+    color: FireBrick;
+    text-shadow: 4px 4px 8px FireBrick;
   }
 
   </style>
@@ -66,7 +108,7 @@
 
     const SNAKESPEED = 1;
     const SNAKELIFE = 1;
-    const SNAKELEN = 40;
+    const SNAKELEN = 30;
     const SNAKEPARTSIZE = 10;
     const SNAKECOLOR = 'black';
     const SNAKESTARTX = Canvas.width / 2;
@@ -255,8 +297,8 @@
           this.endRepr();
         },
         endRepr : function() {
-          $('#firstCanvas').fadeOut(1000);
-          setTimeout(function() {$('#winDiv').fadeIn(1000);}, 1000);
+          $('#firstCanvas').fadeOut(1000, function() {$('body').css('background-color', 'black');});
+          setTimeout(function() {$('#winDiv').fadeIn(1000);}, 2000);
         }
       };
 
@@ -295,7 +337,12 @@
   </canvas>
 
   <div id='winDiv'>
-    You Won
+    <div>
+      <span>Y</span><span>o</span><span>u</span> <span>W</span><span>o</span><span>n</span>
+    </div>
+    <div>
+      Play Again: <span onclick = 'gameClass.init()'>Y</span> / <span>N</span>
+    </div>
   </div>
 
 </body>
