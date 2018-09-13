@@ -6,6 +6,7 @@
   <title>Snake</title>
 
   <script src = '../jquery-3.3.1.min.js'></script>
+  <link rel="stylesheet" type="text/css" href='https://fonts.googleapis.com/css?family=Bungee Hairline' />
 
   <style>
 
@@ -29,11 +30,18 @@
     transform: translate(50%, 50%);
   }
 
-  @media only screen and (max-width: 500px) {
-    #firstCanvas {
-      width: 100%;
-      height: 100%;
-    }
+  #winDiv {
+    display: none;
+
+    position: absolute;
+    right: 50%;
+    bottom: 50%;
+    transform: translate(50%, 50%);
+
+    text-align: center;
+    font-family: 'Bungee Hairline';
+    font-size: 10em;
+    color: lime;
   }
 
   </style>
@@ -43,11 +51,6 @@
   $(document).ready(function() {
     const Canvas = document.getElementById('firstCanvas');
     const Context = Canvas.getContext('2d');
-
-    const COLORS = [];
-    for (let i = 0; i < 100; i++) {
-      COLORS.push('rgb(' + i + ',' + i + ',' + i + ')');
-    }
 
     const FRAMESPERSEC = 50;
 
@@ -63,14 +66,19 @@
 
     const SNAKESPEED = 1;
     const SNAKELIFE = 1;
-    const SNAKELEN = 50;
+    const SNAKELEN = 40;
     const SNAKEPARTSIZE = 10;
     const SNAKECOLOR = 'black';
     const SNAKESTARTX = Canvas.width / 2;
     const SNAKESTARTY = Canvas.height / 2;
     const SNAKEFOLLOWRATIO = 1 / 5; // should be less than 1/3
 
-    function vector_norm(vec) {
+    const COLORS = [];
+    for (let i = 0; i < SNAKELEN; i++) {
+      COLORS.push('rgb(' + i + ',' + i + ',' + i + ')');
+    }
+
+    function vectorNorm(vec) {
       let norm = Math.pow(Math.pow(vec[0], 2) + Math.pow(vec[1], 2), 0.5);
       if (norm != 0) return [vec[0] / norm, vec[1] / norm];
       else return vec;
@@ -97,6 +105,7 @@
         };
         this.create();
       };
+
       const ShotCollection = function () {
         this.array = [];
         this.add = function (thing) {
@@ -115,6 +124,7 @@
           }
         };
       };
+
       this.x = x;
       this.y = y;
       this.width = width;
@@ -135,7 +145,7 @@
     }
 
     function Snake(length, partSize, color, followObject, startX, startY) {
-      const snakePart = function(x, y, r, color) {
+      const SnakePart = function(x, y, r, color) {
         this.x = x;
         this.y = y;
         this.radius = r;
@@ -151,28 +161,29 @@
         };
         this.create();
       };
+
       this.partSize = partSize;
       this.followObject = followObject;
       this.life = SNAKELIFE;
       this.parts = [];
       for (let i = 0; i < length; i++) {
-        let snakepart = new snakePart(startX + (partSize - partSize * SNAKEFOLLOWRATIO) * i, startY, partSize / 2, randomChoice(COLORS));
+        let snakepart = new SnakePart(startX - (partSize - partSize * SNAKEFOLLOWRATIO) * i, startY, partSize / 2, randomChoice(COLORS));
         this.parts.push(snakepart);
       }
       this.headDirect = function() {
         if (this.parts[0]) {
-          this.parts[0].vector = vector_norm([this.followObject.x - this.parts[0].x, this.followObject.y - this.parts[0].y]);
+          this.parts[0].vector = vectorNorm([this.followObject.x - this.parts[0].x, this.followObject.y - this.parts[0].y]);
         }
       };
       this.direct = function () {
         this.headDirect();
         for (let i = 1; i < this.parts.length; i++) {
-          let rawFollowVec = vector_norm([this.parts[i - 1].x - this.parts[i].x, this.parts[i - 1].y - this.parts[i].y]);
+          let rawFollowVec = vectorNorm([this.parts[i - 1].x - this.parts[i].x, this.parts[i - 1].y - this.parts[i].y]);
           let centerX = this.parts[i].x + rawFollowVec[0] * this.partSize * SNAKEFOLLOWRATIO;
           let centerY = this.parts[i].y + rawFollowVec[1] * this.partSize * SNAKEFOLLOWRATIO;
           let followPartX = this.parts[i - 1].x - rawFollowVec[0] * this.partSize * SNAKEFOLLOWRATIO;
           let followPartY = this.parts[i - 1].y - rawFollowVec[1] * this.partSize * SNAKEFOLLOWRATIO;
-          this.parts[i].vector = vector_norm([followPartX - centerX, followPartY - centerY]);
+          this.parts[i].vector = vectorNorm([followPartX - centerX, followPartY - centerY]);
         }
       };
       this.move = function () {
@@ -197,8 +208,9 @@
           this.parts = this.parts.slice(1, this.parts.length);
         }
       };
-
-      this.direct();
+      if (this.parts[0]) {
+        this.direct();
+      }
     }
 
     const gameClass = {
@@ -213,8 +225,8 @@
         window.addEventListener('keyup', function(e) {gameClass.keys[e.keyCode] = false;});
         window.addEventListener('touchmove', function(e) {gameClass.touchPos = [e.touches[0].screenX, e.touches[0].screenY];});
 
-        setInterval(updateGame, 1000 / FRAMESPERSEC);
-        setInterval(directSnake, 1000 * SNAKEPARTSIZE / (SNAKESPEED * FRAMESPERSEC));
+        this.updateInterval = setInterval(updateGame, 1000 / FRAMESPERSEC);
+        this.directInterval = setInterval(directSnake, 1000 * SNAKEPARTSIZE / (SNAKESPEED * FRAMESPERSEC));
       },
       processCollision : function() {
         for (let i = 0; i < this.player.shots.array.length; i++) {
@@ -226,9 +238,25 @@
               this.snake.lifeDown();
               this.player.shots.array[i].delete();
               this.player.shots.array[i] = null;
-              break
+              if (this.snake.parts.length == 0) {
+                return this.endGame();
+              }
             }
           }
+        },
+        endGame : function () {
+          clearInterval(this.updateInterval);
+          clearInterval(this.directInterval);
+          this.player = undefined;
+          this.snake = undefined;
+          this.updateInterval = undefined;
+          this.directInterval = undefined;
+          Context.clearRect(0, 0, Canvas.width, Canvas.height);
+          this.endRepr();
+        },
+        endRepr : function() {
+          $('#firstCanvas').fadeOut(1000);
+          setTimeout(function() {$('#winDiv').fadeIn(1000);}, 1000);
         }
       };
 
@@ -245,20 +273,18 @@
         if (gameClass.keys[32]) {gameClass.player.addShot(SHOTWIDTH, SHOTHEIGHT, SHOTCOLOR); gameClass.keys[32] = false;}
       }
       else if (gameClass.touchPos != []) {
-        let moveVec = vector_norm([gameClass.touchPos[0] - gameClass.player.x, gameClass.touchPos[1] - gameClass.player.y]);
+        let moveVec = vectorNorm([gameClass.touchPos[0] - gameClass.player.x, gameClass.touchPos[1] - gameClass.player.y]);
         gameClass.player.x += moveVec[0];
         gameClass.player.y += moveVec[1];
       }
+      gameClass.player.shots.array.filter(shot => shot);
       gameClass.player.create();
       gameClass.snake.move();
       gameClass.player.shots.move();
       gameClass.processCollision();
-      //gameClass.player.shots.array.filter(shot => shot);
     }
-
     gameClass.init();
   });
-
   </script>
 
 </head>
@@ -267,6 +293,10 @@
 
   <canvas id='firstCanvas' height='500' width='750'>
   </canvas>
+
+  <div id='winDiv'>
+    You Won
+  </div>
 
 </body>
 </html>
