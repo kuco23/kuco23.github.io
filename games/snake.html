@@ -5,7 +5,6 @@
   <meta name='viewport' content='width=device-width, initial-scale=1.0' charset='utf-8' />
   <title>Snake</title>
 
-  <script src = 'jquery-3.3.1.min.js'></script>
   <script src = '../jquery-3.3.1.min.js'></script>
 
   <style>
@@ -14,7 +13,7 @@
 
   body {
     margin: 0;
-    background-color: AliceBlue;
+    background-color: rgb(211, 211, 211);
   }
 
   #firstCanvas {
@@ -23,6 +22,7 @@
     position: absolute;
     border: 1px solid rgba(100, 255, 100, .5);
     background-color: Lavender;
+    box-shadow: 10px 10px 12px rgba(0, 0, 0, .2);
 
     right: 50%;
     bottom: 50%;
@@ -42,95 +42,159 @@
 
   $(document).ready(function() {
     const Canvas = document.getElementById('firstCanvas');
-    const cvx = Canvas.getContext('2d');
+    const Context = Canvas.getContext('2d');
+
+    const COLORS = [];
+    for (let i = 0; i < 100; i++) {
+      COLORS.push('rgb(' + i + ',' + i + ',' + i + ')');
+    }
 
     const FRAMESPERSEC = 50;
 
-    const OBJECTSPEED = 1;
+    const PLAYERSPEED = 2;
+    const PLAYERWIDTH = 20;
+    const PLAYERHEIGHT = 10;
+    const PLAYERCOLOR = 'black';
 
-    const SNAKESPEED = 0.4;
-    const SNAKELEN = 10;
+    const SHOTSPEED = 5;
+    const SHOTWIDTH = 2;
+    const SHOTHEIGHT = 12;
+    const SHOTCOLOR = 'rgba(255, 0, 0, .5)';
+
+    const SNAKESPEED = 1;
+    const SNAKELIFE = 1;
+    const SNAKELEN = 50;
     const SNAKEPARTSIZE = 10;
     const SNAKECOLOR = 'black';
-    const SNAKESKINCOLOR = 'rgba(0, 0, 0, .4)';
     const SNAKESTARTX = Canvas.width / 2;
     const SNAKESTARTY = Canvas.height / 2;
-
-    function square(x, y, size, color) {
-      this.x = x; this.y = y;
-      this.size = size;
-      this.color = color;
-
-      this.create = function() {
-        cvx.fillStyle = this.color;
-        cvx.fillRect(this.x, this.y, this.size, this.size);
-      };
-      this.delete = function () {
-        cvx.clearRect(this.x, this.y, this.size, this.size);
-      };
-      this.create();
-    }
-
-    function circle(x, y, r, color) {
-      this.x = x; this.y = y;
-      this.radius = r;
-      this.color = color;
-
-      this.create = function() {
-        cvx.fillStyle = this.color;
-        cvx.beginPath();
-        cvx.arc(this.x, this.y, this.radius, 0, 2 * Math.PI);
-        cvx.fill();
-      };
-      this.delete = function() {
-        cvx.clearRect(this.x - this.radius - 1, this.y - this.radius - 1, (this.radius + 1) * 2, (this.radius + 1) * 2);
-      };
-      this.create();
-    }
+    const SNAKEFOLLOWRATIO = 1 / 5; // should be less than 1/3
 
     function vector_norm(vec) {
       let norm = Math.pow(Math.pow(vec[0], 2) + Math.pow(vec[1], 2), 0.5);
-      return [vec[0] / norm, vec[1] / norm]
+      if (norm != 0) return [vec[0] / norm, vec[1] / norm];
+      else return vec;
+    }
+    function randomChoice(list) {
+      let num = Math.round(Math.random() * list.length);
+      return list[num];
+    }
+
+    function Player(x, y, width, height, color) {
+      const Shot = function(x, y, width, height, color) {
+        this.x = x;
+        this.y = y;
+        this.width = width;
+        this.height = height;
+        this.color = color;
+
+        this.create = function() {
+          Context.fillStyle = this.color;
+          Context.fillRect(this.x, this.y, this.width, this.height);
+        };
+        this.delete = function () {
+          Context.clearRect(this.x, this.y, this.width, this.height);
+        };
+        this.create();
+      };
+      const ShotCollection = function () {
+        this.array = [];
+        this.add = function (thing) {
+          this.array.push(thing);
+        };
+        this.move = function () {
+          for (let i = 0; i < this.array.length; i++) {
+            if (!this.array[i]) continue
+            this.array[i].delete();
+            this.array[i].y -= SHOTSPEED;
+            this.array[i].create();
+            if (this.array[i].y + this.array[i].height <= 0) {
+              this.array[i].delete();
+              this.array[i] = null;
+            }
+          }
+        };
+      };
+      this.x = x;
+      this.y = y;
+      this.width = width;
+      this.height = height;
+      this.color = color;
+      this.shots = new ShotCollection();
+      this.create = function () {
+        Context.fillStyle = this.color;
+        Context.fillRect(this.x, this.y, this.width, this.height);
+      };
+      this.delete = function () {
+        Context.clearRect(this.x, this.y, this.width, this.height);
+      };
+      this.addShot = function(shotWidth, shotHeight, shotColor) {
+        this.shots.add(new Shot(this.x + (this.width - shotWidth) / 2, this.y - shotHeight, shotWidth, shotHeight, shotColor));
+      };
+      this.create();
     }
 
     function Snake(length, partSize, color, followObject, startX, startY) {
+      const snakePart = function(x, y, r, color) {
+        this.x = x;
+        this.y = y;
+        this.radius = r;
+        this.color = color;
+        this.create = function() {
+          Context.fillStyle = this.color;
+          Context.beginPath();
+          Context.arc(this.x, this.y, this.radius, 0, 2 * Math.PI);
+          Context.fill();
+        };
+        this.delete = function() {
+          Context.clearRect(this.x - this.radius - 1, this.y - this.radius - 1, (this.radius + 1) * 2, (this.radius + 1) * 2);
+        };
+        this.create();
+      };
       this.partSize = partSize;
       this.followObject = followObject;
-      this.snakeArray = [];
+      this.life = SNAKELIFE;
+      this.parts = [];
       for (let i = 0; i < length; i++) {
-        let snakePart = new circle(startX + partSize * i, startY, partSize / 2, color);
-        this.snakeArray.push(snakePart);
+        let snakepart = new snakePart(startX + (partSize - partSize * SNAKEFOLLOWRATIO) * i, startY, partSize / 2, randomChoice(COLORS));
+        this.parts.push(snakepart);
       }
-
       this.headDirect = function() {
-        this.snakeArray[0].vector = vector_norm([this.followObject.x - this.snakeArray[0].x, this.followObject.y - this.snakeArray[0].y]);
-      };
-
-      this.direct = function () {
-        this.headDirect();
-        for (let i = 1; i < this.snakeArray.length; i++) {
-          let rawFollowVec = vector_norm([this.snakeArray[i - 1].x - this.snakeArray[i].x, this.snakeArray[i - 1].y - this.snakeArray[i].y]);
-          let centerX = this.snakeArray[i].x - rawFollowVec[0] * this.partSize / 2;
-          let centerY = this.snakeArray[i].y - rawFollowVec[1] * this.partSize / 2;
-          let followPartX = this.snakeArray[i - 1].x + rawFollowVec[0] * this.partSize / 2;
-          let followPartY = this.snakeArray[i - 1].y + rawFollowVec[1] * this.partSize / 2;
-          this.snakeArray[i].vector = vector_norm([followPartX - centerX, followPartY - centerY]);
+        if (this.parts[0]) {
+          this.parts[0].vector = vector_norm([this.followObject.x - this.parts[0].x, this.followObject.y - this.parts[0].y]);
         }
       };
-
+      this.direct = function () {
+        this.headDirect();
+        for (let i = 1; i < this.parts.length; i++) {
+          let rawFollowVec = vector_norm([this.parts[i - 1].x - this.parts[i].x, this.parts[i - 1].y - this.parts[i].y]);
+          let centerX = this.parts[i].x + rawFollowVec[0] * this.partSize * SNAKEFOLLOWRATIO;
+          let centerY = this.parts[i].y + rawFollowVec[1] * this.partSize * SNAKEFOLLOWRATIO;
+          let followPartX = this.parts[i - 1].x - rawFollowVec[0] * this.partSize * SNAKEFOLLOWRATIO;
+          let followPartY = this.parts[i - 1].y - rawFollowVec[1] * this.partSize * SNAKEFOLLOWRATIO;
+          this.parts[i].vector = vector_norm([followPartX - centerX, followPartY - centerY]);
+        }
+      };
       this.move = function () {
         this.deleteSnake();
         this.headDirect();
-        for (let i = 0; i < this.snakeArray.length; i++) {
-          this.snakeArray[i].x += this.snakeArray[i].vector[0] * SNAKESPEED;
-          this.snakeArray[i].y += this.snakeArray[i].vector[1] * SNAKESPEED;
-          this.snakeArray[i].create();
+        for (let i = 0; i < this.parts.length; i++) {
+          this.parts[i].x += this.parts[i].vector[0] * SNAKESPEED;
+          this.parts[i].y += this.parts[i].vector[1] * SNAKESPEED;
+          this.parts[i].create();
         }
       };
-
       this.deleteSnake = function () {
-        for (let i = 0; i < this.snakeArray.length; i++) {
-          this.snakeArray[i].delete();
+        for (let i = 0; i < this.parts.length; i++) {
+          this.parts[i].delete();
+        }
+      };
+      this.lifeDown = function () {
+        this.life -= 1;
+        if (this.life == 0) {
+          this.life = SNAKELIFE;
+          this.parts[0].delete();
+          this.parts = this.parts.slice(1, this.parts.length);
         }
       };
 
@@ -139,35 +203,57 @@
 
     const gameClass = {
       init : function() {
-        this.keys = []; this.touchPos = [];
-        this.object = new circle(0, 0, 5, 'red');
-        this.snake = new Snake(SNAKELEN, SNAKEPARTSIZE, SNAKECOLOR, this.object, SNAKESTARTX, SNAKESTARTY);
+        this.keys = [];
+        this.touchPos = [];
+
+        this.player = new Player(Canvas.width / 2, Canvas.height - PLAYERHEIGHT * 2, PLAYERWIDTH, PLAYERHEIGHT, PLAYERCOLOR);
+        this.snake = new Snake(SNAKELEN, SNAKEPARTSIZE, SNAKECOLOR, this.player, SNAKESTARTX, SNAKESTARTY);
+
         window.addEventListener('keydown', function(e) {gameClass.keys[e.keyCode] = true;});
         window.addEventListener('keyup', function(e) {gameClass.keys[e.keyCode] = false;});
-        window.addEventListener('touchmove', function(e) {gameClass.touchPos = [e.touches[0].screenX, e.touches.screenY];});
+        window.addEventListener('touchmove', function(e) {gameClass.touchPos = [e.touches[0].screenX, e.touches[0].screenY];});
+
         setInterval(updateGame, 1000 / FRAMESPERSEC);
-        setInterval(directSnake, SNAKEPARTSIZE / (SNAKESPEED * FRAMESPERSEC / 1000));
-      }
-    };
+        setInterval(directSnake, 1000 * SNAKEPARTSIZE / (SNAKESPEED * FRAMESPERSEC));
+      },
+      processCollision : function() {
+        for (let i = 0; i < this.player.shots.array.length; i++) {
+          if (!this.player.shots.array[i]) continue
+          if (this.player.shots.array[i].x + SHOTWIDTH / 2 >= this.snake.parts[0].x - SNAKEPARTSIZE / 2 &&
+            this.player.shots.array[i].x + SHOTWIDTH / 2 <= this.snake.parts[0].x + SNAKEPARTSIZE / 2 &&
+            this.player.shots.array[i].y <= this.snake.parts[0].y + SNAKEPARTSIZE / 2 &&
+            this.player.shots.array[i].y + SHOTHEIGHT >= this.snake.parts[0].y - SNAKEPARTSIZE / 2) {
+              this.snake.lifeDown();
+              this.player.shots.array[i].delete();
+              this.player.shots.array[i] = null;
+              break
+            }
+          }
+        }
+      };
 
     function directSnake() {
       gameClass.snake.direct();
     }
     function updateGame() {
-      gameClass.object.delete();
+      gameClass.player.delete();
       if (gameClass.keys != []) {
-        if (gameClass.keys[37]) gameClass.object.x -= OBJECTSPEED;
-        if (gameClass.keys[38]) gameClass.object.y -= OBJECTSPEED;
-        if (gameClass.keys[39]) gameClass.object.x += OBJECTSPEED;
-        if (gameClass.keys[40]) gameClass.object.y += OBJECTSPEED;
+        if (gameClass.keys[37] && gameClass.player.x - PLAYERSPEED >= 0) gameClass.player.x -= PLAYERSPEED;
+        if (gameClass.keys[38] && gameClass.player.y - PLAYERSPEED >= 0) gameClass.player.y -= PLAYERSPEED;
+        if (gameClass.keys[39] && gameClass.player.x + PLAYERSPEED + PLAYERWIDTH <= Canvas.width) gameClass.player.x += PLAYERSPEED;
+        if (gameClass.keys[40] && gameClass.player.y + PLAYERSPEED + PLAYERHEIGHT <= Canvas.height) gameClass.player.y += PLAYERSPEED;
+        if (gameClass.keys[32]) {gameClass.player.addShot(SHOTWIDTH, SHOTHEIGHT, SHOTCOLOR); gameClass.keys[32] = false;}
       }
       else if (gameClass.touchPos != []) {
-        let moveVec = vector_norm([gameClass.touchPos[0] - gameClass.object.x, gameClass.touchPos[1] - gameClass.object.y]);
-        gameClass.object.x += moveVec[0];
-        gameClass.object.y += moveVec[1];
+        let moveVec = vector_norm([gameClass.touchPos[0] - gameClass.player.x, gameClass.touchPos[1] - gameClass.player.y]);
+        gameClass.player.x += moveVec[0];
+        gameClass.player.y += moveVec[1];
       }
-      gameClass.object.create();
+      gameClass.player.create();
       gameClass.snake.move();
+      gameClass.player.shots.move();
+      gameClass.processCollision();
+      //gameClass.player.shots.array.filter(shot => shot);
     }
 
     gameClass.init();
