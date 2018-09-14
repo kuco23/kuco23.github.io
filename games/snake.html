@@ -108,12 +108,11 @@
 
     const SNAKESPEED = 1;
     const SNAKELIFE = 1;
-    const SNAKELEN = 30;
+    const SNAKELEN = 50;
     const SNAKEPARTSIZE = 10;
     const SNAKECOLOR = 'black';
     const SNAKESTARTX = Canvas.width / 2;
     const SNAKESTARTY = Canvas.height / 2;
-    const SNAKEFOLLOWRATIO = 1 / 5; // should be less than 1/3
 
     const COLORS = [];
     for (let i = 0; i < SNAKELEN; i++) {
@@ -209,35 +208,24 @@
       this.life = SNAKELIFE;
       this.parts = [];
       for (let i = 0; i < length; i++) {
-        let snakepart = new SnakePart(startX - (partSize - partSize * SNAKEFOLLOWRATIO) * i, startY, partSize / 2, randomChoice(COLORS));
+        let snakepart = new SnakePart(startX - partSize * i, startY, partSize / 2, randomChoice(COLORS));
         this.parts.push(snakepart);
       }
-      this.headDirect = function() {
+      this.move = function () {
+        this.delete();
         if (this.parts[0]) {
-          this.parts[0].vector = vectorNorm([this.followObject.x - this.parts[0].x, this.followObject.y - this.parts[0].y]);
+          let vector = vectorNorm([this.followObject.x - this.parts[0].x, this.followObject.y - this.parts[0].y]);
+          this.parts[0].x += vector[0] * SNAKESPEED;
+          this.parts[0].y += vector[1] * SNAKESPEED;
         }
-      };
-      this.direct = function () {
-        this.headDirect();
         for (let i = 1; i < this.parts.length; i++) {
           let rawFollowVec = vectorNorm([this.parts[i - 1].x - this.parts[i].x, this.parts[i - 1].y - this.parts[i].y]);
-          let centerX = this.parts[i].x + rawFollowVec[0] * this.partSize * SNAKEFOLLOWRATIO;
-          let centerY = this.parts[i].y + rawFollowVec[1] * this.partSize * SNAKEFOLLOWRATIO;
-          let followPartX = this.parts[i - 1].x - rawFollowVec[0] * this.partSize * SNAKEFOLLOWRATIO;
-          let followPartY = this.parts[i - 1].y - rawFollowVec[1] * this.partSize * SNAKEFOLLOWRATIO;
-          this.parts[i].vector = vectorNorm([followPartX - centerX, followPartY - centerY]);
-        }
-      };
-      this.move = function () {
-        this.deleteSnake();
-        this.headDirect();
-        for (let i = 0; i < this.parts.length; i++) {
-          this.parts[i].x += this.parts[i].vector[0] * SNAKESPEED;
-          this.parts[i].y += this.parts[i].vector[1] * SNAKESPEED;
+          this.parts[i].x = this.parts[i - 1].x - rawFollowVec[0] * this.partSize;
+          this.parts[i].y = this.parts[i - 1].y - rawFollowVec[1] * this.partSize;
           this.parts[i].create();
         }
       };
-      this.deleteSnake = function () {
+      this.delete = function () {
         for (let i = 0; i < this.parts.length; i++) {
           this.parts[i].delete();
         }
@@ -251,7 +239,7 @@
         }
       };
       if (this.parts[0]) {
-        this.direct();
+        this.move();
       }
     }
 
@@ -268,7 +256,6 @@
         window.addEventListener('touchmove', function(e) {gameClass.touchPos = [e.touches[0].screenX, e.touches[0].screenY];});
 
         this.updateInterval = setInterval(updateGame, 1000 / FRAMESPERSEC);
-        this.directInterval = setInterval(directSnake, 1000 * SNAKEPARTSIZE / (SNAKESPEED * FRAMESPERSEC));
       },
       processCollision : function() {
         for (let i = 0; i < this.player.shots.array.length; i++) {
@@ -302,9 +289,6 @@
         }
       };
 
-    function directSnake() {
-      gameClass.snake.direct();
-    }
     function updateGame() {
       gameClass.player.delete();
       if (gameClass.keys != []) {
