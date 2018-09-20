@@ -10,6 +10,19 @@
 
   <style>
 
+  :root {
+    --ratio: 0.5;
+    --reverse-ratio: 2;
+    --container-width: 50vw;
+    --container-height: 50vh;
+
+    --font1-sizeVW: 15vh;
+    --font1-sizeVH: calc(var(--ratio) * 15vw);
+
+    --font2-sizeVW: 6vh;
+    --font2-sizeVH: calc(var(--ratio) * 6vw);
+  }
+
   * {box-sizing: border-box;}
 
   body {
@@ -33,299 +46,360 @@
   }
 
   @keyframes blinkinLight {
-    0%, 20%, 40%, 50%, 65% {color: green;}
-    10%, 30%, 60%, 90% {color: lime;}
+    0%, 20%, 40%, 50%, 65% {opacity: 0.4;}
+    10%, 30%, 60%, 90% {opacity: 1;}
   }
   @-webkit-keyframes blinkinLight {
-    0%, 20%, 40%, 50%, 65% {color: green;}
-    10%, 30%, 60%, 90% {color: lime;}
+    0%, 20%, 40%, 50%, 65% {opacity: 0.4;}
+    10%, 30%, 60%, 90% {opacity: 1;}
   }
 
-  #winDiv {
-    display: none;
+  #gameOverDiv {
+    text-align: center;
+    font-family: 'Bungee Hairline';
 
+    display: none;
     position: absolute;
     right: 50%;
     bottom: 50%;
     transform: translate(50%, 50%);
 
-    text-align: center;
-    font-family: 'Bungee Hairline';
+    width: var(--container-width);
+    height: calc(var(--ratio) * var(--container-width));
+    max-width: calc(var(--reverse-ratio) * var(--container-height));
+    max-height: var(--container-height);
   }
-  #winDiv div:first-child {
-    font-size: 8em;
-    text-shadow: 4px 4px 8px lime, 4px 4px 16px white;
-    color: lime;
+  #gameOverDiv div:first-child {
+    font-size: var(--font1-sizeVW);
   }
-  #winDiv div:first-child span:nth-child(2) {
-    animation: blinkinLight 3s linear -1s infinite;
-    -webkit-animation: blinkinLight 3s linear -1s infinite;
+  #gameOverDiv div:first-child span:nth-child(2) {
+    opacity: 0.4;
+    text-shadow: none;
   }
-  #winDiv div:first-child span:nth-child(4) {
+  #gameOverDiv div:first-child span:nth-child(5) {
     animation: blinkinLight 3s linear infinite;
     -webkit-animation: blinkinLight 3s linear infinite;
   }
-  #winDiv div:last-child {
-    font-size: 3em;
+  #gameOverDiv div:last-child {
+    font-size: var(--font2-sizeVW);
     color: purple;
     font-shadow: 2px 2px 4px purple;
   }
-  #winDiv div:last-child span:first-child {
-    color: blue;
-    text-shadow: 4px 4px 8px blue;
-    transition: text-shadow 1s;
-    -webkit-transition: text-shadow 1s;
+  #gameOverDiv div:last-child span:first-child {
+    color: green;
+    text-shadow: 4px 4px 8px green;
+    transition: color 1s, text-shadow 1s;
+    -webkit-transition: color 1s, text-shadow 1s;
   }
-  #winDiv div:last-child span:first-child:hover {
+  #gameOverDiv div:last-child span:first-child:hover {
     cursor: pointer;
-    color: blue;
-    text-shadow: 4px 4px 16px blue;
+    color: lime;
+    text-shadow: 4px 4px 16px lime;
   }
-  #winDiv div:last-child span:last-child {
+  #gameOverDiv div:last-child span:last-child {
+    color: DarkRed;
+    text-shadow: 4px 4px 8px DarkRed;
+    transition: color 1s, text-shadow 1s;
+    -webkit-transition: color 1s, text-shadow 1s;
+  }
+  #gameOverDiv div:last-child span:last-child:hover {
+    cursor: pointer;
     color: FireBrick;
-    text-shadow: 4px 4px 8px FireBrick;
+    text-shadow: 4px 4px 16px FireBrick;
   }
+
+  /* max-width: (reversRatio * 100vh) */
+  @media screen and (max-width: 200vh) {
+      #gameOverDiv div:first-child {
+          font-size: var(--font1-sizeVH);
+      }
+      #gameOverDiv div:last-child {
+          font-size: var(--font2-sizeVH);
+      }
+}
 
   </style>
 
   <script>
 
-  $(document).ready(function() {
-    const Canvas = document.getElementById('firstCanvas');
-    const Context = Canvas.getContext('2d');
+$(document).ready(function() {
 
-    const FRAMESPERSEC = 50;
+  $(window).resize(function() {
+    console.log($(window).height());
+  });
 
-    const PLAYERSPEED = 2;
-    const PLAYERWIDTH = 20;
-    const PLAYERHEIGHT = 10;
-    const PLAYERCOLOR = 'black';
+  $('#firstCanvas').attr('width', $(window).width());
+  $('#firstCanvas').attr('height', $(window).height());
 
-    const SHOTSPEED = 5;
-    const SHOTWIDTH = 2;
-    const SHOTHEIGHT = 12;
-    const SHOTCOLOR = 'rgba(255, 0, 0, .5)';
+  const Canvas = document.getElementById('firstCanvas');
+  const Context = Canvas.getContext('2d');
 
-    const SNAKESPEED = 1;
-    const SNAKELIFE = 1;
-    const SNAKELEN = 50;
-    const SNAKEPARTSIZE = 10;
-    const SNAKECOLOR = 'black';
-    const SNAKESTARTX = Canvas.width / 2;
-    const SNAKESTARTY = Canvas.height / 2;
+  const FRAMESPERSEC = 50;
 
-    const COLORS = [];
-    for (let i = 0; i < SNAKELEN; i++) {
-      COLORS.push('rgb(' + i + ',' + i + ',' + i + ')');
-    }
+  const PLAYERSPEED = 2;
+  const PLAYERWIDTH = 20;
+  const PLAYERHEIGHT = 10;
+  const PLAYERCOLOR = 'black';
 
-    function vectorNorm(vec) {
-      let norm = Math.pow(Math.pow(vec[0], 2) + Math.pow(vec[1], 2), 0.5);
-      if (norm != 0) return [vec[0] / norm, vec[1] / norm];
-      else return vec;
-    }
-    function randomChoice(list) {
-      let num = Math.round(Math.random() * list.length);
-      return list[num];
-    }
+  const SHOTSPEED = 5;
+  const SHOTWIDTH = 2;
+  const SHOTHEIGHT = 12;
+  const SHOTCOLOR = 'rgba(255, 0, 0, .5)';
 
-    function Player(x, y, width, height, color) {
-      const Shot = function(x, y, width, height, color) {
-        this.x = x;
-        this.y = y;
-        this.width = width;
-        this.height = height;
-        this.color = color;
+  const SNAKESPEED = 1.2;
+  const SNAKELIFE = 1;
+  const SNAKELEN = 10;
+  const SNAKEPARTSIZE = 10;
+  const SNAKECOLOR = 'black'; // is not included now
+  const SNAKESTARTX = Canvas.width / 2;
+  const SNAKESTARTY = Canvas.height / 2;
 
-        this.create = function() {
-          Context.fillStyle = this.color;
-          Context.fillRect(this.x, this.y, this.width, this.height);
-        };
-        this.delete = function () {
-          Context.clearRect(this.x, this.y, this.width, this.height);
-        };
-        this.create();
-      };
+  const COLORS = [];
+  for (let i = 0; i < 100; i++) {
+    COLORS.push('rgb(' + i + ',' + i + ',' + i + ')');
+  }
 
-      const ShotCollection = function () {
-        this.array = [];
-        this.add = function (thing) {
-          this.array.push(thing);
-        };
-        this.move = function () {
-          for (let i = 0; i < this.array.length; i++) {
-            if (!this.array[i]) continue
-            this.array[i].delete();
-            this.array[i].y -= SHOTSPEED;
-            this.array[i].create();
-            if (this.array[i].y + this.array[i].height <= 0) {
-              this.array[i].delete();
-              this.array[i] = null;
-            }
-          }
-        };
-      };
+  function getNorm(vec) {
+    return Math.pow(Math.pow(vec[0], 2) + Math.pow(vec[1], 2), 0.5);
+  }
+  function vectorNorm(vec) {
+    let norm = getNorm(vec);
+    if (norm != 0) return [vec[0] / norm, vec[1] / norm];
+    else return vec;
+  }
+  function randomChoice(list) {
+    let num = Math.round(Math.random() * list.length);
+    return list[num];
+  }
 
+  function Player(x, y, width, height, color) {
+    const Shot = function(x, y, width, height, color) {
       this.x = x;
       this.y = y;
       this.width = width;
       this.height = height;
       this.color = color;
-      this.shots = new ShotCollection();
-      this.create = function () {
+
+      this.create = function() {
         Context.fillStyle = this.color;
         Context.fillRect(this.x, this.y, this.width, this.height);
       };
       this.delete = function () {
         Context.clearRect(this.x, this.y, this.width, this.height);
       };
-      this.addShot = function(shotWidth, shotHeight, shotColor) {
-        this.shots.add(new Shot(this.x + (this.width - shotWidth) / 2, this.y - shotHeight, shotWidth, shotHeight, shotColor));
+      this.create();
+    };
+
+    const ShotCollection = function () {
+      this.array = [];
+      this.add = function (thing) {
+        this.array.push(thing);
+      };
+      this.move = function () {
+        for (let i = 0; i < this.array.length; i++) {
+          if (!this.array[i]) continue;
+          this.array[i].delete();
+          this.array[i].y -= SHOTSPEED;
+          this.array[i].create();
+          if (this.array[i].y + this.array[i].height <= 0) {
+            this.array[i].delete();
+            this.array[i] = null;
+          }
+        }
+      };
+    };
+    this.x = x;
+    this.y = y;
+    this.width = width;
+    this.height = height;
+    this.color = color;
+    this.shots = new ShotCollection();
+    this.getCenter = function() {return [this.x + this.width / 2, this.y + this.height/2];};
+    this.create = function () {
+      Context.fillStyle = this.color;
+      Context.fillRect(this.x, this.y, this.width, this.height);
+    };
+    this.delete = function () {
+      Context.clearRect(this.x, this.y, this.width, this.height);
+    };
+    this.addShot = function(shotWidth, shotHeight, shotColor) {
+      this.shots.add(new Shot(this.x + (this.width - shotWidth) / 2, this.y - shotHeight, shotWidth, shotHeight, shotColor));
+    };
+    this.create();
+  }
+
+  function Snake(length, partSize, color, followObject, startX, startY) {
+    const SnakePart = function(x, y, r, color) {
+      this.x = x;
+      this.y = y;
+      this.radius = r;
+      this.color = color;
+      this.create = function() {
+        Context.fillStyle = this.color;
+        Context.beginPath();
+        Context.arc(this.x, this.y, this.radius, 0, 2 * Math.PI);
+        Context.fill();
+      };
+      this.delete = function() {
+        Context.clearRect(this.x - this.radius - 1, this.y - this.radius - 1, (this.radius + 1) * 2, (this.radius + 1) * 2);
       };
       this.create();
+    };
+    this.partSize = partSize;
+    this.followObject = followObject;
+    this.life = SNAKELIFE;
+    this.parts = [];
+    for (let i = 0; i < length; i++) {
+      let snakepart = new SnakePart(startX - partSize * i, startY, partSize / 2, randomChoice(COLORS));
+      this.parts.push(snakepart);
     }
-
-    function Snake(length, partSize, color, followObject, startX, startY) {
-      const SnakePart = function(x, y, r, color) {
-        this.x = x;
-        this.y = y;
-        this.radius = r;
-        this.color = color;
-        this.create = function() {
-          Context.fillStyle = this.color;
-          Context.beginPath();
-          Context.arc(this.x, this.y, this.radius, 0, 2 * Math.PI);
-          Context.fill();
-        };
-        this.delete = function() {
-          Context.clearRect(this.x - this.radius - 1, this.y - this.radius - 1, (this.radius + 1) * 2, (this.radius + 1) * 2);
-        };
-        this.create();
-      };
-
-      this.partSize = partSize;
-      this.followObject = followObject;
-      this.life = SNAKELIFE;
-      this.parts = [];
-      for (let i = 0; i < length; i++) {
-        let snakepart = new SnakePart(startX - partSize * i, startY, partSize / 2, randomChoice(COLORS));
-        this.parts.push(snakepart);
-      }
-      this.move = function () {
-        this.delete();
-        if (this.parts[0]) {
-          let vector = vectorNorm([this.followObject.x - this.parts[0].x, this.followObject.y - this.parts[0].y]);
-          this.parts[0].x += vector[0] * SNAKESPEED;
-          this.parts[0].y += vector[1] * SNAKESPEED;
-        }
-        for (let i = 1; i < this.parts.length; i++) {
-          let rawFollowVec = vectorNorm([this.parts[i - 1].x - this.parts[i].x, this.parts[i - 1].y - this.parts[i].y]);
-          this.parts[i].x = this.parts[i - 1].x - rawFollowVec[0] * this.partSize;
-          this.parts[i].y = this.parts[i - 1].y - rawFollowVec[1] * this.partSize;
-          this.parts[i].create();
-        }
-      };
-      this.delete = function () {
-        for (let i = 0; i < this.parts.length; i++) {
-          this.parts[i].delete();
-        }
-      };
-      this.lifeDown = function () {
-        this.life -= 1;
-        if (this.life == 0) {
-          this.life = SNAKELIFE;
-          this.parts[0].delete();
-          this.parts = this.parts.slice(1, this.parts.length);
-        }
-      };
+    this.move = function () {
+      this.delete();
       if (this.parts[0]) {
-        this.move();
+        const objectCenter = this.followObject.getCenter();
+        const vector = vectorNorm([objectCenter[0] - this.parts[0].x, objectCenter[1] - this.parts[0].y]);
+        this.parts[0].x += vector[0] * SNAKESPEED;
+        this.parts[0].y += vector[1] * SNAKESPEED;
+        this.parts[0].create();
       }
+      for (let i = 1; i < this.parts.length; i++) {
+        let rawFollowVec = vectorNorm([this.parts[i - 1].x - this.parts[i].x, this.parts[i - 1].y - this.parts[i].y]);
+        this.parts[i].x = this.parts[i - 1].x - rawFollowVec[0] * this.partSize;
+        this.parts[i].y = this.parts[i - 1].y - rawFollowVec[1] * this.partSize;
+        this.parts[i].create();
+      }
+    };
+    this.delete = function () {
+      for (let i = 0; i < this.parts.length; i++) {
+        this.parts[i].delete();
+      }
+    };
+    this.lifeDown = function () {
+      this.life -= 1;
+      if (this.life == 0) {
+        this.life = SNAKELIFE;
+        this.parts[0].delete();
+        this.parts = this.parts.slice(1, this.parts.length);
+      }
+    };
+    if (this.parts[0]) {
+      this.parts[0].delete();
     }
+  }
 
-    const gameClass = {
-      init : function() {
-        this.keys = [];
-        this.touchPos = [];
+  const gameObj = {
+    init : function() {
+      this.keys = [];
+      this.touchPos = [];
 
-        this.player = new Player(Canvas.width / 2, Canvas.height - PLAYERHEIGHT * 2, PLAYERWIDTH, PLAYERHEIGHT, PLAYERCOLOR);
-        this.snake = new Snake(SNAKELEN, SNAKEPARTSIZE, SNAKECOLOR, this.player, SNAKESTARTX, SNAKESTARTY);
+      this.player = new Player(Canvas.width / 2, Canvas.height - PLAYERHEIGHT * 2, PLAYERWIDTH, PLAYERHEIGHT, PLAYERCOLOR);
+      this.snake = new Snake(SNAKELEN, SNAKEPARTSIZE, SNAKECOLOR, this.player, SNAKESTARTX, SNAKESTARTY);
 
-        window.addEventListener('keydown', function(e) {gameClass.keys[e.keyCode] = true;});
-        window.addEventListener('keyup', function(e) {gameClass.keys[e.keyCode] = false;});
-        window.addEventListener('touchmove', function(e) {gameClass.touchPos = [e.touches[0].screenX, e.touches[0].screenY];});
+      window.addEventListener('keydown', function(e) {gameObj.keys[e.keyCode] = true;});
+      window.addEventListener('keyup', function(e) {gameObj.keys[e.keyCode] = false;});
+      window.addEventListener('touchmove', function(e) {gameObj.touchPos = [e.touches[0].screenX, e.touches[0].screenY];});
 
-        this.updateInterval = setInterval(updateGame, 1000 / FRAMESPERSEC);
-      },
-      processCollision : function() {
-        for (let i = 0; i < this.player.shots.array.length; i++) {
-          if (!this.player.shots.array[i]) continue
-          if (this.player.shots.array[i].x + SHOTWIDTH / 2 >= this.snake.parts[0].x - SNAKEPARTSIZE / 2 &&
-            this.player.shots.array[i].x + SHOTWIDTH / 2 <= this.snake.parts[0].x + SNAKEPARTSIZE / 2 &&
-            this.player.shots.array[i].y <= this.snake.parts[0].y + SNAKEPARTSIZE / 2 &&
-            this.player.shots.array[i].y + SHOTHEIGHT >= this.snake.parts[0].y - SNAKEPARTSIZE / 2) {
-              this.snake.lifeDown();
-              this.player.shots.array[i].delete();
-              this.player.shots.array[i] = null;
-              if (this.snake.parts.length == 0) {
-                return this.endGame();
-              }
-            }
+      this.interval = setInterval(updateGame, 1000 / FRAMESPERSEC);
+    },
+    // t1 has to be the point of higher left rect and t2 the center of a circle
+    checkCollision : function(t1, t2, width1, height1, radius2) {
+      const centerX = t1[0] + width1 / 2;
+      const centerY = t1[1] + height1 / 2;
+      const fromT2ToT1Vec = [centerX - t2[0], centerY - t2[1]];
+      if (getNorm(fromT2ToT1Vec) <= Math.max(width1, height1) / 2 + radius2) {
+        return true;
+      }
+      return false;
+    },
+    processCollision : function() {
+      for (let i = 0; i < this.player.shots.array.length; i++) {
+        if (!this.player.shots.array[i]) continue;
+        if (this.checkCollision([this.player.shots.array[i].x, this.player.shots.array[i].y], [this.snake.parts[0].x, this.snake.parts[0].y],
+          SHOTWIDTH, SHOTHEIGHT, SNAKEPARTSIZE / 2 )) {
+          this.snake.lifeDown();
+          this.player.shots.array[i].delete();
+          this.player.shots.array[i] = null;
+          if (this.snake.parts.length == 0) {
+            return this.endGame(true); // ends before it checks for player-snake collision
           }
-        },
-        endGame : function () {
-          clearInterval(this.updateInterval);
-          clearInterval(this.directInterval);
-          this.player = undefined;
-          this.snake = undefined;
-          this.updateInterval = undefined;
-          this.directInterval = undefined;
-          Context.clearRect(0, 0, Canvas.width, Canvas.height);
-          this.endRepr();
-        },
-        endRepr : function() {
-          $('#firstCanvas').fadeOut(1000, function() {$('body').css('background-color', 'black');});
-          setTimeout(function() {$('#winDiv').fadeIn(1000);}, 2000);
         }
-      };
-
-    function updateGame() {
-      gameClass.player.delete();
-      if (gameClass.keys != []) {
-        if (gameClass.keys[37] && gameClass.player.x - PLAYERSPEED >= 0) gameClass.player.x -= PLAYERSPEED;
-        if (gameClass.keys[38] && gameClass.player.y - PLAYERSPEED >= 0) gameClass.player.y -= PLAYERSPEED;
-        if (gameClass.keys[39] && gameClass.player.x + PLAYERSPEED + PLAYERWIDTH <= Canvas.width) gameClass.player.x += PLAYERSPEED;
-        if (gameClass.keys[40] && gameClass.player.y + PLAYERSPEED + PLAYERHEIGHT <= Canvas.height) gameClass.player.y += PLAYERSPEED;
-        if (gameClass.keys[32]) {gameClass.player.addShot(SHOTWIDTH, SHOTHEIGHT, SHOTCOLOR); gameClass.keys[32] = false;}
       }
-      else if (gameClass.touchPos != []) {
-        let moveVec = vectorNorm([gameClass.touchPos[0] - gameClass.player.x, gameClass.touchPos[1] - gameClass.player.y]);
-        gameClass.player.x += moveVec[0];
-        gameClass.player.y += moveVec[1];
+      const center = this.player.getCenter();
+      if (this.checkCollision([center[0], center[1]], [this.snake.parts[0].x, this.snake.parts[0].y], this.player.width, this.player.height, SNAKEPARTSIZE / 2)) {
+        return this.endGame(false);
       }
-      gameClass.player.shots.array.filter(shot => shot);
-      gameClass.player.create();
-      gameClass.snake.move();
-      gameClass.player.shots.move();
-      gameClass.processCollision();
+    },
+    endGame : function (gameWon) {
+      clearInterval(this.interval);
+      this.player = null;
+      this.snake = null;
+      this.updateInterval = null;
+      this.directInterval = null;
+      Context.clearRect(0, 0, Canvas.width, Canvas.height);
+      this.endRepr(gameWon);
+    },
+    endRepr : function(gameWon) {
+      function formatText(text) {
+        let formatted = '';
+        for (let i = 0; i < text.length; i++) {
+          if (text.charAt(i) != ' ') {
+            formatted += '<span>' + text.charAt(i) + '</span>';
+          } else {
+            formatted += text.charAt(i);
+          }
+        }
+        return formatted;
+      }
+      const div1 = $('#gameOverDiv div:first-child');
+      if (gameWon) {
+        div1.html(formatText('You Won'));
+        div1.css({'text-shadow': '4px 4px 8px lime, 4px 4px 16px white', 'color': 'lime'});
+      } else {
+        div1.html(formatText('You Lost'));
+        div1.css({'text-shadow': '4px 4px 8px FireBrick, 4px 4px 16px white', 'color': 'FireBrick'});
+      }
+      $('#firstCanvas').fadeOut(1000, function() {$('body').css('background-color', 'black');});
+      setTimeout(function() {$('#gameOverDiv').fadeIn(1000);}, 2000);
     }
-    gameClass.init();
-  });
+  };
+
+  function updateGame() {
+    gameObj.player.delete();
+    if (gameObj.keys != []) {
+      if (gameObj.keys[37] && gameObj.player.x - PLAYERSPEED >= 0) gameObj.player.x -= PLAYERSPEED;
+      if (gameObj.keys[38] && gameObj.player.y - PLAYERSPEED >= 0) gameObj.player.y -= PLAYERSPEED;
+      if (gameObj.keys[39] && gameObj.player.x + PLAYERSPEED + PLAYERWIDTH <= Canvas.width) gameObj.player.x += PLAYERSPEED;
+      if (gameObj.keys[40] && gameObj.player.y + PLAYERSPEED + PLAYERHEIGHT <= Canvas.height) gameObj.player.y += PLAYERSPEED;
+      if (gameObj.keys[32]) {gameObj.player.addShot(SHOTWIDTH, SHOTHEIGHT, SHOTCOLOR); gameObj.keys[32] = false;}
+    }
+    else if (gameObj.touchPos != []) {
+      let moveVec = vectorNorm([gameObj.touchPos[0] - gameObj.player.x, gameObj.touchPos[1] - gameObj.player.y]);
+      gameObj.player.x += moveVec[0];
+      gameObj.player.y += moveVec[1];
+    }
+    gameObj.player.shots.array.filter(shot => shot);
+    gameObj.player.create();
+    gameObj.snake.move();
+    gameObj.player.shots.move();
+    gameObj.processCollision();
+  }
+  gameObj.init();
+});
+
   </script>
 
 </head>
 
 <body>
 
-  <canvas id='firstCanvas' height='500' width='750'>
+  <canvas id='firstCanvas'>
   </canvas>
 
-  <div id='winDiv'>
+  <div id='gameOverDiv'>
     <div>
-      <span>Y</span><span>o</span><span>u</span> <span>W</span><span>o</span><span>n</span>
     </div>
     <div>
-      Play Again: <span onclick = 'gameClass.init()'>Y</span> / <span>N</span>
+      Play Again: <span onclick = 'gameObj.init()'>Y</span>/<span>N</span>
     </div>
   </div>
 
