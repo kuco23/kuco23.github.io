@@ -6,385 +6,135 @@
   <title>Snake</title>
 
   <script src = '../jquery-3.3.1.min.js'></script>
+  <script src = 'snakeLib/vectorsAssist.js' type='module'></script>
   <link rel="stylesheet" type="text/css" href='https://fonts.googleapis.com/css?family=Bungee Hairline' />
+  <link rel="stylesheet" type="text/css" href="snakeCss/snake.css" />
 
   <style>
-
-  :root {
-    --ratio: 0.5;
-    --reverse-ratio: 2;
-    --container-width: 50vw;
-    --container-height: 50vh;
-
-    --font1-sizeVW: 15vh;
-    --font1-sizeVH: calc(var(--ratio) * 15vw);
-
-    --font2-sizeVW: 6vh;
-    --font2-sizeVH: calc(var(--ratio) * 6vw);
-  }
-
-  * {box-sizing: border-box;}
-
-  body {
-    margin: 0;
-    background-color: rgb(211, 211, 211);
-    transition: background-color 1s;
-    -webkit-transition:: background-color 1s;
-  }
-
-  #firstCanvas {
-    max-width: 750px;
-    max-height: 500px;
-    position: absolute;
-    border: 1px solid rgba(100, 255, 100, .5);
-    background-color: Lavender;
-    box-shadow: 10px 10px 12px rgba(0, 0, 0, .2);
-
-    right: 50%;
-    bottom: 50%;
-    transform: translate(50%, 50%);
-  }
-
-  @keyframes blinkinLight {
-    0%, 20%, 40%, 50%, 65% {opacity: 0.4;}
-    10%, 30%, 60%, 90% {opacity: 1;}
-  }
-  @-webkit-keyframes blinkinLight {
-    0%, 20%, 40%, 50%, 65% {opacity: 0.4;}
-    10%, 30%, 60%, 90% {opacity: 1;}
-  }
-
-  #gameOverDiv {
-    text-align: center;
-    font-family: 'Bungee Hairline';
-
-    display: none;
-    position: absolute;
-    right: 50%;
-    bottom: 50%;
-    transform: translate(50%, 50%);
-
-    width: var(--container-width);
-    height: calc(var(--ratio) * var(--container-width));
-    max-width: calc(var(--reverse-ratio) * var(--container-height));
-    max-height: var(--container-height);
-  }
-  #gameOverDiv div:first-child {
-    font-size: var(--font1-sizeVW);
-  }
-  #gameOverDiv div:first-child span:nth-child(2) {
-    opacity: 0.4;
-    text-shadow: none;
-  }
-  #gameOverDiv div:first-child span:nth-child(5) {
-    animation: blinkinLight 3s linear infinite;
-    -webkit-animation: blinkinLight 3s linear infinite;
-  }
-  #gameOverDiv div:last-child {
-    font-size: var(--font2-sizeVW);
-    color: purple;
-    font-shadow: 2px 2px 4px purple;
-  }
-  #gameOverDiv div:last-child span:first-child {
-    color: green;
-    text-shadow: 4px 4px 8px green;
-    transition: color 1s, text-shadow 1s;
-    -webkit-transition: color 1s, text-shadow 1s;
-  }
-  #gameOverDiv div:last-child span:first-child:hover {
-    cursor: pointer;
-    color: lime;
-    text-shadow: 4px 4px 16px lime;
-  }
-  #gameOverDiv div:last-child span:last-child {
-    color: DarkRed;
-    text-shadow: 4px 4px 8px DarkRed;
-    transition: color 1s, text-shadow 1s;
-    -webkit-transition: color 1s, text-shadow 1s;
-  }
-  #gameOverDiv div:last-child span:last-child:hover {
-    cursor: pointer;
-    color: FireBrick;
-    text-shadow: 4px 4px 16px FireBrick;
-  }
-
-  /* max-width: (reversRatio * 100vh) */
-  @media screen and (max-width: 200vh) {
-      #gameOverDiv div:first-child {
-          font-size: var(--font1-sizeVH);
-      }
-      #gameOverDiv div:last-child {
-          font-size: var(--font2-sizeVH);
-      }
-}
-
   </style>
 
   <script>
 
-$(document).ready(function() {
+  $(document).ready(function() {
+    $.when(
+      $.getScript("snakeLib/collision.js"),
+      $.getScript("snakeLib/snakeConstructors.js")
+    ).done(function(){
 
-  $(window).resize(function() {
-    console.log($(window).height());
-  });
+      $('#firstCanvas').attr('width', $(window).width());
+      $('#firstCanvas').attr('height', $(window).height());
 
-  $('#firstCanvas').attr('width', $(window).width());
-  $('#firstCanvas').attr('height', $(window).height());
+      const Canvas = document.getElementById('firstCanvas');
+      const Context = Canvas.getContext('2d');
 
-  const Canvas = document.getElementById('firstCanvas');
-  const Context = Canvas.getContext('2d');
+      const FRAMESPERSEC = 50;
 
-  const FRAMESPERSEC = 50;
+      const PLAYERSPEED = 2;
+      const PLAYERWIDTH = 20;
+      const PLAYERHEIGHT = 10;
+      const PLAYERCOLOR = 'black';
 
-  const PLAYERSPEED = 2;
-  const PLAYERWIDTH = 20;
-  const PLAYERHEIGHT = 10;
-  const PLAYERCOLOR = 'black';
+      const SHOTSPEED = 5;
+      const SHOTWIDTH = 2;
+      const SHOTHEIGHT = 12;
+      const SHOTCOLOR = 'rgba(255, 0, 0, .5)';
 
-  const SHOTSPEED = 5;
-  const SHOTWIDTH = 2;
-  const SHOTHEIGHT = 12;
-  const SHOTCOLOR = 'rgba(255, 0, 0, .5)';
+      const SNAKESPEED = 1.2;
+      const SNAKELIFE = 1;
+      const SNAKELEN = 10;
+      const SNAKEPARTSIZE = 10;
+      const SNAKESTARTX = Canvas.width / 2;
+      const SNAKESTARTY = Canvas.height / 2;
+      const SNAKECOLOR = 'black';
 
-  const SNAKESPEED = 1.2;
-  const SNAKELIFE = 1;
-  const SNAKELEN = 10;
-  const SNAKEPARTSIZE = 10;
-  const SNAKECOLOR = 'black'; // is not included now
-  const SNAKESTARTX = Canvas.width / 2;
-  const SNAKESTARTY = Canvas.height / 2;
+      const COLORS = [];
+      for (let i = 0; i < 100; i++) {
+        COLORS.push('rgb(' + i + ',' + i + ',' + i + ')');
+      }
 
-  const COLORS = [];
-  for (let i = 0; i < 100; i++) {
-    COLORS.push('rgb(' + i + ',' + i + ',' + i + ')');
-  }
+      const gameObj = {
+        init : function() {
+          this.keys = [];
+          this.touchPos = [];
 
-  function getNorm(vec) {
-    return Math.pow(Math.pow(vec[0], 2) + Math.pow(vec[1], 2), 0.5);
-  }
-  function vectorNorm(vec) {
-    let norm = getNorm(vec);
-    if (norm != 0) return [vec[0] / norm, vec[1] / norm];
-    else return vec;
-  }
-  function randomChoice(list) {
-    let num = Math.round(Math.random() * list.length);
-    return list[num];
-  }
+          this.player = new Player(Context, Canvas.width / 2, Canvas.height - PLAYERHEIGHT * 2, PLAYERWIDTH, PLAYERHEIGHT, PLAYERCOLOR);
+          this.snake = new Snake(Context, SNAKELEN, SNAKEPARTSIZE, SNAKECOLOR, SNAKESTARTX, SNAKESTARTY, SNAKELIFE);
 
-  function Player(x, y, width, height, color) {
-    const Shot = function(x, y, width, height, color) {
-      this.x = x;
-      this.y = y;
-      this.width = width;
-      this.height = height;
-      this.color = color;
+          window.addEventListener('keydown', function(e) {gameObj.keys[e.keyCode] = true;});
+          window.addEventListener('keyup', function(e) {gameObj.keys[e.keyCode] = false;});
 
-      this.create = function() {
-        Context.fillStyle = this.color;
-        Context.fillRect(this.x, this.y, this.width, this.height);
-      };
-      this.delete = function () {
-        Context.clearRect(this.x, this.y, this.width, this.height);
-      };
-      this.create();
-    };
-
-    const ShotCollection = function () {
-      this.array = [];
-      this.add = function (thing) {
-        this.array.push(thing);
-      };
-      this.move = function () {
-        for (let i = 0; i < this.array.length; i++) {
-          if (!this.array[i]) continue;
-          this.array[i].delete();
-          this.array[i].y -= SHOTSPEED;
-          this.array[i].create();
-          if (this.array[i].y + this.array[i].height <= 0) {
-            this.array[i].delete();
-            this.array[i] = null;
+          // binds the updateGame to the gameObj, so setInterval is not the parent, so this can be used in updateGame refering to gameObj
+          this.interval = setInterval(gameObj.updateGame.bind(gameObj), 1000 / FRAMESPERSEC);
+        },
+        processCollision : function() {
+          for (let i = 0; i < this.player.shots.array.length; i++) {
+            if (!this.player.shots.array[i]) continue;
+            if (checkCollision([this.player.shots.array[i].x, this.player.shots.array[i].y], [this.snake.parts[0].x, this.snake.parts[0].y],
+              this.player.shots.array[i].width, this.player.shots.array[i].height, this.snake.partSize / 2 )) {
+              this.snake.lifeDown();
+              this.player.shots.array[i].delete();
+              this.player.shots.array[i] = null;
+              if (this.snake.parts.length == 0) {
+                return this.endGame(true); // ends before it checks for player-snake collision
+              }
+            }
           }
-        }
-      };
-    };
-    this.x = x;
-    this.y = y;
-    this.width = width;
-    this.height = height;
-    this.color = color;
-    this.shots = new ShotCollection();
-    this.getCenter = function() {return [this.x + this.width / 2, this.y + this.height/2];};
-    this.create = function () {
-      Context.fillStyle = this.color;
-      Context.fillRect(this.x, this.y, this.width, this.height);
-    };
-    this.delete = function () {
-      Context.clearRect(this.x, this.y, this.width, this.height);
-    };
-    this.addShot = function(shotWidth, shotHeight, shotColor) {
-      this.shots.add(new Shot(this.x + (this.width - shotWidth) / 2, this.y - shotHeight, shotWidth, shotHeight, shotColor));
-    };
-    this.create();
-  }
-
-  function Snake(length, partSize, color, followObject, startX, startY) {
-    const SnakePart = function(x, y, r, color) {
-      this.x = x;
-      this.y = y;
-      this.radius = r;
-      this.color = color;
-      this.create = function() {
-        Context.fillStyle = this.color;
-        Context.beginPath();
-        Context.arc(this.x, this.y, this.radius, 0, 2 * Math.PI);
-        Context.fill();
-      };
-      this.delete = function() {
-        Context.clearRect(this.x - this.radius - 1, this.y - this.radius - 1, (this.radius + 1) * 2, (this.radius + 1) * 2);
-      };
-      this.create();
-    };
-    this.partSize = partSize;
-    this.followObject = followObject;
-    this.life = SNAKELIFE;
-    this.parts = [];
-    for (let i = 0; i < length; i++) {
-      let snakepart = new SnakePart(startX - partSize * i, startY, partSize / 2, randomChoice(COLORS));
-      this.parts.push(snakepart);
-    }
-    this.move = function () {
-      this.delete();
-      if (this.parts[0]) {
-        const objectCenter = this.followObject.getCenter();
-        const vector = vectorNorm([objectCenter[0] - this.parts[0].x, objectCenter[1] - this.parts[0].y]);
-        this.parts[0].x += vector[0] * SNAKESPEED;
-        this.parts[0].y += vector[1] * SNAKESPEED;
-        this.parts[0].create();
-      }
-      for (let i = 1; i < this.parts.length; i++) {
-        let rawFollowVec = vectorNorm([this.parts[i - 1].x - this.parts[i].x, this.parts[i - 1].y - this.parts[i].y]);
-        this.parts[i].x = this.parts[i - 1].x - rawFollowVec[0] * this.partSize;
-        this.parts[i].y = this.parts[i - 1].y - rawFollowVec[1] * this.partSize;
-        this.parts[i].create();
-      }
-    };
-    this.delete = function () {
-      for (let i = 0; i < this.parts.length; i++) {
-        this.parts[i].delete();
-      }
-    };
-    this.lifeDown = function () {
-      this.life -= 1;
-      if (this.life == 0) {
-        this.life = SNAKELIFE;
-        this.parts[0].delete();
-        this.parts = this.parts.slice(1, this.parts.length);
-      }
-    };
-    if (this.parts[0]) {
-      this.parts[0].delete();
-    }
-  }
-
-  const gameObj = {
-    init : function() {
-      this.keys = [];
-      this.touchPos = [];
-
-      this.player = new Player(Canvas.width / 2, Canvas.height - PLAYERHEIGHT * 2, PLAYERWIDTH, PLAYERHEIGHT, PLAYERCOLOR);
-      this.snake = new Snake(SNAKELEN, SNAKEPARTSIZE, SNAKECOLOR, this.player, SNAKESTARTX, SNAKESTARTY);
-
-      window.addEventListener('keydown', function(e) {gameObj.keys[e.keyCode] = true;});
-      window.addEventListener('keyup', function(e) {gameObj.keys[e.keyCode] = false;});
-      window.addEventListener('touchmove', function(e) {gameObj.touchPos = [e.touches[0].screenX, e.touches[0].screenY];});
-
-      this.interval = setInterval(updateGame, 1000 / FRAMESPERSEC);
-    },
-    // t1 has to be the point of higher left rect and t2 the center of a circle
-    checkCollision : function(t1, t2, width1, height1, radius2) {
-      const centerX = t1[0] + width1 / 2;
-      const centerY = t1[1] + height1 / 2;
-      const fromT2ToT1Vec = [centerX - t2[0], centerY - t2[1]];
-      if (getNorm(fromT2ToT1Vec) <= Math.max(width1, height1) / 2 + radius2) {
-        return true;
-      }
-      return false;
-    },
-    processCollision : function() {
-      for (let i = 0; i < this.player.shots.array.length; i++) {
-        if (!this.player.shots.array[i]) continue;
-        if (this.checkCollision([this.player.shots.array[i].x, this.player.shots.array[i].y], [this.snake.parts[0].x, this.snake.parts[0].y],
-          SHOTWIDTH, SHOTHEIGHT, SNAKEPARTSIZE / 2 )) {
-          this.snake.lifeDown();
-          this.player.shots.array[i].delete();
-          this.player.shots.array[i] = null;
-          if (this.snake.parts.length == 0) {
-            return this.endGame(true); // ends before it checks for player-snake collision
+          if (checkCollision([this.player.x, this.player.y], [this.snake.parts[0].x, this.snake.parts[0].y],
+             this.player.width, this.player.height, this.snake.partSize / 2)) {
+            return this.endGame(false);
           }
-        }
-      }
-      const center = this.player.getCenter();
-      if (this.checkCollision([center[0], center[1]], [this.snake.parts[0].x, this.snake.parts[0].y], this.player.width, this.player.height, SNAKEPARTSIZE / 2)) {
-        return this.endGame(false);
-      }
-    },
-    endGame : function (gameWon) {
-      clearInterval(this.interval);
-      this.player = null;
-      this.snake = null;
-      this.updateInterval = null;
-      this.directInterval = null;
-      Context.clearRect(0, 0, Canvas.width, Canvas.height);
-      this.endRepr(gameWon);
-    },
-    endRepr : function(gameWon) {
-      function formatText(text) {
-        let formatted = '';
-        for (let i = 0; i < text.length; i++) {
-          if (text.charAt(i) != ' ') {
-            formatted += '<span>' + text.charAt(i) + '</span>';
+        },
+        updateGame: function() {
+          if (this.keys != []) {
+            if (this.keys[37] && this.player.x - PLAYERSPEED >= 0) this.player.move(-PLAYERSPEED, 0);
+            if (this.keys[38] && this.player.y - PLAYERSPEED >= 0) this.player.move(0, -PLAYERSPEED);
+            if (this.keys[39] && this.player.x + PLAYERSPEED + PLAYERWIDTH <= Canvas.width) this.player.move(PLAYERSPEED, 0);
+            if (this.keys[40] && this.player.y + PLAYERSPEED + PLAYERHEIGHT <= Canvas.height) this.player.move(0, PLAYERSPEED);
+            if (this.keys[32]) {this.player.addShot(SHOTWIDTH, SHOTHEIGHT, SHOTCOLOR); this.keys[32] = false;}
+          }
+          let playerCenter = this.player.getCenter();
+          this.player.shots.array.filter(shot => shot);
+          this.snake.move(SNAKESPEED, playerCenter[0], playerCenter[1]);
+          this.player.shots.move(SHOTSPEED);
+          this.processCollision();
+        },
+        endGame : function (gameWon) {
+          clearInterval(this.interval);
+          this.player = null;
+          this.snake = null;
+          this.updateInterval = null;
+          this.directInterval = null;
+          Context.clearRect(0, 0, Canvas.width, Canvas.height);
+          this.endRepr(gameWon);
+        },
+        endRepr : function(gameWon) {
+          function formatText(text) {
+            let formatted = '';
+            for (let i = 0; i < text.length; i++) {
+              if (text.charAt(i) != ' ') {
+                formatted += '<span>' + text.charAt(i) + '</span>';
+              } else {
+                formatted += text.charAt(i);
+              }
+            }
+            return formatted;
+          }
+          const div1 = $('#gameOverDiv div:first-child');
+          if (gameWon) {
+            div1.html(formatText('You Won'));
+            div1.css({'text-shadow': '4px 4px 8px lime, 4px 4px 16px white', 'color': 'lime'});
           } else {
-            formatted += text.charAt(i);
+            div1.html(formatText('You Lost'));
+            div1.css({'text-shadow': '4px 4px 8px FireBrick, 4px 4px 16px white', 'color': 'FireBrick'});
           }
+          $('#firstCanvas').fadeOut(1000, function() {$('body').css('background-color', 'black');});
+          setTimeout(function() {$('#gameOverDiv').fadeIn(1000);}, 2000);
         }
-        return formatted;
-      }
-      const div1 = $('#gameOverDiv div:first-child');
-      if (gameWon) {
-        div1.html(formatText('You Won'));
-        div1.css({'text-shadow': '4px 4px 8px lime, 4px 4px 16px white', 'color': 'lime'});
-      } else {
-        div1.html(formatText('You Lost'));
-        div1.css({'text-shadow': '4px 4px 8px FireBrick, 4px 4px 16px white', 'color': 'FireBrick'});
-      }
-      $('#firstCanvas').fadeOut(1000, function() {$('body').css('background-color', 'black');});
-      setTimeout(function() {$('#gameOverDiv').fadeIn(1000);}, 2000);
-    }
-  };
+      };
 
-  function updateGame() {
-    gameObj.player.delete();
-    if (gameObj.keys != []) {
-      if (gameObj.keys[37] && gameObj.player.x - PLAYERSPEED >= 0) gameObj.player.x -= PLAYERSPEED;
-      if (gameObj.keys[38] && gameObj.player.y - PLAYERSPEED >= 0) gameObj.player.y -= PLAYERSPEED;
-      if (gameObj.keys[39] && gameObj.player.x + PLAYERSPEED + PLAYERWIDTH <= Canvas.width) gameObj.player.x += PLAYERSPEED;
-      if (gameObj.keys[40] && gameObj.player.y + PLAYERSPEED + PLAYERHEIGHT <= Canvas.height) gameObj.player.y += PLAYERSPEED;
-      if (gameObj.keys[32]) {gameObj.player.addShot(SHOTWIDTH, SHOTHEIGHT, SHOTCOLOR); gameObj.keys[32] = false;}
-    }
-    else if (gameObj.touchPos != []) {
-      let moveVec = vectorNorm([gameObj.touchPos[0] - gameObj.player.x, gameObj.touchPos[1] - gameObj.player.y]);
-      gameObj.player.x += moveVec[0];
-      gameObj.player.y += moveVec[1];
-    }
-    gameObj.player.shots.array.filter(shot => shot);
-    gameObj.player.create();
-    gameObj.snake.move();
-    gameObj.player.shots.move();
-    gameObj.processCollision();
-  }
-  gameObj.init();
-});
+      gameObj.init();
+    });
+  });
 
   </script>
 
@@ -392,14 +142,14 @@ $(document).ready(function() {
 
 <body>
 
-  <canvas id='firstCanvas'>
+  <canvas id='firstCanvas' height=500 width=750>
   </canvas>
 
   <div id='gameOverDiv'>
     <div>
     </div>
     <div>
-      Play Again: <span onclick = 'gameObj.init()'>Y</span>/<span>N</span>
+      Play Again: <span onclick = 'location.reload()'>Y</span>/<span>N</span>
     </div>
   </div>
 
