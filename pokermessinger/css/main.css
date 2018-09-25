@@ -25,6 +25,18 @@ h3 {
   text-shadow: 1px 1px 1px 1px black;
 }
 
+a {
+  color: powderblue;
+  text-decoration: none;
+
+  transition: color 1s;
+  -webkit-transition: color 1s;
+}
+
+a:hover {
+  color: purple;
+}
+
 span.sttmnt {
   display: block;
   color: lime;
@@ -32,27 +44,7 @@ span.sttmnt {
   font-family: monospace;
 }
 
-div.mainText div a {
-  color: yellow;
-  text-decoration: none;
-
-  transition: color 1s;
-  -webkit-transition: color 1s;
-}
-div.mainText div a:hover {
-  color: red;
-}
-
-div.mainText div {
-  margin-top: 10px;
-  margin-bottom: 10px;
-  padding: 15px;
-
-  border: 2px solid rgba(0, 0, 0, 1);
-  background-color: rgba(0, 0, 0, .5);
-}
-
-div.mainText div ul li {
+div.spaceDivs div ul li {
   margin-top: 3px;
   margin-bottom: 3px;
 }

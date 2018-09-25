@@ -2,9 +2,10 @@
 
 <html>
 <head>
-  <title>PokerMessinger documentation</title>
+  <title>pokermessinger documentation</title>
   <meta name='viewport' content='width=device-width, initial-scale=1.0'>
-  <link rel='stylesheet' type='text/css' href='css/doc_template.css' />
+  <link rel='stylesheet' type='text/css' href='css/gridDivs.css' />
+  <link rel='stylesheet' type='text/css' href='css/main.css' />
 
   <style>
   </style>
@@ -13,9 +14,9 @@
 
 <body>
 
-  <div class = 'mainText'>
+  <h1>PokerMessinger documentation</h1>
 
-    <h1>PokerMessinger documentation</h1>
+  <div class = 'divContainer spaceDivs'>
 
     <div>
       <h2>Intro</h2>
@@ -49,14 +50,15 @@
       <br />
       The table money is seen as the money you currently play with on a certain table.
       Any player who has not lost all the table money (his table money is 0) is considered participating and will be set to play in the round series.
-      Table money is not added to the outside money until a player withdraws it or Dealer is removed from the table, after which the game is aborted and the money put in the pot lost.
+      Table money is not added to the outside money until a player withdraws it or Dealer is removed from the table,
+      after which the game is aborted and the money put in the pot lost.
     </div>
 
     <div>
       <h2>Game Continuation</h2>
 
       When the series of rounds are initialized, the dealer takes the blinds according to the button (first player) position.
-      Then it is the first player after the button's turn to act with one of <a href = '#midRoundActions'>these</a> possible statements.
+      Then it is the first player after the button's turn to act with one of <a href='#midRoundActions'>these</a> possible statements.
       After the player's turn is succesfully ended, the next player in line is asked for input on these same actions.
       If everyone, that has not folded their hand or is not all in, has inputed an action and the amount of money in pot from everyone is
       higher than those all in, and equal amongst those not all in and not folded, than the next round turn is initialized.<br />
