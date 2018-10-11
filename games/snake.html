@@ -14,7 +14,16 @@
 
   <script>
 
-  function endRepr(gameWon) {
+  function gameRestart() {
+    const gameOverDiv = $('#gameOverDiv');
+    gameOverDiv.fadeOut(1000, function() {
+      $('#firstCanvas').fadeIn(1000);
+      $('body').css('background-color', 'rgb(211, 211, 211)');
+    });
+    setTimeout(document.game.start.bind(document.game), 1000);
+  };
+
+  function gameCallback(gameWon) {
     function formatText(text) {
       let formatted = '';
       for (let i = 0; i < text.length; i++) {
@@ -26,13 +35,13 @@
       }
       return formatted;
     }
-    const div1 = $('#gameOverDiv div:first-child');
+    const gameStateDiv = $('#gameOverDiv div:first-child');
     if (gameWon) {
-      div1.html(formatText('You Won'));
-      div1.css({'text-shadow': '4px 4px 8px lime, 4px 4px 16px white', 'color': 'lime'});
+      gameStateDiv.html(formatText('You Won'));
+      gameStateDiv.css({'text-shadow': '4px 4px 8px lime, 4px 4px 16px white', 'color': 'lime'});
     } else {
-      div1.html(formatText('You Lost'));
-      div1.css({'text-shadow': '4px 4px 8px FireBrick, 4px 4px 16px white', 'color': 'FireBrick'});
+      gameStateDiv.html(formatText('You Lost'));
+      gameStateDiv.css({'text-shadow': '4px 4px 8px FireBrick, 4px 4px 16px white', 'color': 'FireBrick'});
     }
     $('#firstCanvas').fadeOut(1000, function() {$('body').css('background-color', 'black');});
     setTimeout(function() {$('#gameOverDiv').fadeIn(1000);}, 2000);
@@ -51,26 +60,18 @@
       const Context = Canvas.getContext('2d');
 
       const FRAMESPERSEC = 50;
-
       const PLAYERSPEED = 2; const PLAYERWIDTH = 20; const PLAYERHEIGHT = 10; const PLAYERCOLOR = 'black';
-
       const SHOTSPEED = 5; const SHOTWIDTH = 2; const SHOTHEIGHT = 12; const SHOTCOLOR = 'rgba(255, 0, 0, .5)';
-
       const SNAKESPEED = 1.2; const SNAKELIFE = 1; const SNAKELEN = 10; const SNAKEPARTSIZE = 10; const SNAKECOLOR = 'black';
       const SNAKESTARTX = Canvas.width / 2; const SNAKESTARTY = Canvas.height / 2;
 
       // game object creation
-      const game = new SnakeGame(Canvas, Context, PLAYERSPEED, PLAYERWIDTH, PLAYERHEIGHT, PLAYERCOLOR, 
-      SHOTSPEED, SHOTWIDTH, SHOTHEIGHT, SHOTCOLOR, 
+      document.game = new SnakeGame(Canvas, Context, FRAMESPERSEC,
+      PLAYERSPEED, PLAYERWIDTH, PLAYERHEIGHT, PLAYERCOLOR,
+      SHOTSPEED, SHOTWIDTH, SHOTHEIGHT, SHOTCOLOR,
       SNAKESPEED, SNAKELIFE, SNAKELEN, SNAKEPARTSIZE, SNAKECOLOR, SNAKESTARTX, SNAKESTARTY);
-      game.start();
-      
-      // game continuation
-      while (!game.state && game.interval) { // while game is being played
-        null;
-      };
-      endRepr(this.state); // here game ends
-      
+      document.game.start();
+
     });
   });
 
@@ -87,7 +88,7 @@
     <div>
     </div>
     <div>
-      Play Again: <span onclick = 'location.reload()'>Y</span>/<span>N</span>
+      Play Again: <span onclick = 'gameRestart()'>Y</span>/<span>N</span>
     </div>
   </div>
 

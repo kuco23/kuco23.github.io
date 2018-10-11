@@ -116,33 +116,40 @@ function Snake(ctx, length, partSize, color, startX, startY, life) {
 }
 
 function SnakeGame(Canvas, Context, framespersec,
-  playerspeed, playerwidth, playerheight, playerwidth, playerheight, playercolor,
-  shotspeed, shotwidth, shotheight shotcolor, 
-  snakespeed, snakelife, snakelen, snakepartsize, snakecolor snakestartx, snakestarty) {
+  playerspeed, playerwidth, playerheight, playercolor,
+  shotspeed, shotwidth, shotheight, shotcolor,
+  snakespeed, snakelife, snakelen, snakepartsize, snakecolor, snakestartx, snakestarty) {
 
   this.state = null; // this changes to true if game ended and was won and false if lost
 
   this.Canvas = Canvas; this.Context = Context; // where game is being played
   this.framespersec = framespersec; // gamespecs
-  this.playerspeed = playerspeed, this.playerwidth = playerwidth; this.playerheight = playerheight; this.playerheight = player.height; this.playercolor = playercolor; // player specs
-  this.shotspeed = shotspeed; this.shotwidth = this.shotwidth = shotwidth; this.shotheight = shotheight; this.shotcolor = shotcolor; // shotspecs
-  this.snakespeed = snakespeed; this.snakelife = snakelife; this.snakelen = snakelen; this.snakepartsize = snakepartsize; this.snakecolor = snakecolor;  // snake specs
+  this.playerspeed = playerspeed, this.playerwidth = playerwidth; this.playerheight = playerheight; // player specs
+  this.playerheight = playerheight; this.playercolor = playercolor;
+  this.shotspeed = shotspeed; this.shotwidth = this.shotwidth = shotwidth; // shotspecs
+  this.shotheight = shotheight; this.shotcolor = shotcolor;
+  this.snakespeed = snakespeed; this.snakelife = snakelife; // snake specs
+  this.snakelen = snakelen; this.snakepartsize = snakepartsize; this.snakecolor = snakecolor;
   this.snakestartx = snakestartx, this.snakestarty = snakestarty;
 
-  start = function() {
+  this.keysChange = function(keyCode, bool) {
+    this.keys[keyCode] = bool;
+  };
+  this.start = function() {
     this.keys = [];
     this.touchPos = [];
 
     this.player = new Player(this.Context, this.Canvas.width / 2, this.Canvas.height - this.playerheight * 2, this.playerwidth, this.playerheight, this.playercolor);
     this.snake = new Snake(Context, this.snakelen, this.snakepartsize, this.snakecolor, this.snakestartx, this.snakestarty, this.snakelife);
 
-    window.addEventListener('keydown', function(e) {this.keys[e.keyCode] = true;});
-    window.addEventListener('keyup', function(e) {this.keys[e.keyCode] = false;});
+    var self = this;
+    window.addEventListener('keydown', function(e) {self.keysChange.call(self, e.keyCode, true);}, false);
+    window.addEventListener('keyup', function(e) {self.keysChange.call(self, e.keyCode, false)}, false);
 
     // binds the updateGame to the gameObj, so setInterval is not the parent, so this can be used in updateGame refering to gameObj
     this.interval = setInterval(this.updateGame.bind(this), 1000 / this.framespersec);
   };
-  processCollision : function() {
+  this.processCollision = function() {
     for (let i = 0; i < this.player.shots.array.length; i++) {
       if (!this.player.shots.array[i]) continue;
       if (checkCollision([this.player.shots.array[i].x, this.player.shots.array[i].y], [this.snake.parts[0].x, this.snake.parts[0].y],
@@ -161,7 +168,7 @@ function SnakeGame(Canvas, Context, framespersec,
       return this.endGame(false);
     }
   };
-  updateGame= function() {
+  this.updateGame = function() {
     if (this.keys != []) {
       if (this.keys[37] && this.player.x - this.playerspeed >= 0) this.player.move(-this.playerspeed, 0);
       if (this.keys[38] && this.player.y - this.playerspeed >= 0) this.player.move(0, -this.playerspeed);
@@ -175,13 +182,14 @@ function SnakeGame(Canvas, Context, framespersec,
     this.player.shots.move(this.shotspeed);
     this.processCollision();
   };
-  endGame = function (gameWon) {
+  this.endGame = function (gameWon) {
     clearInterval(this.interval);
-    this.state = gamewon;
+    this.state = gameWon;
     this.player = null;
     this.snake = null;
     this.updateInterval = null;
     this.directInterval = null;
     this.Context.clearRect(0, 0, this.Canvas.width, this.Canvas.height);
+    gameCallback(gameWon); // callback function has to be defined globally
   };
 }

@@ -42,7 +42,8 @@
       <h3>Player Money</h3>
       The player's money and the money that he plays with are seperated.
       The money that player plays with is entirely within the game and can be withdrawn
-      almost anytime with <a href='#withdraw'>this</a> statement.<br />
+      anytime by player leaving the game with typing <a href='#leave'>this</a> statement optgroup
+      by leaving the group thread, that the game is on.<br />
       <br />
       The outside money is seen as the money you can use to buy in to play on other tables, that require a certain amount of money to participate in.<br />
       If player's outside money is less than game buy-in of 1000, player can buy in with all of his money to play in the game,
@@ -78,7 +79,9 @@
       Statements that are sent to fetch or set data to the game.
 
       <span class = 'sttmnt'>::init</span>
-      Adds the table to the recognized game tables and starts the series of rounds if possible (number of players with money is adequate).
+      Initializes the group thread as a poker table by adding the table to the recognized game tables.
+      <span class = 'sttmnt'>::start</span>
+      Starts a series of rounds, which end if a table player sends ::lastround request or if the number of players is too low.
       <span class = 'sttmnt'>::lastround</span>
       Toggles the last round status.<br />
       Every round is pre-configured to begin another one after it ends, so with this statenebt it is possible to interrupt the following round's execution.
@@ -91,17 +94,22 @@
       <h3>Player Group Statements</h3>
       Statements that are sent from a group to get information or affect player's state.
 
+      <span class = 'sttmnt'>::buyin</span>
+      Buys in the game on the table with the 50 * table big blind or with all your money if you do not have enough.
+      <span class = 'sttmnt'>::leave</span>
+      Leaves the table and withdraws the money you have left on the table.
+      If there is any money left in the round you might have been playing it will be forfitted.
       <span class = 'sttmnt'>::money</span>
       Shows the money player has left on the current table by sending it to the group from which the message was sent.
       <span class = 'sttmnt'>::refill</span>
       Refills user's money to the table buy-in of 1000 if player's funds allow it, else it refills the money by all that the user has left.
       Works only if the player is folded, not participaating or round is not being played.
-      <span class = 'sttmnt' id='withdraw'>::withdraw</span>
-      Withdraws player's money from the table and adds it into the player's outside money.
-      Works only if a player is folded, not participaing in round or a round is not being played.
 
       <h3>Player Private Statementes</h3>
       Statements that are sent to a Dealer's account directly, requesting info or an action to be taken.
+      <span class = 'sttmnt'>sign up</span>
+      Cretes your profile and adds starting money your datafile.
+      Anyone wanting to play here should send this to the dealer.
       <span class = 'sttmnt'>show money</span>
       Shows the outside money user has left by sending it to the user's account.
       <span class = 'sttmnt'>gimme moneyz</span>
