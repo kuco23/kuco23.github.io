@@ -14,6 +14,30 @@
 
   <script>
 
+  function endRepr(gameWon) {
+    function formatText(text) {
+      let formatted = '';
+      for (let i = 0; i < text.length; i++) {
+        if (text.charAt(i) != ' ') {
+          formatted += '<span>' + text.charAt(i) + '</span>';
+        } else {
+          formatted += text.charAt(i);
+        }
+      }
+      return formatted;
+    }
+    const div1 = $('#gameOverDiv div:first-child');
+    if (gameWon) {
+      div1.html(formatText('You Won'));
+      div1.css({'text-shadow': '4px 4px 8px lime, 4px 4px 16px white', 'color': 'lime'});
+    } else {
+      div1.html(formatText('You Lost'));
+      div1.css({'text-shadow': '4px 4px 8px FireBrick, 4px 4px 16px white', 'color': 'FireBrick'});
+    }
+    $('#firstCanvas').fadeOut(1000, function() {$('body').css('background-color', 'black');});
+    setTimeout(function() {$('#gameOverDiv').fadeIn(1000);}, 2000);
+  };
+
   $(document).ready(function() {
     $.when(
       $.getScript("snakeLib/collision.js"),
@@ -28,110 +52,25 @@
 
       const FRAMESPERSEC = 50;
 
-      const PLAYERSPEED = 2;
-      const PLAYERWIDTH = 20;
-      const PLAYERHEIGHT = 10;
-      const PLAYERCOLOR = 'black';
+      const PLAYERSPEED = 2; const PLAYERWIDTH = 20; const PLAYERHEIGHT = 10; const PLAYERCOLOR = 'black';
 
-      const SHOTSPEED = 5;
-      const SHOTWIDTH = 2;
-      const SHOTHEIGHT = 12;
-      const SHOTCOLOR = 'rgba(255, 0, 0, .5)';
+      const SHOTSPEED = 5; const SHOTWIDTH = 2; const SHOTHEIGHT = 12; const SHOTCOLOR = 'rgba(255, 0, 0, .5)';
 
-      const SNAKESPEED = 1.2;
-      const SNAKELIFE = 1;
-      const SNAKELEN = 10;
-      const SNAKEPARTSIZE = 10;
-      const SNAKESTARTX = Canvas.width / 2;
-      const SNAKESTARTY = Canvas.height / 2;
-      const SNAKECOLOR = 'black';
+      const SNAKESPEED = 1.2; const SNAKELIFE = 1; const SNAKELEN = 10; const SNAKEPARTSIZE = 10; const SNAKECOLOR = 'black';
+      const SNAKESTARTX = Canvas.width / 2; const SNAKESTARTY = Canvas.height / 2;
 
-      const COLORS = [];
-      for (let i = 0; i < 100; i++) {
-        COLORS.push('rgb(' + i + ',' + i + ',' + i + ')');
-      }
-
-      const gameObj = {
-        init : function() {
-          this.keys = [];
-          this.touchPos = [];
-
-          this.player = new Player(Context, Canvas.width / 2, Canvas.height - PLAYERHEIGHT * 2, PLAYERWIDTH, PLAYERHEIGHT, PLAYERCOLOR);
-          this.snake = new Snake(Context, SNAKELEN, SNAKEPARTSIZE, SNAKECOLOR, SNAKESTARTX, SNAKESTARTY, SNAKELIFE);
-
-          window.addEventListener('keydown', function(e) {gameObj.keys[e.keyCode] = true;});
-          window.addEventListener('keyup', function(e) {gameObj.keys[e.keyCode] = false;});
-
-          // binds the updateGame to the gameObj, so setInterval is not the parent, so this can be used in updateGame refering to gameObj
-          this.interval = setInterval(gameObj.updateGame.bind(gameObj), 1000 / FRAMESPERSEC);
-        },
-        processCollision : function() {
-          for (let i = 0; i < this.player.shots.array.length; i++) {
-            if (!this.player.shots.array[i]) continue;
-            if (checkCollision([this.player.shots.array[i].x, this.player.shots.array[i].y], [this.snake.parts[0].x, this.snake.parts[0].y],
-              this.player.shots.array[i].width, this.player.shots.array[i].height, this.snake.partSize / 2 )) {
-              this.snake.lifeDown();
-              this.player.shots.array[i].delete();
-              this.player.shots.array[i] = null;
-              if (this.snake.parts.length == 0) {
-                return this.endGame(true); // ends before it checks for player-snake collision
-              }
-            }
-          }
-          if (checkCollision([this.player.x, this.player.y], [this.snake.parts[0].x, this.snake.parts[0].y],
-             this.player.width, this.player.height, this.snake.partSize / 2)) {
-            return this.endGame(false);
-          }
-        },
-        updateGame: function() {
-          if (this.keys != []) {
-            if (this.keys[37] && this.player.x - PLAYERSPEED >= 0) this.player.move(-PLAYERSPEED, 0);
-            if (this.keys[38] && this.player.y - PLAYERSPEED >= 0) this.player.move(0, -PLAYERSPEED);
-            if (this.keys[39] && this.player.x + PLAYERSPEED + PLAYERWIDTH <= Canvas.width) this.player.move(PLAYERSPEED, 0);
-            if (this.keys[40] && this.player.y + PLAYERSPEED + PLAYERHEIGHT <= Canvas.height) this.player.move(0, PLAYERSPEED);
-            if (this.keys[32]) {this.player.addShot(SHOTWIDTH, SHOTHEIGHT, SHOTCOLOR); this.keys[32] = false;}
-          }
-          let playerCenter = this.player.getCenter();
-          this.player.shots.array.filter(shot => shot);
-          this.snake.move(SNAKESPEED, playerCenter[0], playerCenter[1]);
-          this.player.shots.move(SHOTSPEED);
-          this.processCollision();
-        },
-        endGame : function (gameWon) {
-          clearInterval(this.interval);
-          this.player = null;
-          this.snake = null;
-          this.updateInterval = null;
-          this.directInterval = null;
-          Context.clearRect(0, 0, Canvas.width, Canvas.height);
-          this.endRepr(gameWon);
-        },
-        endRepr : function(gameWon) {
-          function formatText(text) {
-            let formatted = '';
-            for (let i = 0; i < text.length; i++) {
-              if (text.charAt(i) != ' ') {
-                formatted += '<span>' + text.charAt(i) + '</span>';
-              } else {
-                formatted += text.charAt(i);
-              }
-            }
-            return formatted;
-          }
-          const div1 = $('#gameOverDiv div:first-child');
-          if (gameWon) {
-            div1.html(formatText('You Won'));
-            div1.css({'text-shadow': '4px 4px 8px lime, 4px 4px 16px white', 'color': 'lime'});
-          } else {
-            div1.html(formatText('You Lost'));
-            div1.css({'text-shadow': '4px 4px 8px FireBrick, 4px 4px 16px white', 'color': 'FireBrick'});
-          }
-          $('#firstCanvas').fadeOut(1000, function() {$('body').css('background-color', 'black');});
-          setTimeout(function() {$('#gameOverDiv').fadeIn(1000);}, 2000);
-        }
+      // game object creation
+      const game = new SnakeGame(Canvas, Context, PLAYERSPEED, PLAYERWIDTH, PLAYERHEIGHT, PLAYERCOLOR, 
+      SHOTSPEED, SHOTWIDTH, SHOTHEIGHT, SHOTCOLOR, 
+      SNAKESPEED, SNAKELIFE, SNAKELEN, SNAKEPARTSIZE, SNAKECOLOR, SNAKESTARTX, SNAKESTARTY);
+      game.start();
+      
+      // game continuation
+      while (!game.state && game.interval) { // while game is being played
+        null;
       };
-
-      gameObj.init();
+      endRepr(this.state); // here game ends
+      
     });
   });
 

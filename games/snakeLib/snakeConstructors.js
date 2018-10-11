@@ -114,3 +114,74 @@ function Snake(ctx, length, partSize, color, startX, startY, life) {
     this.parts[0].delete();
   }
 }
+
+function SnakeGame(Canvas, Context, framespersec,
+  playerspeed, playerwidth, playerheight, playerwidth, playerheight, playercolor,
+  shotspeed, shotwidth, shotheight shotcolor, 
+  snakespeed, snakelife, snakelen, snakepartsize, snakecolor snakestartx, snakestarty) {
+
+  this.state = null; // this changes to true if game ended and was won and false if lost
+
+  this.Canvas = Canvas; this.Context = Context; // where game is being played
+  this.framespersec = framespersec; // gamespecs
+  this.playerspeed = playerspeed, this.playerwidth = playerwidth; this.playerheight = playerheight; this.playerheight = player.height; this.playercolor = playercolor; // player specs
+  this.shotspeed = shotspeed; this.shotwidth = this.shotwidth = shotwidth; this.shotheight = shotheight; this.shotcolor = shotcolor; // shotspecs
+  this.snakespeed = snakespeed; this.snakelife = snakelife; this.snakelen = snakelen; this.snakepartsize = snakepartsize; this.snakecolor = snakecolor;  // snake specs
+  this.snakestartx = snakestartx, this.snakestarty = snakestarty;
+
+  start = function() {
+    this.keys = [];
+    this.touchPos = [];
+
+    this.player = new Player(this.Context, this.Canvas.width / 2, this.Canvas.height - this.playerheight * 2, this.playerwidth, this.playerheight, this.playercolor);
+    this.snake = new Snake(Context, this.snakelen, this.snakepartsize, this.snakecolor, this.snakestartx, this.snakestarty, this.snakelife);
+
+    window.addEventListener('keydown', function(e) {this.keys[e.keyCode] = true;});
+    window.addEventListener('keyup', function(e) {this.keys[e.keyCode] = false;});
+
+    // binds the updateGame to the gameObj, so setInterval is not the parent, so this can be used in updateGame refering to gameObj
+    this.interval = setInterval(this.updateGame.bind(this), 1000 / this.framespersec);
+  };
+  processCollision : function() {
+    for (let i = 0; i < this.player.shots.array.length; i++) {
+      if (!this.player.shots.array[i]) continue;
+      if (checkCollision([this.player.shots.array[i].x, this.player.shots.array[i].y], [this.snake.parts[0].x, this.snake.parts[0].y],
+        this.player.shots.array[i].width, this.player.shots.array[i].height, this.snake.partSize / 2 )) {
+        this.snake.lifeDown();
+        this.player.shots.array[i].delete();
+        this.player.shots.array[i] = null;
+        if (this.snake.parts.length == 0) {
+          return this.endGame(true); // ends before it checks for player-snake collision
+        }
+      }
+    }
+    // checkCollision is written in another file
+    if (checkCollision([this.player.x, this.player.y], [this.snake.parts[0].x, this.snake.parts[0].y],
+       this.player.width, this.player.height, this.snake.partSize / 2)) {
+      return this.endGame(false);
+    }
+  };
+  updateGame= function() {
+    if (this.keys != []) {
+      if (this.keys[37] && this.player.x - this.playerspeed >= 0) this.player.move(-this.playerspeed, 0);
+      if (this.keys[38] && this.player.y - this.playerspeed >= 0) this.player.move(0, -this.playerspeed);
+      if (this.keys[39] && this.player.x + this.playerspeed + this.playerwidth <= this.Canvas.width) this.player.move(this.playerspeed, 0);
+      if (this.keys[40] && this.player.y + this.playerspeed + this.playerheight <= this.Canvas.height) this.player.move(0, this.playerspeed);
+      if (this.keys[32]) {this.player.addShot(this.shotwidth, this.shotheight, this.shotcolor); this.keys[32] = false;}
+    }
+    let playerCenter = this.player.getCenter();
+    this.player.shots.array.filter(shot => shot);
+    this.snake.move(this.snakespeed, playerCenter[0], playerCenter[1]);
+    this.player.shots.move(this.shotspeed);
+    this.processCollision();
+  };
+  endGame = function (gameWon) {
+    clearInterval(this.interval);
+    this.state = gamewon;
+    this.player = null;
+    this.snake = null;
+    this.updateInterval = null;
+    this.directInterval = null;
+    this.Context.clearRect(0, 0, this.Canvas.width, this.Canvas.height);
+  };
+}
