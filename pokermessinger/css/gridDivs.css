@@ -22,8 +22,8 @@ div.divContainer div:last-child {
 
 @media only screen and (max-width: 800px) {
   div.divContainer div {
-    flex-basis: 99%;
-    margin: 1.5vmax;
+    flex-basis: 100%;
+    margin: 1.5vmax 0 1.5vmax 0;
     padding: 1.5vmax;
   }
 }
