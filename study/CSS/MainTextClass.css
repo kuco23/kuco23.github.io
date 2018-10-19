@@ -92,7 +92,7 @@ div.MainTextClass > ul div div{
 }
 
 .CustomListStyle li:before {
-  content: "•";
+  content: "*";
   padding-right: 8px;
   color: powderblue;
 }
