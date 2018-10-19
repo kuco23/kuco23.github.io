@@ -5,10 +5,10 @@ div.divContainer {
 }
 
 div.divContainer div {
-  flex-basis: 49%;
+  flex-basis: 48%;
   flex-shrink: 1;
 
-  margin: 0.5%;
+  margin: 1%;
 
   padding: 1%;
   border: 2px solid rgba(0, 0, 0, 1);
