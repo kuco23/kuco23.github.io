@@ -18,8 +18,6 @@ body {
 }
 
 #firstCanvas {
-  max-width: 750px;
-  max-height: 500px;
   position: absolute;
   border: 1px solid rgba(100, 255, 100, .5);
   background-color: Lavender;

@@ -53,8 +53,11 @@
       $.getScript("snakeLib/snakeConstructors.js")
     ).done(function(){
 
-      $('#firstCanvas').attr('width', $(window).width());
-      $('#firstCanvas').attr('height', $(window).height());
+      if (window.innerWidth >= 500 && window.innerHeight >= 500) {
+        $('#firstCanvas').attr({'width': window.innerWidth * (3 / 4), 'height': window.innerHeight * (3 / 4)});
+      } else {
+        $('#firstCanvas').attr({'width': window.innerHeight.width, 'height': window.innerHeight.height});
+      }
 
       const Canvas = document.getElementById('firstCanvas');
       const Context = Canvas.getContext('2d');
@@ -62,7 +65,7 @@
       const FRAMESPERSEC = 50;
       const PLAYERSPEED = 2; const PLAYERWIDTH = 20; const PLAYERHEIGHT = 10; const PLAYERCOLOR = 'black';
       const SHOTSPEED = 5; const SHOTWIDTH = 2; const SHOTHEIGHT = 12; const SHOTCOLOR = 'rgba(255, 0, 0, .5)';
-      const SNAKESPEED = 1.2; const SNAKELIFE = 1; const SNAKELEN = 10; const SNAKEPARTSIZE = 10; const SNAKECOLOR = 'black';
+      const SNAKESPEED = 1.2; const SNAKELIFE = 1; const SNAKELEN = 30; const SNAKEPARTSIZE = 10; const SNAKECOLOR = 'black';
       const SNAKESTARTX = Canvas.width / 2; const SNAKESTARTY = Canvas.height / 2;
 
       // game object creation
@@ -81,7 +84,7 @@
 
 <body>
 
-  <canvas id='firstCanvas' height=500 width=750>
+  <canvas id='firstCanvas' height=60000 width=1000>
   </canvas>
 
   <div id='gameOverDiv'>
