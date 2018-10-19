@@ -5,11 +5,11 @@ div.divContainer {
 }
 
 div.divContainer div {
-  flex-basis: 48%;
+  flex-basis: 49%;
   flex-shrink: 1;
 
   padding: 1%;
-  margin: 1%;
+  margin: 0.5%;
 
   border: 2px solid rgba(0, 0, 0, 1);
   background-color: rgba(0, 0, 0, .5);
@@ -20,9 +20,9 @@ div.divContainer div:last-child {
   flex-grow: 2;
 }
 
-@media only screen and (max-width: 650px) {
+@media only screen and (max-width: 800px) {
   div.divContainer div {
-    flex-basis: 98%;
+    flex-basis: 99%;
     margin: 1.5vmax;
     padding: 1.5vmax;
   }
