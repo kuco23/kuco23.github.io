@@ -2,12 +2,13 @@
   width: 76%;
   position: absolute;
   left: 22%;
+  font-family: 'Lato', serif;
+  font-size: 1.5vmax;
 }
 
 div.middleground ul {
   overflow: hidden;
   color: rgb(200,200,200);
-  font-family: 'Lato', serif;
   list-style-type: none;
   margin: 0;
   padding: 0;
@@ -67,7 +68,7 @@ div.MainTextClass > ul div div{
   text-decoration: none;
   font-weight: bold;
   font-size: 20px;
-  
+
   position: relative;
   left: 0;
 

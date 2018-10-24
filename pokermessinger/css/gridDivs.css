@@ -1,7 +1,7 @@
 div.divContainer {
   display: flex;
   flex-flow: row wrap; /* flex-direction & flex-wrap */
-  justify-content: space-around; /* just in case */
+  justify-content: space-between; /* just in case */
 }
 
 div.divContainer div {
