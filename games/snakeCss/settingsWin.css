@@ -1,0 +1,74 @@
+#settings {
+  display: none;
+  position: absolute;
+  bottom: 50%;
+  right: 50%;
+  transform: translate(50%, 50%);
+
+  font-family: 'Indie Flower';
+  font-size: 5vh;
+}
+
+.snakeTextInput {
+  margin: 0.8vh 0 0.8vh 0;
+  padding: 0 0.4vh 0 0.4vh;
+  width: 100%;
+
+  background-color: rgba(0, 0, 0, .1);
+
+  font-family: 'Indie Flower';
+  font-size: 5vh;
+
+  border: none;
+  transition: all 0.1s linear;
+}
+.snakeTextInput:hover {
+  box-shadow: 0.6vh 0.6vh 1vh purple;
+}
+.snakeTextInput:focus,
+.snakeTextInput:active {
+  box-shadow: 0.6vh 0.6vh 1vh purple;
+  background-color: rgba(0, 0, 0, .3);
+}
+.snakeInput::selection {
+  background-color: purple;
+}
+
+div.settingButtons {
+  margin-top: 4vh;
+}
+div.settingButtons span {
+  cursor: pointer;
+  transition: all 0.4s linear;
+}
+div.settingButtons span:first-child {
+  color: green;
+}
+div.settingButtons span:first-child:hover {
+  color: lime;
+}
+div.settingButtons span:last-child {
+  float: right;
+  color: DarkRed;
+}
+div.settingButtons span:last-child:hover {
+  color: red;
+}
+
+#slider {
+  width: 100%;
+}
+#snakeLength {
+  text-shadow: 0.1vh 0.1vh 0.3vh purple;
+}
+
+#stamp {
+  display: none;
+  position: absolute;
+  top:0;
+  right:0;
+  transform: rotateZ(20deg);
+
+  font-size: 20vh;
+  color: red;
+}

@@ -8,26 +8,6 @@
   --font2-sizeVH: calc(var(--ratio) * 6vw);
 }
 
-* {box-sizing: border-box;}
-
-body {
-  margin: 0;
-  background-color: rgb(211, 211, 211);
-  transition: background-color 1s;
-  -webkit-transition:: background-color 1s;
-}
-
-#firstCanvas {
-  position: absolute;
-  border: 1px solid rgba(100, 255, 100, .5);
-  background-color: Lavender;
-  box-shadow: 10px 10px 12px rgba(0, 0, 0, .2);
-
-  right: 50%;
-  bottom: 50%;
-  transform: translate(50%, 50%);
-}
-
 @keyframes blinkinLight {
   0%, 20%, 40%, 50%, 65% {opacity: 0.4;}
   10%, 30%, 60%, 90% {opacity: 1;}
@@ -37,7 +17,7 @@ body {
   10%, 30%, 60%, 90% {opacity: 1;}
 }
 
-#gameOverDiv {
+div.gameOverDiv {
   text-align: center;
   font-family: 'Bungee Hairline';
 
@@ -47,40 +27,40 @@ body {
   bottom: 50%;
   transform: translate(50%, 50%);
 }
-#gameOverDiv div:first-child {
+div.gameOverDiv div:first-child {
   font-size: var(--font1-sizeVW);
 }
-#gameOverDiv div:first-child span:nth-child(2) {
+div.gameOverDiv div:first-child span:nth-child(2) {
   opacity: 0.4;
   text-shadow: none;
 }
-#gameOverDiv div:first-child span:nth-child(5) {
+div.gameOverDiv div:first-child span:nth-child(5) {
   animation: blinkinLight 3s linear infinite;
   -webkit-animation: blinkinLight 3s linear infinite;
 }
-#gameOverDiv div:last-child {
+div.gameOverDiv div:last-child {
   font-size: var(--font2-sizeVW);
   color: purple;
   text-shadow: 2px 2px 4px purple;
 }
-#gameOverDiv div:last-child span:first-child {
+div.gameOverDiv div:last-child span:first-child {
   color: green;
   text-shadow: 4px 4px 8px green;
   transition: color 1s, text-shadow 1s;
   -webkit-transition: color 1s, text-shadow 1s;
 }
-#gameOverDiv div:last-child span:first-child:hover {
+div.gameOverDiv div:last-child span:first-child:hover {
   cursor: pointer;
   color: lime;
   text-shadow: 4px 4px 16px lime;
 }
-#gameOverDiv div:last-child span:last-child {
+div.gameOverDiv div:last-child span:last-child {
   color: DarkRed;
   text-shadow: 4px 4px 8px DarkRed;
   transition: color 1s, text-shadow 1s;
   -webkit-transition: color 1s, text-shadow 1s;
 }
-#gameOverDiv div:last-child span:last-child:hover {
+div.gameOverDiv div:last-child span:last-child:hover {
   cursor: pointer;
   color: FireBrick;
   text-shadow: 4px 4px 16px FireBrick;
@@ -88,10 +68,10 @@ body {
 
 /* max-width: (reverse-ratio * 100vh) */
 @media screen and (max-width: 200vh) {
-  #gameOverDiv div:first-child {
+  div.gameOverDiv div:first-child {
     font-size: var(--font1-sizeVH);
   }
-  #gameOverDiv div:last-child {
+  div.gameOverDiv div:last-child {
     font-size: var(--font2-sizeVH);
   }
 }

@@ -1,0 +1,28 @@
+* {box-sizing: border-box;}
+
+body {
+  margin: 0;
+  background-color: rgb(211, 211, 211);
+  transition: background-color 1s;
+  -webkit-transition: background-color 1s;
+}
+
+#firstCanvas {
+  display: none;
+  position: absolute;
+  border: 1px solid rgba(100, 255, 100, .5);
+  background-color: Lavender;
+  box-shadow: 10px 10px 12px rgba(0, 0, 0, .2);
+
+  right: 50%;
+  bottom: 50%;
+  transform: translate(50%, 50%);
+}
+
+.center {
+  position: absolute;
+  bottom: 50%;
+  right: 50%;
+  transform: translate(50%, 50%);
+  text-align: center;
+}

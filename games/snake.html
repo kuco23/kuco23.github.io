@@ -6,16 +6,62 @@
   <title>Snake</title>
 
   <script src = '../jquery-3.3.1.min.js'></script>
-  <link rel="stylesheet" type="text/css" href='https://fonts.googleapis.com/css?family=Bungee Hairline' />
-  <link rel="stylesheet" type="text/css" href="snakeCss/snake.css" />
+  <link href="https://fonts.googleapis.com/css?family=Indie+Flower|Bungee+Hairline" rel="stylesheet"> 
+  <link rel="stylesheet" type="text/css" href="snakeCss/main.css" />
+  <link rel="stylesheet" type="text/css" href="snakeCss/gameOverWin.css" />
+  <link rel="stylesheet" type="text/css" href="snakeCss/titleWin.css" />
+  <link rel="stylesheet" type="text/css" href="snakeCss/settingsWin.css" />
 
   <style>
+  #unfinished1:hover, #unfinished2:hover {
+    cursor: not-allowed;
+  }
   </style>
 
   <script>
 
+  function toMenu() {
+    $('#settings').fadeOut(1000);
+    $('#gameOverWin').fadeOut(1000);
+    setTimeout(function() {
+      $('body').css('background-color', 'rgb(211, 211, 211)');
+      $('#snakeMenu').fadeIn(1000);
+      $('#welcomeWin').fadeIn(1000);
+    }, 1000);
+  }
+  function toSettings() {
+    $('#snakeMenu').fadeOut(1000, function() {$('#settings').fadeIn(1000);});
+    const slider = document.getElementById('slider');
+    const snakeColor = document.getElementById('snakecolor');
+    const playerColor = document.getElementById('playercolor');
+    slider.value = document.game.snakelen;
+    snakeColor.value = document.game.snakecolor;
+    playerColor.value = document.game.playercolor;
+
+    $('#snakeLength').html(slider.value);
+    slider.oninput = function() {$('#snakeLength').html(this.value);}
+  }
+
+  function saveSettings() {
+    const slider = document.getElementById('slider');
+    const snakeColor = document.getElementById('snakecolor');
+    const playerColor = document.getElementById('playercolor');
+    document.game.snakelen = slider.value;
+    document.game.snakecolor = snakeColor.value;
+    document.game.playercolor = playerColor.value;
+    $('#stamp').fadeIn(1000, function() {$('#stamp').fadeOut(1000);})
+  }
+
+  function gameStart() {
+    $('#snakeMenu').fadeOut(1000, function() {
+      $('#firstCanvas').fadeIn(1000);
+    });
+    $('#welcomeWin').fadeOut(1000);
+    setTimeout(document.game.start.bind(document.game), 1000);
+  }
+
   function gameRestart() {
-    const gameOverDiv = $('#gameOverDiv');
+    const gameOverDiv = $('#gameOverWin');
     gameOverDiv.fadeOut(1000, function() {
       $('#firstCanvas').fadeIn(1000);
       $('body').css('background-color', 'rgb(211, 211, 211)');
@@ -35,7 +81,7 @@
       }
       return formatted;
     }
-    const gameStateDiv = $('#gameOverDiv div:first-child');
+    const gameStateDiv = $('#gameOverWin div:first-child');
     if (gameWon) {
       gameStateDiv.html(formatText('You Won'));
       gameStateDiv.css({'text-shadow': '4px 4px 8px lime, 4px 4px 16px white', 'color': 'lime'});
@@ -44,7 +90,7 @@
       gameStateDiv.css({'text-shadow': '4px 4px 8px FireBrick, 4px 4px 16px white', 'color': 'FireBrick'});
     }
     $('#firstCanvas').fadeOut(1000, function() {$('body').css('background-color', 'black');});
-    setTimeout(function() {$('#gameOverDiv').fadeIn(1000);}, 2000);
+    setTimeout(function() {$('#gameOverWin').fadeIn(1000);}, 2000);
   };
 
   $(document).ready(function() {
@@ -63,9 +109,13 @@
       const Context = Canvas.getContext('2d');
 
       const FRAMESPERSEC = 50;
-      const PLAYERSPEED = 2; const PLAYERWIDTH = 20; const PLAYERHEIGHT = 10; const PLAYERCOLOR = 'black';
-      const SHOTSPEED = 5; const SHOTWIDTH = 2; const SHOTHEIGHT = 12; const SHOTCOLOR = 'rgba(255, 0, 0, .5)';
-      const SNAKESPEED = 1.2; const SNAKELIFE = 1; const SNAKELEN = 50; const SNAKEPARTSIZE = 10; const SNAKECOLOR = 'black';
+
+      let PLAYERCOLOR = 'black';
+      const PLAYERSPEED = 2; const PLAYERWIDTH = 20; const PLAYERHEIGHT = 10;
+      let SHOTCOLOR = 'rgba(255, 0, 0, .5)';
+      const SHOTSPEED = 5; const SHOTWIDTH = 2; const SHOTHEIGHT = 12;
+      let SNAKECOLOR = 'black'; let SNAKELIFE = 1; let SNAKELEN = 20;
+      const SNAKESPEED = 1.2; const SNAKEPARTSIZE = 10;
       const SNAKESTARTX = Canvas.width / 2; const SNAKESTARTY = Canvas.height / 2;
 
       // game object creation
@@ -73,8 +123,7 @@
       PLAYERSPEED, PLAYERWIDTH, PLAYERHEIGHT, PLAYERCOLOR,
       SHOTSPEED, SHOTWIDTH, SHOTHEIGHT, SHOTCOLOR,
       SNAKESPEED, SNAKELIFE, SNAKELEN, SNAKEPARTSIZE, SNAKECOLOR, SNAKESTARTX, SNAKESTARTY);
-      document.game.start();
-
+      //document.game.start();
     });
   });
 
@@ -84,14 +133,42 @@
 
 <body>
 
-  <canvas id='firstCanvas' height=60000 width=1000>
+  <div id='welcomeWin' class='welcome'>
+    <div id='snakeMenu' class='flexMenu'>
+      <span id='title'>SNAKE</span>
+      <a onclick='gameStart()'>Start</a>
+      <a id='unfinished1'>Difficulty</a>
+      <a id='unfinished2'>Game Mode</a>
+      <a onclick='toSettings()'>Settings</a>
+    </div>
+  </div>
+
+  <div id='settings'>
+    <div id='stamp' class='center'>
+      SAVED
+    </div>
+    <form>
+      Snake length:<br />
+      <input type='range' name='snakelen' min=1 max=40 value=20 class='slider' id='slider'><br />
+      <span id='snakeLength'></span><br />
+      Snake color:<br />
+      <input type='text' name='snakecolor' id='snakecolor' class='snakeTextInput'><br />
+      Player color:<br />
+      <input type='text' name='playercolor' id='playercolor' class='snakeTextInput'><br />
+      <div class = 'settingButtons'>
+        <span onclick='saveSettings()'>Save</span><span onclick='toMenu()'>Go Back</span>
+      </div>
+    </form>
+  </div>
+
+  <canvas id='firstCanvas'>
   </canvas>
 
-  <div id='gameOverDiv'>
+  <div id='gameOverWin' class='gameOverDiv'>
     <div>
     </div>
     <div>
-      Play Again: <span onclick = 'gameRestart()'>Y</span>/<span>N</span>
+      Play Again: <span onclick='gameRestart()'>Y</span>/<span onclick='toMenu()'>N</span>
     </div>
   </div>
 
