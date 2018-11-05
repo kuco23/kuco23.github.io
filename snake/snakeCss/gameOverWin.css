@@ -1,13 +1,3 @@
-:root {
-  --ratio: 0.5; /* height/width ratio */
-
-  --font1-sizeVW: 15vh;
-  --font1-sizeVH: calc(var(--ratio) * 15vw);
-
-  --font2-sizeVW: 6vh;
-  --font2-sizeVH: calc(var(--ratio) * 6vw);
-}
-
 @keyframes blinkinLight {
   0%, 20%, 40%, 50%, 65% {opacity: 0.4;}
   10%, 30%, 60%, 90% {opacity: 1;}
@@ -18,60 +8,65 @@
 }
 
 div.gameOverDiv {
-  text-align: center;
-  font-family: 'Bungee Hairline';
-
   display: none;
   position: absolute;
   right: 50%;
   bottom: 50%;
   transform: translate(50%, 50%);
+
+  text-align: center;
+  font-family: 'Bungee Hairline';
 }
+/* player won */
 div.gameOverDiv div:first-child {
-  font-size: var(--font1-sizeVW);
+  display: none;
+  text-shadow: 0vh 0vh 4vh powderblue, 0 0 6vh white;
+  color: powderblue;
+  font-size: 14vh;
 }
-div.gameOverDiv div:first-child span:nth-child(2) {
+div.gameOverDiv div:nth-child(2) {
+  display: none;
+  text-shadow: 0.5vh 0.5vh 1vh FireBrick, 0 0 6vh white;
+  color: FireBrick;
+  font-size: 14vh;
+}
+
+div.gameOverDiv div:first-child span:nth-child(2),
+div.gameOverDiv div:nth-child(2) span:nth-child(2) {
   opacity: 0.4;
   text-shadow: none;
 }
-div.gameOverDiv div:first-child span:nth-child(5) {
+div.gameOverDiv div:first-child span:nth-child(5),
+div.gameOverDiv div:nth-child(2) span:nth-child(5) {
   animation: blinkinLight 3s linear infinite;
   -webkit-animation: blinkinLight 3s linear infinite;
 }
+
 div.gameOverDiv div:last-child {
-  font-size: var(--font2-sizeVW);
+  font-size: 8vh;
   color: purple;
-  text-shadow: 2px 2px 4px purple;
+  text-shadow: 0.4vh 0.4vh 1vh purple;
 }
+
 div.gameOverDiv div:last-child span:first-child {
-  color: green;
-  text-shadow: 4px 4px 8px green;
+  color: powderblue;
+  text-shadow: 0 0 1vh powderblue;
   transition: color 1s, text-shadow 1s;
   -webkit-transition: color 1s, text-shadow 1s;
 }
 div.gameOverDiv div:last-child span:first-child:hover {
   cursor: pointer;
-  color: lime;
-  text-shadow: 4px 4px 16px lime;
+  color: white;
+  text-shadow: 0 0 2vh white;
 }
 div.gameOverDiv div:last-child span:last-child {
   color: DarkRed;
-  text-shadow: 4px 4px 8px DarkRed;
+  text-shadow: 0 0 1vh DarkRed;
   transition: color 1s, text-shadow 1s;
   -webkit-transition: color 1s, text-shadow 1s;
 }
 div.gameOverDiv div:last-child span:last-child:hover {
   cursor: pointer;
-  color: FireBrick;
-  text-shadow: 4px 4px 16px FireBrick;
-}
-
-/* max-width: (reverse-ratio * 100vh) */
-@media screen and (max-width: 200vh) {
-  div.gameOverDiv div:first-child {
-    font-size: var(--font1-sizeVH);
-  }
-  div.gameOverDiv div:last-child {
-    font-size: var(--font2-sizeVH);
-  }
+  color: red;
+  text-shadow: 0 0 2vh red;
 }

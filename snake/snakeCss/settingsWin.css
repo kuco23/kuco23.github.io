@@ -31,7 +31,7 @@
   background-color: rgba(0, 0, 0, .3);
 }
 .snakeInput::selection {
-  background-color: purple;
+  background-color: Purple;
 }
 
 div.settingButtons {
@@ -42,17 +42,17 @@ div.settingButtons span {
   transition: all 0.4s linear;
 }
 div.settingButtons span:first-child {
-  color: green;
+  color: Green;
 }
 div.settingButtons span:first-child:hover {
-  color: lime;
+  color: Lime;
 }
 div.settingButtons span:last-child {
   float: right;
   color: DarkRed;
 }
 div.settingButtons span:last-child:hover {
-  color: red;
+  color: Red;
 }
 
 #slider {
@@ -64,11 +64,12 @@ div.settingButtons span:last-child:hover {
 
 #stamp {
   display: none;
+  z-index: 100;
   position: absolute;
-  top:0;
-  right:0;
-  transform: rotateZ(20deg);
+  bottom: 50%;
+  right: 50%;
+  transform: translate(50%, 50%) rotateZ(20deg);
 
-  font-size: 20vh;
-  color: red;
+  font-size: 15vh;
+  color: Red;
 }
