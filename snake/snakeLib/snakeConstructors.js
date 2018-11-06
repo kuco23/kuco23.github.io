@@ -52,7 +52,8 @@ function Player(ctx, x, y, width, height, color) {
     this.create();
   };
   this.addShot = function(shotWidth, shotHeight, shotColor) {
-    this.shots.add(new Shot(this.context, this.x + (this.width - shotWidth) / 2, this.y - shotHeight, shotWidth, shotHeight, shotColor));
+    this.shots.add(new Shot(this.context, this.x + (this.width - shotWidth) / 2,
+                            this.y - shotHeight, shotWidth, shotHeight, shotColor));
   };
   this.create();
 }
@@ -69,7 +70,8 @@ function Snake(ctx, length, partSize, color, startX, startY, life) {
       this.context.fill();
     };
     this.delete = function() {
-      this.context.clearRect(this.x - this.radius - 1, this.y - this.radius - 1, (this.radius + 1) * 2, (this.radius + 1) * 2);
+      this.context.clearRect(this.x - this.radius - 1, this.y - this.radius - 1,
+                             (this.radius + 1) * 2, (this.radius + 1) * 2);
     };
     this.create();
   };

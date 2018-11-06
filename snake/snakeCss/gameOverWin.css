@@ -70,3 +70,23 @@ div.gameOverDiv div:last-child span:last-child:hover {
   color: red;
   text-shadow: 0 0 2vh red;
 }
+
+@media only screen and (max-width: 80vh) {
+  div.gameOverDiv div:first-child,
+  div.gameOverDiv div:nth-child(2) {
+    font-size: 10vh;
+  }
+  div.gameOverDiv div:last-child {
+    font-size: 6vh;
+  }
+}
+
+@media only screen and (max-width: 60vh) {
+  div.gameOverDiv div:first-child,
+  div.gameOverDiv div:nth-child(2) {
+    font-size: 8vh;
+  }
+  div.gameOverDiv div:last-child {
+    font-size: 4vh;
+  }
+}

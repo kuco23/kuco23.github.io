@@ -24,6 +24,8 @@
 
   function toMenu() {
     $('#settings').fadeOut(PageTransitionTime);
+    $('#gameOverWin div:first-child').fadeOut(PageTransitionTime);
+    $('#gameOverWin div:nth-child(2)').fadeOut(PageTransitionTime);
     $('#gameOverWin').fadeOut(PageTransitionTime);
     setTimeout(function() {
       $('body').css('background-color', 'rgb(211, 211, 211)');
@@ -89,10 +91,10 @@
       $.getScript("snakeLib/snakeConstructors.js")
     ).done(function(){
 
-      if (window.innerWidth >= 500 && window.innerHeight >= 500) {
+      if (window.innerWidth >= 400 && window.innerHeight >= 400) {
         $('#firstCanvas').attr({'width': window.innerWidth * (3 / 4), 'height': window.innerHeight * (3 / 4)});
       } else {
-        $('#firstCanvas').attr({'width': window.innerHeight.width, 'height': window.innerHeight.height});
+        $('#firstCanvas').attr({'width': window.innerWidth, 'height': window.innerHeight});
       }
 
       const Canvas = document.getElementById('firstCanvas');
@@ -102,19 +104,19 @@
 
       let PLAYERCOLOR = 'black';
       const PLAYERSPEED = 2;
-      const PLAYERWIDTH = 20;
-      const PLAYERHEIGHT = 10;
+      const PLAYERWIDTH = Math.round(Canvas.width / 65);
+      const PLAYERHEIGHT = Math.round(Canvas.width / 90);
 
       let SHOTCOLOR = 'rgba(255, 0, 0, .5)';
       const SHOTSPEED = 5;
       const SHOTWIDTH = 2;
-      const SHOTHEIGHT = 12;
+      const SHOTHEIGHT = Math.round(Canvas.width / 70);
 
       let SNAKECOLOR = 'black';
       let SNAKELIFE = 1;
       let SNAKELEN = 20;
       const SNAKESPEED = 1.2;
-      const SNAKEPARTSIZE = 10;
+      const SNAKEPARTSIZE = Math.round(Canvas.width / 100);
       const SNAKESTARTX = Canvas.width / 2;
       const SNAKESTARTY = Canvas.height / 2;
 
@@ -154,7 +156,8 @@
       Player&nbsp;color:<br />
       <input type='text' name='playercolor' id='playercolor' class='snakeTextInput'><br />
       <div class = 'settingButtons'>
-        <span onclick='saveSettings()'>Save</span><span onclick='toMenu()'>Go&nbsp;Back</span>
+        <span onclick='saveSettings()'>Save</span>
+        <span onclick='toMenu()'>Go&nbsp;Back</span>
       </div>
     </form>
   </div>
@@ -164,13 +167,16 @@
 
   <div id='gameOverWin' class='gameOverDiv'>
     <div>
-      <span>Y</span><span>O</span><span>U</span>&nbsp;<span>W</span><span>O</span><span>N</span>
+      <span>Y</span><span>O</span><span>U</span>&nbsp;
+      <span>W</span><span>O</span><span>N</span>
     </div>
     <div>
-      <span>Y</span><span>O</span><span>U</span>&nbsp;<span>L</span><span>O</span><span>S</span><span>T</span>
+      <span>Y</span><span>O</span><span>U</span>&nbsp;
+      <span>L</span><span>O</span><span>S</span><span>T</span>
     </div>
     <div>
-      Play&nbsp;Again:&nbsp;<span onclick='gameRestart()'>Y</span>/<span onclick='toMenu()'>N</span>
+      Play&nbsp;Again:&nbsp;
+      <span onclick='gameRestart()'>Y</span>/<span onclick='toMenu()'>N</span>
     </div>
   </div>
 
