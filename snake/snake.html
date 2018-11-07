@@ -92,9 +92,13 @@
     ).done(function(){
 
       if (window.innerWidth >= 400 && window.innerHeight >= 400) {
-        $('#firstCanvas').attr({'width': window.innerWidth * (3 / 4), 'height': window.innerHeight * (3 / 4)});
+        $('#firstCanvas').attr({
+          width: window.innerWidth * (3 / 4),
+          height: window.innerHeight * (3 / 4)});
       } else {
-        $('#firstCanvas').attr({'width': window.innerWidth, 'height': window.innerHeight});
+        $('#firstCanvas').attr({
+          width: window.innerWidth,
+          height: window.innerHeight});
       }
 
       const Canvas = document.getElementById('firstCanvas');

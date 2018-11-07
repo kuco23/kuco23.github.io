@@ -1,0 +1,271 @@
+<!DOCTYPE html>
+
+<html>
+<head>
+
+  <title>Graphs and DFS</title>
+  <meta name='viewport' content='width=device-width, initial-scale=1.0' charset='utf-8' />
+  <link rel='stylesheet' type='text/css' href='main.css' />
+  <script src = '../jquery-3.3.1.min.js'></script>
+
+  <style>
+  </style>
+
+  <script>
+
+    function toggleNodeCreationMode(off=false) {
+      if (document.graph.nodeCreationMode || off===true) {
+        document.graph.nodeCreationMode = false;
+        $('#nodeCreationBtn').html('ON').css('color', 'lime');
+      } else {
+        document.graph.nodeCreationMode = true;
+        $('#nodeCreationBtn').html('OFF').css('color', 'red');
+      }
+    }
+    function toggleNodeSelectionMode(off=false) {
+      if (document.graph.nodeSelectionMode || off===true) {
+        document.graph.nodeSelectionMode = false;
+        $('#nodeSelectionBtn').html('ON').css('color', 'lime');
+      } else {
+        document.graph.nodeSelectionMode = true;
+        $('#nodeSelectionBtn').html('OFF').css('color', 'red');
+      }
+    }
+
+    $(document).ready(function() {
+
+      $('#canvus').attr({
+        height: window.innerHeight,
+        width: window.innerWidth * 0.74
+      })
+
+      var canvas = document.getElementById('canvus');
+      var context = canvas.getContext('2d');
+
+      function range(a, b) {
+        let list = [];
+        for (let i = a; i < b; i++) {
+          list.push(i);
+        } return list;
+      }
+      function randint(a, b) {
+        return a + Math.random() * (b - a);
+      }
+
+      function Graph(context, list, generate_random = false, directed = false,
+                     node_color='black', edge_color='black', node_radius = 6, edge_width = 2) {
+        this.context = context;
+        this.canvas_width = context.canvas.width; this.canvas_height = context.canvas.height;
+        this.generate_random = generate_random;
+        this.directed = directed;
+        this.node_color = node_color; this.edge_color = edge_color;
+        this.node_radius = node_radius; this.edge_width = edge_width;
+        this.node_placeholder_color = 'rgba(0, 0, 0, 0.2)';
+
+        this.nodeList = [];
+        this.edgeList = [];
+
+        this.nodeCreationMode = false;
+        this.nodeSelectionMode = false;
+        this.selectedNodeA = null;
+        this.selectedNodeB = null;
+        this.selection_color = 'red';
+
+        function drawCircle(context, x, y, r, color, fill=true) {
+          context.beginPath();
+          context.arc(x, y, r, 0, 2 * Math.PI);
+          if (fill) {
+            context.fillStyle = color;
+            context.fill();
+          } else {
+            context.strokeStyle = color;
+            context.stroke();
+          }
+        }
+        function Node(context, x, y, radius, color) {
+          this.context = context;
+          this.x = x; this.y = y; this.radius = radius;
+          this.color = color;
+
+          this.create = function() {
+            drawCircle(this.context, this.x, this.y, this.radius, this.color, true);
+          };
+          this.delete = function() {
+            this.context.clearRect(this.x - radius, this.y - radius, this.x + radius, this.y + radius);
+          };
+          this.create()
+        }
+        function Edge(context, node1, node2, color, linewidth, time_to_draw = 0) {
+          this.context = context;
+          this.node1 = node1; this.node2 = node2;
+          this.linewidth = linewidth;
+          this.color = color;
+          this.vector = [(this.node2.x - this.node1.x) / 50, (this.node2.y - this.node1.y) / 50]
+
+          this.create = function() {
+            this.context.beginPath();
+            this.context.moveTo(this.node1.x, this.node1.y);
+            this.context.lineTo(this.node2.x, this.node2.y);
+            this.context.lineWidth = this.linewidth;
+            this.context.strokeStyle = this.color;
+            this.context.stroke();
+          };
+          this.delete = function() {
+            this.context.clearRect(this.node1.x - this.linewidth / 2 - 1, this.node1.y - this.linewidth / 2 - 1,
+              this.node1.x + this.linewidth / 2 + 2, this.node1.y - this.linewidth / 2 + 2);
+          };
+          this.create();
+        }
+        this.getNodePositions = function() {
+          let node_margin = 8 * this.node_radius;
+          let nodes_onX = Math.floor(this.canvas_width / (node_margin + 2 * this.node_radius));
+          let nodes_onY = Math.floor(this.canvas_height / (node_margin + 2 * this.node_radius));
+          let space_leftX = this.canvas_width - (nodes_onX * (node_margin + 2 * this.node_radius));
+          let space_leftY = this.canvas_height - (nodes_onY * (node_margin + 2 * this.node_radius));
+          let marginSideX = (node_margin + space_leftX) / 2
+          let marginSideY = (node_margin + space_leftY) / 2
+          let positionList = [];
+          for (let i = 0; i < nodes_onY; i++) {
+            for (let j = 0; j < nodes_onX; j++) {
+              let posXY = [marginSideX + j * (node_margin + 2 * this.node_radius),
+                           marginSideY + i * (node_margin + 2 * this.node_radius)]
+              positionList.push(posXY);
+              drawCircle(this.context, posXY[0], posXY[1], this.node_radius, this.node_placeholder_color, true);
+            }
+          } return positionList;
+        };
+        this.getOverlappingPosition = function(x, y) {
+          for (let i = 0; i < this.positionList.length; i++) {
+            let vector = [x - this.positionList[i][0], y - this.positionList[i][1]];
+            let vector_norm = Math.pow(Math.pow(vector[0], 2) + Math.pow(vector[1], 2), 0.5);
+            if (vector_norm <= node_radius) {
+              return this.positionList[i];
+            }
+          } return null;
+        };
+        this.getNodeByPosition = function(x, y) {
+          for (let i = 0; i < this.nodeList.length; i++) {
+            let node = this.nodeList[i];
+            let vector = [node.x - x, node.y - y];
+            let vector_norm = Math.pow(Math.pow(vector[0], 2) + Math.pow(vector[1], 2), 0.5);
+            if (vector_norm <= node.radius) {
+              return [node, i];
+            }
+          } return null;
+        };
+        this.drawRandomNode = function() {
+          if (this.positionList.length == 0) {
+            return null;
+          }
+          let ran = randint(0, this.positionList.length - 1);
+          let XY = this.positionList.splice(ran, 1);
+          this.nodeList.push(new Node(this.context, XY[0][0], XY[0][1], this.node_radius, this.node_color));
+        }
+        this.linkSelected = function() {
+          if (this.selectedNodeA != null && this.selectedNodeB != null) {
+            this.edgeList.push(new Edge(this.context, this.selectedNodeA, this.selectedNodeB,
+            this.selection_color, this.edge_width, 2))
+            this.selectedNodeA.create();
+            this.selectedNodeA = null;
+            this.selectedNodeB.create();
+            this.selectedNodeB = null;
+          }
+        };
+        this.handleClick = function(x, y) {
+          let node_and_index = this.getNodeByPosition(x, y);
+          let nodePos = this.getOverlappingPosition(x, y);
+          let node = null;
+          let index = null;
+          if (node_and_index) {
+            node = node_and_index[0];
+            index = node_and_index[1];
+          }
+          if (node_and_index || nodePos) {
+            // save and mark the node that was selected
+            if (this.nodeSelectionMode && node_and_index) {
+              let color = null;
+              if (this.selectedNodeA == node) {
+                this.selectedNodeA = null;
+                color = node.color;
+              } else if (this.selectedNodeB == node) {
+                this.selectedNodeB = null;
+                color = node.color;
+              } else if (this.selectedNodeA == null) {
+                this.selectedNodeA = node;
+                color = this.selection_color;
+              } else if (this.selectedNodeB == null) {
+                this.selectedNodeB = node;
+                color = this.selection_color;
+              } else {
+                this.selectedNodeB.create();
+                this.selectedNodeB = node;
+                color = this.selection_color;
+              }
+              drawCircle(this.context, node.x, node.y, node.radius, color);
+            } else if (this.nodeCreationMode && nodePos) {
+              this.nodeList.push(new Node(this.context, nodePos[0], nodePos[1], this.node_radius, this.node_color));
+            } else if (this.nodeCreationMode && node_and_index) {
+              this.nodeList.splice(index, 1);
+              node.delete();
+              this.PositionList.push([node.x, node.y]);
+              drawCircle(this.context, node.x, node.y, node.radius, this.node_placeholder_color);
+            }
+          }
+        };
+
+        this.delete = function() {
+          this.context.clearRect(0, 0, this.canvas_width, this.canvas_height);
+          this.nodeList = [];
+          this.edgeList = [];
+          this.positionlist = this.getNodePositions();
+        };
+        this.positionList = this.getNodePositions();
+        if (this.generate_random) {
+          if (typeof this.generate_random == 'number') {
+            for (let i = 0; i < this.generate_random; i++) this.drawRandomNode();
+          } else {
+            let node_num = this.positionList.length - 1;
+            for (let i = 0; i < node_num; i++) this.drawRandomNode();
+          }
+        }
+      }
+
+      document.graph = new Graph(context, null, false, false);
+
+      canvas.addEventListener('click', function(event) {
+        document.graph.handleClick(event.pageX, event.pageY);
+      });
+      window.onresize = function() {
+        document.graph.delete();
+        context = document.getElementById('canvus').getContext('2d');
+        document.graph = new Graph(context, null, false, false);
+      };
+
+    });
+
+  </script>
+
+</head>
+<body>
+
+<canvas id='canvus' width=500 height=500>
+</canvas>
+
+<div class='options'>
+  <div class='title-button'>
+    <span title='Create or remove a node by clicking on a placeholder or node'>Manual Node Creation Mode</span>
+    <button onclick = 'toggleNodeCreationMode();' id='nodeCreationBtn'>ON</button>
+  </div>
+  <div class='title-button'>
+    <span title='select a node by clicking on it so you can connect two'>Manual Node Selection Mode</span>
+    <button onclick = 'toggleNodeSelectionMode();' id='nodeSelectionBtn'>ON</button>
+    <div class='flex-buttons'>
+      <button onclick = 'document.graph.linkSelected();'>Connect</button>
+    </div>
+  </div>
+  <button onclick = 'document.graph.drawRandomNode();'>Add Node</button>
+  <button onclick = 'document.graph.delete();'>Clear Canvas</button>
+</div>
+
+</body>
+</html>

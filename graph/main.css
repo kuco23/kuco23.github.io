@@ -1,0 +1,54 @@
+* {box-sizing: border-box;}
+
+body {
+  margin: 0;
+  background-color: rgb(40, 40, 40);
+}
+#canvus {
+  background-color: rgb(100, 100, 100);
+}
+
+.options {
+  position: absolute;
+  left: 75%;
+  top: 0;
+  width: 25%;
+  height: 100%;
+  overflow-y: auto;
+  display: inline-block;
+
+  padding: 0.5%;
+
+  font-size: 20px;
+  color: white;
+}
+.options button {
+  width: 48%;
+  padding: 1%;
+
+  font-size: 20px;
+  color: white;
+
+  background-color: transparent;
+  border: 2px solid white;
+  transition: border 0.5s;
+}
+.options button:hover {
+  border: 2px solid powderblue;
+  cursor: pointer;
+}
+.title-button {
+  margin: 0vh 0 2vh 0;
+  padding: 2vh 0 2vh 0;
+  text-align: center;
+  color: red;
+  border-bottom: 2px solid red;
+}
+.title-button>span:hover {
+  cursor: default;
+}
+.title-button>button {
+  width: 98%;
+  margin: 1vh 0 1vh 0;
+  color: lime;
+}

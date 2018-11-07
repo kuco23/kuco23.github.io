@@ -9,9 +9,11 @@ ctx.strokeRect(x, y, width, height); // no fill
 ctx.fillRect(x, y, width, height);
 
 <!-- Make a line-->
+ctx.beiginPath();
 ctx.moveTo(x, y); // line start
 ctx.lineTo(200, 200); // line end
 ctx.lineWidth = <int>; // sets the line width
+ctx.strokeStyle = <color>;
 ctx.stroke(); // draw line
 
 ctx.lineJoin = 'round / bevel / miter'; // creates round corners when more lines share a corner
