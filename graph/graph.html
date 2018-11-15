@@ -51,13 +51,12 @@
         } return list;
       }
       function randint(a, b) {
-        return a + Math.random() * (b - a);
+        return Math.round(a + Math.random() * (b - a));
       }
 
       function Graph(context, directed = false,
                      node_color='black', edge_color='black', node_radius = 6, edge_width = 2) {
         this.context = context;
-        this.canvas_width = context.canvas.width; this.canvas_height = context.canvas.height;
         this.directed = directed;
         this.node_color = node_color; this.edge_color = edge_color;
         this.node_radius = node_radius; this.edge_width = edge_width;
@@ -104,7 +103,6 @@
           node1.neighbours.push(node2); node2.neighbours.push(node1);
           this.linewidth = linewidth;
           this.color = color;
-          this.vector = [(this.node2.x - this.node1.x) / 50, (this.node2.y - this.node1.y) / 50]
 
           this.create = function() {
             this.context.beginPath();
@@ -115,49 +113,89 @@
             this.context.stroke();
           };
           this.unlink = function() {
-            for (i = 0; i < this.node1.neighbours.length; i++) {
-              if (this.node2 == this.node1.neighbours[i]) this.node1.neighbours.splice(i, 1); break;
-            }
-            for (i = 0; i < this.node2.neighbours.length; i++) {
-              if (this.node1 == this.node2.neighbours[i]) this.node2.neighbours.splice(i, 1); break;
-            }
+            this.node1.neighbours.splice(this.node1.neighbours.indexOf(this.node2), 1);
+            this.node2.neighbours.splice(this.node2.neighbours.indexOf(this.node1), 1);
           };
           this.create();
         }
-        this.getNodePositions = function() {
-          let node_margin = 8 * this.node_radius;
-          let nodes_onX = Math.floor(this.canvas_width / (node_margin + 2 * this.node_radius));
-          let nodes_onY = Math.floor(this.canvas_height / (node_margin + 2 * this.node_radius));
-          let space_leftX = this.canvas_width - (nodes_onX * (node_margin + 2 * this.node_radius));
-          let space_leftY = this.canvas_height - (nodes_onY * (node_margin + 2 * this.node_radius));
-          let marginSideX = (node_margin + space_leftX) / 2
-          let marginSideY = (node_margin + space_leftY) / 2
-          let positionList = [];
-          for (let i = 0; i < nodes_onY; i++) {
-            for (let j = 0; j < nodes_onX; j++) {
-              let posXY = [marginSideX + j * (node_margin + 2 * this.node_radius),
-                           marginSideY + i * (node_margin + 2 * this.node_radius)];
-              drawCircle(this.context, posXY[0], posXY[1], this.node_radius, this.node_placeholder_color, true);
-              positionList.push(posXY);
+        function NodeMatrix(context, node_radius, placeholder_color) {
+          this.context = context;
+          W = this.context.canvas.width; H = this.context.canvas.height;
+          this.node_margin = 8 * node_radius;
+          let nodes_onX = Math.floor(W / (this.node_margin + 2 * node_radius));
+          let nodes_onY = Math.floor(H / (this.node_margin + 2 * node_radius));
+          let space_leftX = W - (nodes_onX * (this.node_margin + 2 * node_radius));
+          let space_leftY = H - (nodes_onY * (this.node_margin + 2 * node_radius));
+          this.node_radius = node_radius;
+          this.marginSideX = (this.node_margin + space_leftX) / 2;
+          this.marginSideY = (this.node_margin + space_leftY) / 2;
+          this.matrix = [];
+
+          this.getNorm = function(vec) {
+            return Math.pow(Math.pow(vec[0], 2) + Math.pow(vec[1], 2), 0.5);
+          };
+          this.getPositionByIndex = function(i, j) {
+            return [this.marginSideX + j * (this.node_margin + 2 * this.node_radius),
+                    this.marginSideY + i * (this.node_margin + 2 * this.node_radius)];
+          };
+          this.getIndexByPosition = function(x, y) {
+            let j = Math.floor((x - this.marginSideX) / (this.node_margin + 2 * this.node_radius));
+            let i = Math.floor((y - this.marginSideY) / (this.node_margin + 2 * this.node_radius));
+            let relation = [[0, 0], [-1, 0], [0, -1], [-1, -1], [1, 0], [0, 1], [1, 1], [1, -1], [-1, 1]];
+            for (let index = 0; index < relation.length; index++) {
+              let d = relation[index];
+              let pos = this.getPositionByIndex(i + d[0], j + d[1]);
+              if (this.getNorm([x - pos[0], y - pos[1]]) <= this.node_radius) {
+                return [i + d[0], j + d[1]];
+              }
             }
-          } return positionList;
-        };
+          };
+          this.getFreeNodes = function(free) {
+            let nodes = [];
+            for (let i = 0; i < this.matrix.length; i++) {
+              for (let j = 0; j < this.matrix[0].length; j++) {
+                if (this.matrix[i][j] && free) nodes.push(this.matrix[i][j]);
+                else if (!this.matrix[i][j] && !free) nodes.push([i, j]);
+              }
+            } return nodes;
+          };
+          this.defaultWeb = function() {
+            this.context.clearRect(0, 0, this.context.canvas.width, this.context.canvas.height);
+            for (let i = 0; i < nodes_onY; i++) {
+              for (let j = 0; j < nodes_onX; j++) {
+                let posXY = this.getPositionByIndex(i, j);
+                drawCircle(this.context, posXY[0], posXY[1], this.node_radius, placeholder_color, true);
+              }
+            }
+          };
+          for (let i = 0; i < nodes_onY; i++) {
+            this.matrix.push([]);
+            for (let j = 0; j < nodes_onX; j++) {
+              let posXY = this.getPositionByIndex(i, j);
+              this.matrix[i].push(null);
+            }
+          }
+        }
         this.drawRandomNode = function() {
-          if (this.positionList.length == 0) {
+          let free_nodes = this.node_matrix.getFreeNodes(false);
+          if (free_nodes.length == 0) {
             return null;
           }
-          let ran = randint(0, this.positionList.length - 1);
-          let XY = this.positionList.splice(ran, 1);
-          this.nodeList.push(new Node(this.context, XY[0][0], XY[0][1],
-            this.node_radius, this.node_color, this.node_placeholder_color));
+          let ran = randint(0, free_nodes.length - 1);
+          let i = free_nodes[ran][0]; let j = free_nodes[ran][1];
+          let XY = this.node_matrix.getPositionByIndex(i, j);
+          this.node_matrix.matrix[i][j] = new Node(this.context, XY[0], XY[1],
+          this.node_radius, this.node_color, this.node_placeholder_color);
         };
-        this.clearNode = function(index) {
-          if (index >= 0 && index < this.nodeList.length) {
-            let node = this.nodeList.splice(index, 1)[0];
+        this.clearNode = function(i, j) {
+          if (0 <= i && i < this.node_matrix.matrix.length &&
+          0 <= j && j < this.node_matrix.matrix[0].length &&
+          this.node_matrix.matrix[i][j]) {
+            let node = this.node_matrix.matrix[i][j];
+            node.delete();
+            this.node_matrix.matrix[i][j] = null;
             if (node == this.selectedNodeA) this.selectedNodeA = null;
             if (node == this.selectedNodeB) this.selctedNodeB = null;
-            node.delete();
-            this.positionList.push([node.x, node.y]);
             // delete all the edges connected to this node
             let static_ar = node.neighbours.slice();
             for (let i = 0; i < static_ar.length; i++) {
@@ -169,33 +207,17 @@
         };
         this.clearEdge = function(index) {
           if (index >= 0 && index < this.edgeList.length) {
-            this.context.clearRect(0, 0, this.canvas_width, this.canvas_height);
-            this.getNodePositions();
-            for (i = 0; i < this.nodeList.length; i++) this.nodeList[i].create();
+            this.node_matrix.defaultWeb();;
+            for (i = 0; i < this.node_matrix.matrix.length; i++) {
+              for (j = 0; j < this.node_matrix.matrix[i].length; j++) {
+                if (this.node_matrix.matrix[i][j]) this.node_matrix.matrix[i][j].create();
+              }
+            }
             for (i = 0; i < this.edgeList.length; i++) {
               if (i != index) this.edgeList[i].create();
             }
             this.edgeList.splice(index, 1)[0].unlink();
           }
-        };
-        this.getOverlappingPosition = function(x, y) {
-          for (let i = 0; i < this.positionList.length; i++) {
-            let vector = [x - this.positionList[i][0], y - this.positionList[i][1]];
-            let vector_norm = Math.pow(Math.pow(vector[0], 2) + Math.pow(vector[1], 2), 0.5);
-            if (vector_norm <= node_radius) {
-              return i;
-            }
-          } return null;
-        };
-        this.getNodeByPosition = function(x, y) {
-          for (let i = 0; i < this.nodeList.length; i++) {
-            let node = this.nodeList[i];
-            let vector = [node.x - x, node.y - y];
-            let vector_norm = Math.pow(Math.pow(vector[0], 2) + Math.pow(vector[1], 2), 0.5);
-            if (vector_norm <= node.radius) {
-              return i;
-            }
-          } return null;
         };
         this.getEdgeByCoords = function(x1, y1, x2, y2) {
           for (let i = 0; i < this.edgeList.length; i++) {
@@ -221,10 +243,15 @@
           }
         };
         this.handleClick = function(x, y) {
-          let nodeIndex = this.getNodeByPosition(x, y);
-          let nodePosIndex = this.getOverlappingPosition(x, y);
-          let node = (nodeIndex !== null) ? this.nodeList[nodeIndex] : null;
-          let nodePos = (nodePosIndex !== null) ? this.positionList[nodePosIndex] : null;
+          let nodeIndex = this.node_matrix.getIndexByPosition(x, y);
+          if (!nodeIndex) return null;
+          let i = nodeIndex[0]; let j = nodeIndex[1];
+          let node = null; let free_space = null;
+          if (this.node_matrix.matrix[i][j]) {
+            node = this.node_matrix.matrix[i][j];
+          } else {
+            free_space = this.node_matrix.getPositionByIndex(i, j);
+          }
           // save and mark the node that was selected
           if (this.nodeSelectionMode && node) {
             let color = null;
@@ -246,22 +273,21 @@
               color = this.selection_color;
             }
             drawCircle(this.context, node.x, node.y, node.radius, color);
-          } else if (this.nodeCreationMode && nodePos) {
-            this.positionList.splice(nodePosIndex, 1);
-            this.nodeList.push(new Node(this.context, nodePos[0], nodePos[1],
-            this.node_radius, this.node_color, this.node_placeholder_color));
+          } else if (this.nodeCreationMode && free_space) {
+            this.node_matrix.matrix[i][j] = new Node(this.context,
+            free_space[0], free_space[1], this.node_radius, this.node_color,
+            this.node_placeholder_color);
           } else if (this.nodeCreationMode && node) {
-            this.clearNode(nodeIndex);
+            this.clearNode(i, j); // one of two times where node is cleared
           }
         };
-        this.delete = function() {
-          this.context.clearRect(0, 0, this.canvas_width, this.canvas_height);
+        this.restart = function() {
+          this.context.clearRect(0, 0, this.context.canvas.width, this.context.canvas.height);
           this.nodeList = [];
-          this.edgeList = [];
-          this.positionlist = this.getNodePositions();
+          this.node_matrix = new NodeMatrix(this.context, this.node_radius, this.node_placeholder_color);
+          this.node_matrix.defaultWeb();
         };
-
-        this.positionList = this.getNodePositions();
+        this.restart();
       }
 
       document.graph = new Graph(context, false);
