@@ -33,6 +33,12 @@
         $('#nodeSelectionBtn').html('TURN OFF').css('color', 'red');
       }
     }
+    function randint(a, b) {
+      return Math.round(a + Math.random() * (b - a));
+    }
+    function randomChoice(l) {
+      return l[randint(0, l.length - 1)];
+    }
 
     $(document).ready(function() {
 
@@ -44,25 +50,14 @@
       var canvas = document.getElementById('canvus');
       var context = canvas.getContext('2d');
 
-      function range(a, b) {
-        let list = [];
-        for (let i = a; i < b; i++) {
-          list.push(i);
-        } return list;
-      }
-      function randint(a, b) {
-        return Math.round(a + Math.random() * (b - a));
-      }
-
       function Graph(context, directed = false,
-                     node_color='black', edge_color='black', node_radius = 6, edge_width = 2) {
+                     node_color='black', edge_color='rgba(0, 0, 0, 0.5)', node_radius = 6, edge_width = 2) {
         this.context = context;
         this.directed = directed;
         this.node_color = node_color; this.edge_color = edge_color;
         this.node_radius = node_radius; this.edge_width = edge_width;
         this.node_placeholder_color = 'rgba(0, 0, 0, 0.2)';
 
-        this.nodeList = [];
         this.edgeList = [];
 
         this.nodeCreationMode = false;
@@ -109,7 +104,7 @@
             this.context.moveTo(this.node1.x, this.node1.y);
             this.context.lineTo(this.node2.x, this.node2.y);
             this.context.lineWidth = this.linewidth;
-            this.context.fillStyle = this.color;
+            this.context.strokeStyle = this.color;
             this.context.stroke();
           };
           this.unlink = function() {
@@ -138,26 +133,14 @@
             return [this.marginSideX + j * (this.node_margin + 2 * this.node_radius),
                     this.marginSideY + i * (this.node_margin + 2 * this.node_radius)];
           };
+          // O(1)
           this.getIndexByPosition = function(x, y) {
-            let j = Math.floor((x - this.marginSideX) / (this.node_margin + 2 * this.node_radius));
-            let i = Math.floor((y - this.marginSideY) / (this.node_margin + 2 * this.node_radius));
-            let relation = [[0, 0], [-1, 0], [0, -1], [-1, -1], [1, 0], [0, 1], [1, 1], [1, -1], [-1, 1]];
-            for (let index = 0; index < relation.length; index++) {
-              let d = relation[index];
-              let pos = this.getPositionByIndex(i + d[0], j + d[1]);
-              if (this.getNorm([x - pos[0], y - pos[1]]) <= this.node_radius) {
-                return [i + d[0], j + d[1]];
-              }
-            }
-          };
-          this.getFreeNodes = function(free) {
-            let nodes = [];
-            for (let i = 0; i < this.matrix.length; i++) {
-              for (let j = 0; j < this.matrix[0].length; j++) {
-                if (this.matrix[i][j] && free) nodes.push(this.matrix[i][j]);
-                else if (!this.matrix[i][j] && !free) nodes.push([i, j]);
-              }
-            } return nodes;
+            let j = Math.round((x - this.marginSideX) / (this.node_margin + 2 * this.node_radius));
+            let i = Math.round((y - this.marginSideY) / (this.node_margin + 2 * this.node_radius));
+            let pos = this.getPositionByIndex(i, j);
+            if (this.getNorm([x - pos[0], y - pos[1]]) <= this.node_radius) {
+              return [i, j];
+            } return null;
           };
           this.defaultWeb = function() {
             this.context.clearRect(0, 0, this.context.canvas.width, this.context.canvas.height);
@@ -176,16 +159,24 @@
             }
           }
         }
+        // O(n * m) worst case scenario (if every node is taken)
         this.drawRandomNode = function() {
-          let free_nodes = this.node_matrix.getFreeNodes(false);
-          if (free_nodes.length == 0) {
-            return null;
+          let randomI = randint(0, this.node_matrix.matrix.length - 1);
+          let randomJ = randint(0, this.node_matrix.matrix[0].length - 1);
+          let directionList = (Math.random() > 0.5) ? [1, -1] : [-1, 1];
+          for (let dirInd = 0; dirInd < 2; dirInd++) {
+            let add = directionList[dirInd];
+            for (let i = randomI; i >= 0 && i < this.node_matrix.matrix.length; i = i + add) {
+              for (let j = randomJ; j >= 0 && j < this.node_matrix.matrix[0].length; j = j + add) {
+                if (this.node_matrix.matrix[i][j] == null) {
+                  let XY = this.node_matrix.getPositionByIndex(i, j);
+                  this.node_matrix.matrix[i][j] = new Node(this.context, XY[0], XY[1],
+                  this.node_radius, this.node_color, this.node_placeholder_color);
+                  return null;
+                }
+              }
+            }
           }
-          let ran = randint(0, free_nodes.length - 1);
-          let i = free_nodes[ran][0]; let j = free_nodes[ran][1];
-          let XY = this.node_matrix.getPositionByIndex(i, j);
-          this.node_matrix.matrix[i][j] = new Node(this.context, XY[0], XY[1],
-          this.node_radius, this.node_color, this.node_placeholder_color);
         };
         this.clearNode = function(i, j) {
           if (0 <= i && i < this.node_matrix.matrix.length &&
@@ -235,7 +226,7 @@
             this.selectedNodeB.x, this.selectedNodeB.y);
             if (edge !== null) return null;
             this.edgeList.push(new Edge(this.context, this.selectedNodeA, this.selectedNodeB,
-              this.selection_color, this.edge_width, 2))
+              this.edge_color, this.edge_width, 2))
             this.selectedNodeA.create();
             this.selectedNodeA = null;
             this.selectedNodeB.create();
@@ -282,8 +273,8 @@
           }
         };
         this.restart = function() {
-          this.context.clearRect(0, 0, this.context.canvas.width, this.context.canvas.height);
-          this.nodeList = [];
+          this.selectedNodeA = null; this.selectedNodeB = null;
+          this.edgeList = [];
           this.node_matrix = new NodeMatrix(this.context, this.node_radius, this.node_placeholder_color);
           this.node_matrix.defaultWeb();
         };
@@ -299,7 +290,11 @@
         if (event.keyCode == 32) document.graph.linkSelected();
       });
       window.onresize = function() {
-        0;
+        $('#canvus').attr({
+          height: window.innerHeight,
+          width: window.innerWidth * 0.75
+        });
+        document.graph.restart();
       };
 
     });
@@ -328,7 +323,7 @@
   </div>
   <button onclick = 'graph.drawRandomNode();'>Add Node</button>
   <button onclick = 'graph.clearNode(graph.nodeList.length - 1);'>Delete last node</button>
-  <button onclick = 'graph.delete();'>Clear</button>
+  <button onclick = 'graph.restart();'>Clear</button>
 </div>
 
 <div class='screenToSmall'>

@@ -23,15 +23,12 @@
   transition: all 0.1s linear;
 }
 .snakeTextInput:hover {
-  box-shadow: 0.6vh 0.6vh 1vh purple;
+  box-shadow: 0.6vh 0.6vh 1vh rgba(0, 0, 0, .6);
 }
 .snakeTextInput:focus,
 .snakeTextInput:active {
-  box-shadow: 0.6vh 0.6vh 1vh purple;
+  box-shadow: 0.6vh 0.6vh 1vh rgba(0, 0, 0, .8);
   background-color: rgba(0, 0, 0, .3);
-}
-.snakeInput::selection {
-  background-color: Purple;
 }
 
 div.settingButtons {
