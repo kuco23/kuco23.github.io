@@ -50,7 +50,7 @@ body {
 .title-button>span:hover {
   cursor: default;
 }
-.title-button>button {
+.title-button button:nth-child(2) {
   width: 98%;
   margin: 1vh 0 1vh 0;
   color: lime;
@@ -64,7 +64,8 @@ body {
   font-size: 15vh;
 }
 
-@media only screen and (max-width: 800px), @media only screen and (max-height: 600px) {
+@media only screen and (max-width: 800px),
+@media only screen and (max-height: 600px) {
   .options, #canvus {
     display: none;
   }
