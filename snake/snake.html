@@ -130,6 +130,12 @@
       SHOTSPEED, SHOTWIDTH, SHOTHEIGHT, SHOTCOLOR,
       SNAKESPEED, SNAKELIFE, SNAKELEN, SNAKEPARTSIZE, SNAKECOLOR, SNAKESTARTX, SNAKESTARTY);
 
+      // alert that the support for canvas on Edge is not perfect
+      if (navigator.userAgent.search('Edge') != -1) {
+        alert('You are using Microsoft Edge Browser which has a shitty support for canvas' +
+        ' so the game might not work as it might on, oh I don\'t know maybe Firefox');
+      }
+
     });
   });
 
