@@ -12,6 +12,8 @@ body {
 
 .options {
   display: inline-block;
+  overflow-x: hidden;
+  overflow-y: auto;
   position: fixed;
   left: 75%;
   top: 0;
@@ -58,7 +60,10 @@ body {
 
 .screenToSmall {
   display: none;
-  margin-top: 10%;
+  position: absolute;
+  right: 50%;
+  bottom: 50%;
+  transform: translate(50%, 50%);
   text-align: center;
   color: red;
   font-size: 15vh;

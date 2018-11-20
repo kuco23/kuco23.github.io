@@ -51,12 +51,11 @@
       var canvas = document.getElementById('canvus');
       var context = canvas.getContext('2d');
 
-      function Graph(context, directed = false,
+      function Graph(context,
         node_color='black', edge_color='rgba(0, 0, 0, 0.5)',
         node_radius = 6, edge_width = 2) {
 
         this.context = context;
-        this.directed = directed;
         this.node_color = node_color; this.edge_color = edge_color;
         this.node_radius = node_radius; this.edge_width = edge_width;
         this.node_placeholder_color = 'rgba(0, 0, 0, 0.2)';
@@ -68,10 +67,16 @@
         this.selectedNodeA = null;
         this.selectedNodeB = null;
         this.selection_color = 'red';
+
         this.dfsMode = false;
+        this.dfsAnimDelay = 1000;
         this.dfsStartNode = null;
         this.dfs_node_color = 'blue';
-        this.dfs_edge_color = 'yellow';
+        this.dfs_forward_edge_color = 'yellow';
+        this.dfs_backtrack_edge_color = 'green';
+
+        // this is set to true during animation
+        this.lockdown = false;
 
         function drawLine(context, x1, y1, x2, y2, linewidth, linecolor) {
           context.beginPath();
@@ -80,6 +85,10 @@
           context.lineWidth = linewidth;
           context.strokeStyle = linecolor;
           context.stroke();
+        }
+        function drawLineBetween(context, node1, node2, linewidth, linecolor) {
+          drawLine(context, node1.x, node1.y,
+            node2.x, node2.y, linewidth, linecolor);
         }
         function drawCircle(context, x, y, r, color, fill=true) {
           context.beginPath();
@@ -98,9 +107,9 @@
           this.i = i; this.j = j;
           this.color = color; this.placeholder_color = placeholder_color;
           this.neighbours = [];
-          this.create = function() {
+          this.create = function(color=this.color) {
             drawCircle(this.context, this.x, this.y,
-              this.radius, this.color, true);
+              this.radius, color, true);
           };
           this.delete = function() {
             this.context.clearRect(this.x - radius,
@@ -114,12 +123,11 @@
           return [this.marginSideX + j * (this.node_margin + 2 * this.node_radius),
                   this.marginSideY + i * (this.node_margin + 2 * this.node_radius)];
         };
-        // O(1)
-        this.getIndexByPosition = function(x, y) {
+        this.getIndexByPosition = function(x, y) { // O(1)
           let j = Math.round((x - this.marginSideX) / (this.node_margin + 2 * this.node_radius));
           let i = Math.round((y - this.marginSideY) / (this.node_margin + 2 * this.node_radius));
           let pos = this.getPositionByIndex(i, j);
-          if (getNorm([x - pos[0], y - pos[1]]) <= this.node_radius) {
+          if (getNorm([x - pos[0], y - pos[1]]) <= this.node_radius * 3) {
             return [i, j];
           } return null;
         };
@@ -145,8 +153,9 @@
           this.selectedNodeA.neighbours.indexOf(this.selectedNodeB) == -1) {
             this.selectedNodeA.neighbours.push(this.selectedNodeB);
             this.selectedNodeB.neighbours.push(this.selectedNodeA);
-            drawLine(this.context, this.selectedNodeA.x, this.selectedNodeA.y,
-            this.selectedNodeB.x, this.selectedNodeB.y, this.edge_width, this.edge_color);
+            drawLineBetween(this.context,
+              this.selectedNodeA, this.selectedNodeB,
+              this.edge_width, this.edge_color);
             this.selectedNodeA.create();
             this.selectedNodeA = null;
             this.selectedNodeB.create();
@@ -155,7 +164,7 @@
         };
         this.handleClick = function(x, y) {
           let nodeIndex = this.getIndexByPosition(x, y);
-          if (!nodeIndex) return null;
+          if (!nodeIndex || this.lockdown) return null;
           let i = nodeIndex[0]; let j = nodeIndex[1];
           let node = null; let free_space = null;
           if (this.matrix[i][j]) {
@@ -183,7 +192,7 @@
               this.selectedNodeB = node;
               color = this.selection_color;
             }
-            drawCircle(this.context, node.x, node.y, node.radius, color);
+            node.create(color);
           } else if (this.nodeCreationMode && free_space) {
             this.matrix[i][j] = new Node(this.context,
               free_space[0], free_space[1], i, j, this.node_radius,
@@ -195,44 +204,69 @@
               node.create();
               this.dfsStartNode = null;
             } else {
+              if (this.dfsStartNode) this.dfsStartNode.create();
               this.dfsStartNode = node;
-              drawCircle(this.context, node.x, node.y,
-                node.radius, this.dfs_node_color);
+              node.create(this.dfs_node_color);
             }
           }
         };
 
-        // this 'monkey patches' node with marked attribute
+        // this 'monkey patches' node with marked attribute and origin
         this.dfs = async function() {
+          this.lockdown = true;
           let node = this.dfsStartNode;
           if (!node) return null;
-          this.dfsStartNode = null;
           node.create();
+          this.dfsStartNode = null;
           let stack = [node];
+          let root_tree = [null];
           while (stack.length) {
-            let this_node = stack.splice(stack.length - 1, 1)[0];
-            if (this_node.marked) continue;
-            await sleep(500);
-            this_node.marked = true;
-            let stack_added = false;
-            for (let i = 0; i < this_node.neighbours.length; i++) {
-              stack.push(this_node.neighbours[i]);
-              stack_added = true;
-            }
-            if (stack_added) {
-              let next_node = stack[stack.length - 1];
-              drawLine(this.context, this_node.x, this_node.y,
-                next_node.x, next_node.y, this.edge_width, this.dfs_edge_color);
+            let current_node = stack.splice(stack.length - 1, 1)[0];
+            if (!current_node.marked) {
+              // open current_node
+              await sleep(this.dfsAnimDelay);
+              stack.push(current_node);
+              root_tree.push(current_node);
+              current_node.marked = true;
+              for (let i = 0; i < current_node.neighbours.length; i++) {
+                if (!current_node.neighbours[i].marked) {
+                  stack.push(current_node.neighbours[i]);
+                  current_node.neighbours[i].origin = current_node;
+                }
+              }
+              current_node.create(this.dfs_node_color);
+              if (current_node.origin) {
+                drawLineBetween(this.context,
+                  current_node, current_node.origin,
+                  this.edge_width, this.dfs_forward_edge_color);
+              }
+            } else if (current_node == root_tree[root_tree.length - 1]) {
+              // close current_node / backtrack
+              await sleep(this.dfsAnimDelay);
+              root_tree.splice(root_tree.length - 1, 1);
+              if (current_node.origin) {
+                drawLineBetween(this.context,
+                  current_node, current_node.origin,
+                  this.edge_width, this.dfs_backtrack_edge_color);
+                }
+            } else {
+              // cross edge
+              undefined;
             }
           }
+          this.lockdown = false;
           for (let i = 0; i < this.matrix.length; i++) {
             for (let j = 0; j < this.matrix[0].length; j++) {
-              if (this.matrix[i][j]) this.matrix[i][j].marked = undefined;
+              if (this.matrix[i][j]) {
+                 this.matrix[i][j].marked = undefined;
+                 this.matrix[i][j].origin = undefined;
+               }
             }
           }
         };
 
         this.reset = function() {
+          if (this.lockdown) return null;
           W = this.context.canvas.width; H = this.context.canvas.height;
           this.node_margin = 8 * this.node_radius;
           this.nodes_onX = Math.floor(W / (this.node_margin + 2 * this.node_radius));
@@ -258,6 +292,7 @@
           }
         };
         this.redraw = function() {
+          if (this.lockdown) return null;
           this.context.clearRect(0, 0, this.context.canvas.width,
             this.context.canvas.height);
           for (let i = 0; i < this.nodes_onY; i++) {
@@ -281,7 +316,7 @@
         this.reset();
       }
 
-      document.graph = new Graph(context, false);
+      document.graph = new Graph(context);
 
       canvas.addEventListener('click', function(event) {
         document.graph.handleClick(event.pageX, event.pageY);
@@ -320,19 +355,20 @@
     then connect them by clicking Connect or pressing spacebar'>
       Manual Node Selection Mode
     </span>
-    <button onclick = 'toggleMode("nodeSelectionMode");' id='nodeSelectionModeBtn'>
+    <button onclick='toggleMode("nodeSelectionMode");' id='nodeSelectionModeBtn'>
       TURN ON
     </button>
-    <button onclick = 'graph.linkSelected();'>Connect</button>
+    <button onclick='graph.linkSelected();'>Connect</button>
   </div>
   <div class='title-button'>
     <span>Manual dfs Starting Node Selection Mode</span>
     <button onclick='toggleMode("dfsMode");' id='dfsModeBtn'>
       TURN ON
     </button>
-    <button onclick='graph.dfs()'>Run dfs</button>
+    <button onclick='graph.dfs();'>Run dfs</button>
   </div>
-  <button onclick = 'graph.reset();'>Clear</button>
+  <button onclick='graph.redraw();'>Remove Coloring</button>
+  <button onclick='graph.reset();'>Clear</button>
 </div>
 
 <div class='screenToSmall'>
