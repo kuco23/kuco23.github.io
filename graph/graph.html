@@ -13,8 +13,12 @@
 
   <script>
 
+    // dfs state (backtracking display)
+    // edge css display
+
     function toggleMode(mode) {
-      let modes = ['nodeSelectionMode', 'nodeCreationMode', 'dfsMode'];
+      let modes = ['nodeSelectionMode', 'nodeCreationMode',
+                   'dfsMode', 'shortestDistMode'];
       let button = [['TURN ON', 'lime'], ['TURN OFF', 'red']];
       for (let i = 0; i < modes.length; i++) {
         if (mode != modes[i]) {
@@ -68,12 +72,24 @@
         this.selectedNodeB = null;
         this.selection_color = 'red';
 
+        this.algosAnimDelay = 1000;
+        this.algosStartNode = null;
+        this.algosSelectionNodeColor = 'purple';
+
         this.dfsMode = false;
-        this.dfsAnimDelay = 1000;
-        this.dfsStartNode = null;
         this.dfs_node_color = 'blue';
-        this.dfs_forward_edge_color = 'yellow';
-        this.dfs_backtrack_edge_color = 'green';
+        this.dfs_forward_edge_color = 'lime';
+        this.dfs_backtrack_edge_color = 'red';
+
+        this.bfsMode = false;
+        this.bfs_node_color = 'blue';
+        this.bfs_forward_edge_color = 'lime';
+        this.bfs_backtrack_edge_color = 'red';
+
+        this.shortestDistMode = false;
+        this.shortestDistSource = null;
+        this.shortestDistSink = null;
+        this.shortestDistEdgeColor = 'lime';
 
         // this is set to true during animation
         this.lockdown = false;
@@ -139,7 +155,7 @@
             this.matrix[i][j] = null;
             if (node == this.selectedNodeA) this.selectedNodeA = null;
             if (node == this.selectedNodeB) this.selctedNodeB = null;
-            if (node == this.dfsStartNode) this.dfsStartNode = null;
+            if (node == this.algosStartNode) this.algosStartNode = null;
             if (node.neighbours.length == 0) return node.delete();
             // delete the node from all the neighbours's neighbours lists
             for (let i = 0; i < node.neighbours.length; i++) {
@@ -148,6 +164,16 @@
             this.redraw();
           }
         };
+        this.unselect = function() {
+          if (this.selectedNodeA) {
+            this.selectedNodeA.create();
+            this.selectedNodeA = null;
+          }
+          if (this.selectedNodeB) {
+            this.selectedNodeB.create();
+            this.selectedNodeB = null;
+          }
+        }
         this.linkSelected = function() {
           if (this.selectedNodeA !== null && this.selectedNodeB !== null &&
           this.selectedNodeA.neighbours.indexOf(this.selectedNodeB) == -1) {
@@ -156,12 +182,20 @@
             drawLineBetween(this.context,
               this.selectedNodeA, this.selectedNodeB,
               this.edge_width, this.edge_color);
-            this.selectedNodeA.create();
-            this.selectedNodeA = null;
-            this.selectedNodeB.create();
-            this.selectedNodeB = null;
+            this.unselect();
           }
         };
+        this.unlinkSelected = function() {
+          if (this.selectedNodeA !== null && this.selectedNodeB !== null) {
+            let indA = this.selectedNodeA.neighbours.indexOf(this.selectedNodeB);
+            let indB = this.selectedNodeB.neighbours.indexOf(this.selectedNodeA);
+            if (indA == -1 || indB == -1) return null;
+            this.selectedNodeA.neighbours.splice(indA, 1);
+            this.selectedNodeB.neighbours.splice(indB, 1);
+            this.redraw();
+            this.unselect();
+          }
+        }
         this.handleClick = function(x, y) {
           let nodeIndex = this.getIndexByPosition(x, y);
           if (!nodeIndex || this.lockdown) return null;
@@ -200,31 +234,30 @@
           } else if (this.nodeCreationMode && node) {
             this.clearNode(i, j); // one of two times where node is cleared
           } else if (this.dfsMode && node) {
-            if (this.dfsStartNode == node) {
+            if (this.algosStartNode == node) {
               node.create();
-              this.dfsStartNode = null;
+              this.algosStartNode = null;
             } else {
-              if (this.dfsStartNode) this.dfsStartNode.create();
-              this.dfsStartNode = node;
-              node.create(this.dfs_node_color);
+              if (this.algosStartNode) this.algosStartNode.create();
+              this.algosStartNode = node;
+              node.create(this.algosSelectionNodeColor);
             }
           }
         };
 
         // this 'monkey patches' node with marked attribute and origin
         this.dfs = async function() {
+          if (!this.algosStartNode) return null;
           this.lockdown = true;
-          let node = this.dfsStartNode;
-          if (!node) return null;
-          node.create();
-          this.dfsStartNode = null;
-          let stack = [node];
+          this.unselect(); // so there isn't much confusion
+          this.algosStartNode.create();
+          let stack = [this.algosStartNode];
           let root_tree = [null];
           while (stack.length) {
             let current_node = stack.splice(stack.length - 1, 1)[0];
             if (!current_node.marked) {
               // open current_node
-              await sleep(this.dfsAnimDelay);
+              await sleep(this.algosAnimDelay);
               stack.push(current_node);
               root_tree.push(current_node);
               current_node.marked = true;
@@ -242,7 +275,7 @@
               }
             } else if (current_node == root_tree[root_tree.length - 1]) {
               // close current_node / backtrack
-              await sleep(this.dfsAnimDelay);
+              await sleep(this.algosAnimDelay);
               root_tree.splice(root_tree.length - 1, 1);
               if (current_node.origin) {
                 drawLineBetween(this.context,
@@ -255,12 +288,71 @@
             }
           }
           this.lockdown = false;
+          this.algosStartNode = null;
+          this.cleanMonkeyPatch(['origin', 'marked']);
+        };
+        // finding the shortes path with bfs
+        this.bfs = async function() {
+          if (this.algosStartNode === null) return null;
+          this.lockdown = true;
+          this.unselect();
+          this.algosStartNode.create(this.bfs_node_color);
+          this.algosStartNode.distance = 0;
+          let queue = [this.algosStartNode];
+          while (queue.length) {
+            let current_node = queue.splice(0, 1)[0];
+            for (let i = 0; i < current_node.neighbours.length; i++) {
+              let neighbour = current_node.neighbours[i];
+              if (neighbour.distance === undefined) {
+                await sleep(this.algosAnimDelay)
+                neighbour.create(this.bfs_node_color);
+                drawLineBetween(this.context, current_node, neighbour,
+                  this.edge_width, this.bfs_forward_edge_color);
+                neighbour.distance = current_node.distance + 1;
+                neighbour.parent = current_node;
+                queue.push(neighbour);
+              }
+            }
+          }
+          this.lockdown = false;
+          this.algosStartNode = null;
+          this.cleanMonkeyPatch(['distance', 'parent']);
+        };
+        this.getShortestDistance = function() {
+          if (!this.selectedNodeA || !this.selectedNodeB) return null;
+          this.selectedNodeA.distance = 0;
+          let queue = [this.selectedNodeA];
+          while (queue.length) {
+            let current_node = queue.splice(0, 1)[0];
+            for (let i = 0; i < current_node.neighbours.length; i++) {
+              let neighbour = current_node.neighbours[i];
+              if (neighbour.distance === undefined) {
+                neighbour.distance = current_node.distance + 1;
+                neighbour.parent = current_node;
+                queue.push(neighbour);
+              }
+            }
+          }
+          let stack = [this.selectedNodeB];
+          while (true) {
+            let current_node = stack[stack.length - 1].parent;
+            stack.push(current_node);
+            if (!current_node.parent) break;
+          };
+          for (let i = stack.length - 1; i > 0; i--) {
+            drawLineBetween(this.context, stack[i], stack[i-1],
+              this.edge_width, this.shortestDistEdgeColor);
+          }
+          this.cleanMonkeyPatch(['distance', 'parent']);
+        };
+        this.cleanMonkeyPatch = function(attrs) {
           for (let i = 0; i < this.matrix.length; i++) {
             for (let j = 0; j < this.matrix[0].length; j++) {
               if (this.matrix[i][j]) {
-                 this.matrix[i][j].marked = undefined;
-                 this.matrix[i][j].origin = undefined;
-               }
+                for (let a = 0; a < attrs.length; a++) {
+                   this.matrix[i][j][attrs[a]] = undefined;
+                }
+              }
             }
           }
         };
@@ -302,7 +394,7 @@
                 node.create();
                 for (let k = 0; k < node.neighbours.length; k++) {
                   let node2 = this.matrix[i][j].neighbours[k];
-                  drawLine(this.context, node.x, node.y, node2.x, node2.y,
+                  drawLineBetween(this.context, node, node2,
                     this.edge_width, this.edge_color);
                 }
               } else {
@@ -312,6 +404,9 @@
               }
             }
           }
+          if (this.selectedNodeA) this.selectedNodeA.create(this.selection_color);
+          if (this.selectedNodeB) this.selectedNodeB.create(this.selection_color);
+          if (this.algosStartNode) this.algosStartNode.create(this.algosSelectionNodeColor);
         };
         this.reset();
       }
@@ -358,14 +453,17 @@
     <button onclick='toggleMode("nodeSelectionMode");' id='nodeSelectionModeBtn'>
       TURN ON
     </button>
-    <button onclick='graph.linkSelected();'>Connect</button>
+    <button onclick='graph.linkSelected();'>Link</button>
+    <button onclick='graph.unlinkSelected();'>Unlink</button>
   </div>
   <div class='title-button'>
-    <span>Manual dfs Starting Node Selection Mode</span>
+    <span>Manual dfs/bfs Starting Node Selection Mode</span>
     <button onclick='toggleMode("dfsMode");' id='dfsModeBtn'>
       TURN ON
     </button>
-    <button onclick='graph.dfs();'>Run dfs</button>
+    <button onclick='graph.dfs();'>Run DFS</button>
+    <button onclick='graph.bfs();'>Run BFS</button>
+    <button onclick='graph.getShortestDistance();'>Find Shortest Distance</button>
   </div>
   <button onclick='graph.redraw();'>Remove Coloring</button>
   <button onclick='graph.reset();'>Clear</button>

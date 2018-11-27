@@ -37,6 +37,9 @@ body {
   background-color: rgba(0, 0, 0, 0.4);
   transition: all 0.2s;
 }
+.options button:last-child {
+  margin-bottom: 4vh;
+}
 .options button:hover {
   background-color: rgba(0, 0, 0, 0.6);
   border: 2px solid black;
