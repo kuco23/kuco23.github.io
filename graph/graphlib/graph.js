@@ -37,13 +37,26 @@ function Graph(context,
   this.bfs_backtrack_edge_color = 'red';
 
   this.shortestDistMode = false;
-  this.shortestDistSource = null;
-  this.shortestDistSink = null;
   this.shortestDistEdgeColor = 'lime';
 
   // this is set to true during animation
   this.lockdown = false;
 
+  async function drawLineAnimation(context, x1, y1, x2, y2,
+    linewidth, linecolor, time) {
+    context.lineWidth = linewidth;
+    context.strokeStyle = linecolor;
+    let vector = [(x2 - x1) / 100, (y2 - y1) / 100];
+    let iter_sleep = time / 100;
+    for (let i = 0; i < 100; i++) {
+      context.beginPath();
+      context.moveTo(x1, y1);
+      x1 += vector[0]; y1 += vector[1];
+      context.lineTo(x1, y1);
+      context.stroke();
+      await sleep(iter_sleep);
+    }
+  }
   function drawLine(context, x1, y1, x2, y2, linewidth, linecolor) {
     context.beginPath();
     context.moveTo(x1, y1);
@@ -56,7 +69,7 @@ function Graph(context,
     drawLine(context, node1.x, node1.y,
       node2.x, node2.y, linewidth, linecolor);
   }
-  function drawCircle(context, x, y, r, color, fill=true) {
+  function drawCircle(context, x, y, r, color, fill=true, tim) {
     context.beginPath();
     context.arc(x, y, r, 0, 2 * Math.PI);
     if (fill) {
@@ -206,7 +219,6 @@ function Graph(context,
       let current_node = stack.splice(stack.length - 1, 1)[0];
       if (!current_node.marked) {
         // open current_node
-        await sleep(this.algosAnimDelay);
         stack.push(current_node);
         root_tree.push(current_node);
         current_node.marked = true;
@@ -216,20 +228,21 @@ function Graph(context,
             current_node.neighbours[i].origin = current_node;
           }
         }
-        current_node.create(this.dfs_node_color);
         if (current_node.origin) {
-          drawLineBetween(this.context,
-            current_node, current_node.origin,
-            this.edge_width, this.dfs_forward_edge_color);
+          await drawLineAnimation(this.context,
+            current_node.origin.x, current_node.origin.y,
+            current_node.x, current_node.y,
+            this.edge_width, this.dfs_forward_edge_color, this.algosAnimDelay);
         }
+        current_node.create(this.dfs_node_color);
       } else if (current_node == root_tree[root_tree.length - 1]) {
         // close current_node / backtrack
-        await sleep(this.algosAnimDelay);
         root_tree.splice(root_tree.length - 1, 1);
         if (current_node.origin) {
-          drawLineBetween(this.context,
-            current_node, current_node.origin,
-            this.edge_width, this.dfs_backtrack_edge_color);
+          await drawLineAnimation(this.context,
+            current_node.x, current_node.y,
+            current_node.origin.x, current_node.origin.y,
+            this.edge_width, this.dfs_backtrack_edge_color, this.algosAnimDelay);
           }
       } else {
         // cross edge
@@ -253,10 +266,11 @@ function Graph(context,
       for (let i = 0; i < current_node.neighbours.length; i++) {
         let neighbour = current_node.neighbours[i];
         if (neighbour.distance === undefined) {
-          await sleep(this.algosAnimDelay)
+          await drawLineAnimation(this.context,
+            current_node.x, current_node.y,
+            neighbour.x, neighbour.y,
+            this.edge_width, this.bfs_forward_edge_color, this.algosAnimDelay);
           neighbour.create(this.bfs_node_color);
-          drawLineBetween(this.context, current_node, neighbour,
-            this.edge_width, this.bfs_forward_edge_color);
           neighbour.distance = current_node.distance + 1;
           neighbour.parent = current_node;
           queue.push(neighbour);
