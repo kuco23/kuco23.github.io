@@ -24,8 +24,8 @@
       });
     }
 
-    function processInput() {
-      undefined;
+    function processInput(id) {
+      document.graph[id] = document.getElementById(id).value;
     }
 
     function toggleMode(mode) {
@@ -94,7 +94,8 @@
         id='nodeCreationModeBtn'>
           TURN ON CREATOR
         </button>
-        <button style="color: lime;" onclick='toggleMode("nodeSelectionMode");'
+        <button style="color: lime;"
+        onclick='toggleMode("nodeSelectionMode");'
         id='nodeSelectionModeBtn'>
           TURN ON SELECTOR
         </button>
@@ -106,23 +107,53 @@
     <div>
       <span>Algorithms</span>
       <div id='algorithms'>
-        <button style="color: lime;" onclick='toggleMode("dfsMode");'
+        <button style="color: lime;"
+        onclick='toggleMode("dfsMode");'
         id='dfsModeBtn'>
           TURN ON SELECTOR
         </button>
         <button onclick='graph.dfs();'>Run DFS</button>
         <button onclick='graph.bfs();'>Run BFS</button>
         <button onclick='graph.getShortestDistance();'>Find Shortest Distance</buttton>
+        <button onclick='graph.redraw();'>Remove Coloring</button>
       </div>
     </div>
 
     <div>
       <span>Settings</span>
       <div id='settings'>
-        <input id='forwardEdgeColor' type='color'
-        value='rgb(50,50,50)' oninput='processInput("forwardEdgeColor")'>
-        <label for='forwardEdgeColor'>forward edge color</label>
-        <input type='submit' value='Submit'>
+        <ul>
+          <li>
+            Default Node Color&nbsp;
+            <input id='node_color' type='color'
+            name='node_color' value="#000000"
+            oninput='processInput(this.id);' />
+          </li>
+          <li>
+            Default Edge Color&nbsp;
+            <input id='edge_color' type='color'
+            name='edge_color' value="#000000"
+            oninput='processInput(this.id);' />
+          </li>
+          <li>
+            Forward Edge Color&nbsp;
+            <input id='forwardEdgeColor' type='color'
+            name='forwardEdgeColor' value="#32cd32"
+            oninput='processInput(this.id);' />
+          </li>
+          <li>
+            Backtrack Edge Color&nbsp;
+            <input id='backtrackEdgeColor' type='color'
+            name='backtrackEdgeColor' value="#ff0000"
+            oninput='processInput(this.id);' />
+          </li>
+          <li>
+            Algorithms Node Color&nbsp;
+            <input id='visitedNodeColor' type='color'
+            name='visitedNodeColor' value="#32cd32"
+            oninput='processInput(this.id);' />
+          </li>
+        </ul>
       </div>
     </div>
 
@@ -130,7 +161,6 @@
 
   <div class='deletionOptions'>
     <div>
-      <button onclick='graph.redraw();'>Remove Coloring</button>
       <button onclick='graph.reset();'>Clear Canvas</button>
       <button onclick='$("#help").fadeToggle(1000);'>Show Help</button>
     </div>

@@ -69,6 +69,16 @@ div.options>div>div button:hover {
   border: 2px solid lime;
   background-color: rgba(0, 0, 0, .5);
 }
+div.options>div>div>ul {
+  list-style-type: none;
+  margin: 0;
+  padding: 0;
+}
+div.options>div>div>ul>li {
+  padding: 1.5vh;
+  margin: 1vh 0 1vh 0;
+  background-color: rgba(0, 0, 0, .2);
+}
 
 /* buttons that are on the panel by default */
 .deletionOptions>div:last-child {

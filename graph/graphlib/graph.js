@@ -6,7 +6,7 @@ function getNorm(vec) {
 }
 
 function Graph(context,
-  node_color='black', edge_color='rgba(0, 0, 0, 0.5)',
+  node_color='black', edge_color='black',
   node_radius = 6, edge_width = 2) {
 
   this.context = context;
@@ -24,20 +24,14 @@ function Graph(context,
 
   this.algosAnimDelay = 1000;
   this.algosStartNode = null;
-  this.algosSelectionNodeColor = 'purple';
+  this.algosSelectionNodeColor = 'orange';
+  this.forwardEdgeColor = 'lime';
+  this.backtrackEdgeColor = 'red';
+  this.visitedNodeColor = 'lime';
 
   this.dfsMode = false;
-  this.dfs_node_color = 'blue';
-  this.dfs_forward_edge_color = 'lime';
-  this.dfs_backtrack_edge_color = 'red';
-
   this.bfsMode = false;
-  this.bfs_node_color = 'blue';
-  this.bfs_forward_edge_color = 'lime';
-  this.bfs_backtrack_edge_color = 'red';
-
   this.shortestDistMode = false;
-  this.shortestDistEdgeColor = 'lime';
 
   // this is set to true during animation
   this.lockdown = false;
@@ -212,7 +206,6 @@ function Graph(context,
     if (!this.algosStartNode) return null;
     this.lockdown = true;
     this.unselect(); // so there isn't much confusion
-    this.algosStartNode.create();
     let stack = [this.algosStartNode];
     let root_tree = [null];
     while (stack.length) {
@@ -232,9 +225,9 @@ function Graph(context,
           await drawLineAnimation(this.context,
             current_node.origin.x, current_node.origin.y,
             current_node.x, current_node.y,
-            this.edge_width, this.dfs_forward_edge_color, this.algosAnimDelay);
+            this.edge_width, this.forwardEdgeColor, this.algosAnimDelay);
+          current_node.create(this.visitedNodeColor);
         }
-        current_node.create(this.dfs_node_color);
       } else if (current_node == root_tree[root_tree.length - 1]) {
         // close current_node / backtrack
         root_tree.splice(root_tree.length - 1, 1);
@@ -242,7 +235,7 @@ function Graph(context,
           await drawLineAnimation(this.context,
             current_node.x, current_node.y,
             current_node.origin.x, current_node.origin.y,
-            this.edge_width, this.dfs_backtrack_edge_color, this.algosAnimDelay);
+            this.edge_width, this.backtrackEdgeColor, this.algosAnimDelay);
           }
       } else {
         // cross edge
@@ -250,7 +243,6 @@ function Graph(context,
       }
     }
     this.lockdown = false;
-    this.algosStartNode = null;
     this.cleanMonkeyPatch(['origin', 'marked']);
   };
   // finding the shortes path with bfs
@@ -258,7 +250,7 @@ function Graph(context,
     if (this.algosStartNode === null) return null;
     this.lockdown = true;
     this.unselect();
-    this.algosStartNode.create(this.bfs_node_color);
+    this.algosStartNode.create(this.visitedNodeColor);
     this.algosStartNode.distance = 0;
     let queue = [this.algosStartNode];
     while (queue.length) {
@@ -269,8 +261,8 @@ function Graph(context,
           await drawLineAnimation(this.context,
             current_node.x, current_node.y,
             neighbour.x, neighbour.y,
-            this.edge_width, this.bfs_forward_edge_color, this.algosAnimDelay);
-          neighbour.create(this.bfs_node_color);
+            this.edge_width, this.forwardEdgeColor, this.algosAnimDelay);
+          neighbour.create(this.visitedNodeColor);
           neighbour.distance = current_node.distance + 1;
           neighbour.parent = current_node;
           queue.push(neighbour);
@@ -304,7 +296,7 @@ function Graph(context,
     };
     for (let i = stack.length - 1; i > 0; i--) {
       drawLineBetween(this.context, stack[i], stack[i-1],
-        this.edge_width, this.shortestDistEdgeColor);
+        this.edge_width, this.forwardEdgeColor);
     }
     this.cleanMonkeyPatch(['distance', 'parent']);
   };
