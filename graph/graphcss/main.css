@@ -79,7 +79,7 @@ div.options>div>div button:hover {
   display: block;
   padding: 1vh;
   margin: auto;
-  font-size: 2vh;
+  font-size: 2.5vh;
   background-color: transparent;
   border: none;
   transition: color 0.5s;
@@ -87,20 +87,6 @@ div.options>div>div button:hover {
 .deletionOptions>div:last-child button:hover {
   cursor: pointer;
   color: rgb(150, 0, 0);
-}
-
-#help {
-  display: none;
-  position: absolute;
-  padding: 2vh;
-  right: 60%;
-  bottom: 50%;
-  transform: translate(50%, 50%);
-  font-size: 3vh;
-  color: white;
-  background-color: rgb(30, 30, 30);
-  border: 2px solid black;
-  border-radius: 1vh;
 }
 
 #screenToSmall {
@@ -114,9 +100,8 @@ div.options>div>div button:hover {
   font-size: 15vh;
 }
 
-@media only screen and (max-width: 800px),
-@media only screen and (max-height: 600px) {
-  .sidebar, #canvus, #help {
+@media only screen and (max-width: 800px), screen and (max-height: 400px) {
+  .sidebar, #canvus, #help div {
     display: none;
   }
   #screenToSmall {
