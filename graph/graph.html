@@ -16,6 +16,17 @@
     // dfs state (backtracking display)
     // edge css display
 
+    function canvasResize() {
+      $('#canvus').attr({
+        height: window.innerHeight,
+        width: window.innerWidth * 0.75
+      });
+    }
+
+    function help() {
+      $('#help').fadeToggle(1000);
+    }
+
     function toggleMode(mode) {
       let modes = ['nodeSelectionMode', 'nodeCreationMode',
                    'dfsMode', 'shortestDistMode'];
@@ -36,11 +47,7 @@
         $.getScript("graphlib/graph.js")
       ).done(function(){
 
-        $('#canvus').attr({
-          height: window.innerHeight,
-          width: window.innerWidth * 0.75
-        });
-
+        canvasResize();
         var canvas = document.getElementById('canvus');
         var context = canvas.getContext('2d');
         document.graph = new Graph(context);
@@ -50,14 +57,15 @@
         });
         document.addEventListener('keydown', function(event) {
           if (event.keyCode == 32) document.graph.linkSelected();
+          else if (event.keyCode == 46) document.graph.unlinkSelected();
         });
         window.onresize = function() {
-          $('#canvus').attr({
-            height: window.innerHeight,
-            width: window.innerWidth * 0.75
-          });
+          canvasResize();
           document.graph.reset();
         };
+        $('div.options>div>span').click(function() {
+          $(this).siblings('div:first').slideToggle(1000);
+        });
 
       });
     });
@@ -70,39 +78,78 @@
 <canvas id='canvus' width=500 height=500>
 </canvas>
 
-<div class='options'>
-  <div class='title-button'>
-    <span title='Toggle creation and removal of a node by clicking
-    on its position or its placeholder'>Manual Node Creation Mode</span>
-    <button onclick = 'toggleMode("nodeCreationMode");' id='nodeCreationModeBtn'>
-      TURN ON
-    </button>
+<div class='sidebar'>
+  <div class='options'>
+
+    <div>
+      <span>Manual Graph Creation</span>
+      <div id='manualCreationTools'>
+        <button style="color: lime;" onclick = 'toggleMode("nodeCreationMode");'
+        id='nodeCreationModeBtn'>
+          TURN ON
+        </button>
+        <button style="color: lime;" onclick='toggleMode("nodeSelectionMode");'
+        id='nodeSelectionModeBtn'>
+          TURN ON
+        </button>
+        <button onclick='graph.linkSelected();'>Link</button>
+        <button onclick='graph.unlinkSelected();'>Unlink</button>
+      </div>
+    </div>
+
+    <div>
+      <span>Algorithms</span>
+      <div id='algorithms'>
+        <button style="color: lime;" onclick='toggleMode("dfsMode");'
+        id='dfsModeBtn'>
+          TURN ON
+        </button>
+        <button onclick='graph.dfs();'>Run DFS</button>
+        <button onclick='graph.bfs();'>Run BFS</button>
+        <button onclick='graph.getShortestDistance();'>Find Shortest Distance</buttton>
+      </div>
+    </div>
+
+    <div>
+      <span>Settings</span>
+      <div id='settings'>
+        <input id='forwardEdgeColor' type='color' value='rgb(50,50,50)'>
+        <label for='forwardEdgeColor'>forward edge color</label>
+        <input type='submit' value='Submit'>
+      </div>
+    </div>
+
   </div>
-  <div class='title-button'>
-    <span title='select two nodes by clicking on them and
-    then connect them by clicking Connect or pressing spacebar'>
-      Manual Node Selection Mode
-    </span>
-    <button onclick='toggleMode("nodeSelectionMode");' id='nodeSelectionModeBtn'>
-      TURN ON
-    </button>
-    <button onclick='graph.linkSelected();'>Link</button>
-    <button onclick='graph.unlinkSelected();'>Unlink</button>
+
+  <div class='deletionOptions'>
+    <div>
+      <button onclick='help();'>Toggle Help</button>
+      <button onclick='graph.redraw();'>Remove Coloring</button>
+      <button onclick='graph.reset();'>Clear Canvas</button>
+    </div>
   </div>
-  <div class='title-button'>
-    <span>Manual dfs/bfs Starting Node Selection Mode</span>
-    <button onclick='toggleMode("dfsMode");' id='dfsModeBtn'>
-      TURN ON
-    </button>
-    <button onclick='graph.dfs();'>Run DFS</button>
-    <button onclick='graph.bfs();'>Run BFS</button>
-    <button onclick='graph.getShortestDistance();'>Find Shortest Distance</button>
-  </div>
-  <button onclick='graph.redraw();'>Remove Coloring</button>
-  <button onclick='graph.reset();'>Clear</button>
+
 </div>
 
-<div class='screenToSmall'>
+<div id='help'>
+  <div>
+    Manual Graph Creation:<br />
+    Here there are two buttons for toggling node creation and node selection.
+    They both have TURN ON written on by default.
+    The first one enables the mode in which you can click on a node placeholder
+    and thus create it.
+    The second button is used for toggling node selection.
+    The reason for selecting two nodes is so you can connect them with
+    clicking link (hitting enter) or disconnect them by
+    clicking unlink (hitting delete).
+    <br /><br />
+    Algorithms:<br />
+    Here the button with TURN ON written on it is used so you can select
+    a node in which you want to start the algorithm.
+  </div>
+</div>
+
+<div id='screenToSmall'>
   Sorry, but your screen is too small
 </div>
 
