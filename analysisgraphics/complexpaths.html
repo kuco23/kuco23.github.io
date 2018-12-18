@@ -24,12 +24,18 @@
     function random(a, b) {
       return a + Math.random() * (b - a);
     }
+    function randint(a, b) {
+      return Math.floor(random(a, b));
+    }
     function getnorm(vec) {
       return Math.pow(Math.pow(vec[0], 2) + Math.pow(vec[1], 2), 0.5);
     }
-    function normed(vec, stretch=1) {
+    function normed(vec) {
       let norm = getnorm(vec);
-      return [vec[0] * stretch / norm, vec[1] * stretch / norm];
+      return [vec[0] / norm, vec[1] / norm];
+    }
+    function stretch(vec, d) {
+      return [vec[0] * d, vec[1] * d];
     }
     function fromatob(a, b) {
       return [b[0] - a[0], b[1] - a[1]];
@@ -46,6 +52,19 @@
 
       function Curve(context, x0, y0, n_points,
       margin=1, linewidth=1, linecolor='black') {
+        this.context = context;
+        this.width = context.canvas.width - margin;
+        this.height = context.canvas.height - margin;
+        this.source = [x0, y0];
+        this.margin = margin;
+        this.linewidth = linewidth;
+        this.linecolor = linecolor;
+        this.points = [[x0, y0]];
+        for (let i = 0; i < n_points; i++) {
+          let p1 = randint(this.margin, this.width - this.margin);
+          let p2 = randint(this.margin, this.height - this.margin);
+          this.points.push([p1, p2]);
+        }
         function drawLine(context, a, b, width, color) {
           context.lineWidth = width;
           context.strokeStyle = color;
@@ -54,35 +73,42 @@
           context.lineTo(b[0], b[1]);
           context.stroke();
         }
-        this.context = context;
-        this.source = [x0, y0];
-        this.margin = margin;
-        this.linewidth = linewidth;
-        this.linecolor = linecolor;
-        this.points = [[x0, y0]];
-        for (let i = 0; i < n_points; i++) {
-          let ran_vector = normed([random(-1, 1), random(-1, 1)], this.margin);
-          let p1 = this.points[i][0] + ran_vector[0];
-          let p2 = this.points[i][1] + ran_vector[1];
-          this.points.push([p1, p2]);
+        function drawDot(context, x, y, r) {
+          context.fillStyle = 'red';
+          context.beginPath();
+          context.arc(x, y, r, 0, Math.PI * 2);
+          context.stroke();
         }
-        let i = this.points.length - 1;
-        let vector = normed(fromatob(this.points[i], this.source), this.margin);
-        while (getnorm(fromatob(this.points[i], this.source)) > this.margin) {
-          let p1 = this.points[i][0] + vector[0];
-          let p2 = this.points[i][1] + vector[1];
-          this.points.push([p1, p2]);
-          i++;
+        function bezierCurve(a, b, cpnt, points=100) {
+          const return_points = [];
+          let veca = fromatob(a, cpnt);
+          let vecb = fromatob(cpnt, b)
+          let veca_step = stretch(veca, 1 / points);
+          let vecb_step = stretch(vecb, 1 / points);
+          let t = 0; let stept = 1 / points;
+          for (let i = 0; i < points+1; i++) {
+            let path = stretch(fromatob(a, cpnt), t);
+            let pnt = [a[0] + path[0], a[1] + path[1]];
+            a = [a[0] + veca_step[0], a[1] + veca_step[1]];
+            cpnt = [cpnt[0] + vecb_step[0], cpnt[1] + vecb_step[1]];
+            t += stept;
+            return_points.push(pnt);
+          }
+          return return_points;
         }
-        this.points.push(this.source);
-        let n = this.points.length - 1;
-        for (let i = 0; i < n; i++) {
-          drawLine(this.context, this.points[i], this.points[i+1],
-          this.linewidth, this.linecolor);
+        this.delete = function() {
+          this.context.clearRect(0, 0, this.width, this.height);
         }
 
-        this.delete = function() {
-          this.context.clearRect(0, 0, this.context.canvas.width, this.context.canvas.height);
+        let ran_points = [];
+        for (let i = 0; i < 3; i++) {
+          ran_points.push([randint(this.margin, this.width - this.margin),
+          randint(this.margin, this.height - this.margin)]);
+          drawDot(this.context, ran_points[i][0], ran_points[i][1], 10);
+        }
+        let bzrpnts = bezierCurve(...ran_points);
+        for (let i = 0; i < bzrpnts.length - 1; i++) {
+          drawLine(this.context, bzrpnts[i], bzrpnts[i+1], this.linewidth, 'black');
         }
       }
 
@@ -97,7 +123,7 @@
           cr.delete();
         }
       }
-      animate();
+
 
     });
 
