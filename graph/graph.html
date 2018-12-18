@@ -29,8 +29,7 @@
     }
 
     function toggleMode(mode) {
-      let modes = ['nodeSelectionMode', 'nodeCreationMode',
-                   'dfsMode', 'shortestDistMode'];
+      let modes = ['nodeSelectionMode', 'nodeCreationMode', 'algosSelectionMode'];
       let button = [['TURN ON', 'lime'], ['TURN OFF', 'red']];
       for (let i = 0; i < modes.length; i++) {
         let node = '#' + modes[i] + 'Btn';
@@ -46,6 +45,7 @@
           $(node).html(newText).css('color', button[0][1]);
         }
       }
+      document.graph.refreshModeNodes();
     }
 
     $(document).ready(function() {
@@ -62,8 +62,7 @@
           document.graph.handleClick(event.pageX, event.pageY);
         });
         document.addEventListener('keydown', function(event) {
-          if (event.keyCode == 32) document.graph.linkSelected();
-          else if (event.keyCode == 46) document.graph.unlinkSelected();
+          if (event.keyCode == 32) document.graph.toggleLink();
         });
         window.onresize = function() {
           canvasResize();
@@ -99,8 +98,7 @@
         id='nodeSelectionModeBtn'>
           TURN ON SELECTOR
         </button>
-        <button onclick='graph.linkSelected();'>Link</button>
-        <button onclick='graph.unlinkSelected();'>Unlink</button>
+        <button onclick='graph.toggleLink();'>Toggle Link</button>
       </div>
     </div>
 
@@ -108,8 +106,8 @@
       <span>Algorithms</span>
       <div id='algorithms'>
         <button style="color: lime;"
-        onclick='toggleMode("dfsMode");'
-        id='dfsModeBtn'>
+        onclick='toggleMode("algosSelectionMode");'
+        id='algosSelectionModeBtn'>
           TURN ON SELECTOR
         </button>
         <button onclick='graph.dfs();'>Run DFS</button>
@@ -123,36 +121,6 @@
       <span>Settings</span>
       <div id='settings'>
         <ul>
-          <li>
-            Default Node Color&nbsp;
-            <input id='node_color' type='color'
-            name='node_color' value="#000000"
-            oninput='processInput(this.id);' />
-          </li>
-          <li>
-            Default Edge Color&nbsp;
-            <input id='edge_color' type='color'
-            name='edge_color' value="#000000"
-            oninput='processInput(this.id);' />
-          </li>
-          <li>
-            Forward Edge Color&nbsp;
-            <input id='forwardEdgeColor' type='color'
-            name='forwardEdgeColor' value="#32cd32"
-            oninput='processInput(this.id);' />
-          </li>
-          <li>
-            Backtrack Edge Color&nbsp;
-            <input id='backtrackEdgeColor' type='color'
-            name='backtrackEdgeColor' value="#ff0000"
-            oninput='processInput(this.id);' />
-          </li>
-          <li>
-            Algorithms Node Color&nbsp;
-            <input id='visitedNodeColor' type='color'
-            name='visitedNodeColor' value="#32cd32"
-            oninput='processInput(this.id);' />
-          </li>
         </ul>
       </div>
     </div>
@@ -162,7 +130,7 @@
   <div class='deletionOptions'>
     <div>
       <button onclick='graph.reset();'>Clear Canvas</button>
-      <button onclick='$("#help").fadeToggle(1000);'>Show Help</button>
+      <button onclick='$("#help").fadeIn(1000);'>Show Help</button>
     </div>
   </div>
 
@@ -170,7 +138,7 @@
 
 <div id='help'>
   <div>
-    Manual Graph Creation:<br />
+    <span class='letitbered'>Manual Graph Creation:</span><br />
     Here there are two buttons for toggling node creation and node selection.
     The first one enables the mode in which you can click on a node placeholder
     and thus create it.
@@ -179,12 +147,13 @@
     clicking link (hitting enter) or disconnect them by
     clicking unlink (hitting delete).
     <br /><br />
-    Algorithms:<br />
-    Here the TURN ON SELECTOR button is used so you can select
+    <span class='letitbered'>Algorithms:</span><br />
+    Here the <span class='letitbelime'>TURN ON SELECTOR</span>
+    button is used so you can select
     a node in which you want to start the algorithm.
     <br /><br />
     Clear Coloring clears the graph of any animation leftover coloring<br />
-    <button onclick='$("#help").fadeToggle(500);'>Got It</button>
+    <button onclick='$("#help").fadeOut(500);'>Got It</button>
   </div>
 </div>
 

@@ -22,16 +22,14 @@ function Graph(context,
   this.selectedNodeB = null;
   this.selection_color = 'red';
 
+  this.algosSelectionMode = false;
   this.algosAnimDelay = 1000;
   this.algosStartNode = null;
-  this.algosSelectionNodeColor = 'orange';
+  this.algosSelectionNodeColor = 'yellow';
   this.forwardEdgeColor = 'lime';
   this.backtrackEdgeColor = 'red';
-  this.visitedNodeColor = 'lime';
-
-  this.dfsMode = false;
-  this.bfsMode = false;
-  this.shortestDistMode = false;
+  this.forwardNodeColor = 'lime';
+  this.backtrackNodeColor = 'orange';
 
   // this is set to true during animation
   this.lockdown = false;
@@ -120,6 +118,18 @@ function Graph(context,
       this.redraw();
     }
   };
+  this.refreshModeNodes = function() {
+    if (this.selectionMode) {
+      this.selectedNodeA.create(this.selection_color);
+      this.selectedNodeB.create(this.selection_color);
+    } else this.unselect();
+    if (this.algosSelectionMode && this.algosStartNode) {
+      this.algosStartNode.create(this.algosSelectionNodeColor);
+    } else if (this.algosStartNode) {
+      this.algosStartNode.create();
+      this.algosStartNode = null;
+    }
+  };
   this.unselect = function() {
     if (this.selectedNodeA) {
       this.selectedNodeA.create();
@@ -129,26 +139,22 @@ function Graph(context,
       this.selectedNodeB.create();
       this.selectedNodeB = null;
     }
-  }
-  this.linkSelected = function() {
-    if (this.selectedNodeA !== null && this.selectedNodeB !== null &&
-    this.selectedNodeA.neighbours.indexOf(this.selectedNodeB) == -1) {
-      this.selectedNodeA.neighbours.push(this.selectedNodeB);
-      this.selectedNodeB.neighbours.push(this.selectedNodeA);
-      drawLineBetween(this.context,
-        this.selectedNodeA, this.selectedNodeB,
-        this.edge_width, this.edge_color);
-      this.unselect();
-    }
   };
-  this.unlinkSelected = function() {
+  this.toggleLink = function() {
     if (this.selectedNodeA !== null && this.selectedNodeB !== null) {
       let indA = this.selectedNodeA.neighbours.indexOf(this.selectedNodeB);
       let indB = this.selectedNodeB.neighbours.indexOf(this.selectedNodeA);
-      if (indA == -1 || indB == -1) return null;
-      this.selectedNodeA.neighbours.splice(indA, 1);
-      this.selectedNodeB.neighbours.splice(indB, 1);
-      this.redraw();
+      if (indA == -1 || indB == -1) { // link
+        this.selectedNodeA.neighbours.push(this.selectedNodeB);
+        this.selectedNodeB.neighbours.push(this.selectedNodeA);
+        drawLineBetween(this.context,
+          this.selectedNodeA, this.selectedNodeB,
+          this.edge_width, this.edge_color);
+      } else { // unlink
+        this.selectedNodeA.neighbours.splice(indA, 1);
+        this.selectedNodeB.neighbours.splice(indB, 1);
+        this.redraw();
+      }
       this.unselect();
     }
   };
@@ -189,7 +195,7 @@ function Graph(context,
         this.node_color, this.node_placeholder_color);
     } else if (this.nodeCreationMode && node) {
       this.clearNode(i, j); // one of two times where node is cleared
-    } else if (this.dfsMode && node) {
+    } else if (this.algosSelectionMode && node) {
       if (this.algosStartNode == node) {
         node.create();
         this.algosStartNode = null;
@@ -205,7 +211,6 @@ function Graph(context,
   this.dfs = async function() {
     if (!this.algosStartNode) return null;
     this.lockdown = true;
-    this.unselect(); // so there isn't much confusion
     let stack = [this.algosStartNode];
     let root_tree = [null];
     while (stack.length) {
@@ -226,11 +231,12 @@ function Graph(context,
             current_node.origin.x, current_node.origin.y,
             current_node.x, current_node.y,
             this.edge_width, this.forwardEdgeColor, this.algosAnimDelay);
-          current_node.create(this.visitedNodeColor);
         }
+        current_node.create(this.forwardNodeColor);
       } else if (current_node == root_tree[root_tree.length - 1]) {
         // close current_node / backtrack
         root_tree.splice(root_tree.length - 1, 1);
+        current_node.create(this.backtrackNodeColor);
         if (current_node.origin) {
           await drawLineAnimation(this.context,
             current_node.x, current_node.y,
@@ -238,10 +244,11 @@ function Graph(context,
             this.edge_width, this.backtrackEdgeColor, this.algosAnimDelay);
           }
       } else {
-        // cross edge
+        // cross edge / back edge / forward edge
         undefined;
       }
     }
+    this.algosStartNode = null;
     this.lockdown = false;
     this.cleanMonkeyPatch(['origin', 'marked']);
   };
@@ -249,8 +256,7 @@ function Graph(context,
   this.bfs = async function() {
     if (this.algosStartNode === null) return null;
     this.lockdown = true;
-    this.unselect();
-    this.algosStartNode.create(this.visitedNodeColor);
+    this.algosStartNode.create(this.forwardNodeColor);
     this.algosStartNode.distance = 0;
     let queue = [this.algosStartNode];
     while (queue.length) {
@@ -262,7 +268,7 @@ function Graph(context,
             current_node.x, current_node.y,
             neighbour.x, neighbour.y,
             this.edge_width, this.forwardEdgeColor, this.algosAnimDelay);
-          neighbour.create(this.visitedNodeColor);
+          neighbour.create(this.forwardNodeColor);
           neighbour.distance = current_node.distance + 1;
           neighbour.parent = current_node;
           queue.push(neighbour);
