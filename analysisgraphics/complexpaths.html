@@ -9,23 +9,63 @@
     body {
       margin: 0;
       padding: 0;
-      background-color: powderblue;
+      background-color: white;
     }
     #this {
       position: absolute;
       right: 50%;
       bottom: 50%;
       transform: translate(50%, 50%);
-      background-color: white;
+      background-color: black;
     }
   </style>
 
   <script>
+    function binomialList(n) {
+      let from0tonbin = [1];
+      let lim = Math.ceil(n / 2);
+      let prodn = 1;
+      let prodi = 1;
+      let tempn = n;
+      let tempi = 1;
+      while (tempi <= lim) {
+        prodn *= tempn;
+        prodi *= tempi;
+        tempi++; tempn--;
+        from0tonbin.push(Math.round(prodn / prodi));
+      }
+      for (let i = lim + 1; i <= n; i++) {
+        from0tonbin.push(from0tonbin[n - i]);
+      }
+      return from0tonbin;
+    }
+    function powList(x, powlim) {
+      let ret_list = [];
+      if (x == 0) {
+        for (let i = 0; i <= powlim; i++) {
+          ret_list.push(0);
+        }
+      } else {
+        let tempx = 1;
+        ret_list.push(1);
+        for (let i = 1; i <= powlim; i++) {
+          tempx *= x;
+          ret_list.push(tempx);
+        }
+      }
+      return ret_list;
+    }
     function random(a, b) {
       return a + Math.random() * (b - a);
     }
     function randint(a, b) {
-      return Math.floor(random(a, b));
+      return Math.round(random(a, b));
+    }
+    function randomchoice(...l) {
+      return l[randint(0, l.length - 1)];
+    }
+    function fromatob(a, b) {
+      return [b[0] - a[0], b[1] - a[1]];
     }
     function getnorm(vec) {
       return Math.pow(Math.pow(vec[0], 2) + Math.pow(vec[1], 2), 0.5);
@@ -34,99 +74,142 @@
       let norm = getnorm(vec);
       return [vec[0] / norm, vec[1] / norm];
     }
+    function addvecs(...vecs) {
+      let ret_vec = [0, 0];
+      for (let i = 0; i < vecs.length; i++) {
+        ret_vec[0] += vecs[i][0];
+        ret_vec[1] += vecs[i][1];
+      }
+      return ret_vec;
+    }
     function stretch(vec, d) {
       return [vec[0] * d, vec[1] * d];
-    }
-    function fromatob(a, b) {
-      return [b[0] - a[0], b[1] - a[1]];
     }
     function sleep(ms) {
       return new Promise(resolve => setTimeout(resolve, ms));
     }
 
     $(document).ready(function() {
+
+      function Curve(context, x0, y0, n_points,
+      point_margin=5, pic_margin=10, linewidth=1.5, linecolor='lime') {
+        this.context = context;
+        this.width = context.canvas.width;
+        this.height = context.canvas.height;
+        this.source = [x0, y0];
+        this.anglepoint = null;
+        this.point_margin = point_margin;
+        this.pic_margin = pic_margin;
+        this.linewidth = linewidth;
+        this.linecolor = linecolor;
+
+        function drawLine(context, a, b, width, color) {
+          context.lineWidth = width;
+          context.strokeStyle = color;
+          context.beginPath();
+          context.moveTo(...a);
+          context.lineTo(...b);
+          context.stroke();
+        }
+        function drawDot(context, x, y, r, color='red') {
+          context.fillStyle = color;
+          context.beginPath();
+          context.arc(x, y, r, 0, Math.PI * 2);
+          context.fill();
+        }
+        // O(points.length * n)
+        function bezierCurve(points, n=100) {
+          const l = points.length;
+          const ret_points = [points[0]];
+          const binomials = binomialList(l);
+          let t = 0; let step = 1 / n;
+          const tlim = 1 - 2 * step;
+          while (t < tlim) {
+            t += step;
+            let pows = powList(t, l);
+            let powsr = powList(1 - t, l);
+            let vec = [0, 0];
+            for (let i = 0; i < l; i++) {
+              let mul = binomials[i] * powsr[l-i] * pows[i]
+              vec[0] += mul * points[i][0];
+              vec[1] += mul * points[i][1];
+            }
+            ret_points.push(vec);
+          }
+          ret_points.push(points[l-1]);
+          return ret_points;
+        }
+        function pointDistribution(source, n, width, height, margin) {
+          startpoints = [source];
+          for (let i = 0; i < n - 1; i++) {
+            let p1 = randomchoice(
+              randint(width - 10 * margin, width - margin),
+              randint(margin, 10 * margin));
+            let p2 = randomchoice(
+              randint(height - 10 * margin, height - margin),
+              randint(margin, 10 * margin));
+            startpoints.push([p1, p2]);
+          }
+          startpoints.push(source);
+          return startpoints;
+        }
+        function redistribute(points, dist, eps) {
+          const redistributed = [points[0]];
+          for (let i = 0; i < points.length - 1; i++) {
+            let connected = fromatob(points[i], points[i+1]);
+            let connorm = getnorm(connected);
+            if (connorm > dist + eps) {
+              let pointstofill = Math.ceil(connorm / dist);
+              let step = 1 / pointstofill;
+              let t = 0;
+              while (t < 1) {
+                t += step;
+                let point = addvecs(points[i], stretch(connected, t));
+                redistributed.push(point);
+              }
+            } else if (connorm < dist - eps) {
+              redistributed.push(points[i + 1]); // later
+            } else {
+              redistributed.push(points[i + 1]);
+            }
+          }
+          return redistributed;
+        }
+
+        this.animateAngle() {
+          for ()
+        }
+        this.draw = function() {
+          for (let i = 0; i < this.allpoints.length - 1; i++) {
+            drawLine(this.context, this.allpoints[i], this.allpoints[i+1],
+            this.linewidth, this.linecolor);
+            //drawDot(this.context, this.allpoints[i][0],
+            //this.allpoints[i][1], 1, 'red');
+          }
+        };
+        this.delete = function() {
+          this.context.clearRect(0, 0, this.width, this.height);
+        };
+        this.startpoints = pointDistribution(this.source, n_points,
+        this.width, this.height, this.pic_margin);
+        this.allpoints = redistribute(bezierCurve(this.startpoints, 100),
+        this.point_margin, 1);
+      }
+
       const canvas = document.getElementById('this');
       canvas.width = $(window).width();
       canvas.height = $(window).height();
       const context = canvas.getContext('2d');
 
-      function Curve(context, x0, y0, n_points,
-      margin=1, linewidth=1, linecolor='black') {
-        this.context = context;
-        this.width = context.canvas.width - margin;
-        this.height = context.canvas.height - margin;
-        this.source = [x0, y0];
-        this.margin = margin;
-        this.linewidth = linewidth;
-        this.linecolor = linecolor;
-        this.points = [[x0, y0]];
-        for (let i = 0; i < n_points; i++) {
-          let p1 = randint(this.margin, this.width - this.margin);
-          let p2 = randint(this.margin, this.height - this.margin);
-          this.points.push([p1, p2]);
-        }
-        function drawLine(context, a, b, width, color) {
-          context.lineWidth = width;
-          context.strokeStyle = color;
-          context.beginPath();
-          context.moveTo(a[0], a[1]);
-          context.lineTo(b[0], b[1]);
-          context.stroke();
-        }
-        function drawDot(context, x, y, r) {
-          context.fillStyle = 'red';
-          context.beginPath();
-          context.arc(x, y, r, 0, Math.PI * 2);
-          context.stroke();
-        }
-        function bezierCurve(a, b, cpnt, points=100) {
-          const return_points = [];
-          let veca = fromatob(a, cpnt);
-          let vecb = fromatob(cpnt, b)
-          let veca_step = stretch(veca, 1 / points);
-          let vecb_step = stretch(vecb, 1 / points);
-          let t = 0; let stept = 1 / points;
-          for (let i = 0; i < points+1; i++) {
-            let path = stretch(fromatob(a, cpnt), t);
-            let pnt = [a[0] + path[0], a[1] + path[1]];
-            a = [a[0] + veca_step[0], a[1] + veca_step[1]];
-            cpnt = [cpnt[0] + vecb_step[0], cpnt[1] + vecb_step[1]];
-            t += stept;
-            return_points.push(pnt);
-          }
-          return return_points;
-        }
-        this.delete = function() {
-          this.context.clearRect(0, 0, this.width, this.height);
-        }
-
-        let ran_points = [];
-        for (let i = 0; i < 3; i++) {
-          ran_points.push([randint(this.margin, this.width - this.margin),
-          randint(this.margin, this.height - this.margin)]);
-          drawDot(this.context, ran_points[i][0], ran_points[i][1], 10);
-        }
-        let bzrpnts = bezierCurve(...ran_points);
-        for (let i = 0; i < bzrpnts.length - 1; i++) {
-          drawLine(this.context, bzrpnts[i], bzrpnts[i+1], this.linewidth, 'black');
-        }
-      }
-
       let t0 = $(document).width() / 2;
       let t1 = $(document).height() / 2;
-      console.log(t0, t1);
+      let kurvatura = new Curve(context, t0, t1, 40);
+      kurvatura.draw();
 
-      async function animate() {
-        while (true) {
-          let cr = new Curve(context, t0, t1, 100, 20);
-          await sleep(100);
-          cr.delete();
-        }
-      }
-
-
+      canvas.addEventListener('click', function(event) {
+        kurvatura.anglepoint = [event.pageX, event.pageY];
+      });
     });
-
 
   </script>
 

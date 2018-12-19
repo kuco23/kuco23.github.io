@@ -20,30 +20,41 @@
 
     <div>
       <h2>Intro</h2>
-      This is the documetation for the PokerMessinger app that allows playing poker on messinger.
+      This is the documetation for the PokerMessinger app
+      that allows playing poker on messinger.
       Its depency is the fbchat module, which is used for I/O.
     </div>
 
     <div>
       <h2>Basics</h2>
-      The basis of this application is the Dealer account, which can be set to any facebook account.
-      It is recommended for the application user to set up a new account, reserved for the Dealer, or use any other account which is not being used by anyone.
-      The Dealer's account will be automated to send game information (eg. name of the player whose action is expected) to users and group threads.<br />
-      Any player that is removed from the group will be added back by the Dealer.
-      If the Dealer is removed from the table the concequences shall be dire.
+      The basis of this application is the Dealer account,
+      which can be set to any facebook account.
+      It is recommended for the application user to set up a new account,
+      reserved for the Dealer, or use some other abandoned account.<br />
+      The Dealer's account will be automated to send game information
+      (eg. name of the player whose action is expected, player cards)
+      to users and group threads initialized as poker tables.<br />
+      Any player that is removed from the group by someone other than himself
+      will be added back by the Dealer.
+      If the Dealer is removed from the table you will receive a death threat.<br />
     </div>
 
     <div>
       <h2>Player Rules</h2>
 
       <h3>New Player introduction</h3>
-      Any player that is playing a round for the first time will get 4000 as a starting money amount, that will be logged in his datafile in the database directory.
+      Any player that is playing a round for the first time will
+      get 4000 as a starting money amount.<br />
+      All the players' info is logged in a database on the server,
+      including his name, where he lives, the names of parents and any close relatives.
+      (that my dear sir has been a joke... or has it been?).
 
       <h3>Player Money</h3>
-      The player's money and the money that he plays with are seperated.
-      The money that player plays with is entirely within the game and can be withdrawn
-      anytime by player leaving the game with typing <a href='#leave'>this</a> statement optgroup
-      by leaving the group thread, that the game is on.<br />
+      Players' money is logged with other info in a database on the server.
+      Player's money and the money that he currently plays with are seperated.
+      The money that player plays with is entirely within the game and
+      can be withdrawn anytime by sending a statement that excludes you from the
+      table or by leaving the group thread, that the game is being played on.<br />
       <br />
       The outside money is seen as the money you can use to buy in to play on other tables, that require a certain amount of money to participate in.<br />
       If player's outside money is less than game buy-in of 1000, player can buy in with all of his money to play in the game,
