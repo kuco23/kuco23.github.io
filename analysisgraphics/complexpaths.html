@@ -85,6 +85,9 @@
     function stretch(vec, d) {
       return [vec[0] * d, vec[1] * d];
     }
+    function scalarprod(vec1, vec2) {
+      return vec1[0] * vec2[0] + vec1[1] * vec2[1]
+    }
     function sleep(ms) {
       return new Promise(resolve => setTimeout(resolve, ms));
     }
@@ -97,13 +100,14 @@
         this.width = context.canvas.width;
         this.height = context.canvas.height;
         this.source = [x0, y0];
-        this.anglepoint = null;
+        this.anglesource = null;
         this.point_margin = point_margin;
         this.pic_margin = pic_margin;
         this.linewidth = linewidth;
         this.linecolor = linecolor;
 
         function drawLine(context, a, b, width, color) {
+          context.lineJoin = 'round';
           context.lineWidth = width;
           context.strokeStyle = color;
           context.beginPath();
@@ -111,11 +115,16 @@
           context.lineTo(...b);
           context.stroke();
         }
-        function drawDot(context, x, y, r, color='red') {
+        function drawDot(context, x, y, r, color='red', angle=2*Math.PI) {
           context.fillStyle = color;
           context.beginPath();
-          context.arc(x, y, r, 0, Math.PI * 2);
+          context.arc(x, y, r, 0, angle);
           context.fill();
+        }
+        function drawText(context, x, y, text, color) {
+          context.fillStyle = color;
+          context.clearRect(x - 100, y - 10, 300, 20);
+          context.fillText(text, x, y);
         }
         // O(points.length * n)
         function bezierCurve(points, n=100) {
@@ -139,6 +148,7 @@
           ret_points.push(points[l-1]);
           return ret_points;
         }
+        ////////////////////////////////////////////////////////////7
         function pointDistribution(source, n, width, height, margin) {
           startpoints = [source];
           for (let i = 0; i < n - 1; i++) {
@@ -175,16 +185,36 @@
           }
           return redistributed;
         }
-
-        this.animateAngle() {
-          for ()
-        }
+        /////////////////////////////////7
+        this.drawanglesource = function() {
+          drawDot(this.context, ...this.anglesource, 3, 'red');
+        };
+        this.animateAngle = async function() {
+          let phisum = 0;
+          for (let i = 0; i < this.allpoints.length - 1; i++) {
+            let a = normed(fromatob(this.anglesource, this.allpoints[i]));
+            let b = normed(fromatob(this.anglesource, this.allpoints[i + 1]));
+            let c = normed(fromatob(this.allpoints[i], this.allpoints[i + 1]));
+            let phi = Math.acos(scalarprod(a, b));
+            let normal = [a[1], -a[0]];
+            if (Math.acos(scalarprod(normal, c)) > Math.PI / 2) phi = -phi;
+            phisum += phi;
+            drawLine(this.context, this.allpoints[i], this.allpoints[i + 1],
+            this.linewidth, 'red');
+            drawLine(this.context, this.anglesource, this.allpoints[i],
+            this.linewidth, 'rgba(140, 140, 140, .1)');
+            drawText(this.context, this.width / 2, this.height - 20,
+            '' + phisum, 'red');
+            await sleep(10);
+          }
+          let index = Math.round(phisum / (2 * Math.PI));
+          drawText(this.context, this.width / 2, this.height - 20,
+          '' + index, 'red');
+        };
         this.draw = function() {
           for (let i = 0; i < this.allpoints.length - 1; i++) {
             drawLine(this.context, this.allpoints[i], this.allpoints[i+1],
             this.linewidth, this.linecolor);
-            //drawDot(this.context, this.allpoints[i][0],
-            //this.allpoints[i][1], 1, 'red');
           }
         };
         this.delete = function() {
@@ -192,7 +222,7 @@
         };
         this.startpoints = pointDistribution(this.source, n_points,
         this.width, this.height, this.pic_margin);
-        this.allpoints = redistribute(bezierCurve(this.startpoints, 100),
+        this.allpoints = redistribute(bezierCurve(this.startpoints, n_points),
         this.point_margin, 1);
       }
 
@@ -203,11 +233,13 @@
 
       let t0 = $(document).width() / 2;
       let t1 = $(document).height() / 2;
-      let kurvatura = new Curve(context, t0, t1, 40);
+      let kurvatura = new Curve(context, t0, t1, 50);
       kurvatura.draw();
 
       canvas.addEventListener('click', function(event) {
-        kurvatura.anglepoint = [event.pageX, event.pageY];
+        kurvatura.anglesource = [event.pageX, event.pageY];
+        kurvatura.drawanglesource();
+        kurvatura.animateAngle();
       });
     });
 
