@@ -10,14 +10,13 @@ body {
 div.uppermenu {
   display: flex;
   flex-flow: row nowrap;
-  justify-content: flex-start;
-  align-items: stretch;
+  justify-content: center;
+  align-items: center;
   margin: 1% 1% 0 1%;
   font-family: monospace;
   background-color: rgb(10, 10, 10);
   border: 2px solid white;
 }
-
 div.uppermenu > div {
   display: flex;
   flex-direction: column-reverse;
@@ -32,4 +31,40 @@ div.uppermenu > div {
 div.uppermenu > div:hover {
   cursor: pointer;
   color: lime;
+}
+
+div.inputFunction {
+  display: none;
+  z-index: 100;
+  position: absolute;
+  right: 0;
+  margin: 1%;
+  padding: 1%;
+  max-height: 50%;
+  font-size: 3vh;
+  color: powderblue;
+  text-align: center;
+  background-color: rgba(0, 0, 0, 1);
+  border: 2px solid white;
+  border-radius: 2%;
+}
+#xt, #yt, #interval, #step {
+  font-size: 2vh;
+  font-family: monospace;
+  width: 100%;
+  margin: 1%;
+  padding: 4px;
+}
+#subfun {
+  font-size: 2vh;
+  width: 100%;
+  padding: 1%;
+  margin-top: 1%;
+  background-color: black;
+  color: white;
+  border: none;
+}
+#subfun:hover {
+  cursor: pointer;
+  background-color: DarkRed;
 }

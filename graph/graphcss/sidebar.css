@@ -1,0 +1,88 @@
+/* sidebar container */
+.sidebar {
+  display: inline-block;
+  overflow-x: hidden;
+  overflow-y: auto;
+  position: fixed;
+  left: 75%;
+  top: 0;
+  width: 25%;
+  margin: 0;
+  height: 100%;
+  padding: 0.5%;
+}
+
+/* the buttons matching a specific task */
+div.options>div {
+  text-align: center;
+  background-color:rgba(20, 20, 20, .7);
+  margin: 1vh 0 1vh 0;
+  border: 2px solid black;
+  font-size: 3vh;
+}
+div.options>div>span {
+  display: block;
+  margin: 0;
+  padding: 2vh;
+  color: white;
+  background-color: rgba(20, 20, 20, .7);
+  font-family: monospace;
+  transition: all 0.5s;
+}
+div.options>div>span:hover {
+  cursor: pointer;
+  background-color: lime;
+  color: black;
+}
+div.options>div>div {
+  display: none;
+  margin: 1vh;
+  padding: 1vh;
+  text-align: center;
+}
+div.options>div>div button {
+  display: block;
+  text-decoration: none;
+  width: 98%;
+  padding: 1.5vh;
+  margin: 1vh 0 1vh 0;
+  background-color: rgba(0, 0, 0, .2);
+  color: white;
+  font-family: monospace;
+  font-size: 2vh;
+  border: 2px solid black;
+}
+div.options>div>div button:hover {
+  cursor: pointer;
+  border: 2px solid lime;
+  background-color: rgba(0, 0, 0, .5);
+}
+div.options>div>div>ul {
+  list-style-type: none;
+  margin: 0;
+  padding: 0;
+}
+div.options>div>div>ul>li {
+  padding: 1.5vh;
+  margin: 1vh 0 1vh 0;
+  background-color: rgba(0, 0, 0, .2);
+}
+
+/* buttons that are on the panel by default */
+.deletionOptions>div:last-child {
+  margin: 3vh 0 2vh 0;
+  text-align: center;
+}
+.deletionOptions>div:last-child button {
+  display: block;
+  padding: 1vh;
+  margin: auto;
+  font-size: 2.5vh;
+  background-color: transparent;
+  border: none;
+  transition: color 0.5s;
+}
+.deletionOptions>div:last-child button:hover {
+  cursor: pointer;
+  color: rgb(150, 0, 0);
+}

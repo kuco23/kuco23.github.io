@@ -50,6 +50,7 @@ point_margin=5, pic_margin=10, linewidth=1.5, linecolor='lime') {
       let phi = Math.acos(scalarprod(a, b));
       let normal = [a[1], -a[0]];
       if (Math.acos(scalarprod(normal, c)) <  Math.PI / 2) phi = -phi;
+      if (isNaN(phi)) continue;
       phisum += phi;
       drawLine(this.context, this.allpoints[i], this.allpoints[i + 1],
       this.linewidth, 'red');

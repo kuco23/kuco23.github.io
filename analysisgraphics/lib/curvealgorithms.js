@@ -21,42 +21,34 @@ function binomialList(n) {
 }
 function powList(x, powlim) {
   let ret_list = [];
-  if (x == 0) {
-    for (let i = 0; i <= powlim; i++) {
-      ret_list.push(0);
-    }
-  } else {
-    let tempx = 1;
-    ret_list.push(1);
-    for (let i = 1; i <= powlim; i++) {
-      tempx *= x;
-      ret_list.push(tempx);
-    }
+  let tempx = (x == 0) ? 0 : 1;
+  ret_list.push(tempx);
+  for (let i = 1; i <= powlim; i++) {
+    tempx *= x;
+    ret_list.push(tempx);
   }
   return ret_list;
 }
 // O(points.length * n)
-function bezierCurve(points, n=100) {
-  const l = points.length;
+function bezierCurve(points, n, endeps=0) {
+  const l = points.length - 1;
   const ret_points = [points[0]];
   const binomials = binomialList(l);
-  let t = 0; let step = 1 / n;
-  const tlim = 1 - 2 * step;
-  let tprod = 1;
-  let tprodr = 1;
+  let step = 1 / n; let t = endeps * step;
+  const tlim = 1 - t;
   while (t < tlim) {
     t += step;
     let pows = powList(t, l);
     let powsr = powList(1 - t, l);
     let vec = [0, 0];
-    for (let i = 0; i < l; i++) {
+    for (let i = 0; i <= l; i++) {
       let mul = binomials[i] * powsr[l-i] * pows[i]
       vec[0] += mul * points[i][0];
       vec[1] += mul * points[i][1];
     }
     ret_points.push(vec);
   }
-  ret_points.push(points[l-1]);
+  ret_points.push(points[l]);
   return ret_points;
 }
 function pointDistribution(source, n, width, height, margin) {
@@ -72,25 +64,43 @@ function pointDistribution(source, n, width, height, margin) {
   startpoints.push(source);
   return startpoints;
 }
-function redistribute(points, dist, eps) {
+function redistribute(points, eps) {
   const redistributed = [points[0]];
-  for (let i = 0; i < points.length - 1; i++) {
-    let connected = fromatob(points[i], points[i+1]);
-    let connorm = getnorm(connected);
-    if (connorm > dist + eps) {
-      let pointstofill = Math.ceil(connorm / dist);
-      let step = 1 / pointstofill;
-      let t = 0;
-      while (t < 1) {
-        t += step;
-        let point = addvecs(points[i], stretch(connected, t));
-        redistributed.push(point);
+  let vec, norm, gathered;
+  let dist = eps;
+  for (let i = 0; i < points.length - 2; i++) {
+    vec = fromatob(points[i], points[i + 1]);
+    norm = getnorm(vec);
+    nvec = stretch(vec, 1 / norm);
+    gathered = 0;
+    while (true) {
+      if (eps > norm + dist) {
+        dist += norm;
+        break;
+      } else {
+        norm -= dist;
+        gathered += dist;
+        redistributed.push(addvecs(points[i], stretch(nvec, gathered)));
+        dist = eps;
       }
-    } else if (connorm < dist - eps) {
-      redistributed.push(points[i + 1]); // later
-    } else {
-      redistributed.push(points[i + 1]);
     }
   }
   return redistributed;
+}
+function applied(points, n, peps=5) {
+  let test_pnt = [randint(points[0][0], points[1][0]),
+                  randint(points[0][1], points[1][1])];
+  const ret_points = bezierCurve([points[0], test_pnt, points[1]], n, peps);
+  let start = ret_points.splice(ret_points.length-1, 1)[0]; let end;
+  for (let i = 2; i < points.length - 1; i++) {
+    test_pnt = [randint(points[i][0], points[i+1][0]),
+                randint(points[i][1], points[i+1][1])];
+    let bzp = bezierCurve([points[i], test_pnt, points[i+1]], n, peps);
+    end = bzp.splice(0, 1)[0];
+    let bzf = bezierCurve([start, points[i], end], 20);
+    start = bzp.splice(bzp.length-1, 1)[0];
+    ret_points.push.apply(ret_points, bzf);
+    ret_points.push.apply(ret_points, bzp);
+  }
+  return ret_points;
 }

@@ -11,14 +11,33 @@
 
   <script>
 
-    function drawCurve() {
-      document.kurvatura.startpoints = pointDistribution(
-        document.kurvatura.source, 10, document.kurvatura.width,
-        document.kurvatura.height, document.kurvatura.pic_margin);
-      document.kurvatura.allpoints = redistribute(bezierCurve(
-        document.kurvatura.startpoints, 100), document.kurvatura.point_margin, 1);
-      document.kurvatura.delete();
-      document.kurvatura.draw();
+    const log = Math.log; const exp = Math.exp;
+    const sin = Math.sin; const cos = Math.cos;
+
+    function drawCurve(curve) {
+      curve.startpoints = pointDistribution(
+        curve.source, 10, curve.width,
+        curve.height, curve.pic_margin);
+      curve.allpoints = redistribute(bezierCurve(
+        curve.startpoints, 100, 0), curve.point_margin, 0.5);
+      curve.delete();
+      curve.draw();
+    }
+
+    function inputInto(curve) {
+      curve.allpoints = [];
+      let marginx = curve.width / 2;
+      let marginy = curve.height / 2;
+      let xt = document.getElementById('xt').value;
+      let yt = document.getElementById('yt').value;
+      let interval = document.getElementById('interval').value;
+      let x = eval('t' + ' => ' + xt);
+      let y = eval('t' + ' => ' + yt);
+      for (let i = 0; i < interval; i += 0.1) {
+        curve.allpoints.push([marginx + x(i), marginy + y(i)]);
+      }
+      curve.delete();
+      curve.draw();
     }
 
     $(document).ready(function() {
@@ -28,8 +47,9 @@
         $.getScript('lib/curvealgorithms.js'),
         $.getScript('lib/curve.js')
       ).done(function() {
-
-        $('div.uppermenu').outerHeight(0.1 * $(window).height(), true);
+        let menu = $('div.uppermenu');
+        menu.outerHeight(0.1 * $(window).height(), true);
+        $('div.inputFunction').css('top', menu.offset().top + menu.outerHeight());
         const canvas = document.getElementById('this');
         canvas.width = $(window).width();
         canvas.height = $(window).height() * 0.9;
@@ -38,7 +58,7 @@
         let t0 = $('#this').width() / 2;
         let t1 = $('#this').height() / 2;
         document.kurvatura = new Curve(context, t0, t1, 100);
-        drawCurve();
+        drawCurve(document.kurvatura);
 
         canvas.addEventListener('click', function(event) {
           let offsety = $('#this').offset().top;
@@ -57,9 +77,22 @@
       <div onclick='document.kurvatura.delete(); document.kurvatura.draw();'>
         refresh
       </div>
-      <div onclick='drawCurve();'>
+      <div onclick='drawCurve(document.kurvatura);'>
         drawnew
       </div>
+      <div onclick='$("div.inputFunction").fadeToggle(500);'>
+        function
+      </div>
+    </div>
+
+    <div class='inputFunction'>
+      Input Parametrization as functions of t<br />
+      <input id='xt' name='xt' type='text' placeholder='x(t)' /><br />
+      <input id='yt' name='yt' type='text' placeholder='y(t)' /><br />
+      Input interval<br />
+      <input id='interval' name='interval' type='range' min=-100, max=100 /><br />
+      <input id='subfun' type='submit' value='submit data'
+       onclick='inputInto(document.kurvatura);'>
     </div>
 
     <canvas id='this'>
