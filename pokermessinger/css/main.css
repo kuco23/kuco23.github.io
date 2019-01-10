@@ -4,38 +4,37 @@ body {
   margin: 15px;
   background-color: rgb(50, 50, 50);
   color: white;
-  font-size: 3vh;
+  font-size: 22px;
+  font-family: "Rokkitt";
 }
 
 h1 {
   color: orange;
   text-align: center;
   text-shadow: 2px 2px 1px 1px black;
+  font-family: "Indie Flower";
 }
 
 h2 {
   margin-top: 0;
   color: rgb(140, 140, 160);
   text-shadow: 1px 1px 1px 1px black;
+  font-family: "Indie Flower";
 }
 
 h3 {
   margin-bottom: 0;
   color: FireBrick;
   text-shadow: 1px 1px 1px 1px black;
-  font-size: 3.5vh;
+  font-family: "Indie Flower";
 }
 
 a {
-  color: powderblue;
+  color: orange;
   text-decoration: none;
-
-  transition: color 1s;
-  -webkit-transition: color 1s;
 }
-
 a:hover {
-  color: purple;
+  color: red;
 }
 
 span.sttmnt {
