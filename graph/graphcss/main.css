@@ -22,7 +22,7 @@ body {
 }
 
 @media only screen and (max-width: 800px), screen and (max-height: 400px) {
-  .sidebar, #canvus, #help div {
+  div.sidebar, #canvus, #help div {
     display: none;
   }
   #screenToSmall {

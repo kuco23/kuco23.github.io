@@ -21,7 +21,7 @@
 
     <div>
       <h2>Intro</h2>
-      This is the documetation for the PokerMessinger app
+      This is the documentation for the PokerMessinger app
       that allows playing poker on messinger.
       Its depency is the fbchat module, which is used for I/O.
     </div>
@@ -62,9 +62,8 @@
       else he must put 1000 of his outside money in game to participate.<br />
       <br />
       The table money is seen as the money you currently play with on a certain table.
-      Any player who has not lost all the table money (his table money is 0) is considered participating and will be set to play in the round series.
-      Table money is not added to the outside money until a player withdraws it or Dealer is removed from the table,
-      after which the game is aborted and the money put in the pot lost.
+      You can leave the table and transfer your table money to the outside money (with a statement).
+      Table money can be lost if the dealer is removed from a table mid-round.
     </div>
 
     <div>
@@ -79,7 +78,7 @@
       When river is succesfully ended with more than one participating player who has not folded their hand, the player cards are revealed,
       the winner announced and the pot added to his table money.
       If at any stage there is only one player who has not folded left, he collects the pot money without other's cards being shown.<br />
-      If at any stage there is no players whose inputs are required, but more than one not folded player (eg. two players that are all in),
+      If at any stage there is no players whose inputs are required and one or none active players (eg. two players that are all in),
       then every stage is initialized without asking for input and after the river players' cards are revealed and the winner announced.<br />
       Visit <a href= 'https://www.partypoker.com/how-to-play/texas-holdem.html'>this site</a> for more info about the general poker rules.
     </div>

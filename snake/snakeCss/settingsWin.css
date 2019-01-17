@@ -4,21 +4,18 @@
   bottom: 50%;
   right: 50%;
   transform: translate(50%, 50%);
-
   font-family: 'Indie Flower';
   font-size: 5vh;
+  text-shadow: 0.1vh 0.1vh 0.3vh purple;
 }
 
 .snakeTextInput {
   margin: 0.8vh 0 0.8vh 0;
-  padding: 0 0.4vh 0 0.4vh;
+  padding: 0 0.4vw 0 0.8vw;
   width: 100%;
-
   background-color: rgba(0, 0, 0, .1);
-
   font-family: 'Indie Flower';
   font-size: 5vh;
-
   border: none;
   transition: all 0.1s linear;
 }
@@ -54,9 +51,6 @@ div.settingButtons span:last-child:hover {
 
 #slider {
   width: 100%;
-}
-#snakeLength {
-  text-shadow: 0.1vh 0.1vh 0.3vh purple;
 }
 
 #stamp {

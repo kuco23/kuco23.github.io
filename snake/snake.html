@@ -2,15 +2,19 @@
 
 <html>
 <head>
-  <meta name='viewport' content='width=device-width, initial-scale=1.0' charset='utf-8' />
+  <meta name='viewport'
+  content='width=device-width, initial-scale=1.0'
+  charset='utf-8' />
   <title>Snake</title>
 
   <script src = '../jquery-3.3.1.min.js'></script>
-  <link href="https://fonts.googleapis.com/css?family=Indie+Flower|Bungee+Hairline" rel="stylesheet">
+  <link rel="stylesheet"
+  href="https://fonts.googleapis.com/css?family=Indie+Flower|Bungee+Hairline">
   <link rel="stylesheet" type="text/css" href="snakeCss/main.css" />
   <link rel="stylesheet" type="text/css" href="snakeCss/gameOverWin.css" />
   <link rel="stylesheet" type="text/css" href="snakeCss/titleWin.css" />
   <link rel="stylesheet" type="text/css" href="snakeCss/settingsWin.css" />
+  <link rel="stylesheet" type="text/css" href="snakeCss/canvas.css" />
 
   <style>
   #unfinished1:hover, #unfinished2:hover {
@@ -35,7 +39,9 @@
   }
 
   function toSettings() {
-    $('#snakeMenu').fadeOut(PageTransitionTime, function() {$('#settings').fadeIn(PageTransitionTime);});
+    $('#snakeMenu').fadeOut(PageTransitionTime, function() {
+      $('#settings').fadeIn(PageTransitionTime);
+    });
     const slider = document.getElementById('slider');
     const snakeColor = document.getElementById('snakecolor');
     const playerColor = document.getElementById('playercolor');
@@ -54,7 +60,9 @@
     document.game.snakelen = slider.value;
     document.game.snakecolor = snakeColor.value;
     document.game.playercolor = playerColor.value;
-    $('#stamp').fadeIn(PageTransitionTime, function() {$('#stamp').fadeOut(PageTransitionTime);})
+    $('#stamp').fadeIn(PageTransitionTime, function() {
+      $('#stamp').fadeOut(PageTransitionTime);
+    })
   }
 
   function gameStart() {
@@ -81,8 +89,12 @@
     } else {
       $('#gameOverWin div:nth-child(2)').css('display', 'block');
     }
-    $('#firstCanvas').fadeOut(PageTransitionTime, function() {$('body').css('background-color', 'black');});
-    setTimeout(function() {$('#gameOverWin').fadeIn(PageTransitionTime);}, 2 * PageTransitionTime);
+    $('#firstCanvas').fadeOut(PageTransitionTime, function() {
+      $('body').css('background-color', 'black');
+    });
+    setTimeout(function() {
+      $('#gameOverWin').fadeIn(PageTransitionTime);
+    }, 2 * PageTransitionTime);
   };
 
   $(document).ready(function() {
@@ -158,9 +170,8 @@
       SAVED
     </div>
     <form>
-      Snake&nbsp;length:<br />
+      Snake&nbsp;length: <span id='snakeLength'></span><br /><br />
       <input type='range' name='snakelen' min=1 max=40 value=20 class='slider' id='slider'><br />
-      <span id='snakeLength'></span><br />
       Snake&nbsp;color:<br />
       <input type='text' name='snakecolor' id='snakecolor' class='snakeTextInput'><br />
       Player&nbsp;color:<br />
