@@ -1,8 +1,8 @@
 * {box-sizing: border-box;}
 
 body {
-  margin: 15px;
-  background-color: rgb(50, 50, 50);
+  margin: 0;
+  background-color: rgb(20, 25, 40);
   color: white;
   font-size: 22px;
   font-family: "Rokkitt";
@@ -34,7 +34,7 @@ a {
   text-decoration: none;
 }
 a:hover {
-  color: red;
+  color: white;
 }
 
 span.sttmnt {

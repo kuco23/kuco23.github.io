@@ -6,7 +6,7 @@
   <meta name='viewport' content='width=device-width, initial-scale=1.0' charset='utf-8' />
   <link rel='stylesheet' type='text/css' href='css/gridDivs.css' />
   <link rel='stylesheet' type='text/css' href='css/main.css' />
-  <link rel='stylesheet' href="https://fonts.googleapis.com/css?family=Indie+Flower|Rokkitt" /> 
+  <link rel='stylesheet' href="https://fonts.googleapis.com/css?family=Indie+Flower|Rokkitt" />
 
   <style>
   </style>
@@ -37,7 +37,8 @@
       to users and group threads initialized as poker tables.<br />
       Any player that is removed from the group by someone other than himself
       will be added back by the Dealer.
-      If the Dealer is removed from the table you will receive a death threat.<br />
+      If the Dealer is removed from the table you will receive a death threat.
+      <br />
     </div>
 
     <div>
@@ -47,7 +48,8 @@
       Any player that is playing a round for the first time will
       get 4000 as a starting money amount.<br />
       All the players' info is logged in a database on the server,
-      including his name, where he lives, the names of parents and any close relatives.
+      including his name, where he lives, the names of parents and any
+      close relatives.
       (that my dear sir has been a joke... or has it been?).
 
       <h3>Player Money</h3>
@@ -57,30 +59,47 @@
       can be withdrawn anytime by sending a statement that excludes you from the
       table or by leaving the group thread, that the game is being played on.<br />
       <br />
-      The outside money is seen as the money you can use to buy in to play on other tables, that require a certain amount of money to participate in.<br />
-      If player's outside money is less than game buy-in of 1000, player can buy in with all of his money to play in the game,
+      The outside money is seen as the money you can use to buy in to play on
+      other tables, that require a certain amount of money to participate in.<br />
+      If player's outside money is less than game buy-in of 1000, player
+      can buy in with all of his money to play in the game,
       else he must put 1000 of his outside money in game to participate.<br />
       <br />
       The table money is seen as the money you currently play with on a certain table.
-      You can leave the table and transfer your table money to the outside money (with a statement).
+      You can leave the table and transfer your table money to the outside money
+      (with a statement).
       Table money can be lost if the dealer is removed from a table mid-round.
     </div>
 
     <div>
       <h2>Game Continuation</h2>
 
-      When the series of rounds are initialized, the dealer takes the blinds according to the button (first player) position.
-      Then it is the first player after the button's turn to act with one of <a href='#midRoundActions'>these</a> possible statements.
-      After the player's turn is succesfully ended, the next player in line is asked for input on these same actions.
-      If everyone, that has not folded their hand or is not all in, has inputed an action and the amount of money in pot from everyone is
-      higher than those all in, and equal amongst those not all in and not folded, than the next round turn is initialized.<br />
-      There are 3 round turns: flop, turn and river. At flop three cards are revealed, while turn and river reveal one card.
-      When river is succesfully ended with more than one participating player who has not folded their hand, the player cards are revealed,
+      When the series of rounds are initialized, the dealer takes the
+      blinds according to the button (first player) position.
+      Then it is the first player after the button's turn to
+      act with one of <a href='#midRoundActions'>these</a> possible statements.
+      After the player's turn is succesfully ended, the next
+      player in line is asked for input on these same actions.
+      If everyone, that has not folded their hand or is not all in,
+      has inputed an action and the amount of money in pot from everyone is
+      higher than those all in, and equal amongst those not all in
+      and not folded, than the next round turn is initialized.<br />
+      There are 3 round turns: flop, turn and river. At flop three cards
+      are revealed, while turn and river reveal one card.
+      When river is succesfully ended with more than one participating
+      player who has not folded their hand, the player cards are revealed,
       the winner announced and the pot added to his table money.
-      If at any stage there is only one player who has not folded left, he collects the pot money without other's cards being shown.<br />
-      If at any stage there is no players whose inputs are required and one or none active players (eg. two players that are all in),
-      then every stage is initialized without asking for input and after the river players' cards are revealed and the winner announced.<br />
-      Visit <a href= 'https://www.partypoker.com/how-to-play/texas-holdem.html'>this site</a> for more info about the general poker rules.
+      If at any stage there is only one player who has not folded left,
+      he collects the pot money without other's cards being shown.<br />
+      If at any stage there is no players whose inputs are required and
+      one or none active players (eg. two players that are all in),
+      then every stage is initialized without asking for input and after
+      the river players' cards are revealed and the winner announced.<br />
+      Visit
+      <a target='_blank' href='https://www.partypoker.com/how-to-play/texas-holdem.html'>
+        this site
+      </a>
+      for more info about the general poker rules.
     </div>
 
     <div>
@@ -90,34 +109,50 @@
       Statements that are sent to fetch or set data to the game.
 
       <span class = 'sttmnt'>::init</span>
-      Initializes the group thread as a poker table by adding the table to the recognized game tables.
+      Initializes the group thread as a poker table by
+      adding the table to the recognized game tables.
       <span class = 'sttmnt'>::start</span>
-      Starts a series of rounds, which end if a table player sends ::lastround request or if the number of players is too low.
+      Starts a series of rounds, which end if a table player
+      sends ::lastround request or if the number of players is too low.
       <span class = 'sttmnt'>::lastround</span>
       Toggles the last round status.<br />
-      Every round is pre-configured to begin another one after it ends, so with this statenebt it is possible to interrupt the following round's execution.
-      The statement must be sent from a participating player as those not participating are considered not in the game and can only observe.
-      After ::lastround is sent to the table from a participating player it ends the game after the round is finished.
-      The ::lastround command can be canceled (toggled) by sending ::lastround once again.
-      After the game has ended it can be restarted by sending ::init to the group<br />
-      After the game has come to an end player's money still remains in the game and has to be withdrawn!
+      Every round is pre-configured to begin another one after it ends, so
+      with this statenebt it is possible to interrupt the following round's
+      execution.
+      The statement must be sent from a participating player as those not
+      participating are considered not in the game and can only observe.
+      After ::lastround is sent to the table from a participating player it
+      ends the game after the round is finished.
+      The ::lastround command can be canceled (toggled)
+      by sending ::lastround once again.
+      After the game has ended it can be restarted by
+      sending ::init to the group<br />
+      After the game has come to an end player's money still
+      remains in the game and has to be withdrawn!
 
       <h3>Player Group Statements</h3>
-      Statements that are sent from a group to get information or affect player's state.
+      Statements that are sent from a group to
+      get information or affect player's state.
 
       <span class = 'sttmnt'>::buyin</span>
-      Buys in the game on the table with the 50 * table big blind or with all your money if you do not have enough.
+      Buys in the game on the table with the 50 * table big blind
+      or with all your money if you do not have enough.
       <span class = 'sttmnt'>::leave</span>
       Leaves the table and withdraws the money you have left on the table.
-      If there is any money left in the round you might have been playing it will be forfitted.
+      If there is any money left in the round you might have been
+      playing it will be forfitted.
       <span class = 'sttmnt'>::money</span>
-      Shows the money player has left on the current table by sending it to the group from which the message was sent.
+      Shows the money player has left on the current table by sending it to
+      the group from which the message was sent.
       <span class = 'sttmnt'>::refill</span>
-      Refills user's money to the table buy-in of 1000 if player's funds allow it, else it refills the money by all that the user has left.
-      Works only if the player is folded, not participaating or round is not being played.
+      Refills user's money to the table buy-in of 1000 if player's funds
+      allow it, else it refills the money by all that the user has left.
+      Works only if the player is folded, not participaating or round is
+      not being played.
 
       <h3>Player Private Statementes</h3>
-      Statements that are sent to a Dealer's account directly, requesting info or an action to be taken.
+      Statements that are sent to a Dealer's account directly,
+      requesting info or an action to be taken.
       <span class = 'sttmnt'>sign up</span>
       Cretes your profile and adds starting money your datafile.
       Anyone wanting to play here should send this to the dealer.
@@ -129,19 +164,27 @@
       <h3 id = 'midRoundActions'>Mid Round Action Statements</h3>
       These are statements that move forward the round currently being played.
       <span class = 'sttmnt'>call</span>
-      This statement equalizes the money put in the pot by the author with the largest amount of the money put in the pot of any player on the table.
-      If a player does not have enough to equalize, then his money is all put in to the pot and his input is no longer required
-      as he is competing for the money put in pot by other players equal to his amount in the pot.
+      This statement equalizes the money put in the pot by the author with
+      the largest amount of the money put in the pot of any player on the table.
+      If a player does not have enough to equalize, then his money is all
+      put in to the pot and his input is no longer required
+      as he is competing for the money put in pot by other players equal
+      to his amount in the pot.
       <span class = 'sttmnt'>check</span>
-      This is the same as call 0. It is only considered valid if the author of the statement's share in pot is already equalized with other's.
+      This is the same as call 0. It is only considered valid if the
+      author of the statement's share in pot is already equalized with other's.
       <span class = 'sttmnt'>fold</span>
-      This folds the player's hand, eliminating him from the current round pot competition.
+      This folds the player's hand, eliminating him from the current round pot
+      competition.
       <span class = 'sttmnt'>raise N</span>
-      This raises the author's amount of money in the pot by N, where N is a non-negative integer.
-      If N >= author's left table money, than he is considered all in and the money put in the pot is everything he has left.
+      This raises the author's amount of money in the pot by N, where N is
+      a non-negative integer.
+      If N >= author's left table money, than he is considered all in and the
+      money put in the pot is everything he has left.
       N = 0 is the same as call.
       <span class = 'sttmnt'>all in</span>
-      This puts all the player's money in the pot. His input is no longer requred after that.<br />
+      This puts all the player's money in the pot. His input is no longer
+      requred after that.<br />
     </div>
 
   </div>
