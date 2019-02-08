@@ -5,7 +5,7 @@ body {
   background-color: rgb(20, 25, 40);
   color: white;
   font-size: 22px;
-  font-family: "Rokkitt";
+  font-family: "Tinos";
 }
 
 h1 {
@@ -41,7 +41,7 @@ span.sttmnt {
   display: block;
   color: lime;
   margin-top: 10px;
-  font-family: monospace;
+  font-family: "Special Elite", monospace;
 }
 
 div.spaceDivs div ul li {

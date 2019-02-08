@@ -51,8 +51,8 @@ div.gameOverDiv div:last-child {
 div.gameOverDiv div:last-child span:first-child {
   color: powderblue;
   text-shadow: 0 0 1vh powderblue;
-  transition: color 1s, text-shadow 1s;
-  -webkit-transition: color 1s, text-shadow 1s;
+  /*transition: color 1s, text-shadow 1s;
+  -webkit-transition: color 1s, text-shadow 1s;*/
 }
 div.gameOverDiv div:last-child span:first-child:hover {
   cursor: pointer;
@@ -62,8 +62,8 @@ div.gameOverDiv div:last-child span:first-child:hover {
 div.gameOverDiv div:last-child span:last-child {
   color: DarkRed;
   text-shadow: 0 0 1vh DarkRed;
-  transition: color 1s, text-shadow 1s;
-  -webkit-transition: color 1s, text-shadow 1s;
+  /*transition: color 1s, text-shadow 1s;
+  -webkit-transition: color 1s, text-shadow 1s;*/
 }
 div.gameOverDiv div:last-child span:last-child:hover {
   cursor: pointer;

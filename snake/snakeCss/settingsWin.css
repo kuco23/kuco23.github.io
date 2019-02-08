@@ -37,6 +37,7 @@ div.settingButtons span {
 }
 div.settingButtons span:first-child {
   color: Green;
+  text-shadow: none;
 }
 div.settingButtons span:first-child:hover {
   color: Lime;
@@ -44,6 +45,7 @@ div.settingButtons span:first-child:hover {
 div.settingButtons span:last-child {
   float: right;
   color: DarkRed;
+  text-shadow: none;
 }
 div.settingButtons span:last-child:hover {
   color: Red;

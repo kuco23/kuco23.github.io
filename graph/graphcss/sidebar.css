@@ -27,12 +27,12 @@ div.options>div>span {
   color: white;
   background-color: rgba(20, 20, 20, .7);
   font-family: monospace;
-  transition: all 0.5s;
+  transition: color 0.5s;
 }
 div.options>div>span:hover {
   cursor: pointer;
-  background-color: lime;
   color: black;
+  background-color: lightgreen;
 }
 div.options>div>div {
   display: none;

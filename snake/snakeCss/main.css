@@ -3,6 +3,9 @@
 body {
   margin: 0;
   background-color: rgb(211, 211, 211);
+  background-image: radial-gradient(transparent, #10151e);
+  background-repeat: no-repeat;
+  background-attachment: fixed;
   transition: background-color 1s;
   -webkit-transition: background-color 1s;
 }
