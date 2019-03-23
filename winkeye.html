@@ -1,0 +1,134 @@
+<!DOCTYPE HTML>
+
+<html>
+<meta charset='utf8' />
+<script src='jquery-3.3.1.min.js'></script>
+<head>
+<style>
+
+ * {box-sizing: border-box;}
+
+ html, body {
+  min-width: 100%;
+  min-height: 100%;
+  margin: 0;
+  padding: 0;
+ }
+ body {
+  background-color: #1c2833;
+ }
+
+ @keyframes eyeblink {
+   0% {opacity: 0;}
+   10% {opacity: 1;}
+ }
+ @keyframes winkline {
+   0% {opacity: 1;}
+   10% {opacity: 0;}
+ }
+
+ .mainsvg {
+  position: absolute;
+  bottom: 50%;
+  right: 50%;
+  transform: translate(50%, 50%);
+  border-radius: 50%;
+ }
+
+ .mainsvg circle, .mainsvg ellipse {
+  animation: eyeblink 5s steps(1) infinite normal;
+ }
+ .wink line {
+   animation: winkline 5s steps(1) infinite normal;
+ }
+ .wink ellipse {
+   animation: winkeye 5s steps(1) infinite normal;
+ }
+
+</style>
+</head>
+
+<script>
+
+ function vecnorm(x) {
+  return Math.pow(Math.pow(x[0], 2) + Math.pow(x[1], 2), 0.5);
+ }
+ function vecadd(x, y) {
+  return [x[0] + y[0], x[1] + y[1]];
+ }
+ function fromatob(a, b) {
+  return [b[0] - a[0], b[1] - a[1]];
+ }
+ function vecstretch(x, alpha) {
+  return [alpha * x[0], alpha * x[1]];
+ }
+
+ $(document).ready(function() {
+  var eyeballradius = 20;
+  var parentradius = 14;
+  var pplradius = 8;
+  let svgoffset = $('svg.mainsvg').offset();
+  svgoffset = [svgoffset['left'], svgoffset['top']];
+
+  var leybl = document.getElementById('leybl');
+  var reybl = document.getElementById('reybl');
+  var lppl = document.getElementById('lppl');
+  var rppl = document.getElementById('rppl');
+
+  var lrelcenter = [Number(lppl.getAttribute('cx')), Number(lppl.getAttribute('cy'))];
+  var rrelcenter = [Number(rppl.getAttribute('cx')), Number(rppl.getAttribute('cy'))];
+  var lpplcenter = vecadd(svgoffset, lrelcenter);
+  var rpplcenter = vecadd(svgoffset, rrelcenter);
+
+  document.onmousemove = function( event ) {
+   let eventvec = [event.pageX, event.pageY];
+   let lsight = fromatob(lpplcenter, eventvec);
+   let rsight = fromatob(rpplcenter, eventvec);
+   let ldist = vecnorm(lsight);
+   let rdist = vecnorm(rsight);
+   let lsightnormed = (ldist != 0) ? vecstretch(lsight, 1 / ldist) : [0, 0];
+   let rsightnormed = (rdist != 0) ? vecstretch(rsight, 1 / rdist) : [0, 0];
+
+   let dl = 0; let dr = 0;
+   if (ldist <= parentradius - pplradius) {
+    dl = vecstretch(lsightnormed, ldist);
+   } else {
+    dl = vecstretch(lsightnormed, parentradius - pplradius);
+   } if (rdist <= parentradius - pplradius) {
+    dr = vecstretch(rsightnormed, rdist);
+   } else {
+    dr = vecstretch(rsightnormed, parentradius - pplradius);
+   }
+
+   let leftpos = vecadd(lrelcenter, dl);
+   let rightpos = vecadd(rrelcenter, dr);
+   lppl.setAttribute('cx', String(leftpos[0]));
+   lppl.setAttribute('cy', String(leftpos[1]));
+   rppl.setAttribute('cx', String(rightpos[0]));
+   rppl.setAttribute('cy', String(rightpos[1]));
+  };
+
+ });
+
+</script>
+
+<body>
+
+<svg class='mainsvg' width="400" height="400">
+  <circle cx='200' cy='200' r='100' fill='transparent' />
+  <circle id='leybl' cx='155' cy='175' r='20' fill='white' />
+  <circle id='reybl' cx='245' cy='175' r='20' fill='white' />
+  <circle cx='245' cy='175' r='14' fill='#2874a6' />
+  <circle cx='155' cy='175' r='14' fill='#2874a6' />
+  <circle id='rppl' cx='245' cy='175' r='8' fill='black' />
+  <circle id='lppl' cx='155' cy='175' r='8' fill='black' />
+
+  <g class='wink'>
+    <line x1='135' y1='175' x2='175' y2='175' stroke='black' stroke-width='3' />
+    <line x1='225' y1='175' x2='265' y2='175' stroke='black' stroke-width='3' />
+  </g>
+
+</svg>
+
+</body>
+</html>
