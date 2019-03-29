@@ -19,14 +19,10 @@
   background-color: #1c2833;
  }
 
- @keyframes winkopen {
-   0% {opacity: 0;}
-   10% {opacity: 1;}
- }
- @keyframes winkclosed {
-   0% {opacity: 1;}
-   10% {opacity: 0;}
- }
+@keyframes wink {
+  2% {transform: scaleY(0);}
+  4% {transform: scaleY(1);}
+}
 
  .mainsvg {
   position: absolute;
@@ -36,11 +32,10 @@
   border-radius: 50%;
  }
 
- .eyesOpen circle, ellipse {
-  animation: winkopen 5s steps(1) infinite normal;
- }
- .eyesClosed line {
-   animation: winkclosed 5s steps(1) infinite normal;
+ .righteye circle, .lefteye circle {
+   animation-name: wink;
+   animation-duration: 10s;
+   animation-iteration-count: infinite;
  }
 
 </style>
@@ -74,8 +69,10 @@
   var lppl = document.getElementById('lppl');
   var rppl = document.getElementById('rppl');
 
-  var lrelcenter = [Number(lppl.getAttribute('cx')), Number(lppl.getAttribute('cy'))];
-  var rrelcenter = [Number(rppl.getAttribute('cx')), Number(rppl.getAttribute('cy'))];
+  var lrelcenter = [Number(lppl.getAttribute('cx')),
+                    Number(lppl.getAttribute('cy'))];
+  var rrelcenter = [Number(rppl.getAttribute('cx')),
+                    Number(rppl.getAttribute('cy'))];
   var lpplcenter = vecadd(svgoffset, lrelcenter);
   var rpplcenter = vecadd(svgoffset, rrelcenter);
 
@@ -107,6 +104,15 @@
    rppl.setAttribute('cy', String(rightpos[1]));
   };
 
+  document.onresize = function( event ) {
+   $('.lefteye circle').css('transform-origin',
+     String(svgoffset[0] + 155) + 'px ' + String(svgoffset[1] - 20) + 'px');
+   $('.righteye circle').css('transform-origin',
+     String(svgoffset[0] + 155) + 'px ' + String(svgoffset[1] - 20) + 'px');
+  };
+
+  document.onresize(null);
+
  });
 
 </script>
@@ -115,19 +121,18 @@
 
 <svg class='mainsvg' width="400" height="400">
   <circle cx='200' cy='200' r='100' fill='black' />
-  
-  <g class='eyesOpen'>
-   <circle id='leybl' cx='155' cy='175' r='20' fill='white' />
-   <circle id='reybl' cx='245' cy='175' r='20' fill='white' />
-   <circle cx='245' cy='175' r='14' fill='#2874a6' />
-   <circle cx='155' cy='175' r='14' fill='#2874a6' />
-   <circle id='rppl' cx='245' cy='175' r='8' fill='black' />
-   <circle id='lppl' cx='155' cy='175' r='8' fill='black' />
-  </g>
 
-  <g class='eyesClosed'>
-    <line x1='135' y1='175' x2='175' y2='175' stroke='white' stroke-width='3' />
-    <line x1='225' y1='175' x2='265' y2='175' stroke='white' stroke-width='3' />
+  <g class='eyesOpen'>
+    <g class='lefteye'>
+      <circle id='leybl' cx='155' cy='175' r='20' fill='white' />
+      <circle cx='155' cy='175' r='14' fill='#2874a6' />
+      <circle id='lppl' cx='155' cy='175' r='8' fill='black' />
+    </g>
+    <g class='righteye'>
+     <circle id='reybl' cx='245' cy='175' r='20' fill='white' />
+     <circle cx='245' cy='175' r='14' fill='#2874a6' />
+     <circle id='rppl' cx='245' cy='175' r='8' fill='black' />
+   </g>
   </g>
 
 </svg>
