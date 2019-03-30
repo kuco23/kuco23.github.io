@@ -320,7 +320,7 @@ function Graph(context,
 
   this.reset = function() {
     if (this.lockdown) return null;
-    W = this.context.canvas.width; H = this.context.canvas.height;
+    let W = this.context.canvas.width; let H = this.context.canvas.height;
     this.node_margin = 8 * this.node_radius;
     this.nodes_onX = Math.floor(W / (this.node_margin + 2 * this.node_radius));
     this.nodes_onY = Math.floor(H / (this.node_margin + 2 * this.node_radius));

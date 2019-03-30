@@ -12,43 +12,85 @@
  a {text-decoration: none;}
 
  html, body {
-  height: 100%;
   margin: 0;
   padding: 0;
   background-color: black;
  }
 
- div.right-side-background {
-  height: 100%;
-  width: 100%;
-  background-color: rgb(12, 17, 30);
- }
- div.left-side-background {
-  height: 100%;
-  background-color: black;
-  clip-path: polygon(
-    0 0, 50% 0, 48% 5%, 52% 10%, 48% 15%, 52% 20%, 48% 25%, 52% 30%,
-    48% 35%, 52% 40%, 48% 45%, 52% 50%, 48% 55%, 52% 60%,
-    48% 65%, 52% 70%, 48% 75%, 52% 80%, 48% 85%, 52% 90%, 48% 95%,
-    50% 100%, 0 100%);
+ @media only screen and (min-width: 500px) {
+
+   html, body {height: 100%;}
+
+   div.right-side-background {
+    height: 100%;
+    width: 100%;
+    background-color: rgb(12, 17, 30);
+   }
+
+  div.left-side-background {
+   height: 100%;
+   background-color: black;
+   clip-path: polygon(
+     0 0, 50% 0, 48% 5%, 52% 10%, 48% 15%, 52% 20%, 48% 25%, 52% 30%,
+     48% 35%, 52% 40%, 48% 45%, 52% 50%, 48% 55%, 52% 60%,
+     48% 65%, 52% 70%, 48% 75%, 52% 80%, 48% 85%, 52% 90%, 48% 95%,
+     50% 100%, 0 100%);
+  }
+
+  div.right-side, div.left-side {
+   position: absolute;
+   width: 48%;
+   height: 100%;
+   top:0;
+  }
+  div.right-side {left: 52%;}
+  div.left-side {right: 52%;}
+
+  div.inner-right, div.inner-left {
+   position: absolute;
+   right: 50%;
+   bottom: 50%;
+   transform: translate(50%, 50%);
+   color: white;
+  }
+
  }
 
- div.right-side, div.left-side {
-  position: absolute;
-  width: 48%;
-  height: 100%;
-  top:0;
- }
- div.right-side {left: 52%;}
- div.left-side {right: 52%;}
+ @media only screen and (max-width: 500px) {
 
- div.inner-right, div.inner-left {
-  position: absolute;
-  right: 50%;
-  bottom: 50%;
-  transform: translate(50%, 50%);
-  color: white;
- }
+  html, body {height: 145%;}
+
+  div.right-side-background {
+   height: 100%;
+   width: 100%;
+   background-color: rgb(12, 17, 30);
+  }
+  div.left-side-background {
+   height: 100%;
+   background-color: black;
+   clip-path: polygon(
+     0 0, 0 50%, 5% 48%, 10% 52%, 15% 48%, 20% 52%, 25% 48%, 30% 52%,
+     35% 48%, 40% 52%, 45% 48%, 50% 52%, 55% 48%, 60% 52%,
+     65% 48%, 70% 52%, 75% 48%, 80% 52%, 85% 48%, 90% 52%, 95% 48%,
+     100% 50%, 100% 0);
+   }
+
+   div.right-side, div.left-side {
+    position: absolute;
+    width: 48%;
+    height: 50%;
+   }
+   div.right-side {top: 102%;}
+   div.left-side {top: 2%;}
+
+   div.inner-right, div.inner-left {
+    position: absolute;
+    right: 50%;
+    bottom: 50%;
+    transform: translate(50%, 50%);
+    color: white;
+   }
+  }
 
  div.inner-right ul {
   list-style-type: none;
