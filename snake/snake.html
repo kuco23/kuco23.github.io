@@ -27,20 +27,20 @@
   const PageTransitionTime = 1000;
 
   function toMenu() {
-    $('#settings').fadeOut(PageTransitionTime);
+    $('#settingsContainer').fadeOut(PageTransitionTime);
     $('#gameOverWin div:first-child').fadeOut(PageTransitionTime);
     $('#gameOverWin div:nth-child(2)').fadeOut(PageTransitionTime);
     $('#gameOverWin').fadeOut(PageTransitionTime);
     setTimeout(function() {
       $('body').css('background-color', 'rgb(211, 211, 211)');
-      $('#snakeMenu').fadeIn(PageTransitionTime);
+      $('#snakeMenuContainer').fadeIn(PageTransitionTime);
       $('#welcomeWin').fadeIn(PageTransitionTime);
     }, PageTransitionTime);
   }
 
   function toSettings() {
-    $('#snakeMenu').fadeOut(PageTransitionTime, function() {
-      $('#settings').fadeIn(PageTransitionTime);
+    $('#snakeMenuContainer').fadeOut(PageTransitionTime, function() {
+      $('#settingsContainer').css('visibility', 'visible').hide().fadeIn(PageTransitionTime);
     });
     const slider = document.getElementById('slider');
     const snakeColor = document.getElementById('snakecolor');
@@ -66,7 +66,7 @@
   }
 
   function gameStart() {
-    $('#snakeMenu').fadeOut(PageTransitionTime, function() {
+    $('#snakeMenuContainer').fadeOut(PageTransitionTime, function() {
       $('#firstCanvas').fadeIn(PageTransitionTime);
     });
     $('#welcomeWin').fadeOut(PageTransitionTime);
@@ -157,30 +157,34 @@
 
 <body>
 
-  <div id='snakeMenu' class='flexMenu'>
-    <span id='title'>SNAKE</span>
-    <a onclick='gameStart()'>Start</a>
-    <a id='unfinished1'>Difficulty</a>
-    <a id='unfinished2'>Game&nbsp;Mode</a>
-    <a onclick='toSettings()'>Settings</a>
+  <div class='alignCenter' id='snakeMenuContainer'>
+    <div class='flexMenu'>
+      <span id='title'>SNAKE</span>
+      <a onclick='gameStart()'>Start</a>
+      <a id='unfinished1'>Difficulty</a>
+      <a id='unfinished2'>Game&nbsp;Mode</a>
+      <a onclick='toSettings()'>Settings</a>
+    </div>
   </div>
 
-  <div id='settings'>
-    <div id='stamp'>
-      SAVED
-    </div>
-    <form>
-      Snake&nbsp;length: <span id='snakeLength'></span><br /><br />
-      <input type='range' name='snakelen' min=1 max=40 value=20 class='slider' id='slider'><br />
-      Snake&nbsp;color:<br />
-      <input type='text' name='snakecolor' id='snakecolor' class='snakeTextInput'><br />
-      Player&nbsp;color:<br />
-      <input type='text' name='playercolor' id='playercolor' class='snakeTextInput'><br />
-      <div class = 'settingButtons'>
-        <span onclick='saveSettings()'>Save</span>
-        <span onclick='toMenu()'>Go&nbsp;Back</span>
+  <div class='alignCenter' id='settingsContainer'>
+    <div id='settings'>
+      <div id='stamp'>
+        SAVED
       </div>
-    </form>
+      <div>
+        Snake&nbsp;length: <span id='snakeLength'></span><br /><br />
+        <input type='range' name='snakelen' min=1 max=40 value=20 class='slider' id='slider'><br />
+        Snake&nbsp;color:<br />
+        <input type='text' name='snakecolor' id='snakecolor' class='snakeTextInput'><br />
+        Player&nbsp;color:<br />
+        <input type='text' name='playercolor' id='playercolor' class='snakeTextInput'><br />
+        <div class = 'settingButtons'>
+          <span onclick='saveSettings()'>Save</span>
+          <span onclick='toMenu()'>Go&nbsp;Back</span>
+        </div>
+      </div>
+    </div>
   </div>
 
   <canvas id='firstCanvas'>

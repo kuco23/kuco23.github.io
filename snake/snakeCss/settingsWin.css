@@ -1,9 +1,10 @@
+#settingsContainer {visibility: hidden;}
 #settings {
-  display: none;
-  position: absolute;
-  bottom: 50%;
-  right: 50%;
-  transform: translate(50%, 50%);
+  display: flex;
+  flex-flow: column wrap;
+  width: 50vmax;
+  padding-top: 5vmax;
+  text-align: center;
   font-family: 'Indie Flower';
   font-size: 5vh;
   text-shadow: 0.1vh 0.1vh 0.3vh purple;
@@ -12,7 +13,7 @@
 .snakeTextInput {
   margin: 0.8vh 0 0.8vh 0;
   padding: 0 0.4vw 0 0.8vw;
-  width: 100%;
+  width: 50%;
   background-color: rgba(0, 0, 0, .1);
   font-family: 'Indie Flower';
   font-size: 5vh;
@@ -29,13 +30,18 @@
 }
 
 div.settingButtons {
+  display: inline-block;
+  width: 50%;
   margin-top: 4vh;
+  text-align: center;
 }
 div.settingButtons span {
   cursor: pointer;
   transition: all 0.4s linear;
 }
 div.settingButtons span:first-child {
+  float: left;
+  margin-left: 10px;
   color: Green;
   text-shadow: none;
 }
@@ -44,6 +50,7 @@ div.settingButtons span:first-child:hover {
 }
 div.settingButtons span:last-child {
   float: right;
+  margin-right: 10px;
   color: DarkRed;
   text-shadow: none;
 }
@@ -52,7 +59,7 @@ div.settingButtons span:last-child:hover {
 }
 
 #slider {
-  width: 100%;
+  width: 50%;
 }
 
 #stamp {
