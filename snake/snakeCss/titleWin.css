@@ -46,3 +46,9 @@ div.flexMenu a:hover {
   cursor: pointer;
   color: purple;
 }
+
+@media screen and (max-width: 450px) {
+ div.flexMenu {
+  width: 90%;
+ }
+}

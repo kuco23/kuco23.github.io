@@ -73,3 +73,9 @@ div.settingButtons span:last-child:hover {
   font-size: 15vh;
   color: Red;
 }
+
+@media screen and (max-width: 450px) {
+ #settings {
+  width: 90%;
+ }
+}
