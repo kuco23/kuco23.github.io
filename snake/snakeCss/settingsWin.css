@@ -75,7 +75,8 @@ div.settingButtons span:last-child:hover {
 }
 
 @media screen and (max-width: 450px) {
- #settings {
-  width: 90%;
+ #settings {width: 90%;}
+ .snakeTextInput, #slider, div.settingsButtons {
+  width: 100%;
  }
 }
