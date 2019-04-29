@@ -41,7 +41,7 @@ div.settingButtons span {
 }
 div.settingButtons span:first-child {
   float: left;
-  margin-left: 10px;
+  margin-left: 2vw;
   color: Green;
   text-shadow: none;
 }
@@ -50,7 +50,7 @@ div.settingButtons span:first-child:hover {
 }
 div.settingButtons span:last-child {
   float: right;
-  margin-right: 10px;
+  margin-right: 2vw;
   color: DarkRed;
   text-shadow: none;
 }
