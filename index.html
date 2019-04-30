@@ -29,17 +29,19 @@
   font-family: 'Indie Flower';
  }
 
+ #name {
+   margin-top: 15px;
+   color: white;
+ }
+
 </style>
 
 <script>
  const alpha = 0.015;
-
- function vecnorm(x) {
-   return Math.pow(Math.pow(x[0], 2) + Math.pow(x[1], 2), 0.5);
- }
- function vecadd(x, y) {return [x[0] + y[0], x[1] + y[1]];}
- function fromatob(a, b) {return [b[0] - a[0], b[1] - a[1]];}
- function vecstretch(x, alpha) {return [alpha * x[0], alpha * x[1]];}
+ const vecnorm = x => Math.pow(Math.pow(x[0], 2) + Math.pow(x[1], 2), 0.5);
+ const vecadd = (x, y) => [x[0] + y[0], x[1] + y[1]];
+ const fromatob = (a, b) => [b[0] - a[0], b[1] - a[1]];
+ const vecstretch = (x, alpha) => [alpha * x[0], alpha * x[1]];
 
  $(document).ready(function() {
   var eyeballradius = 20;
@@ -87,6 +89,7 @@
    rppl.setAttribute('cy', String(rightpos[1]));
   };
  });
+
  </script>
 
 </head>
@@ -95,26 +98,26 @@
 <div class='repr-side'>
   <div class='repr-side-inner'>
 
-    <svg class='winkiesvg' width="400" height="200">
+    <svg class='winkiesvg' width="200" height="50">
       <g class='eyesOpen'>
         <g class='lefteye'>
-          <circle id='leybl' cx='155' cy='175' r='20' fill='white' />
-          <circle cx='155' cy='175' r='14' fill='#2874a6' />
-          <circle id='lppl' cx='155' cy='175' r='8' fill='black' />
+          <circle id='leybl' cx='55' cy='25' r='20' fill='white' />
+          <circle cx='55' cy='25' r='14' fill='#2874a6' />
+          <circle id='lppl' cx='55' cy='25' r='8' fill='black' />
         </g>
         <g class='righteye'>
-         <circle id='reybl' cx='245' cy='175' r='20' fill='white' />
-         <circle cx='245' cy='175' r='14' fill='#2874a6' />
-         <circle id='rppl' cx='245' cy='175' r='8' fill='black' />
+         <circle id='reybl' cx='145' cy='25' r='20' fill='white' />
+         <circle cx='145' cy='25' r='14' fill='#2874a6' />
+         <circle id='rppl' cx='145' cy='25' r='8' fill='black' />
        </g>
       </g>
       <g class='eyesClosed'>
-        <line x1='135' y1='175' x2='175' y2='175' stroke='white' stroke-width='3' />
-        <line x1='225' y1='175' x2='265' y2='175' stroke='white' stroke-width='3' />
+        <line x1='35' y1='25' x2='75' y2='25' stroke='white' stroke-width='3' />
+        <line x1='125' y1='25' x2='165' y2='25' stroke='white' stroke-width='3' />
       </g>
     </svg>
 
-    <div>
+    <div id='name'>
       Nejc Ševerkar
     </div>
 

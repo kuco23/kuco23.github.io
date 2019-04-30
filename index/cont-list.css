@@ -3,7 +3,6 @@
  margin-left: 10px;
  padding: 0;
 }
-
 ul.kaushan-list > li {
   margin-bottom: 18px;
   color: white;
@@ -15,5 +14,5 @@ ul.kaushan-list > li > ul {
   font-family: monospace;
   font-size: 22px;
 }
-ul.kaushan-list > li > ul a {color: LightBlue;}
-ul.kaushan-list > li > ul a:hover {color: FireBrick;}
+ul.kaushan-list > li > ul a {color: ForestGreen;}
+ul.kaushan-list > li > ul a:hover {color: Lime;}

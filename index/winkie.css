@@ -1,11 +1,10 @@
 @keyframes winkclosed {
    0% {opacity: 1;}
-   10% {opacity: 0;}
+   5% {opacity: 0;}
  }
  @keyframes winkopen {
   0% {opacity: 0;}
-  10% {opacity: 1;}
-}
-.wink line {animation: winkline 5s steps(1) infinite normal;}
-.eyesOpen circle, ellipse {animation: winkopen 5s steps(1) infinite normal;}
-.eyesClosed line {animation: winkclosed 5s steps(1) infinite normal;}
+  5% {opacity: 1;}
+ }
+ .eyesOpen circle, ellipse {animation: winkopen 10s steps(1) infinite normal;}
+ .eyesClosed line {animation: winkclosed 10s steps(1) infinite normal
