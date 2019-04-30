@@ -1,0 +1,44 @@
+html, body {height: 100%; width:100%;}
+div.repr-side {
+ float: left;
+ height: 100%;
+ width: 50%;
+ background-color: black;
+ border: 2px solid rgb(12, 17, 30);
+}
+div.cont-side {
+ float: right;
+ height: 100%;
+ width: 50%;
+ background-color: rgb(12, 17, 30);
+ border: 2px solid black;
+}
+div.repr-side-inner {
+  position: absolute;
+  left: 25%;
+  bottom: 50%;
+  transform: translate(-50%, 50%);
+  text-align: center;
+}
+div.cont-side-inner {
+  position: absolute;
+  right: 25%;
+  bottom: 50%;
+  transform: translate(50%, 50%);
+}
+
+@media only screen and (max-width: 600px) {
+  div.repr-side, div.cont-side {
+    float: none;
+    width: 100%;
+  }
+  div.repr-side-inner, div.cont-side-inner {
+    position: static;
+    transform: none;
+    height: 100%;
+    display: flex;
+    flex-flow: row wrap;
+    justify-content: center;
+    align-items: center;
+  }
+}

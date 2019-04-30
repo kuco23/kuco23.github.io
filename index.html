@@ -4,7 +4,11 @@
 <head>
 <title>kuco23.github.io/me</title>
 <meta name='viewport' content='width=device-width, initial-scale=1.0' charset='utf-8' />
-<link href="https://fonts.googleapis.com/css?family=Kaushan+Script|Indie+Flower" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css?family=Kaushan+Script|Indie+Flower" rel="stylesheet" />
+<link href="index/layout.css" type='text/css' rel="stylesheet" />
+<link href="index/cont-list.css" type='text/css' rel="stylesheet" />
+<link href="index/winkie.css" type='text/css' rel="stylesheet" />
+<script src='jquery-3.3.1.min.js'></script>
 
 <style>
 
@@ -14,130 +18,112 @@
  html, body {
   margin: 0;
   padding: 0;
+  width: 100%;
+  height: 100%;
+  color: white;
   background-color: black;
  }
 
- @media only screen and (min-width: 500px) {
-
-   html, body {height: 100%;}
-
-   div.right-side-background {
-    height: 100%;
-    width: 100%;
-    background-color: rgb(12, 17, 30);
-   }
-
-  div.left-side-background {
-   height: 100%;
-   background-color: black;
-   clip-path: polygon(
-     0 0, 50% 0, 48% 5%, 52% 10%, 48% 15%, 52% 20%, 48% 25%, 52% 30%,
-     48% 35%, 52% 40%, 48% 45%, 52% 50%, 48% 55%, 52% 60%,
-     48% 65%, 52% 70%, 48% 75%, 52% 80%, 48% 85%, 52% 90%, 48% 95%,
-     50% 100%, 0 100%);
-  }
-
-  div.right-side, div.left-side {
-   position: absolute;
-   width: 48%;
-   height: 100%;
-   top:0;
-  }
-  div.right-side {left: 52%;}
-  div.left-side {right: 52%;}
-
-  div.inner-right, div.inner-left {
-   position: absolute;
-   right: 50%;
-   bottom: 50%;
-   transform: translate(50%, 50%);
-   color: white;
-  }
-
- }
-
- @media only screen and (max-width: 500px) {
-
-  html, body {height: 145%;}
-
-  div.right-side-background {
-   height: 100%;
-   width: 100%;
-   background-color: rgb(12, 17, 30);
-  }
-  div.left-side-background {
-   height: 100%;
-   background-color: black;
-   clip-path: polygon(
-     0 0, 0 50%, 5% 48%, 10% 52%, 15% 48%, 20% 52%, 25% 48%, 30% 52%,
-     35% 48%, 40% 52%, 45% 48%, 50% 52%, 55% 48%, 60% 52%,
-     65% 48%, 70% 52%, 75% 48%, 80% 52%, 85% 48%, 90% 52%, 95% 48%,
-     100% 50%, 100% 0);
-   }
-
-   div.right-side, div.left-side {
-    position: absolute;
-    width: 48%;
-    height: 50%;
-   }
-   div.right-side {top: 102%;}
-   div.left-side {top: 2%;}
-
-   div.inner-right, div.inner-left {
-    position: absolute;
-    right: 50%;
-    bottom: 50%;
-    transform: translate(50%, 50%);
-    color: white;
-   }
-  }
-
- div.inner-right ul {
-  list-style-type: none;
-  margin-left: 10px;
-  padding: 0;
- }
- div.inner-right > ul > li {
-   margin-bottom: 18px;
-   color: white;
-   font-family: "Kaushan Script";
-   font-size: 26px;
- }
- div.inner-right > ul > li > ul {
-   margin-top: 8px;
-   font-family: monospace;
-   font-size: 22px;
- }
- div.inner-right > ul > li > ul a {
-   color: LightBlue;
- }
- div.inner-right > ul > li > ul a:hover {
-   color: FireBrick;
- }
-
- div.inner-left {
+ div.repr-side-inner {
   font-size: 30px;
   font-family: 'Indie Flower';
  }
 
 </style>
 
+<script>
+ const alpha = 0.015;
+
+ function vecnorm(x) {
+   return Math.pow(Math.pow(x[0], 2) + Math.pow(x[1], 2), 0.5);
+ }
+ function vecadd(x, y) {return [x[0] + y[0], x[1] + y[1]];}
+ function fromatob(a, b) {return [b[0] - a[0], b[1] - a[1]];}
+ function vecstretch(x, alpha) {return [alpha * x[0], alpha * x[1]];}
+
+ $(document).ready(function() {
+  var eyeballradius = 20;
+  var parentradius = 14;
+  var pplradius = 8;
+  let svgoffset = Object.values($('svg.winkiesvg').offset()).reverse();
+
+  var leybl = document.getElementById('leybl');
+  var reybl = document.getElementById('reybl');
+  var lppl = document.getElementById('lppl');
+  var rppl = document.getElementById('rppl');
+
+  var lrelcenter = [Number(lppl.getAttribute('cx')),
+                    Number(lppl.getAttribute('cy'))];
+  var rrelcenter = [Number(rppl.getAttribute('cx')),
+                    Number(rppl.getAttribute('cy'))];
+  var lpplcenter = vecadd(svgoffset, lrelcenter);
+  var rpplcenter = vecadd(svgoffset, rrelcenter);
+
+  document.onmousemove = function( event ) {
+   let eventvec = [event.pageX, event.pageY];
+   let lsight = fromatob(lpplcenter, eventvec);
+   let rsight = fromatob(rpplcenter, eventvec);
+   let ldist = vecnorm(lsight);
+   let rdist = vecnorm(rsight);
+   let lsightnormed = (ldist != 0) ? vecstretch(lsight, 1 / ldist) : [0, 0];
+   let rsightnormed = (rdist != 0) ? vecstretch(rsight, 1 / rdist) : [0, 0];
+
+   let dl = 0; let dr = 0;
+   if (ldist*alpha <= parentradius - pplradius) {
+    dl = vecstretch(lsightnormed, ldist*alpha);
+   } else {
+    dl = vecstretch(lsightnormed, parentradius - pplradius);
+   } if (rdist*alpha <= parentradius - pplradius) {
+    dr = vecstretch(rsightnormed, rdist*alpha);
+   } else {
+    dr = vecstretch(rsightnormed, parentradius - pplradius);
+   }
+
+   let leftpos = vecadd(lrelcenter, dl);
+   let rightpos = vecadd(rrelcenter, dr);
+   lppl.setAttribute('cx', String(leftpos[0]));
+   lppl.setAttribute('cy', String(leftpos[1]));
+   rppl.setAttribute('cx', String(rightpos[0]));
+   rppl.setAttribute('cy', String(rightpos[1]));
+  };
+ });
+ </script>
+
 </head>
 <body>
 
-<div class='right-side-background'>
- <div class='left-side-background'></div>
-</div>
+<div class='repr-side'>
+  <div class='repr-side-inner'>
 
-<div class='left-side'>
-  <div class='inner-left'>
-    Nejc Ševerkar
+    <svg class='winkiesvg' width="400" height="200">
+      <g class='eyesOpen'>
+        <g class='lefteye'>
+          <circle id='leybl' cx='155' cy='175' r='20' fill='white' />
+          <circle cx='155' cy='175' r='14' fill='#2874a6' />
+          <circle id='lppl' cx='155' cy='175' r='8' fill='black' />
+        </g>
+        <g class='righteye'>
+         <circle id='reybl' cx='245' cy='175' r='20' fill='white' />
+         <circle cx='245' cy='175' r='14' fill='#2874a6' />
+         <circle id='rppl' cx='245' cy='175' r='8' fill='black' />
+       </g>
+      </g>
+      <g class='eyesClosed'>
+        <line x1='135' y1='175' x2='175' y2='175' stroke='white' stroke-width='3' />
+        <line x1='225' y1='175' x2='265' y2='175' stroke='white' stroke-width='3' />
+      </g>
+    </svg>
+
+    <div>
+      Nejc Ševerkar
+    </div>
+
   </div>
 </div>
 
-<div class='right-side'>
-  <div class='inner-right'>
-    <ul>
+<div class='cont-side'>
+  <div class='cont-side-inner'>
+    <ul class='kaushan-list'>
       <li>
         Pages
         <ul>
@@ -145,7 +131,6 @@
           <li><a href='pokermessinger/documentation.html'>PokerMessinger doc</a></li>
           <li><a href='snake/snake.html'>Snake</a></li>
           <li><a href='graph/graph.html'>Graph</a></li>
-	  <li><a href='winkeye.html'>WinkEye</a></li>
         </ul>
       </li>
       <li>

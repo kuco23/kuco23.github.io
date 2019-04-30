@@ -24,7 +24,7 @@
   4% {transform: scaleY(1);}
 }
 
- .mainsvg {
+ .winkiesvg {
   position: absolute;
   bottom: 50%;
   right: 50%;
@@ -62,7 +62,7 @@
   var eyeballradius = 20;
   var parentradius = 14;
   var pplradius = 8;
-  let svgoffset = Object.values($('svg.mainsvg').offset()).reverse();
+  let svgoffset = Object.values($('svg.winkiesvg').offset()).reverse();
 
   var leybl = document.getElementById('leybl');
   var reybl = document.getElementById('reybl');
@@ -119,7 +119,7 @@
 
 <body>
 
-<svg class='mainsvg' width="400" height="400">
+<svg class='winkiesvg' width="400" height="400">
   <circle cx='200' cy='200' r='100' fill='black' />
 
   <g class='eyesOpen'>
