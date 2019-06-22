@@ -39,13 +39,13 @@ transition: color 1s;
 
 .sidebar li a:hover {
 background-color: black;
-color: rgba(100, 256, 100, 1);;
+color: white;
 }
 
 .sidebar div li a {
 padding: 10% 10% 10% 10%;
 margin: 0;
-background-color: rgba(30,30,30,.99); /* */
+background-color: rgba(30,30,30,.99);
 color: rgba(256,256,256,.3);
 font-weight: normal;
 font-size: 24px;

@@ -26,18 +26,13 @@ text-align: center;
 .Navigation li a {
 text-decoration: none;
 display: block;
-padding: 5%;
+padding: 20px;
 border-left: 2px solid rgba(256,256,256,.2);
 color: rgba(256,256,256,.5);
 overflow:auto;
-
--webkit-transition-property: color;
--webkit-transition-duration: 0.5s;
-transition-property: color;
-transition-duration: 0.5s;
 }
 
 .Navigation li a:hover {
 border-left: 2px solid rgba(100, 256, 100, .8);
-color: rgba(100, 256, 100, .8);
+color: white;
 }
