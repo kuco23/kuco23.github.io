@@ -2,7 +2,7 @@ h1 {
   color: rgb(144,238,144);
   text-align: center;
   font-family: 'Tangerine', serif;
-  font-size: 4vmax;
+  font-size: 40px;
   font-style: oblique;
 
   transform: rotate(3deg);
@@ -39,7 +39,7 @@ h3 {
 .CodeFrame {
   display: inline-block;
   padding: 0px;
-  margin: 10px 0;
+  margin: 30px 0 30px 0;
   background-color: rgba(15,15,15, 1);
   border: 1px solid #ffffff30;
 }
