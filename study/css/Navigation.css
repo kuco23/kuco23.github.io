@@ -1,13 +1,12 @@
 .Navigation {
-float: left;
 background-color: transparent;
 width: 20%;
 
 position: absolute;
 left: 0;
-top: 1%;
+top: 0;
 
-font-size: 1.5vmax;
+font-size: 25px;
 }
 
 .Sticky {
@@ -22,25 +21,23 @@ padding: 0;
 
 .Navigation li {
 text-align: center;
-border: 2px solid transparent;
 }
 
 .Navigation li a {
 text-decoration: none;
 display: block;
 padding: 5%;
-border: 2px solid rgba(0,0,0,.5);
-color: rgba(250,250,250,.5);
+border-left: 2px solid rgba(256,256,256,.2);
+color: rgba(256,256,256,.5);
 overflow:auto;
 
--webkit-transition-property: background-color, border, color;
+-webkit-transition-property: color;
 -webkit-transition-duration: 0.5s;
-transition-property: background-color, border, color;
+transition-property: color;
 transition-duration: 0.5s;
 }
 
 .Navigation li a:hover {
-background-color: rgba(0, 0, 0, .4);
-border: 2px solid rgba(0, 0, 0, .8);
-color: white;
+border-left: 2px solid rgba(100, 256, 100, .8);
+color: rgba(100, 256, 100, .8);
 }

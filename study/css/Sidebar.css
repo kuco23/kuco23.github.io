@@ -1,16 +1,15 @@
 .sidebar {
-width: 20%;
+display: none;
 position: fixed;
 top: 0;
 right: 0;
-
-z-index: 100;
-background-color: transparent;
-
+width: 20%;
 max-height: 96%;
 overflow: auto;
+z-index: 100;
 
-display: none;
+background-color: transparent;
+border: 2px solid rgba(256,256,256,.2);
 }
 
 .sidebar ul {
@@ -28,10 +27,11 @@ text-decoration: none;
 display: block;
 padding: 15% 20% 15% 20%;
 
-background-color: rgba(10, 10, 10, 0.99);
-color: black;
+background-color: rgba(10, 10, 10, 1);
+color: rgba(256,256,256,.5);
 font-weight: bold;
-font-size: 4vh;
+font-size: 28px;
+font-family: monospace;
 
 -webkit-transition: color 1s;
 transition: color 1s;
@@ -39,16 +39,16 @@ transition: color 1s;
 
 .sidebar li a:hover {
 background-color: black;
-color: rgb(200,200,200);
+color: rgba(100, 256, 100, 1);;
 }
 
 .sidebar div li a {
 padding: 10% 10% 10% 10%;
 margin: 0;
 background-color: rgba(30,30,30,.99); /* */
-color: rgba(0,0,0,.6);
+color: rgba(256,256,256,.3);
 font-weight: normal;
-font-size: 2.5vh;
+font-size: 24px;
 
 -webkit-transition: text-shadow 1s, color 1s;
 transition: text-shadow 1s, color 1s;
@@ -82,7 +82,7 @@ text-align: center;
 .sideBarHide a span {
 text-decoration: none;
 color: white;
-font-size: 1.8vh;
+font-size: 15px;
 display: inline-block;
 
 transition: color 1s, transform 1s;
