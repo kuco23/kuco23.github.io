@@ -1,0 +1,40 @@
+div.messenger-chat {
+  width: 100%;
+  padding: 25px;
+  background-color: rgba(0, 0, 0, .4);
+  border-radius: 10px;
+}
+
+div.messenger-chat::after {
+  content: "";
+  clear: both;
+  display: table;
+}
+
+div.messenger-chat > span {
+  padding: 5px 10px 5px 10px;
+  margin-top: 5px;
+  max-width: 70%;
+  margin-bottom: 5px;
+  border-radius: 10px;
+}
+
+div.messenger-chat > span.dealer {
+  float: right;
+  clear: both;
+  margin-left: 5px;
+  background-color: darkslateblue;
+  color: black;
+}
+
+div.messenger-chat > span.user {
+  float: left;
+  clear: both;
+  margin-right: 5px;
+}
+
+span.color1 {background-color: rgb(10, 40, 60); color: white;}
+span.color2 {background-color: rgb(70, 200, 60); color: black;}
+span.color3 {background-color: rgb(255, 99, 71); color: black;}
+
+img {padding-top: 5px;}

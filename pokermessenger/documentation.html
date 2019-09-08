@@ -4,8 +4,9 @@
 <head>
   <title>pokermessinger documentation</title>
   <meta name='viewport' content='width=device-width, initial-scale=1.0' charset='utf-8' />
-  <link rel='stylesheet' type='text/css' href='css/gridDivs.css' />
   <link rel='stylesheet' type='text/css' href='css/main.css' />
+  <link rel='stylesheet' type='text/css' href='css/grid-divs.css' />
+  <link rel='stylesheet' type='text/css' href='css/messenger-balloons.css' />
   <link rel='stylesheet'
   href="https://fonts.googleapis.com/css?family=Indie+Flower|Special+Elite|Tinos|Lato" />
 
@@ -22,170 +23,205 @@
 
     <div>
       <h2>Intro</h2>
-      This is the documentation for the PokerMessenger app
-      that allows playing poker on messinger.
-      Its depency is the fbchat module, which is used for I/O.
+      This page serves as the documentation for the PokerMessenger app
+      that enables poker to be played on messenger.
+      Its depency is the fbchat module, which is used for io.
     </div>
 
     <div>
       <h2>Basics</h2>
-      The basis of this application is the Dealer account,
+      The basis of this application is the dealer account,
       which can be set to any facebook account.
       It is recommended for the application user to set up a new account,
-      reserved for the Dealer, or use some other abandoned account.<br />
-      The Dealer's account will be automated to send game information
-      (eg. name of the player whose action is expected, player cards)
-      to users and group threads initialized as poker tables.<br />
-      Any player that is removed from the group by someone other than himself
-      will be added back by the Dealer.
-      If the Dealer is removed from the table you will receive a death threat.
-      <br />
+      reserved for the dealer, or use some other abandoned account.<br />
+      The dealer's account will be automated to send game information
+      to users and group threads, initialized as poker tables.
+      Those group threads will be referred as poker tables throughout
+      the page.
     </div>
 
     <div>
-      <h2>Player Rules</h2>
+      <h2>Poker Players</h2>
 
       <h3>New Player introduction</h3>
-      Any player that is playing a round for the first time will
-      get 4000 as a starting money amount.<br />
-      All the players' info is logged in a database on the server,
-      including his name, where he lives, the names of parents and any
-      close relatives.
-      (that my dear sir has been a joke... or has it been?).
+      Every player has to initialize himself, by signing up.
+      Any player that has signed up for the first time will
+      get the default amount of 4000 as startup money.
+      That money can be spent by depositing a buy-in of 1000
+      on a poker table.
+      <br />
 
       <h3>Player Money</h3>
-      Players' money is logged with other info in a database on the server.
-      Player's money and the money that he currently plays with are seperated.
-      The money that player plays with is entirely within the game and
-      can be withdrawn anytime by sending a statement that excludes you from the
-      table or by leaving the group thread, that the game is being played on.<br />
-      <br />
-      The outside money is seen as the money you can use to buy in to play on
-      other tables, that require a certain amount of money to participate in.<br />
-      If player's outside money is less than game buy-in of 1000, player
-      can buy in with all of his money to play in the game,
-      else he must put 1000 of his outside money in game to participate.<br />
-      <br />
-      The table money is seen as the money you currently play with on a certain table.
-      You can leave the table and transfer your table money to the outside money
-      (with a statement).
-      Table money can be lost if the dealer is removed from a table mid-round.
+      There is an important distinction between the user money and
+      the money deposited on a poker table. The main idea is for the
+      user money to remain static during game participation, therefore
+      not being affected by changes in poker table money.
+      <ul>
+        <li>User Money</li>
+        It is used for buying in games that are being played on poker tables.
+        After buying in a game, the buy-in amount is withdrawn from the
+        user money and deposited on a table.
+        <li>Table Money</li>
+        It is used for playing with and can at most times be withdrawn
+        back to user money.
+      </ul>
     </div>
 
     <div>
       <h2>Game Continuation</h2>
 
-      When the series of rounds are initialized, the dealer takes the
-      blinds according to the button (first player) position.
-      Then it is the first player after the button's turn to
-      act with one of <a href='#midRoundActions'>these</a> possible statements.
-      After the player's turn is succesfully ended, the next
-      player in line is asked for input on these same actions.
-      If everyone, that has not folded their hand or is not all in,
-      has inputed an action and the amount of money in pot from everyone is
-      higher than those all in, and equal amongst those not all in
-      and not folded, than the next round turn is initialized.<br />
-      There are 3 round turns: flop, turn and river. At flop three cards
-      are revealed, while turn and river reveal one card.
-      When river is succesfully ended with more than one participating
-      player who has not folded their hand, the player cards are revealed,
-      the winner announced and the pot added to his table money.
-      If at any stage there is only one player who has not folded left,
-      he collects the pot money without other's cards being shown.<br />
-      If at any stage there is no players whose inputs are required and
-      one or none active players (eg. two players that are all in),
-      then every stage is initialized without asking for input and after
-      the river players' cards are revealed and the winner announced.<br />
-      Visit
+      The exact statements that are referred here are defined
+      <a href='#statements'>here</a>.<br />
+      For a concrete example of a game being played checkout
+      <a href='#gameexample'>this</a>.
+
+      <h3>Game Preparation</h3>
+      Before starting any game, you must initialize a
+      group thread as a poker table.
+      After the poker table is defined, there must be at least
+      2 and at most 9 players who buy in the game.
+      When all the players have bought into the game,
+      the series of rounds can be started by one of the participants.
+
+      <h3>Round Rules</h3>
+      When a round begins, blinds will be taken from the two players,
+      whose roles will be shifted the next round.
+      Note that whenever a player does not have enough money for completeing
+      the action he is required to, he will be put all in.
+      A round consists of players being asked for their input, according
+      to the poker rules, which you can examine at
       <a target='_blank' href='https://www.partypoker.com/how-to-play/texas-holdem.html'>
-        this site
-      </a>
-      for more info about the general poker rules.
+      this site</a>.
     </div>
 
-    <div>
-      <h2>Player Statements</h2>
+    <div id = 'statements'>
+      <h2>Statements</h2>
 
       <h3>Game Manipulation Statements</h3>
-      Statements that are sent to fetch or set data to the game.
+      Statements that are sent to affect the state of the game
+      or fetch its information.
 
       <span class = 'sttmnt'>::init</span>
-      Initializes the group thread as a poker table by
-      adding the table to the recognized game tables.
-      <span class = 'sttmnt'>::start</span>
-      Starts a series of rounds, which end if a table player
-      sends ::lastround request or if the number of players is too low.
-      <span class = 'sttmnt'>::lastround</span>
-      Toggles the last round status.<br />
-      Every round is pre-configured to begin another one after it ends, so
-      with this statenebt it is possible to interrupt the following round's
-      execution.
-      The statement must be sent from a participating player as those not
-      participating are considered not in the game and can only observe.
-      After ::lastround is sent to the table from a participating player it
-      ends the game after the round is finished.
-      The ::lastround command can be canceled (toggled)
-      by sending ::lastround once again.
-      After the game has ended it can be restarted by
-      sending ::init to the group<br />
-      After the game has come to an end player's money still
-      remains in the game and has to be withdrawn!
+      Initializes the group thread as a poker table.
+      Once a poker table is initialized, you can only
+      deinitialize it by removing the dealer.
 
-      <h3>Player Group Statements</h3>
-      Statements that are sent from a group to
+      <span class = 'sttmnt'>::start</span>
+      Starts a series of rounds, which continues as long as
+      certain conditions are met. When the series end,
+      they can be restarted again using this keyword.
+
+      <span class = 'sttmnt'>::lastround</span>
+      You can shedule ending (or cancel) of the series
+      of rounds being played on a poker table using this keyword.
+      After the keyword is sent and the round has been completed,
+      the game will end and will have to be restarted using ::start.
+
+      <h3>Table Statements</h3>
+      Statements that are sent from a table to
       get information or affect player's state.
 
       <span class = 'sttmnt'>::buyin</span>
-      Buys in the game on the table with the 50 * table big blind
-      or with all your money if you do not have enough.
+      Buys in the game, being played on the table with the
+      default value of 1000 or with all the player's money
+      if he doesn't have enough.
+
       <span class = 'sttmnt'>::leave</span>
-      Leaves the table and withdraws the money you have left on the table.
-      If there is any money left in the round you might have been
-      playing it will be forfitted.
+      Leaves the table and withdraws the money
+      player has left on the table.
+      If there is any money of his left in the
+      current round's pot, it will be forfitted.
+
       <span class = 'sttmnt'>::money</span>
-      Shows the money player has left on the current table by sending it to
-      the group from which the message was sent.
+      Shows the money player has left on the current
+      table by sending it to the group from which the
+      keyword was sent.
+
       <span class = 'sttmnt'>::refill</span>
-      Refills user's money to the table buy-in of 1000 if player's funds
-      allow it, else it refills the money by all that the user has left.
-      Works only if the player is folded, not participaating or round is
-      not being played.
+      Refills user's money to the table buy-in of 1000
+      if player's funds allow it, else it refills the
+      money by all the money user has left.
+      Works only if the player is folded,
+      not participating or round is not being played.
 
-      <h3>Player Private Statementes</h3>
-      Statements that are sent to a Dealer's account directly,
-      requesting info or an action to be taken.
+      <h3>Private Statementes</h3>
+      Statements that are sent to the dealer's account directly,
+      requesting information or an action to be taken.
+      The response is sent to the statement author's
+      private thread.
+
       <span class = 'sttmnt'>sign up</span>
-      Cretes your profile and adds starting money your datafile.
-      Anyone wanting to play here should send this to the dealer.
-      <span class = 'sttmnt'>show money</span>
-      Shows the outside money user has left by sending it to the user's account.
-      <span class = 'sttmnt'>gimme moneyz</span>
-      Requests the money of 100 from Dealer which can be given every 4 hours.
+      Cretes the player profile and giving him
+      starting money, which can be used to play with.
 
-      <h3 id = 'midRoundActions'>Mid Round Action Statements</h3>
+      <span class = 'sttmnt'>show money</span>
+      Shows the amount of money user has.
+      It does not take into account the money user
+      has deposited on poker tables.
+
+      <span class = 'sttmnt'>gimme moneyz</span>
+      Requests the money value of 100 from the dealer
+      which can be given every 4 hours.
+
+      <h3>Mid Round Action Statements</h3>
       These are statements that move forward the round currently being played.
+
       <span class = 'sttmnt'>call</span>
-      This statement equalizes the money put in the pot by the author with
-      the largest amount of the money put in the pot of any player on the table.
-      If a player does not have enough to equalize, then his money is all
-      put in to the pot and his input is no longer required
-      as he is competing for the money put in pot by other players equal
-      to his amount in the pot.
+      Equalizes the money put in the pot by the author
+      with the largest amount of the money put in the pot
+      of any player on the table.
+      If a player does not have enough to equalize,
+      then all of his money is put in.
+
       <span class = 'sttmnt'>check</span>
-      This is the same as call 0. It is only considered valid if the
-      author of the statement's share in pot is already equalized with other's.
+      Is the same as call 0. It is only considered valid if the
+      statement's author share in pot is already equal to others'.
+
       <span class = 'sttmnt'>fold</span>
-      This folds the player's hand, eliminating him from the current round pot
+      Folds the player's hand, eliminating him from the current round pot
       competition.
+
       <span class = 'sttmnt'>raise N</span>
-      This raises the author's amount of money in the pot by N, where N is
-      a non-negative integer.
-      If N >= author's left table money, than he is considered all in and the
-      money put in the pot is everything he has left.
+      This raises the author's amount of money in the pot by N,
+      where N is a non-negative integer.
+      If N >= author's left table money, then he is
+      considered all in.
       N = 0 is the same as call.
-      <span class = 'sttmnt'>all in</span>
-      This puts all the player's money in the pot. His input is no longer
-      requred after that.<br />
+
+      <span class = 'sttmnt'>allin</span>
+      This puts all the player's money in the pot.<br />
+    </div>
+
+    <div id = 'gameexample'>
+      <h2>Game Example</h2>
+
+      <div class = 'messenger-chat'>
+        <span class='user color1'>::init</span>
+        <span class='dealer'>This group was initialized as a poker table</span>
+        <span class='user color1'>::buyin</span>
+        <span class='dealer'>Blue has bought into the game with 1000.</span>
+        <span class='user color2'>::buyin</span>
+        <span class='dealer'>Green has bought into the game with 1000.</span>
+        <span class='user color3'>::buyin</span>
+        <span class='dealer'>Red has bought into the game with 1000.</span>
+        <span class='user color1'>::start</span>
+        <span class='dealer'>A series of rounds will start.</span>
+        <span class='dealer'>-----------------New Round------------------</span>
+        <span class='dealer'>Blue posted a small blind of 10</span>
+        <span class='dealer'>Green posted a big blind of 20</span>
+        <span class='dealer'>Red<br />20 to call</span>
+        <span class='user color3'>call</span>
+        <span class='dealer'>Blue<br />10 to call</span>
+        <span class='user color2'>call</span>
+        <span class='dealer'>Green</span>
+        <span class='user color1'>check</span>
+        <span class='dealer'>Flop:<br />
+          K<img src="svg/hearts.svg" alt="hearts" width="20px" height="20px" />
+          Q<img src="svg/hearts.svg" alt="hearts" width="20px" height="20px" />
+          10<img src="svg/clover.svg" alt="clover" width="20px" height="20px" />
+        </span>
+      </div>
+
     </div>
 
   </div>
