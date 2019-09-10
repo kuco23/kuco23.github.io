@@ -1,6 +1,7 @@
 div.messenger-chat {
   width: 100%;
   padding: 25px;
+  font-family: 'lucida grande', tahoma, verdana;
   background-color: rgba(0, 0, 0, .4);
   border-radius: 10px;
 }
@@ -14,8 +15,9 @@ div.messenger-chat::after {
 div.messenger-chat > span {
   padding: 5px 10px 5px 10px;
   margin-top: 5px;
-  max-width: 70%;
+  max-width: 65%;
   margin-bottom: 5px;
+  overflow-wrap: break-word;
   border-radius: 10px;
 }
 
@@ -23,8 +25,6 @@ div.messenger-chat > span.dealer {
   float: right;
   clear: both;
   margin-left: 5px;
-  background-color: darkslateblue;
-  color: black;
 }
 
 div.messenger-chat > span.user {
@@ -33,8 +33,9 @@ div.messenger-chat > span.user {
   margin-right: 5px;
 }
 
-span.color1 {background-color: rgb(10, 40, 60); color: white;}
-span.color2 {background-color: rgb(70, 200, 60); color: black;}
-span.color3 {background-color: rgb(255, 99, 71); color: black;}
+span.blue {background-color: #2A4B7C; color: black;}
+span.orange {background-color: #F96714; color: black;}
+span.green {background-color: rgb(70, 200, 60); color: black;}
+span.brown {background-color: #755139; color: black;}
 
 img {padding-top: 5px;}

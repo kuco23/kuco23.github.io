@@ -30,8 +30,9 @@
 
     <div>
       <h2>Basics</h2>
-      The basis of this application is the dealer account,
-      which can be set to any facebook account.
+      The basis of this application is the dealer account.
+      The username and password for the account need to be provided
+      to the PokerMessenger app configuration file.
       It is recommended for the application user to set up a new account,
       reserved for the dealer, or use some other abandoned account.<br />
       The dealer's account will be automated to send game information
@@ -84,14 +85,16 @@
       the series of rounds can be started by one of the participants.
 
       <h3>Round Rules</h3>
-      When a round begins, blinds will be taken from the two players,
-      whose roles will be shifted the next round.
-      Note that whenever a player does not have enough money for completeing
-      the action he is required to, he will be put all in.
       A round consists of players being asked for their input, according
       to the poker rules, which you can examine at
-      <a target='_blank' href='https://www.partypoker.com/how-to-play/texas-holdem.html'>
-      this site</a>.
+      <a target='_blank'
+         href='https://www.partypoker.com/how-to-play/texas-holdem.html'
+      >this site</a>.
+      The players at the table are asked for input which when provided,
+      moves on the round. Invalid player inputs are ignored,
+      so players can talk freely with each other without game interruption.
+      Every round is followed by another one, if certain conditions are met,
+      though any player can break the cycle (by sending a statement).
     </div>
 
     <div id = 'statements'>
@@ -184,9 +187,8 @@
       <span class = 'sttmnt'>raise N</span>
       This raises the author's amount of money in the pot by N,
       where N is a non-negative integer.
-      If N >= author's left table money, then he is
-      considered all in.
       N = 0 is the same as call.
+      N = &#8734; triggers all in.
 
       <span class = 'sttmnt'>allin</span>
       This puts all the player's money in the pot.<br />
@@ -194,34 +196,95 @@
 
     <div id = 'gameexample'>
       <h2>Game Example</h2>
-
+      
       <div class = 'messenger-chat'>
-        <span class='user color1'>::init</span>
-        <span class='dealer'>This group was initialized as a poker table</span>
-        <span class='user color1'>::buyin</span>
-        <span class='dealer'>Blue has bought into the game with 1000.</span>
-        <span class='user color2'>::buyin</span>
-        <span class='dealer'>Green has bought into the game with 1000.</span>
-        <span class='user color3'>::buyin</span>
-        <span class='dealer'>Red has bought into the game with 1000.</span>
-        <span class='user color1'>::start</span>
-        <span class='dealer'>A series of rounds will start.</span>
-        <span class='dealer'>-----------------New Round------------------</span>
-        <span class='dealer'>Blue posted a small blind of 10</span>
-        <span class='dealer'>Green posted a big blind of 20</span>
-        <span class='dealer'>Red<br />20 to call</span>
-        <span class='user color3'>call</span>
-        <span class='dealer'>Blue<br />10 to call</span>
-        <span class='user color2'>call</span>
-        <span class='dealer'>Green</span>
-        <span class='user color1'>check</span>
-        <span class='dealer'>Flop:<br />
+        <span class='user orange'>::init</span>
+        <span class='dealer blue'>
+          This group was initialized as a poker table
+        </span>
+        <span class='user orange'>::buyin</span>
+        <span class='dealer blue'>
+          Orange has bought into the game with 1000.
+        </span>
+        <span class='user green'>::buyin</span>
+        <span class='dealer blue'>
+          Green has bought into the game with 1000.
+        </span>
+        <span class='user brown'>::buyin</span>
+        <span class='dealer blue'>
+          Brown has bought into the game with 1000.
+        </span>
+        <span class='user orange'>::start</span>
+        <span class='dealer blue'>A series of rounds will start.</span>
+        <span class='dealer blue'>--New Round--</span>
+        <span class='dealer blue'>Orange posted a small blind of 10</span>
+        <span class='dealer blue'>Green posted a big blind of 20</span>
+        <span class='dealer blue'>Brown<br />20 to call</span>
+        <span class='user brown'>call</span>
+        <span class='dealer blue'>Orange<br />10 to call</span>
+        <span class='user green'>call</span>
+        <span class='dealer blue'>Orange</span>
+        <span class='user orange'>check</span>
+        <span class='dealer blue'>Flop:<br />
           K<img src="svg/hearts.svg" alt="hearts" width="20px" height="20px" />
           Q<img src="svg/hearts.svg" alt="hearts" width="20px" height="20px" />
-          10<img src="svg/clover.svg" alt="clover" width="20px" height="20px" />
+          10<img src="svg/clubs.svg" alt="clubs" width="20px" height="20px" />
         </span>
+        <span class='dealer blue'>Brown</span>
+        <span class='user brown'>Raise 100</span>
+        <span class='dealer blue'>Orange<br />100 to call</span>
+        <span class='user orange'>call</span>
+        <span class='dealer blue'>Green<br />100 to call</span>
+        <span class='user green'>fold</span>
+        <span class='dealer blue'>Flop:<br />
+          K<img src="svg/hearts.svg" alt="hearts" width="20px" height="20px" />
+          Q<img src="svg/hearts.svg" alt="hearts" width="20px" height="20px" />
+          10<img src="svg/clubs.svg" alt="clubs" width="20px" height="20px" />
+          K<img src="svg/clubs.svg" alt="clubs" width="20px" height="20px" />
+        </span>
+        <span class='dealer blue'>Brown</span>
+        <span class='user brown'>raise 150</span>
+        <span class='dealer blue'>Orange<br />150 to call</span>
+        <span class='user orange'>raise 100</span>
+        <span class='dealer blue'>Brown<br />100 to call</span>
+        <span class='user brown'>call</span>
+        <span class='dealer blue'>Flop:<br />
+          K<img src="svg/hearts.svg" alt="hearts" width="20px" height="20px" />
+          Q<img src="svg/hearts.svg" alt="hearts" width="20px" height="20px" />
+          10<img src="svg/clubs.svg" alt="clubs" width="20px" height="20px" />
+          K<img src="svg/clubs.svg" alt="clubs" width="20px" height="20px" />
+          2<img src="svg/hearts.svg" alt="hearts" width="20px" height="20px" />
+        </span>
+        <span class='dealer blue'>Brown</span>
+        <span class='user brown'>all in</span>
+        <span class='dealer blue'>Brown moved all in with 630</span>
+        <span class='dealer blue'>Orange<br />630 to call</span>
+        <span class='user orange'>call</span>
+        <span class='dealer blue'>Brown has
+          3<img src="svg/hearts.svg" alt="hearts" width="20px" height="20px" />
+          4<img src="svg/hearts.svg" alt="hearts" width="20px" height="20px" />
+        </span>
+        <span class='dealer blue'>Orange has
+          K<img src="svg/spades.svg" alt="spades" width="20px" height="20px" />
+          A<img src="svg/spades.svg" alt="spades" width="20px" height="20px" />
+        </span>
+        <span class='dealer blue'>
+          Brown won 2000 with a flush of hearts with high card K
+        </span>
+        <span class='dealer blue'>--End of Round--</span>
       </div>
+    </div>
 
+    <div>
+      <h2>Advanced options</h2>
+      <h3>Changing the default configuration</h3>
+      Inside the PokerMessenger app, there is a folder named config,
+      which includes .ini files, which configure the app's variables.
+      This includes the definitions of valid player inputs,
+      responses to those inputs from the dealer,
+      poker data representation (eg. card representation) and
+      default money settings (eg. default player starting money).<br />
+      Change the configuration for a more generalized poker game.
     </div>
 
   </div>
