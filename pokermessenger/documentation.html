@@ -35,7 +35,7 @@
       to the PokerMessenger app configuration file.
       It is recommended for the application user to set up a new account,
       reserved for the dealer, or use some other abandoned account.<br />
-      The dealer's account will be automated to send game information
+      The account will be automated to send game information
       to users and group threads, initialized as poker tables.
       Those group threads will be referred as poker tables throughout
       the page.
@@ -90,8 +90,8 @@
       <a target='_blank'
          href='https://www.partypoker.com/how-to-play/texas-holdem.html'
       >this site</a>.
-      The players at the table are asked for input which when provided,
-      moves on the round. Invalid player inputs are ignored,
+      When valid input is provided, the game initializes appropriate steps.
+      Invalid player inputs are ignored,
       so players can talk freely with each other without game interruption.
       Every round is followed by another one, if certain conditions are met,
       though any player can break the cycle (by sending a statement).
@@ -196,7 +196,7 @@
 
     <div id = 'gameexample'>
       <h2>Game Example</h2>
-      
+
       <div class = 'messenger-chat'>
         <span class='user orange'>::init</span>
         <span class='dealer blue'>
@@ -221,7 +221,7 @@
         <span class='dealer blue'>Green posted a big blind of 20</span>
         <span class='dealer blue'>Brown<br />20 to call</span>
         <span class='user brown'>call</span>
-        <span class='dealer blue'>Orange<br />10 to call</span>
+        <span class='dealer blue'>Green<br />10 to call</span>
         <span class='user green'>call</span>
         <span class='dealer blue'>Orange</span>
         <span class='user orange'>check</span>
