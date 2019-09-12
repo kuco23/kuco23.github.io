@@ -13,7 +13,7 @@
     margin: 0.5%;
 
     border: 2px solid black;
-    background-color: #00000090;
+    background-color: rgba(0,0,0,0.55);
     border-radius: 5px;
   }
   div.divContainer > div:last-child {
@@ -25,12 +25,12 @@
   div.divContainer {
     margin: 0;
     padding: 20px;
-    background-color: #00000090;
+    background-color: rgba(0,0,0,0.55);
     border-top: 2px solid black;
   }
   div.divContainer > div {
     padding: 30px 0 40px 0;
-    border-bottom: 1px solid #ffffff10;
+    border-bottom: 1px solid rgba(256,256,256,.06);
   }
   div.divContainer > div:first-child {
     padding-top: 10px;
