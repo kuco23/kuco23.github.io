@@ -37,16 +37,6 @@ a:hover {
   color: white;
 }
 
-ul {
-  margin: 10px 0 10px 0;
-  padding: 0;
-  list-style-type: none;
-}
-ul > li {
-  padding: 4px 0 4px 0;
-  color: gray;
-}
-
 span.sttmnt {
   display: block;
   color: lime;
@@ -58,3 +48,5 @@ div.spaceDivs div ul li {
   margin-top: 3px;
   margin-bottom: 3px;
 }
+
+.blue {color: powderblue;}
