@@ -1,6 +1,0 @@
- @keyframes wink {
-   0% {opacity: 0;}
-   5% {opacity: 1;}
- }
- .eyesOpen circle, ellipse {animation: wink 10s steps(1) infinite normal;}
- .eyesClosed line {opacity: none; z-index: -1;}

@@ -5,9 +5,6 @@
 <title>kuco23.github.io/me</title>
 <meta name='viewport' content='width=device-width, initial-scale=1.0' charset='utf-8' />
 <link href="https://fonts.googleapis.com/css?family=Kaushan+Script|Indie+Flower" rel="stylesheet" />
-<link href="index/layout.css" type='text/css' rel="stylesheet" />
-<link href="index/cont-list.css" type='text/css' rel="stylesheet" />
-<link href="index/winkie.css" type='text/css' rel="stylesheet" />
 <script src='jquery-3.3.1.min.js'></script>
 
 <style>
@@ -32,6 +29,88 @@
  #name {
    margin-top: 15px;
    color: white;
+ }
+ 
+ div.repr-side {
+   float: left;
+   height: 100%;
+   width: 50%;
+   background-color: black;
+   border-right: 2px solid #0c111d;
+ }
+ div.cont-side {
+   float: right;
+   height: 100%;
+   width: 50%;
+   background-color: #0c111d;
+   border-left: 2px solid black;
+ }
+ div.repr-side-inner {
+   position: absolute;
+   left: 25%;
+   bottom: 50%;
+   transform: translate(-50%, 50%);
+   text-align: center;
+ }
+ div.cont-side-inner {
+   position: absolute;
+   right: 25%;
+   bottom: 50%;
+   transform: translate(50%, 50%);
+ }
+
+ @media only screen and (max-width: 600px) {
+   div.repr-side, div.cont-side {
+     float: none;
+     width: 100%;
+     border: none;
+   }
+   
+ div.repr-side {border-bottom: 2px solid #0c111d;}
+ div.cont-side {border-top: 2px solid black;}
+ div.repr-side-inner, div.cont-side-inner {
+    position: static;
+    transform: none;
+    height: 100%;
+    display: flex;
+    flex-flow: column wrap;
+    justify-content: center;
+    align-items: center;
+  }
+ }
+
+ @keyframes wink {
+   0% {opacity: 0;}
+   5% {opacity: 1;}
+ }
+ .eyesOpen circle, ellipse {animation: wink 10s steps(1) infinite normal;}
+ .eyesClosed line {opacity: none; z-index: -1;}
+
+ .kaushan-list ul, ul.kaushan-list {
+   list-style-type: none;
+   margin-left: 10px;
+   padding: 0;
+ }
+ ul.kaushan-list > li {
+   margin-bottom: 18px;
+   color: transparent;
+   text-shadow: 2px 2px 1px PowderBlue;
+   font-family: monospace;
+   font-size: 26px;
+ }
+ ul.kaushan-list > li > ul {
+   margin-top: 8px;
+   font-size: 22px;
+ }
+ ul.kaushan-list > li > ul a {
+   color: transparent;
+   text-shadow: 2px 2px 1px white;
+ }
+ ul.kaushan-list > li:first-child > ul a:hover {
+   text-shadow: 2px 2px 1px gold;
+ }
+ ul.kaushan-list > li:last-child > ul a:hover {
+   text-shadow: 2px 2px 1px orange;
  }
 
 </style>
@@ -138,7 +217,8 @@
       <li>
         Projects
         <ul>
-          <li><a href='https://github.com/kuco23/PokerLogic'>Pokerlib</a></li>
+          <li><a href='https://github.com/kuco23/pokerlib'>Pokerlib</a></li>
+          <li><a href='https://github.com/kuco23/PokerMessenger'>PokerMessenger</a></li>
         </ul>
       </li>
     </ul>
