@@ -93,8 +93,6 @@
  }
  ul.kaushan-list > li {
    margin-bottom: 18px;
-   color: transparent;
-   text-shadow: 2px 2px 1px PowderBlue;
    font-family: monospace;
    font-size: 26px;
  }
@@ -103,14 +101,16 @@
    font-size: 22px;
  }
  ul.kaushan-list > li > ul a {
-   color: transparent;
-   text-shadow: 2px 2px 1px white;
+   color: rgb(20, 90, 130);
+   transition: color 0.4s;
  }
- ul.kaushan-list > li:first-child > ul a:hover {
-   text-shadow: 2px 2px 1px gold;
+ ul.kaushan-list > li:first-child > ul a:hover,
+ ul.kaushan-list > li:first-child {
+   color: rgb( 231, 76, 60);
  }
- ul.kaushan-list > li:last-child > ul a:hover {
-   text-shadow: 2px 2px 1px orange;
+ ul.kaushan-list > li:last-child > ul a:hover,
+ ul.kaushan-list > li:last-child {
+   color: orange;
  }
 
 </style>
