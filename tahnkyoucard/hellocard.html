@@ -1,0 +1,42 @@
+<!DOCTYPE HTML>
+<html>
+    <head>
+        <meta title='thankyoucard' lang='en' charset='utf8' />
+        <link href="https://fonts.googleapis.com/css?family=Mountains+of+Christmas&display=swap" rel="stylesheet"> 
+        <style>
+            @keyframes sparkle {
+                0% {color: gold;}
+                100% {color: white;}
+            }
+            html, body {
+                height: 100%;
+                width: 100%;
+                margin: 0;
+                padding: 0;
+                background-color: rgb(15, 25, 35);
+
+                display: flex;
+                flex-flow:  column wrap;   
+                justify-content: center;
+                align-items: center;
+            }
+            div.textcontainer {
+                background-color: red;
+                border: 2px solid gold;
+                border-radius: 5px;
+                padding: 10%;
+            }
+            span.text {
+                font-size: 50px;
+                color: gold;
+                font-family: "Mountains of Christmas";
+                animation: sparkle 1s steps(2) infinite normal;
+            }
+        </style>
+    </head>
+    <body>
+        <div class='textcontainer'>
+            <span class='text'>HVALA MAMI</span>
+        </div>
+    </body>
+</html>
