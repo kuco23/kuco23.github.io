@@ -105,6 +105,10 @@ div.container div:last-child {
   color: FireBrick;
   text-shadow: 0 0 80px red, 0 0 30px FireBrick, 0 0 6px DarkRed;
 }
+div.container div:last-child:hover {
+  text-shadow: 0 0 80px red, 0 0 30px FireBrick, 0 0 6px DarkRed;
+  transition: textShadow 0.5s;
+}
 
 /* **************************** trippy *********************** */
 div.container div:first-child span:nth-child(2) {
@@ -227,10 +231,9 @@ div.container div:first-child span:nth-child(2), div.container div:first-child s
 
 <script>
 $(document).ready(function() {
-
   $('div.container div:last-child').click(function() {
     $('div.container div:first-child').addClass('rotateAlign');
-    setTimeout(function() {window.open('infopage.html', '_parent');}, 4000);
+    setTimeout(function() {window.open('index.html', '_parent');}, 4000);
   });
 });
 </script>

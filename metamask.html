@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Connect to Metamask</title>
+    <script src="jquery-3.3.1.min.js"></script>
+</head>
+<body>
+	<h1>Connect to MetaMask</h1>
+	<button id="connectButton">Connect</button>
+	<script>
+        const connectWallet = async () => {
+            const { ethereum } = window;
+            if (window.ethereum) { //check if Metamask is installed
+                try {
+                    const address = await ethereum.enable(); //connect Metamask
+                    const obj = {
+                        connectedStatus: true,
+                        status: "",
+                        address: address
+                        }
+                    return obj;
+                } catch (error) {
+                    return {
+                        connectedStatus: false,
+                        status: "🦊 Connect to Metamask using the button on the top right."
+                    }
+                }
+            } else {
+                return {
+                    connectedStatus: false,
+                    status: "🦊 You must install Metamask into your browser: https://metamask.io/download.html"
+                }
+            }
+        };
+        $('#connectButton').on('click', async () => {
+            console.log(await connectWallet());
+        });
+        if (typeof window.ethereum !== 'undefined') {
+            console.log('MetaMask is installed!');
+        } else {
+            console.log("Metamask is not installed");
+        }
+    </script>
+</body>
+</html>
