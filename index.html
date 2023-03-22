@@ -7,12 +7,16 @@
 <script src='jquery-3.3.1.min.js'></script>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Cousine&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Cousine&family=Montserrat+Alternates:wght@300&family=Rubik+Iso&display=swap" rel="stylesheet">
+<link rel='stylesheet' href='https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css'>
 <style>
 
-/* -------------------------------- winking eyes ---------------------------------- */
+ /* ***************************** winking eyes ***************************** */
  * {box-sizing: border-box;}
- a {text-decoration: none;}
+ a {
+  text-decoration: none;
+  color: orange;
+}
 
  html, body {
   margin: 0;
@@ -27,154 +31,111 @@
    margin-top: 25px;
    font-family: 'Cousine', cursive;
    font-size: 27px;
+   color: #fff;
+   text-shadow: 0 0 80px #ffffff, 0 0 6px #08f7fe, 0 0 20px #e92efb;
+   cursor: default;
  }
  
- div.repr-side {
+ div.side-artistic {
    float: left;
    height: 100%;
    width: 50%;
    background-color: black;
    border-right: 2px solid #0c111d;
  }
- div.cont-side {
+ div.side-formal {
    float: right;
    height: 100%;
    width: 50%;
    background-color: #0c111d;
    border-left: 2px solid black;
+   font-family: 'Montserrat Alternates';
  }
- div.repr-side-inner {
+ div.side-artistic-inner {
    position: absolute;
    left: 25%;
    bottom: 50%;
    transform: translate(-50%, 50%);
-   text-align: center;
  }
- div.cont-side-inner {
+ div.side-formal-inner {
    position: absolute;
    right: 25%;
    bottom: 50%;
    transform: translate(50%, 50%);
+   width: 40%;
  }
 
  @media only screen and (max-width: 600px) {
-   div.repr-side, div.cont-side {
-     float: none;
-     width: 100%;
-     border: none;
-   }
-   
- div.repr-side {border-bottom: 2px solid #0c111d;}
- div.cont-side {border-top: 2px solid black;}
- div.repr-side-inner, div.cont-side-inner {
+  div.side-artistic, div.side-formal {
+    float: none;
+    width: 100%;
+    border: none;
+  }
+  div.side-artistic {border-bottom: 2px solid #0c111d;}
+  div.side-formal { border-top: 2px solid black; }
+  div.side-artistic-inner, div.side-formal-inner {
     position: static;
     transform: none;
-    height: 100%;
     display: flex;
     flex-flow: column wrap;
     justify-content: center;
     align-items: center;
+    height: 100%;
+  }
+  div.side-formal-inner {
+    width: 100%;
+    padding: 25px;
   }
  }
 
+ #underlying-content {
+  z-index: -1;
+  visibility: hidden;
+ }
+
+ /* ***************************** winking eyes ***************************** */
  @keyframes wink {
    0% {opacity: 0;}
    5% {opacity: 1;}
  }
- .eyesOpen circle, ellipse {animation: wink 10s steps(1) infinite normal;}
- .eyesClosed line {opacity: none; z-index: -1;}
-
- .kaushan-list ul, ul.kaushan-list {
-   list-style-type: none;
-   margin-left: 10px;
-   padding: 0;
+ @-webkit-keyframes wink {
+   0% {opacity: 0;}
+   5% {opacity: 1;}
  }
- ul.kaushan-list > li {
-   margin-bottom: 18px;
-   font-family: monospace;
-   font-size: 26px;
- }
- ul.kaushan-list > li > ul {
-   margin-top: 8px;
-   font-size: 22px;
- }
- ul.kaushan-list > li > ul a {
-   color: rgb(20, 90, 130);
-   transition: color 0.4s;
- }
- ul.kaushan-list > li:first-child > ul a:hover,
- ul.kaushan-list > li:first-child {
-   color: rgb( 231, 76, 60);
- }
- ul.kaushan-list > li:last-child > ul a:hover,
- ul.kaushan-list > li:last-child {
-   color: orange;
- }
- /* -------------------------------- winking eyes ---------------------------------- */
-
-
- /* -------------------------------- name letter rotation ------------------------- */
-:root {
-  --ratio: 0.5;
-  --reverse-ratio: 2;
-  --container-width: 50vw;
-  --container-height: 50vh;
-
-  --font1-sizeVW: 15vh;
-  --font1-sizeVH: calc(var(--ratio) * 15vw);
-
-  --font2-sizeVW: 6vh;
-  --font2-sizeVH: calc(var(--ratio) * 6vw);
-}
-
-@-webkit-keyframes trippy {
-  0%, 2%, 4%, 8%, 12% {
-    opacity: 0.4;
-    text-shadow: none;
-  }
-  1%, 3%, 5%, 10%, 14% {
-    opacity: 1;
-    text-shadow: 0 0 80px #ffffff, 0 0 6px #08f7fe, 0 0 20px #e92efb;
-  }
-}
-@keyframes trippy_upper {
-  0%, 2%, 4%, 8%, 12% {
-    opacity: 0.4;
-    text-shadow: none;
-  }
-  1%, 3%, 5%, 10%, 14% {
-    opacity: 1;
-    text-shadow: 0 0 80px #ffffff, 0 0 6px #08f7fe, 0 0 20px #e92efb;
-  }
-}
-
-#myName {
-  color: #fff;
-  text-shadow: 0 0 80px #ffffff, 0 0 6px #08f7fe, 0 0 20px #e92efb;
-  cursor: default;
-}
+ .eyes-open circle, ellipse {animation: wink 10s steps(1) infinite normal;}
+ .eyes-closed line {opacity: none; z-index: -1;}
+ /* ***************************** winking eyes ***************************** */
 
 /* **************************** two letter power-cuts *********************** */
+@keyframes power-cuts {
+  0%, 1%, 2%, 8%, 3%, 4% {
+    opacity: 0.4;
+    text-shadow: none;
+  }
+  0.5%, 1.5%, 2.5%, 3.5%, 5% {
+    opacity: 1;
+    text-shadow: 0 0 80px #ffffff, 0 0 6px #08f7fe, 0 0 20px #e92efb;
+  }
+}
+@-webkit-keyframes power-cuts {
+  0%, 1%, 2%, 8%, 3%, 4% {
+    opacity: 0.4;
+    text-shadow: none;
+  }
+  0.5%, 1.5%, 2.5%, 3.5%, 5% {
+    opacity: 1;
+    text-shadow: 0 0 80px #ffffff, 0 0 6px #08f7fe, 0 0 20px #e92efb;
+  }
+}
 #myName span:nth-child(2) {
-  animation-name: trippy_upper;
+  animation-name: power-cuts;
   animation-duration: 8s;
   animation-delay: 3s;
   animation-iteration-count: infinite;
 
-  -webkit-animation-name: trippy_upper;
+  -webkit-animation-name: power-cuts;
   -webkit-animation-duration: 8s;
   -webkit-animation-delay: 3s;
-  -webkit-animation-iteration-count: infinite;
-}
-#myName span:nth-child(5) {
-  animation-name: trippy_upper;
-  animation-duration: 10s;
-  animation-delay: 5s;
-  animation-iteration-count: infinite;
-
-  -webkit-animation-name: trippy_upper;
-  -webkit-animation-duration: 10s;
-  -webkit-animation-delay: 5s;
   -webkit-animation-iteration-count: infinite;
 }
 /* **************************** two letter power-cuts *********************** */
@@ -195,16 +156,16 @@
   -webkit-transform: rotateZ(0deg);
 }
 #myName span:nth-child(3) {
-  transform: rotateZ(180deg);
-  -webkit-transform: rotateZ(180deg);
+  transform: rotateZ(200deg);
+  -webkit-transform: rotateZ(200deg);
 }
 #myName span:nth-child(4) {
-  transform: rotateZ(30deg);
-  -webkit-transform: rotateZ(30deg);
+  transform: rotateZ(70deg);
+  -webkit-transform: rotateZ(70deg);
 }
 #myName span:nth-child(5) {
-  transform: rotateZ(0deg);
-  -webkit-transform: rotateZ(0deg);
+  transform: rotateZ(-130deg);
+  -webkit-transform: rotateZ(-130deg);
 }
 #myName span:nth-child(6) {
   transform: rotateZ(30deg);
@@ -280,101 +241,152 @@
 }
 /* ******************** derotate letters *********************/
 
-
-/* max-width: (reverse-ratio * 100vh) */
-@media screen and (max-width: 200vh) {
-  div.Container div:first-child {
-    font-size: var(--font1-sizeVH);
-  }
-  div.Container div:last-child {
-    font-size: var(--font2-sizeVH);
-  }
-}
-
 </style>
 
 <script>
- const alpha = 0.015;
- const vecnorm = x => Math.pow(Math.pow(x[0], 2) + Math.pow(x[1], 2), 0.5);
- const vecadd = (x, y) => [x[0] + y[0], x[1] + y[1]];
- const fromatob = (a, b) => [b[0] - a[0], b[1] - a[1]];
- const vecstretch = (x, alpha) => [alpha * x[0], alpha * x[1]];
 
  $(document).ready(function() {
 
-  $('#myName').click(function() {
+  $('#myName').mouseenter(function() {
     $('#myName').addClass('rotateAlign');
-    // setTimeout(function() {window.open('index.html', '_parent');}, 4000);
+  });
+  $('#myName').mouseleave(function() {
+    $('#myName').removeClass('rotateAlign');
   });
 
-  var eyeballradius = 20;
-  var parentradius = 14;
-  var pplradius = 8;
-  let svgoffset = Object.values($('svg.winkiesvg').offset()).reverse();
+  const contentDiv = $('#content');
+  function setContentSize() {
+    const auxContentDiv = $('#underlying-content');
+    auxContentDiv.css('display', 'absolute');
+    const height = auxContentDiv.height();
+    const width = auxContentDiv.width();
+    auxContentDiv.css('display', 'none');
+    contentDiv.height(height);
+    contentDiv.width(width);
+  }
+  setContentSize();
+  $(window).resize(setContentSize);
 
-  var leybl = document.getElementById('leybl');
-  var reybl = document.getElementById('reybl');
-  var lppl = document.getElementById('lppl');
-  var rppl = document.getElementById('rppl');
+  const content = `
+    Hi, my name is Nejc and I'm a developer based in Slovenia interested in cryptography and decentralization.
+    I hold a Bachelor's degree in Financial Mathematics and a Master's degree in Pure Mathematics,
+    both from the University of Ljubljana, Faculty of Mathematics and Physics.
+    Currently, I am working as a full-time developer at Abelium, where I am part of the team working on the :Flare; network.
+    Additionally, I am also a part-time teaching assistant at my faculty
+  `;
+  const htmlElements = [
+    ['<a href="https://flare.network/">', '</a>']
+  ]
 
-  var lrelcenter = [Number(lppl.getAttribute('cx')),
-                    Number(lppl.getAttribute('cy'))];
-  var rrelcenter = [Number(rppl.getAttribute('cx')),
-                    Number(rppl.getAttribute('cy'))];
-  var lpplcenter = vecadd(svgoffset, lrelcenter);
-  var rpplcenter = vecadd(svgoffset, rrelcenter);
+  const insertAt = (text, i, symbol) => {
+    return text.slice(0,i) + symbol + text.slice(i,text.length);
+  }
 
-  document.onmousemove = function( event ) {
+  let generatedContent = "";
+  let generatedContentIndex = 0;
+  let contentIndex = 0;
+  let htmlElementIndex = 0;
+  let timer = setInterval(() => {
+    if (contentIndex >= content.length) {
+      clearInterval(timer);
+      return;
+    }
+    else if (content[contentIndex] == ':') {
+      const [start, end] = htmlElements[htmlElementIndex];
+      generatedContent += start + end;
+      generatedContentIndex += start.length;
+      contentIndex++;
+    } else if (content[contentIndex] == ';') {
+      const [start, end] = htmlElements[htmlElementIndex];
+      generatedContentIndex += end.length;
+      contentIndex++;
+    }
+    if (contentIndex < content.length) {
+      generatedContent = insertAt(generatedContent, generatedContentIndex, content[contentIndex]);
+      contentDiv.html(generatedContent);
+      generatedContentIndex++;
+      contentIndex++;
+    }
+  }, 50);
+
+  const alpha = 0.015;
+  const vecadd = (x, y) => [x[0] + y[0], x[1] + y[1]];
+  const fromatob = (a, b) => [b[0] - a[0], b[1] - a[1]];
+  const norm = x => Math.pow(Math.pow(x[0], 2) + Math.pow(x[1], 2), 0.5);
+  const stretch = (x, alpha) => [alpha * x[0], alpha * x[1]];
+
+  let irisRadius = 20;
+  let corneaRadius = 14;
+  let pupilRadius = 8;
+  let svgoffset = Object.values($('svg.eyes-svg').offset()).reverse();
+
+  let leftIris = document.getElementById('left-iris');
+  let rightIris = document.getElementById('right-iris');
+  let leftPupil = document.getElementById('left-pupil');
+  let rightPupil = document.getElementById('right-pupil');
+
+  let leftPupilCoord = [
+    Number(leftPupil.getAttribute('cx')),
+    Number(leftPupil.getAttribute('cy'))
+  ];
+  let rightPupilCoord = [
+    Number(rightPupil.getAttribute('cx')),
+    Number(rightPupil.getAttribute('cy'))
+  ];
+  let leftPupilCenter = vecadd(svgoffset, leftPupilCoord);
+  let rightPupilCenter = vecadd(svgoffset, rightPupilCoord);
+
+  document.onmousemove = event => {
    let eventvec = [event.pageX, event.pageY];
-   let lsight = fromatob(lpplcenter, eventvec);
-   let rsight = fromatob(rpplcenter, eventvec);
-   let ldist = vecnorm(lsight);
-   let rdist = vecnorm(rsight);
-   let lsightnormed = (ldist != 0) ? vecstretch(lsight, 1 / ldist) : [0, 0];
-   let rsightnormed = (rdist != 0) ? vecstretch(rsight, 1 / rdist) : [0, 0];
+   let lsight = fromatob(leftPupilCenter, eventvec);
+   let rsight = fromatob(rightPupilCenter, eventvec);
+   let ldist = norm(lsight);
+   let rdist = norm(rsight);
+   let lsightnormed = (ldist != 0) ? stretch(lsight, 1 / ldist) : [0, 0];
+   let rsightnormed = (rdist != 0) ? stretch(rsight, 1 / rdist) : [0, 0];
 
    let dl = 0; let dr = 0;
-   if (ldist*alpha <= parentradius - pplradius) {
-    dl = vecstretch(lsightnormed, ldist*alpha);
+   if (ldist*alpha <= corneaRadius - pupilRadius) {
+    dl = stretch(lsightnormed, ldist*alpha);
    } else {
-    dl = vecstretch(lsightnormed, parentradius - pplradius);
-   } if (rdist*alpha <= parentradius - pplradius) {
-    dr = vecstretch(rsightnormed, rdist*alpha);
+    dl = stretch(lsightnormed, corneaRadius - pupilRadius);
+   } if (rdist*alpha <= corneaRadius - pupilRadius) {
+    dr = stretch(rsightnormed, rdist*alpha);
    } else {
-    dr = vecstretch(rsightnormed, parentradius - pplradius);
+    dr = stretch(rsightnormed, corneaRadius - pupilRadius);
    }
 
-   let leftpos = vecadd(lrelcenter, dl);
-   let rightpos = vecadd(rrelcenter, dr);
-   lppl.setAttribute('cx', String(leftpos[0]));
-   lppl.setAttribute('cy', String(leftpos[1]));
-   rppl.setAttribute('cx', String(rightpos[0]));
-   rppl.setAttribute('cy', String(rightpos[1]));
+   let [lx, ly] = vecadd(leftPupilCoord, dl);
+   let [rx, ry] = vecadd(rightPupilCoord, dr);
+   leftPupil.setAttribute('cx', String(lx));
+   leftPupil.setAttribute('cy', String(ly));
+   rightPupil.setAttribute('cx', String(rx));
+   rightPupil.setAttribute('cy', String(ry));
   };
  });
 
- </script>
+</script>
 
 </head>
 <body>
 
-<div class='repr-side'>
-  <div class='repr-side-inner'>
-    <svg class='winkiesvg' width="200" height="50">
-      <g class='eyesClosed'>
+<div class='side-artistic'>
+  <div class='side-artistic-inner'>
+    <svg class='eyes-svg' width="200" height="50">
+      <g class='eyes-closed'>
         <line x1='35' y1='25' x2='75' y2='25' stroke='white' stroke-width='3' />
         <line x1='125' y1='25' x2='165' y2='25' stroke='white' stroke-width='3' />
       </g>
-      <g class='eyesOpen'>
-        <g class='lefteye'>
-          <circle id='leybl' cx='55' cy='25' r='20' fill='white' />
+      <g class='eyes-open'>
+        <g id="left-eye">
+          <circle id='left-iris' cx='55' cy='25' r='20' fill='white' />
           <circle cx='55' cy='25' r='14' fill='#2874a6' />
-          <circle id='lppl' cx='55' cy='25' r='8' fill='black' />
+          <circle id='left-pupil' cx='55' cy='25' r='8' fill='black' />
         </g>
-        <g class='righteye'>
-         <circle id='reybl' cx='145' cy='25' r='20' fill='white' />
+        <g id="right-eye">
+         <circle id='right-iris' cx='145' cy='25' r='20' fill='white' />
          <circle cx='145' cy='25' r='14' fill='#2874a6' />
-         <circle id='rppl' cx='145' cy='25' r='8' fill='black' />
+         <circle id='right-pupil' cx='145' cy='25' r='8' fill='black' />
        </g>
       </g>
     </svg>
@@ -387,27 +399,16 @@
   </div>
 </div>
 
-<div class='cont-side'>
-  <div class='cont-side-inner'>
-    <ul class='kaushan-list'>
-      <li>
-        Pages
-        <ul>
-          <li><a href='study/Study.html'>Study Material</a></li>
-          <li><a href='pokermessenger/documentation.html'>PokerMessenger doc</a></li>
-          <li><a href='snake/snake.html'>Snake</a></li>
-          <li><a href='graph/graph.html'>Graph</a></li>
-          <li><a style="cursor: pointer;" id="enter">Enter</a></li>
-        </ul>
-      </li>
-      <li>
-        Projects
-        <ul>
-          <li><a href='https://github.com/kuco23/pokerlib'>Pokerlib</a></li>
-          <li><a href='https://github.com/kuco23/PokerMessenger'>PokerMessenger</a></li>
-        </ul>
-      </li>
-    </ul>
+<div class='side-formal'>
+  <div id="content" class='side-formal-inner'>
+  </div>
+  <div id="underlying-content" class='side-formal-inner'>
+    Hi, my name is Nejc and I'm a developer based in Slovenia interested in cryptography and decentralization.
+    I hold a Bachelor's degree in Financial Mathematics and a Master's degree in Pure Mathematics,
+    both from the University of Ljubljana, Faculty of Mathematics and Physics.
+    <br/>
+    Currently, I am working as a full-time developer at Abelium, where I am part of the team working on the Flare network.
+    Additionally, I am also a part-time teaching assistant at my faculty.
   </div>
 </div>
 
