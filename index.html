@@ -7,7 +7,7 @@
 <script src='jquery-3.3.1.min.js'></script>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Cousine&family=Montserrat+Alternates:wght@300&family=Rubik+Iso&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Cousine&family=Montserrat+Alternates:wght@300&display=swap" rel="stylesheet">
 <link rel='stylesheet' href='https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css'>
 <style>
 
@@ -81,10 +81,11 @@
     justify-content: center;
     align-items: center;
     height: 100%;
-  }
-  div.side-formal-inner {
     width: 100%;
-    padding: 25px;
+  }
+  #content {
+    padding-left: 25px;
+    padding-right: 25px;
   }
  }
 
@@ -254,59 +255,47 @@
     $('#myName').removeClass('rotateAlign');
   });
 
-  const contentDiv = $('#content');
   function setContentSize() {
     const auxContentDiv = $('#underlying-content');
     auxContentDiv.css('display', 'absolute');
-    const height = auxContentDiv.height();
-    const width = auxContentDiv.width();
+    $('#content').height(auxContentDiv.height());
     auxContentDiv.css('display', 'none');
-    contentDiv.height(height);
-    contentDiv.width(width);
   }
   setContentSize();
   $(window).resize(setContentSize);
 
-  const content = `
-    Hi, my name is Nejc and I'm a developer based in Slovenia interested in cryptography and decentralization.
-    I hold a Bachelor's degree in Financial Mathematics and a Master's degree in Pure Mathematics,
-    both from the University of Ljubljana, Faculty of Mathematics and Physics.
-    Currently, I am working as a full-time developer at Abelium, where I am part of the team working on the :Flare; network.
-    Additionally, I am also a part-time teaching assistant at my faculty
-  `;
-  const htmlElements = [
-    ['<a href="https://flare.network/">', '</a>']
-  ]
-
-  const insertAt = (text, i, symbol) => {
-    return text.slice(0,i) + symbol + text.slice(i,text.length);
-  }
-
-  let generatedContent = "";
-  let generatedContentIndex = 0;
-  let contentIndex = 0;
-  let htmlElementIndex = 0;
+  const content = $('#underlying-content')[0].innerHTML;
+  const compiledContent = $('#compiled-content');
+  const verbatimContent = $('#verbatim-content');
+  let compiled = '';
+  let verbatim = '';
+  let index = 0;
+  let writeVerbatim = false;
   let timer = setInterval(() => {
-    if (contentIndex >= content.length) {
+    if (index >= content.length) {
       clearInterval(timer);
       return;
     }
-    else if (content[contentIndex] == ':') {
-      const [start, end] = htmlElements[htmlElementIndex];
-      generatedContent += start + end;
-      generatedContentIndex += start.length;
-      contentIndex++;
-    } else if (content[contentIndex] == ';') {
-      const [start, end] = htmlElements[htmlElementIndex];
-      generatedContentIndex += end.length;
-      contentIndex++;
+    const symbol = content[index];
+    if (symbol == '<' && content[index+1] != '/') {
+      writeVerbatim = true;
+    } else if (symbol == '>') {
+      let indicator = content.slice(index-3, index);
+      if (indicator == '</a' || indicator == '<br') {
+        writeVerbatim = false;
+        compiled += verbatim;
+        verbatim = '';
+        verbatimContent.text('');
+      }
     }
-    if (contentIndex < content.length) {
-      generatedContent = insertAt(generatedContent, generatedContentIndex, content[contentIndex]);
-      contentDiv.html(generatedContent);
-      generatedContentIndex++;
-      contentIndex++;
+    if (writeVerbatim) {
+      verbatim += symbol;
+      verbatimContent.text(verbatim);
+    } else {
+      compiled += symbol;
+      compiledContent.html(compiled);
     }
+    index++;
   }, 50);
 
   const alpha = 0.015;
@@ -345,16 +334,12 @@
    let lsightnormed = (ldist != 0) ? stretch(lsight, 1 / ldist) : [0, 0];
    let rsightnormed = (rdist != 0) ? stretch(rsight, 1 / rdist) : [0, 0];
 
-   let dl = 0; let dr = 0;
-   if (ldist*alpha <= corneaRadius - pupilRadius) {
-    dl = stretch(lsightnormed, ldist*alpha);
-   } else {
-    dl = stretch(lsightnormed, corneaRadius - pupilRadius);
-   } if (rdist*alpha <= corneaRadius - pupilRadius) {
-    dr = stretch(rsightnormed, rdist*alpha);
-   } else {
-    dr = stretch(rsightnormed, corneaRadius - pupilRadius);
-   }
+   let dl = (ldist*alpha <= corneaRadius - pupilRadius) ?
+    stretch(lsightnormed, alpha * ldist) :
+    stretch(lsightnormed, corneaRadius - pupilRadius);
+   let dr = (rdist*alpha <= corneaRadius - pupilRadius) ?
+    stretch(rsightnormed, alpha * rdist) :
+    stretch(rsightnormed, corneaRadius - pupilRadius);
 
    let [lx, ly] = vecadd(leftPupilCoord, dl);
    let [rx, ry] = vecadd(rightPupilCoord, dr);
@@ -372,18 +357,19 @@
 
 <div class='side-artistic'>
   <div class='side-artistic-inner'>
+    
     <svg class='eyes-svg' width="200" height="50">
       <g class='eyes-closed'>
         <line x1='35' y1='25' x2='75' y2='25' stroke='white' stroke-width='3' />
         <line x1='125' y1='25' x2='165' y2='25' stroke='white' stroke-width='3' />
       </g>
       <g class='eyes-open'>
-        <g id="left-eye">
+        <g id='left-eye'>
           <circle id='left-iris' cx='55' cy='25' r='20' fill='white' />
           <circle cx='55' cy='25' r='14' fill='#2874a6' />
           <circle id='left-pupil' cx='55' cy='25' r='8' fill='black' />
         </g>
-        <g id="right-eye">
+        <g id='right-eye'>
          <circle id='right-iris' cx='145' cy='25' r='20' fill='white' />
          <circle cx='145' cy='25' r='14' fill='#2874a6' />
          <circle id='right-pupil' cx='145' cy='25' r='8' fill='black' />
@@ -400,16 +386,20 @@
 </div>
 
 <div class='side-formal'>
-  <div id="content" class='side-formal-inner'>
+
+  <div id='content' class='side-formal-inner'>
+    <span id='compiled-content'></span><span id='verbatim-content'></span>
   </div>
-  <div id="underlying-content" class='side-formal-inner'>
+  <div id='underlying-content' class='side-formal-inner'>
     Hi, my name is Nejc and I'm a developer based in Slovenia interested in cryptography and decentralization.
     I hold a Bachelor's degree in Financial Mathematics and a Master's degree in Pure Mathematics,
-    both from the University of Ljubljana, Faculty of Mathematics and Physics.
-    <br/>
-    Currently, I am working as a full-time developer at Abelium, where I am part of the team working on the Flare network.
+    both from the University of Ljubljana, <a href="https://www.fmf.uni-lj.si/">Faculty of Mathematics and Physics</a>.
+    <br><br>
+    Currently, I am working as a full-time developer at <a href="https://abelium.com/">Abelium</a>,
+    where I am part of the team working on the <a href="https://flare.network/">Flare network</a>.
     Additionally, I am also a part-time teaching assistant at my faculty.
   </div>
+
 </div>
 
 </body>
