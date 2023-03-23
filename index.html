@@ -8,9 +8,10 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Cousine&family=Montserrat+Alternates:wght@300&display=swap" rel="stylesheet">
-<link rel='stylesheet' href='https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css'>
-<style>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+</head>
 
+<style>
  /* ***************************** winking eyes ***************************** */
  * {box-sizing: border-box;}
  a {
@@ -32,13 +33,13 @@
    height: 100%;
    width: 50%;
    background-color: black;
-   border-right: 2px solid #0c111d;
+   border-right: 2px solid#0c111d;
  }
  div.side-formal {
    float: right;
    height: 100%;
    width: 50%;
-   background-color: #0c111d;
+   background-color:#0c111d;
    border-left: 2px solid black;
    font-family: 'Montserrat Alternates';
  }
@@ -66,18 +67,37 @@
   width: 85%;
   position: absolute;
  }
-
  #underlying-content {
   visibility: hidden;
   z-index: -1;
  }
+
+ #icon-links {
+  width: 100%;
+  text-align: center;
+ }
+ #icon-links a {
+  transition: color 1s;
+  margin-left: 10px;
+  margin-right: 10px;
+ }
+ #icon-links i { font-size: 30px; }
+ #icon-links a:nth-child(1):hover,
+ #icon-links a:nth-child(2):hover,
+ #icon-links a:nth-child(3):hover {
+  color: white;
+  cursor: pointer;
+ }
+ #icon-links a:nth-child(1) { color: #ffffff; }
+ #icon-links a:nth-child(2) { color: #0072b1; }
+ #icon-links a:nth-child(3) { color: #66cdaa; }
 
  @media only screen and (max-width: 600px) {
   div.side-artistic, div.side-formal {
     width: 100%;
     border: none;
   }
-  div.side-artistic {border-bottom: 2px solid #0c111d;}
+  div.side-artistic {border-bottom: 2px solid#0c111d;}
   div.side-formal { border-top: 2px solid black; }
   div.side-artistic-inner, div.side-formal-inner {
     width: 100%;
@@ -231,7 +251,6 @@
   -webkit-animation-fill-mode: forwards;
 }
 /* ******************** derotate letters *********************/
-
 </style>
 
 <script>
@@ -338,7 +357,7 @@
 
 <div class='side-artistic'>
   <div class='side-artistic-inner'>
-  
+
     <svg class='eyes-svg' width="200" height="50">
       <g class='eyes-closed'>
         <line x1='35' y1='25' x2='75' y2='25' stroke='white' stroke-width='3' />
@@ -380,6 +399,12 @@
       Currently, I am working as a full-time developer at <a href="https://abelium.com/">Abelium</a>,
       where I am part of the team working on the <a href="https://flare.network/">Flare network</a>.
       Additionally, I am also a part-time teaching assistant at my faculty.
+      <br><br>
+      <div id="icon-links">
+        <a href="https://github.com/kuco23" target="_blank"><i class="fa fa-github-alt"></i></a>
+        <a href="www.linkedin.com/in/nejc-ševerkar-484b95234" target="_blank"><i class="fa fa-linkedin"></i></a>
+        <a href="https://medium.com/@nseverkar" target="_blank"><i class="fa fa-medium"></i></a>
+      </div>
     </div>
 
   </div>
