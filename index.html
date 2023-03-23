@@ -27,15 +27,6 @@
   background-color: black;
  }
 
- #myName {
-   margin-top: 25px;
-   font-family: 'Cousine', cursive;
-   font-size: 27px;
-   color: #fff;
-   text-shadow: 0 0 80px #ffffff, 0 0 6px #08f7fe, 0 0 20px #e92efb;
-   cursor: default;
- }
- 
  div.side-artistic {
    float: left;
    height: 100%;
@@ -62,14 +53,23 @@
   width: 100%;
  }
 
- #content {
-  position: relative;
+ #myName {
+   margin-top: 25px;
+   font-family: 'Cousine', cursive;
+   font-size: 27px;
+   color: #fff;
+   text-shadow: 0 0 80px #ffffff, 0 0 5px #08f7fe, 0 0 25px #e92efb;
+   cursor: default;
+ }
+
+ #content, #underlying-content {
+  width: 85%;
+  position: absolute;
  }
 
  #underlying-content {
-  position: relative;
-  visibility: visible;
-  border: 2px solid red;
+  visibility: hidden;
+  z-index: -1;
  }
 
  @media only screen and (max-width: 600px) {
@@ -81,11 +81,6 @@
   div.side-formal { border-top: 2px solid black; }
   div.side-artistic-inner, div.side-formal-inner {
     width: 100%;
-  }
-  #content {
-    position: relative;
-    padding-left: 25px;
-    padding-right: 25px;
   }
  }
 
@@ -241,14 +236,13 @@
 
 <script>
 
- $(document).ready(function() {
+ $(window).on("load", function() {
 
-  $('#myName').mouseenter(function() {
-    $('#myName').addClass('rotateAlign');
-  });
-  $('#myName').mouseleave(function() {
-    $('#myName').removeClass('rotateAlign');
-  });
+  function matchContentSizeWithUnderlying() {
+    $('#content').height($('#underlying-content').outerHeight());
+  }
+  $('#underlying-content').ready(matchContentSizeWithUnderlying);
+  $(window).resize(matchContentSizeWithUnderlying);
 
   const content = $('#underlying-content')[0].innerHTML;
   const compiledContent = $('#compiled-content');
@@ -259,6 +253,7 @@
   let writeVerbatim = false;
   let timer = setInterval(() => {
     if (index >= content.length) {
+      $('#myName').addClass('rotateAlign');
       clearInterval(timer);
       return;
     }
@@ -343,7 +338,7 @@
 
 <div class='side-artistic'>
   <div class='side-artistic-inner'>
-    
+  
     <svg class='eyes-svg' width="200" height="50">
       <g class='eyes-closed'>
         <line x1='35' y1='25' x2='75' y2='25' stroke='white' stroke-width='3' />
@@ -376,15 +371,15 @@
 
     <div id='content'>
       <span id='compiled-content'></span><span id='verbatim-content'></span>
-      <div id='underlying-content'>
-        Hi, my name is Nejc and I'm a developer based in Slovenia interested in cryptography and decentralization.
-        I hold a Bachelor's degree in Financial Mathematics and a Master's degree in Pure Mathematics,
-        both from the University of Ljubljana, <a href="https://www.fmf.uni-lj.si/">Faculty of Mathematics and Physics</a>.
-        <br><br>
-        Currently, I am working as a full-time developer at <a href="https://abelium.com/">Abelium</a>,
-        where I am part of the team working on the <a href="https://flare.network/">Flare network</a>.
-        Additionally, I am also a part-time teaching assistant at my faculty.
-      </div>
+    </div>
+    <div id='underlying-content'>
+      Hi, my name is Nejc and I'm a developer based in Slovenia interested in cryptography and decentralization.
+      I hold a Bachelor's degree in Financial Mathematics and a Master's degree in Pure Mathematics,
+      both from the University of Ljubljana, <a href="https://www.fmf.uni-lj.si/">Faculty of Mathematics and Physics</a>.
+      <br><br>
+      Currently, I am working as a full-time developer at <a href="https://abelium.com/">Abelium</a>,
+      where I am part of the team working on the <a href="https://flare.network/">Flare network</a>.
+      Additionally, I am also a part-time teaching assistant at my faculty.
     </div>
 
   </div>
