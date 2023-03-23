@@ -51,47 +51,42 @@
    border-left: 2px solid black;
    font-family: 'Montserrat Alternates';
  }
- div.side-artistic-inner {
-   position: absolute;
-   left: 25%;
-   bottom: 50%;
-   transform: translate(-50%, 50%);
+ div.side-artistic-inner, div.side-formal-inner {
+  position: relative;
+  transform: none;
+  display: flex;
+  flex-flow: column wrap;
+  justify-content: center;
+  align-items: center;
+  height: 100%;
+  width: 100%;
  }
- div.side-formal-inner {
-   position: absolute;
-   right: 25%;
-   bottom: 50%;
-   transform: translate(50%, 50%);
-   width: 40%;
+
+ #content {
+  position: relative;
+ }
+
+ #underlying-content {
+  position: relative;
+  visibility: visible;
+  border: 2px solid red;
  }
 
  @media only screen and (max-width: 600px) {
   div.side-artistic, div.side-formal {
-    float: none;
     width: 100%;
     border: none;
   }
   div.side-artistic {border-bottom: 2px solid #0c111d;}
   div.side-formal { border-top: 2px solid black; }
   div.side-artistic-inner, div.side-formal-inner {
-    position: static;
-    transform: none;
-    display: flex;
-    flex-flow: column wrap;
-    justify-content: center;
-    align-items: center;
-    height: 100%;
     width: 100%;
   }
   #content {
+    position: relative;
     padding-left: 25px;
     padding-right: 25px;
   }
- }
-
- #underlying-content {
-  z-index: -1;
-  visibility: hidden;
  }
 
  /* ***************************** winking eyes ***************************** */
@@ -255,15 +250,6 @@
     $('#myName').removeClass('rotateAlign');
   });
 
-  function setContentSize() {
-    const auxContentDiv = $('#underlying-content');
-    auxContentDiv.css('display', 'absolute');
-    $('#content').height(auxContentDiv.height());
-    auxContentDiv.css('display', 'none');
-  }
-  setContentSize();
-  $(window).resize(setContentSize);
-
   const content = $('#underlying-content')[0].innerHTML;
   const compiledContent = $('#compiled-content');
   const verbatimContent = $('#verbatim-content');
@@ -386,20 +372,22 @@
 </div>
 
 <div class='side-formal'>
+  <div class='side-formal-inner'>
 
-  <div id='content' class='side-formal-inner'>
-    <span id='compiled-content'></span><span id='verbatim-content'></span>
-  </div>
-  <div id='underlying-content' class='side-formal-inner'>
-    Hi, my name is Nejc and I'm a developer based in Slovenia interested in cryptography and decentralization.
-    I hold a Bachelor's degree in Financial Mathematics and a Master's degree in Pure Mathematics,
-    both from the University of Ljubljana, <a href="https://www.fmf.uni-lj.si/">Faculty of Mathematics and Physics</a>.
-    <br><br>
-    Currently, I am working as a full-time developer at <a href="https://abelium.com/">Abelium</a>,
-    where I am part of the team working on the <a href="https://flare.network/">Flare network</a>.
-    Additionally, I am also a part-time teaching assistant at my faculty.
-  </div>
+    <div id='content'>
+      <span id='compiled-content'></span><span id='verbatim-content'></span>
+      <div id='underlying-content'>
+        Hi, my name is Nejc and I'm a developer based in Slovenia interested in cryptography and decentralization.
+        I hold a Bachelor's degree in Financial Mathematics and a Master's degree in Pure Mathematics,
+        both from the University of Ljubljana, <a href="https://www.fmf.uni-lj.si/">Faculty of Mathematics and Physics</a>.
+        <br><br>
+        Currently, I am working as a full-time developer at <a href="https://abelium.com/">Abelium</a>,
+        where I am part of the team working on the <a href="https://flare.network/">Flare network</a>.
+        Additionally, I am also a part-time teaching assistant at my faculty.
+      </div>
+    </div>
 
+  </div>
 </div>
 
 </body>
