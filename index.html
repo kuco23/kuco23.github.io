@@ -4,411 +4,357 @@
 <head>
 <title>kuco23.github.io/me</title>
 <meta name='viewport' content='width=device-width, initial-scale=1.0' charset='utf-8' />
+<meta name="color-scheme" content="light only">
 <script src='jquery-3.3.1.min.js'></script>
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Cousine&family=Montserrat+Alternates:wght@300&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cousine&family=Montserrat+Alternates:wght@300&display=swap">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.3.0/css/all.min.css">
 </head>
 
 <style>
- /* ***************************** winking eyes ***************************** */
- * {box-sizing: border-box;}
- a {
-  text-decoration: none;
-  color: orange;
-}
 
- html, body {
-  margin: 0;
-  padding: 0;
-  width: 100%;
-  height: 100%;
-  color: white;
-  background-color: black;
- }
+  /* ***************************** winking eyes ***************************** */
+  * { box-sizing: border-box; }
+  :root { color-scheme: light only; }
+  a { text-decoration: none; color: orange; }
 
- div.side-artistic {
-   float: left;
-   height: 100%;
-   width: 50%;
-   background-color: black;
-   border-right: 2px solid#0c111d;
- }
- div.side-formal {
-   float: right;
-   height: 100%;
-   width: 50%;
-   background-color:#0c111d;
-   border-left: 2px solid black;
-   font-family: 'Montserrat Alternates';
- }
- div.side-artistic-inner, div.side-formal-inner {
-  position: relative;
-  transform: none;
-  display: flex;
-  flex-flow: column wrap;
-  justify-content: center;
-  align-items: center;
-  height: 100%;
-  width: 100%;
- }
-
- #myName {
-   margin-top: 25px;
-   font-family: 'Cousine', cursive;
-   font-size: 27px;
-   color: #fff;
-   text-shadow: 0 0 80px #ffffff, 0 0 5px #08f7fe, 0 0 25px #e92efb;
-   cursor: default;
- }
-
- #content, #underlying-content {
-  width: 85%;
-  position: absolute;
- }
- #underlying-content {
-  visibility: hidden;
-  z-index: -1;
- }
-
- #icon-links {
-  width: 100%;
-  text-align: center;
- }
- #icon-links a {
-  transition: color 1s;
-  margin-left: 10px;
-  margin-right: 10px;
- }
- #icon-links i { font-size: 30px; }
- #icon-links a:nth-child(1):hover,
- #icon-links a:nth-child(2):hover,
- #icon-links a:nth-child(3):hover {
-  color: white;
-  cursor: pointer;
- }
- #icon-links a:nth-child(1) { color: #ffffff; }
- #icon-links a:nth-child(2) { color: #0072b1; }
- #icon-links a:nth-child(3) { color: #66cdaa; }
-
- @media only screen and (max-width: 600px) {
-  div.side-artistic, div.side-formal {
+  html, body {
+    margin: 0;
+    padding: 0;
     width: 100%;
-    border: none;
+    height: 100%;
+    color: white;
+    background-color: black;
   }
-  div.side-artistic {border-bottom: 2px solid#0c111d;}
-  div.side-formal { border-top: 2px solid black; }
+
+  div.side-artistic {
+    float: left;
+    height: 100%;
+    width: 50%;
+    background-color: black;
+    border-right: 2px solid#0c111d;
+  }
+  div.side-formal {
+    float: right;
+    height: 100%;
+    width: 50%;
+    background-color:#0c111d;
+    border-left: 2px solid black;
+    font-family: 'Montserrat Alternates';
+  }
   div.side-artistic-inner, div.side-formal-inner {
+    position: relative;
+    transform: none;
+    display: flex;
+    flex-flow: column wrap;
+    justify-content: center;
+    align-items: center;
+    height: 100%;
     width: 100%;
   }
- }
 
- /* ***************************** winking eyes ***************************** */
- @keyframes wink {
-   0% {opacity: 0;}
-   5% {opacity: 1;}
- }
- @-webkit-keyframes wink {
-   0% {opacity: 0;}
-   5% {opacity: 1;}
- }
- .eyes-open circle, ellipse {animation: wink 10s steps(1) infinite normal;}
- .eyes-closed line {opacity: none; z-index: -1;}
- /* ***************************** winking eyes ***************************** */
-
-/* **************************** two letter power-cuts *********************** */
-@keyframes power-cuts {
-  0%, 1%, 2%, 8%, 3%, 4% {
-    opacity: 0.4;
-    text-shadow: none;
+  #my-name {
+    margin-top: 25px;
+    font-family: 'Cousine', cursive;
+    font-size: 27px;
+    color: #fff;
+    text-shadow: 0 0 80px #ffffff, 0 0 5px #08f7fe, 0 0 25px #e92efb;
+    cursor: default;
   }
-  0.5%, 1.5%, 2.5%, 3.5%, 5% {
-    opacity: 1;
-    text-shadow: 0 0 80px #ffffff, 0 0 6px #08f7fe, 0 0 20px #e92efb;
+
+  #bio, #template-bio {
+    width: 85%;
+    position: absolute;
   }
-}
-@-webkit-keyframes power-cuts {
-  0%, 1%, 2%, 8%, 3%, 4% {
-    opacity: 0.4;
-    text-shadow: none;
+  #template-bio {
+    visibility: hidden;
+    z-index: -1;
   }
-  0.5%, 1.5%, 2.5%, 3.5%, 5% {
-    opacity: 1;
-    text-shadow: 0 0 80px #ffffff, 0 0 6px #08f7fe, 0 0 20px #e92efb;
+
+  #icon-links {
+    width: 100%;
+    text-align: center;
   }
-}
-#myName span:nth-child(2) {
-  animation-name: power-cuts;
-  animation-duration: 8s;
-  animation-delay: 3s;
-  animation-iteration-count: infinite;
-
-  -webkit-animation-name: power-cuts;
-  -webkit-animation-duration: 8s;
-  -webkit-animation-delay: 3s;
-  -webkit-animation-iteration-count: infinite;
-}
-/* **************************** two letter power-cuts *********************** */
-
-
-/* ******************** initial letter rotation ******************* */
-#myName span {
-  display: inline-block;
-  transform-origin: center;
-  -webkit-transform-origin: center;
-}
-#myName span:nth-child(1) {
-  transform: rotateZ(-40deg);
-  -webkit-transform: rotateZ(-40deg);
-}
-#myName span:nth-child(2) {
-  transform: rotateZ(0deg);
-  -webkit-transform: rotateZ(0deg);
-}
-#myName span:nth-child(3) {
-  transform: rotateZ(200deg);
-  -webkit-transform: rotateZ(200deg);
-}
-#myName span:nth-child(4) {
-  transform: rotateZ(70deg);
-  -webkit-transform: rotateZ(70deg);
-}
-#myName span:nth-child(5) {
-  transform: rotateZ(-130deg);
-  -webkit-transform: rotateZ(-130deg);
-}
-#myName span:nth-child(6) {
-  transform: rotateZ(30deg);
-  -webkit-transform: rotateZ(30deg);
-}
-#myName span:nth-child(7) {
-  transform: rotateZ(-60deg);
-  -webkit-transform: rotateZ(-60deg);
-}
-#myName span:nth-child(8) {
-  transform: rotateZ(-40deg);
-  -webkit-transform: rotateZ(-40deg);
-}
-#myName span:nth-child(9) {
-  transform: rotateZ(-160deg);
-  -webkit-transform: rotateZ(-160deg);
-}
-#myName span:nth-child(10) {
-  transform: rotateZ(20deg);
-  -webkit-transform: rotateZ(20deg);
-}
-#myName span:nth-child(11) {
-  transform: rotateZ(30deg);
-  -webkit-transform: rotateZ(30deg);
-}
-#myName span:nth-child(12) {
-  transform: rotateZ(-30deg);
-  -webkit-transform: rotateZ(-30deg);
-}
-/********************* initial letter rotation ********************/
-
-
-/* ******************** derotate letters *********************/
-@-webkit-keyframes RotateFall {
-  100% {
-    -webkit-transform: rotateZ(0deg);
+  #icon-links a {
+    margin-left: 10px;
+    margin-right: 10px;
   }
-}
-@keyframes RotateFall {
-  100% {
-    transform: rotateZ(0deg);
+  #icon-links a > i {
+    transition: color 1s;
+    font-size: 30px;
+    color: orange;
   }
-}
-.rotateAlign span:nth-child(odd) {
-  display: inline-block;
+  #icon-links a:hover > i { cursor: pointer; }
+  #icon-links a:nth-child(1):hover > i { color: #ffffff; }
+  #icon-links a:nth-child(2):hover > i { color: #0072b1; }
+  #icon-links a:nth-child(3):hover > i { color: #ffffff; }
 
-  transform-origin: left;
-  animation-name: RotateFall;
-  animation-duration: 3s;
-  animation-iteration-count: 1;
-  animation-fill-mode: forwards;
+  @media only screen and (max-width: 600px) {
+    div.side-artistic, div.side-formal { width: 100%; border: none; }
+    div.side-artistic {border-bottom: 2px solid#0c111d;}
+    div.side-formal { border-top: 2px solid black; }
+    div.side-artistic-inner, div.side-formal-inner { width: 100%; }
+  }
 
-  -webkit-transform-origin: left;
-  -webkit-animation-name: RotateFall;
-  -webkit-animation-duration: 3s;
-  -webkit-animation-iteration-count: 1;
-  -webkit-animation-fill-mode: forwards;
-}
-.rotateAlign span:nth-child(even) {
-  display: inline-block;
+  /* ***************************** winking eyes ***************************** */
+  @keyframes wink {
+    0% {opacity: 0;}
+    5% {opacity: 1;}
+  }
+  @-webkit-keyframes wink {
+    0% {opacity: 0;}
+    5% {opacity: 1;}
+  }
+  .eyes-open circle, ellipse { animation: wink 10s steps(1) infinite normal; }
+  .eyes-closed line { opacity: none; z-index: -1; }
+  /* ***************************** winking eyes ***************************** */
 
-  transform-origin: right;
-  animation-name: RotateFall;
-  animation-duration: 4s;
-  animation-iteration-count: 1;
-  animation-fill-mode: forwards;
+  /* **************************** two letter power-cuts *********************** */
+  @keyframes power-cuts {
+    0%, 1%, 2%, 8%, 3%, 4% {
+      opacity: 0.4;
+      text-shadow: none;
+    }
+    0.5%, 1.5%, 2.5%, 3.5%, 5% {
+      opacity: 1;
+      text-shadow: 0 0 80px #ffffff, 0 0 6px #08f7fe, 0 0 20px #e92efb;
+    }
+  }
+  @-webkit-keyframes power-cuts {
+    0%, 1%, 2%, 8%, 3%, 4% {
+      opacity: 0.4;
+      text-shadow: none;
+    }
+    0.5%, 1.5%, 2.5%, 3.5%, 5% {
+      opacity: 1;
+      text-shadow: 0 0 80px #ffffff, 0 0 6px #08f7fe, 0 0 20px #e92efb;
+    }
+  }
+  #my-name span:nth-child(2) {
+    animation-name: power-cuts; -webkit-animation-name: power-cuts;
+    animation-duration: 8s; -webkit-animation-duration: 8s;
+    animation-delay: 3s; -webkit-animation-delay: 3s;
+    animation-iteration-count: infinite; -webkit-animation-iteration-count: infinite;
+  }
+  /* **************************** two letter power-cuts *********************** */
 
-  -webkit-transform-origin: right;
-  -webkit-animation-name: RotateFall;
-  -webkit-animation-duration: 4s;
-  -webkit-animation-iteration-count: 1;
-  -webkit-animation-fill-mode: forwards;
-}
-/* ******************** derotate letters *********************/
+
+  /* ******************** initial letter rotation ******************* */
+  #my-name span {
+    display: inline-block;
+    transform-origin: center;
+    -webkit-transform-origin: center;
+  }
+  #my-name span:nth-child(1) { transform: rotateZ(-40deg); -webkit-transform: rotateZ(-40deg); }
+  #my-name span:nth-child(2) { transform: rotateZ(0deg); -webkit-transform: rotateZ(0deg); }
+  #my-name span:nth-child(3) { transform: rotateZ(200deg); -webkit-transform: rotateZ(200deg); }
+  #my-name span:nth-child(4) { transform: rotateZ(70deg); -webkit-transform: rotateZ(70deg); }
+  #my-name span:nth-child(5) { transform: rotateZ(-130deg); -webkit-transform: rotateZ(-130deg); }
+  #my-name span:nth-child(6) { transform: rotateZ(30deg); -webkit-transform: rotateZ(30deg); }
+  #my-name span:nth-child(7) { transform: rotateZ(-60deg); -webkit-transform: rotateZ(-60deg); }
+  #my-name span:nth-child(8) { transform: rotateZ(-40deg); -webkit-transform: rotateZ(-40deg); }
+  #my-name span:nth-child(9) { transform: rotateZ(-160deg); -webkit-transform: rotateZ(-160deg); }
+  #my-name span:nth-child(10) { transform: rotateZ(20deg); -webkit-transform: rotateZ(20deg); }
+  #my-name span:nth-child(11) { transform: rotateZ(30deg); -webkit-transform: rotateZ(30deg); }
+  #my-name span:nth-child(12) { transform: rotateZ(-30deg); -webkit-transform: rotateZ(-30deg); }
+  /********************* initial letter rotation ********************/
+
+  /* ******************** derotate letters *********************/
+  @-webkit-keyframes RotateFall {
+    100% {
+      -webkit-transform: rotateZ(0deg);
+    }
+  }
+  @keyframes RotateFall {
+    100% {
+      transform: rotateZ(0deg);
+    }
+  }
+  .rotateAlign span {
+    display: inline-block;
+    animation-name: RotateFall; -webkit-animation-name: RotateFall;
+    animation-iteration-count: 1; -webkit-animation-iteration-count: 1;
+    animation-fill-mode: forwards; -webkit-animation-fill-mode: forwards;
+  }
+  .rotateAlign span:nth-child(odd) {
+    transform-origin: left; -webkit-transform-origin: left;
+    animation-duration: 3s; -webkit-animation-duration: 3s;
+  }
+  .rotateAlign span:nth-child(even) {
+    transform-origin: right; -webkit-transform-origin: right;
+    animation-duration: 4s; -webkit-animation-duration: 4s;
+  }
+  /* ******************** derotate letters *********************/
+
 </style>
 
 <script>
 
- $(window).on("load", function() {
+  $(window).on("load", function() {
 
-  function matchContentSizeWithUnderlying() {
-    $('#content').height($('#underlying-content').outerHeight());
-  }
-  $('#underlying-content').ready(matchContentSizeWithUnderlying);
-  $(window).resize(matchContentSizeWithUnderlying);
-
-  const content = $('#underlying-content')[0].innerHTML;
-  const compiledContent = $('#compiled-content');
-  const verbatimContent = $('#verbatim-content');
-  let compiled = '';
-  let verbatim = '';
-  let index = 0;
-  let writeVerbatim = false;
-  let timer = setInterval(() => {
-    if (index >= content.length) {
-      $('#myName').addClass('rotateAlign');
-      clearInterval(timer);
-      return;
+    // make space reserved for bio generation have same height as template
+    function matchBioHeightWithUnderlying() {
+      $('#bio').height($('#template-bio').outerHeight());
     }
-    const symbol = content[index];
-    if (symbol == '<' && content[index+1] != '/') {
-      writeVerbatim = true;
-    } else if (symbol == '>') {
-      let indicator = content.slice(index-3, index);
-      if (indicator == '</a' || indicator == '<br') {
-        writeVerbatim = false;
-        compiled += verbatim;
-        verbatim = '';
-        verbatimContent.text('');
+    $('#template-bio').ready(matchBioHeightWithUnderlying);
+    $(window).resize(matchBioHeightWithUnderlying);
+
+    // on enter force-finish bio generation
+    $(document).on('keypress',function(e) {
+      if(e.which == 13) {
+        clearInterval(timer);
+        $('#bio').html($('#template-bio').html());
+        $('#my-name').addClass('rotateAlign');
       }
-    }
-    if (writeVerbatim) {
-      verbatim += symbol;
-      verbatimContent.text(verbatim);
-    } else {
-      compiled += symbol;
-      compiledContent.html(compiled);
-    }
-    index++;
-  }, 50);
+    });
 
-  const alpha = 0.015;
-  const vecadd = (x, y) => [x[0] + y[0], x[1] + y[1]];
-  const fromatob = (a, b) => [b[0] - a[0], b[1] - a[1]];
-  const norm = x => Math.pow(Math.pow(x[0], 2) + Math.pow(x[1], 2), 0.5);
-  const stretch = (x, alpha) => [alpha * x[0], alpha * x[1]];
+    // generate bio
+    const bio = $('#template-bio')[0].innerHTML;
+    const compiledBio = $('#compiled-bio');
+    const verbatimBio = $('#verbatim-bio');
+    let compiled = '';
+    let verbatim = '';
+    let index = 0;
+    let writeVerbatim = false;
+    let timer = setInterval(() => {
+      if (index >= bio.length) {
+        $('#my-name').addClass('rotateAlign');
+        clearInterval(timer);
+        return;
+      }
+      const symbol = bio[index];
+      if (symbol == '<' && bio[index+1] != '/') {
+        writeVerbatim = true;
+      } else if (symbol == '>') {
+        let indicator = bio.slice(index-3, index);
+        if (indicator == '</a' || indicator == '<br') {
+          writeVerbatim = false;
+          compiled += verbatim;
+          verbatim = '';
+          verbatimBio.text('');
+        }
+      }
+      if (writeVerbatim) {
+        verbatim += symbol;
+        verbatimBio.text(verbatim);
+      } else {
+        compiled += symbol;
+        compiledBio.html(compiled);
+      }
+      index++;
+    }, 50);
 
-  let irisRadius = 20;
-  let corneaRadius = 14;
-  let pupilRadius = 8;
-  let svgoffset = Object.values($('svg.eyes-svg').offset()).reverse();
+    // make pupils follow the mouse
+    const alpha = 0.015;
+    const vecadd = (x, y) => [x[0] + y[0], x[1] + y[1]];
+    const fromatob = (a, b) => [b[0] - a[0], b[1] - a[1]];
+    const norm = x => Math.pow(Math.pow(x[0], 2) + Math.pow(x[1], 2), 0.5);
+    const stretch = (x, alpha) => [alpha * x[0], alpha * x[1]];
 
-  let leftIris = document.getElementById('left-iris');
-  let rightIris = document.getElementById('right-iris');
-  let leftPupil = document.getElementById('left-pupil');
-  let rightPupil = document.getElementById('right-pupil');
+    let irisRadius = 20;
+    let corneaRadius = 14;
+    let pupilRadius = 8;
+    let svgoffset = Object.values($('svg.eyes-svg').offset()).reverse();
 
-  let leftPupilCoord = [
-    Number(leftPupil.getAttribute('cx')),
-    Number(leftPupil.getAttribute('cy'))
-  ];
-  let rightPupilCoord = [
-    Number(rightPupil.getAttribute('cx')),
-    Number(rightPupil.getAttribute('cy'))
-  ];
-  let leftPupilCenter = vecadd(svgoffset, leftPupilCoord);
-  let rightPupilCenter = vecadd(svgoffset, rightPupilCoord);
+    let leftIris = document.getElementById('left-iris');
+    let rightIris = document.getElementById('right-iris');
+    let leftPupil = document.getElementById('left-pupil');
+    let rightPupil = document.getElementById('right-pupil');
 
-  document.onmousemove = event => {
-   let eventvec = [event.pageX, event.pageY];
-   let lsight = fromatob(leftPupilCenter, eventvec);
-   let rsight = fromatob(rightPupilCenter, eventvec);
-   let ldist = norm(lsight);
-   let rdist = norm(rsight);
-   let lsightnormed = (ldist != 0) ? stretch(lsight, 1 / ldist) : [0, 0];
-   let rsightnormed = (rdist != 0) ? stretch(rsight, 1 / rdist) : [0, 0];
+    let leftPupilCoord = [
+      Number(leftPupil.getAttribute('cx')),
+      Number(leftPupil.getAttribute('cy'))
+    ];
+    let rightPupilCoord = [
+      Number(rightPupil.getAttribute('cx')),
+      Number(rightPupil.getAttribute('cy'))
+    ];
+    let leftPupilCenter = vecadd(svgoffset, leftPupilCoord);
+    let rightPupilCenter = vecadd(svgoffset, rightPupilCoord);
 
-   let dl = (ldist*alpha <= corneaRadius - pupilRadius) ?
-    stretch(lsightnormed, alpha * ldist) :
-    stretch(lsightnormed, corneaRadius - pupilRadius);
-   let dr = (rdist*alpha <= corneaRadius - pupilRadius) ?
-    stretch(rsightnormed, alpha * rdist) :
-    stretch(rsightnormed, corneaRadius - pupilRadius);
+    document.onmousemove = event => {
+      let eventvec = [event.pageX, event.pageY];
+      let lsight = fromatob(leftPupilCenter, eventvec);
+      let rsight = fromatob(rightPupilCenter, eventvec);
+      let ldist = norm(lsight);
+      let rdist = norm(rsight);
+      let lsightnormed = (ldist != 0) ? stretch(lsight, 1 / ldist) : [0, 0];
+      let rsightnormed = (rdist != 0) ? stretch(rsight, 1 / rdist) : [0, 0];
 
-   let [lx, ly] = vecadd(leftPupilCoord, dl);
-   let [rx, ry] = vecadd(rightPupilCoord, dr);
-   leftPupil.setAttribute('cx', String(lx));
-   leftPupil.setAttribute('cy', String(ly));
-   rightPupil.setAttribute('cx', String(rx));
-   rightPupil.setAttribute('cy', String(ry));
-  };
- });
+      let dl = (ldist*alpha <= corneaRadius - pupilRadius) ?
+      stretch(lsightnormed, alpha * ldist) :
+      stretch(lsightnormed, corneaRadius - pupilRadius);
+      let dr = (rdist*alpha <= corneaRadius - pupilRadius) ?
+      stretch(rsightnormed, alpha * rdist) :
+      stretch(rsightnormed, corneaRadius - pupilRadius);
+
+      let [lx, ly] = vecadd(leftPupilCoord, dl);
+      let [rx, ry] = vecadd(rightPupilCoord, dr);
+      leftPupil.setAttribute('cx', String(lx));
+      leftPupil.setAttribute('cy', String(ly));
+      rightPupil.setAttribute('cx', String(rx));
+      rightPupil.setAttribute('cy', String(ry));
+    };
+
+  });
 
 </script>
 
-</head>
 <body>
 
-<div class='side-artistic'>
-  <div class='side-artistic-inner'>
+  <div class='side-artistic'>
+    <div class='side-artistic-inner'>
 
-    <svg class='eyes-svg' width="200" height="50">
-      <g class='eyes-closed'>
-        <line x1='35' y1='25' x2='75' y2='25' stroke='white' stroke-width='3' />
-        <line x1='125' y1='25' x2='165' y2='25' stroke='white' stroke-width='3' />
-      </g>
-      <g class='eyes-open'>
-        <g id='left-eye'>
-          <circle id='left-iris' cx='55' cy='25' r='20' fill='white' />
-          <circle cx='55' cy='25' r='14' fill='#2874a6' />
-          <circle id='left-pupil' cx='55' cy='25' r='8' fill='black' />
+      <svg class='eyes-svg' width="200" height="50">
+        <g class='eyes-closed'>
+          <line x1='35' y1='25' x2='75' y2='25' stroke='white' stroke-width='3' />
+          <line x1='125' y1='25' x2='165' y2='25' stroke='white' stroke-width='3' />
         </g>
-        <g id='right-eye'>
-         <circle id='right-iris' cx='145' cy='25' r='20' fill='white' />
-         <circle cx='145' cy='25' r='14' fill='#2874a6' />
-         <circle id='right-pupil' cx='145' cy='25' r='8' fill='black' />
-       </g>
-      </g>
-    </svg>
+        <g class='eyes-open'>
+          <g id='left-eye'>
+            <circle id='left-iris' cx='55' cy='25' r='20' fill='white' />
+            <circle cx='55' cy='25' r='14' fill='#2874a6' />
+            <circle id='left-pupil' cx='55' cy='25' r='8' fill='black' />
+          </g>
+          <g id='right-eye'>
+          <circle id='right-iris' cx='145' cy='25' r='20' fill='white' />
+          <circle cx='145' cy='25' r='14' fill='#2874a6' />
+          <circle id='right-pupil' cx='145' cy='25' r='8' fill='black' />
+        </g>
+        </g>
+      </svg>
 
-    <div id='myName'>
-      <span>N</span><span>e</span><span>j</span><span>c</span>
-      <span>Š</span><span>e</span><span>v</span><span>e</span><span>r</span><span>k</span><span>a</span><span>r</span>
-    </div>
-
-  </div>
-</div>
-
-<div class='side-formal'>
-  <div class='side-formal-inner'>
-
-    <div id='content'>
-      <span id='compiled-content'></span><span id='verbatim-content'></span>
-    </div>
-    <div id='underlying-content'>
-      Hi, my name is Nejc and I'm a developer based in Slovenia interested in cryptography and decentralization.
-      I hold a Bachelor's degree in Financial Mathematics and a Master's degree in Pure Mathematics,
-      both from the University of Ljubljana, <a href="https://www.fmf.uni-lj.si/">Faculty of Mathematics and Physics</a>.
-      <br><br>
-      Currently, I am working as a full-time developer at <a href="https://abelium.com/">Abelium</a>,
-      where I am part of the team working on the <a href="https://flare.network/">Flare network</a>.
-      Additionally, I am also a part-time teaching assistant at my faculty.
-      <br><br>
-      <div id="icon-links">
-        <a href="https://github.com/kuco23" target="_blank"><i class="fa fa-github-alt"></i></a>
-        <a href="https://linkedin.com/in/nejc-ševerkar-484b95234" target="_blank"><i class="fa fa-linkedin"></i></a>
-        <a href="https://medium.com/@nseverkar" target="_blank"><i class="fa fa-medium"></i></a>
+      <div id='my-name'>
+        <span>N</span><span>e</span><span>j</span><span>c</span>
+        <span>Š</span><span>e</span><span>v</span><span>e</span><span>r</span><span>k</span><span>a</span><span>r</span>
       </div>
-    </div>
 
+    </div>
   </div>
-</div>
+
+  <div class='side-formal'>
+    <div class='side-formal-inner'>
+
+      <div id='bio'>
+        <span id='compiled-bio'></span><span id='verbatim-bio'></span>
+      </div>
+      <div id='template-bio'>
+        Hi, my name is Nejc and I'm a developer based in Slovenia interested in cryptography and decentralization.
+        I hold a Bachelor's degree in Financial Mathematics and a Master's degree in Pure Mathematics,
+        both from the University of Ljubljana, <a href="https://www.fmf.uni-lj.si/">Faculty of Mathematics and Physics</a>.
+        <br><br>
+        Currently, I am working as a full-time developer at <a href="https://abelium.com/">Abelium</a>,
+        where I am part of the team working on the <a href="https://flare.network/">Flare network</a>.
+        Additionally, I am also a part-time teaching assistant at my faculty.
+        <br><br>
+        <div id="icon-links">
+          <a href="https://github.com/kuco23" target="_blank"><i class="fa-brands fa-github"></i></a>
+          <a href="https://linkedin.com/in/nejc-ševerkar-484b95234" target="_blank"><i class="fa-brands fa-linkedin"></i></a>
+          <a href="https://medium.com/@nseverkar" target="_blank"><i class="fa-brands fa-medium"></i></a>
+        </div>
+      </div>
+
+    </div>
+  </div>
 
 </body>
 </html>
