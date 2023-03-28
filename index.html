@@ -84,9 +84,10 @@
     color: orange;
   }
   #icon-links a:hover > i { cursor: pointer; }
-  #icon-links a:nth-child(1):hover > i { color: #ffffff; }
-  #icon-links a:nth-child(2):hover > i { color: #0072b1; }
-  #icon-links a:nth-child(3):hover > i { color: #ffffff; }
+  #github:hover > i { color: #ffffff; }
+  #linkedin:hover > i { color: #0072b1; }
+  #medium:hover > i { color: #ffffff; }
+  #ethereum:hover > i { color: #c99d66; }
 
   @media only screen and (max-width: 600px) {
     div.side-artistic, div.side-formal { width: 100%; border: none; }
@@ -189,23 +190,34 @@
 
 <script>
 
+  // send one eth with metamask
+  const sendOneEth = async () => {
+    await ethereum.request({ method: 'eth_requestAccounts' });
+    await ethereum.request({
+      method: 'eth_sendTransaction',
+      params: [{
+        to: '0xDe6E4607008a6B6F4341E046d18297d03e11ECa1',
+        from: ethereum.selectedAddress,
+        value: '0xde0b6b3a7640000'
+      }]
+    });
+  }
+
   $(window).on("load", function() {
 
     // make space reserved for bio generation have same height as template
-    function matchBioHeightWithUnderlying() {
+    const matchBioHeightWithUnderlying = () =>
       $('#bio').height($('#template-bio').outerHeight());
-    }
     $('#template-bio').ready(matchBioHeightWithUnderlying);
     $(window).resize(matchBioHeightWithUnderlying);
 
-    // on enter force-finish bio generation
-    $(document).on('keypress',function(e) {
-      if(e.which == 13) {
-        clearInterval(timer);
-        $('#bio').html($('#template-bio').html());
-        $('#my-name').addClass('rotateAlign');
-      }
-    });
+    // on content click force-finish bio generation
+    const finishBioGeneration = () => {
+      clearInterval(timer);
+      $('#bio').html($('#template-bio').html());
+      $('#my-name').addClass('rotateAlign');
+    }
+    $('#bio').on('click', finishBioGeneration);
 
     // generate bio
     const bio = $('#template-bio')[0].innerHTML;
@@ -216,25 +228,25 @@
     let compile = false;
     let index = 0;
     let timer = setInterval(() => {
+      const symbol = bio[index++];
       if (index >= bio.length) {
-        $('#my-name').addClass('rotateAlign');
-        clearInterval(timer);
+        finishBioGeneration();
         return;
       }
-      const symbol = bio[index++];
-      if (compile && symbol == '>') {
+      else if (compile && symbol == '>') {
         compiled += verbatim + symbol;
         compiledBio.html(compiled);
         verbatim = '';
         verbatimBio.text('');
         compile = false;
-        return;
-      } else if (!compile && symbol == '<' && (bio[index] == '/' || bio[index] == 'b')) {
-        compile = true;
+      } else {
+        if (!compile && symbol == '<' && (bio[index] == '/' || bio[index] == 'b')) {
+          compile = true;
+        }
+        verbatim += symbol;
+        verbatimBio.append(symbol);
       }
-      verbatim += symbol;
-      verbatimBio.append(symbol);
-    }, 30);
+    }, 50);
 
     // make pupils follow the mouse
     const alpha = 0.015;
@@ -340,9 +352,10 @@
         Additionally, I am also a part-time teaching assistant at my faculty.
         <br><br>
         <div id="icon-links">
-          <a href="https://github.com/kuco23" target="_blank"><i class="fa-brands fa-github"></i></a>
-          <a href="https://linkedin.com/in/nejc-ševerkar-484b95234" target="_blank"><i class="fa-brands fa-linkedin"></i></a>
-          <a href="https://medium.com/@nseverkar" target="_blank"><i class="fa-brands fa-medium"></i></a>
+          <a id="github" href="https://github.com/kuco23" target="_blank"><i class="fa-brands fa-github"></i></a>
+          <a id="linkedin" href="https://linkedin.com/in/nejc-ševerkar-484b95234" target="_blank"><i class="fa-brands fa-linkedin"></i></a>
+          <a id="medium" href="https://medium.com/@nseverkar" target="_blank"><i class="fa-brands fa-medium"></i></a>
+          <a id="ethereum" href="#" onclick="sendOneEth();"><i class="fa-brands fa-ethereum"></i></a>
         </div>
       </div>
 
