@@ -213,7 +213,6 @@
 
     // on content click force-finish bio generation
     const finishBioGeneration = () => {
-      clearInterval(timer);
       $('#bio').html($('#template-bio').html());
       $('#my-name').addClass('rotateAlign');
     }
@@ -227,13 +226,12 @@
     let verbatim = '';
     let compile = false;
     let index = 0;
-    let timer = setInterval(() => {
+
+    function animateBioGeneration() {
       const symbol = bio[index++];
       if (index >= bio.length) {
-        finishBioGeneration();
-        return;
-      }
-      else if (compile && symbol == '>') {
+        return finishBioGeneration();
+      } else if (compile && symbol == '>') {
         compiled += verbatim + symbol;
         compiledBio.html(compiled);
         verbatim = '';
@@ -246,7 +244,9 @@
         verbatim += symbol;
         verbatimBio.append(symbol);
       }
-    }, 50);
+      requestAnimationFrame(animateBioGeneration);
+    }
+    requestAnimationFrame(animateBioGeneration);
 
     // make pupils follow the mouse
     const alpha = 0.015;
