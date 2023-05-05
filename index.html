@@ -6,7 +6,7 @@
 <meta name='viewport' content='width=device-width, initial-scale=1.0' charset='utf-8' />
 <meta name="color-scheme" content="light only">
 <script src='jquery-3.3.1.min.js'></script>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cousine&family=Montserrat+Alternates:wght@300&display=swap">
+<link href="https://fonts.googleapis.com/css2?family=Montserrat+Alternates:wght@300&family=Source+Code+Pro:ital,wght@0,300;1,300&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.3.0/css/all.min.css">
 </head>
 
@@ -31,13 +31,13 @@
     height: 100%;
     width: 50%;
     background-color: black;
-    border-right: 2px solid #0c111d;
+    border-right: 2px solid #0a0d15;
   }
   div.side-formal {
     float: right;
     height: 100%;
     width: 50%;
-    background-color:#0c111d;
+    background-color:#0b0f1a;
     border-left: 2px solid black;
     font-family: 'Montserrat Alternates';
   }
@@ -54,10 +54,9 @@
 
   #my-name {
     margin-top: 25px;
-    font-family: 'Cousine', cursive;
+    font-family: 'Source Code Pro', cursive;
     font-size: 27px;
-    color: #fff;
-    text-shadow: 0 0 80px #ffffff, 0 0 5px #08f7fe, 0 0 25px #e92efb;
+    color: #fffffc;
     cursor: default;
   }
 
@@ -109,8 +108,8 @@
   .eyes-closed line { opacity: none; z-index: -1; }
   /* ***************************** winking eyes ***************************** */
 
-  /* **************************** two letter power-cuts *********************** */
-  @keyframes power-cuts {
+  /* **************************** letter flicker *********************** */
+  @keyframes flicker {
     0%, 1%, 2%, 8%, 3%, 4% {
       opacity: 0.4;
       text-shadow: none;
@@ -120,7 +119,7 @@
       text-shadow: 0 0 80px #ffffff, 0 0 6px #08f7fe, 0 0 20px #e92efb;
     }
   }
-  @-webkit-keyframes power-cuts {
+  @-webkit-keyframes flicker {
     0%, 1%, 2%, 8%, 3%, 4% {
       opacity: 0.4;
       text-shadow: none;
@@ -130,13 +129,13 @@
       text-shadow: 0 0 80px #ffffff, 0 0 6px #08f7fe, 0 0 20px #e92efb;
     }
   }
-  #my-name span:nth-child(2) {
-    animation-name: power-cuts; -webkit-animation-name: power-cuts;
+  /* #my-name span:nth-child(2) {
+    animation-name: flicker; -webkit-animation-name: flicker;
     animation-duration: 8s; -webkit-animation-duration: 8s;
     animation-delay: 3s; -webkit-animation-delay: 3s;
     animation-iteration-count: infinite; -webkit-animation-iteration-count: infinite;
-  }
-  /* **************************** two letter power-cuts *********************** */
+  } */
+  /* **************************** letter flicker *********************** */
 
 
   /* ******************** initial letter rotation ******************* */
@@ -145,18 +144,18 @@
     transform-origin: center;
     -webkit-transform-origin: center;
   }
-  #my-name span:nth-child(1) { transform: rotateZ(-40deg); -webkit-transform: rotateZ(-40deg); }
-  #my-name span:nth-child(2) { transform: rotateZ(0deg); -webkit-transform: rotateZ(0deg); }
-  #my-name span:nth-child(3) { transform: rotateZ(200deg); -webkit-transform: rotateZ(200deg); }
-  #my-name span:nth-child(4) { transform: rotateZ(70deg); -webkit-transform: rotateZ(70deg); }
-  #my-name span:nth-child(5) { transform: rotateZ(-130deg); -webkit-transform: rotateZ(-130deg); }
-  #my-name span:nth-child(6) { transform: rotateZ(30deg); -webkit-transform: rotateZ(30deg); }
-  #my-name span:nth-child(7) { transform: rotateZ(-60deg); -webkit-transform: rotateZ(-60deg); }
-  #my-name span:nth-child(8) { transform: rotateZ(-40deg); -webkit-transform: rotateZ(-40deg); }
-  #my-name span:nth-child(9) { transform: rotateZ(-160deg); -webkit-transform: rotateZ(-160deg); }
-  #my-name span:nth-child(10) { transform: rotateZ(20deg); -webkit-transform: rotateZ(20deg); }
-  #my-name span:nth-child(11) { transform: rotateZ(30deg); -webkit-transform: rotateZ(30deg); }
-  #my-name span:nth-child(12) { transform: rotateZ(-30deg); -webkit-transform: rotateZ(-30deg); }
+  #my-name span:nth-child(1) { transform: rotateZ(-25deg); -webkit-transform: rotateZ(-25deg); }
+  #my-name span:nth-child(2) { transform: rotateZ(15deg); -webkit-transform: rotateZ(15deg); }
+  #my-name span:nth-child(3) { transform: rotateZ(-10deg); -webkit-transform: rotateZ(-10deg); }
+  #my-name span:nth-child(4) { transform: rotateZ(23deg); -webkit-transform: rotateZ(23deg); }
+  #my-name span:nth-child(5) { transform: rotateZ(-13deg); -webkit-transform: rotateZ(-13deg); }
+  #my-name span:nth-child(6) { transform: rotateZ(3deg); -webkit-transform: rotateZ(3deg); }
+  #my-name span:nth-child(7) { transform: rotateZ(-16deg); -webkit-transform: rotateZ(-16deg); }
+  #my-name span:nth-child(8) { transform: rotateZ(-5deg); -webkit-transform: rotateZ(-5deg); }
+  #my-name span:nth-child(9) { transform: rotateZ(10deg); -webkit-transform: rotateZ(10deg); }
+  #my-name span:nth-child(10) { transform: rotateZ(23deg); -webkit-transform: rotateZ(23deg); }
+  #my-name span:nth-child(11) { transform: rotateZ(-5deg); -webkit-transform: rotateZ(-5deg); }
+  #my-name span:nth-child(12) { transform: rotateZ(-18deg); -webkit-transform: rotateZ(-18deg); }
   /********************* initial letter rotation ********************/
 
   /* ******************** derotate letters *********************/
@@ -192,15 +191,18 @@
 
   // send one eth with metamask
   const sendOneEth = async () => {
-    await ethereum.request({ method: 'eth_requestAccounts' });
-    await ethereum.request({
-      method: 'eth_sendTransaction',
-      params: [{
-        to: '0xDe6E4607008a6B6F4341E046d18297d03e11ECa1',
-        from: ethereum.selectedAddress,
-        value: '0xde0b6b3a7640000'
-      }]
-    });
+    try {
+      await ethereum.request({
+        method: 'eth_sendTransaction',
+        params: [{
+          to: '0xDe6E4607008a6B6F4341E046d18297d03e11ECa1',
+          from: ethereum.selectedAddress,
+          value: '0xde0b6b3a7640000'
+        }]
+      });
+    } catch (e) {
+      console.log('stingy prick!');
+    }
   }
 
   $(window).on("load", function() {
@@ -286,11 +288,11 @@
       let rsightnormed = (rdist != 0) ? stretch(rsight, 1 / rdist) : [0, 0];
 
       let dl = (ldist*alpha <= corneaRadius - pupilRadius) ?
-      stretch(lsightnormed, alpha * ldist) :
-      stretch(lsightnormed, corneaRadius - pupilRadius);
+        stretch(lsightnormed, alpha * ldist) :
+        stretch(lsightnormed, corneaRadius - pupilRadius);
       let dr = (rdist*alpha <= corneaRadius - pupilRadius) ?
-      stretch(rsightnormed, alpha * rdist) :
-      stretch(rsightnormed, corneaRadius - pupilRadius);
+        stretch(rsightnormed, alpha * rdist) :
+        stretch(rsightnormed, corneaRadius - pupilRadius);
 
       let [lx, ly] = vecadd(leftPupilCoord, dl);
       let [rx, ry] = vecadd(rightPupilCoord, dr);
