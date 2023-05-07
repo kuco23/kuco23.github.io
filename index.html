@@ -59,6 +59,13 @@
     color: #fffffc;
     cursor: default;
   }
+  #right-pupil, #left-pupil {
+    stroke-width: 2px;
+    transition: stroke 2s;
+  }
+  #right-pupil:hover, #left-pupil:hover {
+    stroke: orange;
+  }
 
   #bio, #template-bio {
     width: 85%;
@@ -159,19 +166,19 @@
   /********************* initial letter rotation ********************/
 
   /* ******************** derotate letters *********************/
-  @-webkit-keyframes RotateFall {
+  @-webkit-keyframes Rotate {
     100% {
       -webkit-transform: rotateZ(0deg);
     }
   }
-  @keyframes RotateFall {
+  @keyframes Rotate {
     100% {
       transform: rotateZ(0deg);
     }
   }
   .rotateAlign span {
     display: inline-block;
-    animation-name: RotateFall; -webkit-animation-name: RotateFall;
+    animation-name: Rotate; -webkit-animation-name: Rotate;
     animation-iteration-count: 1; -webkit-animation-iteration-count: 1;
     animation-fill-mode: forwards; -webkit-animation-fill-mode: forwards;
   }
@@ -320,13 +327,17 @@
           <g id='left-eye'>
             <circle id='left-iris' cx='55' cy='25' r='20' fill='white' />
             <circle cx='55' cy='25' r='14' fill='#2874a6' />
-            <circle id='left-pupil' cx='55' cy='25' r='8' fill='black' />
+            <a xlink:href="https://github.com">
+              <circle id='left-pupil' cx='55' cy='25' r='8' fill='black' />
+            </a>
           </g>
           <g id='right-eye'>
-          <circle id='right-iris' cx='145' cy='25' r='20' fill='white' />
-          <circle cx='145' cy='25' r='14' fill='#2874a6' />
-          <circle id='right-pupil' cx='145' cy='25' r='8' fill='black' />
-        </g>
+            <circle id='right-iris' cx='145' cy='25' r='20' fill='white' />
+            <circle cx='145' cy='25' r='14' fill='#2874a6' />
+            <a xlink:href="https://github.com">
+              <circle id='right-pupil' cx='145' cy='25' r='8' fill='black' />
+            </a>
+          </g>
         </g>
       </svg>
 
