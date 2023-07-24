@@ -116,7 +116,7 @@
   /* ***************************** winking eyes ***************************** */
 
   /* **************************** letter flicker *********************** */
-  @keyframes flicker {
+  /* @keyframes flicker {
     0%, 1%, 2%, 8%, 3%, 4% {
       opacity: 0.4;
       text-shadow: none;
@@ -136,7 +136,7 @@
       text-shadow: 0 0 80px #ffffff, 0 0 6px #08f7fe, 0 0 20px #e92efb;
     }
   }
-  /* #my-name span:nth-child(2) {
+  #my-name span:nth-child(2) {
     animation-name: flicker; -webkit-animation-name: flicker;
     animation-duration: 8s; -webkit-animation-duration: 8s;
     animation-delay: 3s; -webkit-animation-delay: 3s;
@@ -199,7 +199,7 @@
   // send one eth with metamask
   const sendEth = async () => {
     try {
-      const accounts = await window.ethereum.request({
+      const accounts = await ethereum.request({
         method: 'eth_requestAccounts'
       });
       await ethereum.request({
@@ -210,7 +210,18 @@
           value: (5e15).toString(16)
         }]
       });
-    } catch (e) {}
+    } catch (e) {
+      console.log(e)
+    }
+  }
+  // if metamask not installed, open metamask website,
+  // otherwise construct eth donation transaction
+  const onEthClick = () => {
+    if (ethereum === undefined || ethereum.request === undefined) {
+      window.open('https://metamask.io/', '_blank');
+    } else {
+      sendEth();
+    }
   }
 
   $(window).on("load", function() {
@@ -369,7 +380,7 @@
           <a id="github" href="https://github.com/kuco23" target="_blank"><i class="fa-brands fa-github"></i></a>
           <a id="linkedin" href="https://linkedin.com/in/nejc-ševerkar-484b95234" target="_blank"><i class="fa-brands fa-linkedin"></i></a>
           <a id="medium" href="https://medium.com/@nseverkar" target="_blank"><i class="fa-brands fa-medium"></i></a>
-          <a id="ethereum" href="javascript:;" onclick="sendEth();"><i class="fa-brands fa-ethereum"></i></a>
+          <a id="ethereum" href="javascript:;" onclick="onEthClick();" title="donate .005 ETH through MetaMask"><i class="fa-brands fa-ethereum"></i></a>
         </div>
       </div>
 
