@@ -196,6 +196,11 @@
 
 <script>
 
+  // count page visits
+  $.getJSON("https://api.countapi.xyz/hit/kuco23.github.io/visits", function(response) {
+    console.log(`page visits ${response?.value}`)
+  })
+
   // send one eth with metamask
   const sendEth = async () => {
     try {
