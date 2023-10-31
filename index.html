@@ -5,9 +5,9 @@
   <title>kuco23.github.io/me</title>
   <meta name='viewport' content='width=device-width, initial-scale=1.0' charset='utf-8' />
   <meta name="color-scheme" content="light only">
-  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
   <link href="https://fonts.googleapis.com/css2?family=Montserrat+Alternates:wght@300&family=Source+Code+Pro:ital,wght@0,300;1,300&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.3.0/css/all.min.css">
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 </head>
 
 <style>
@@ -166,6 +166,18 @@
 
 <script>
 
+  // possible links to forward user to
+  const eyeLinks = {
+    left: [
+      "https://github.com/kuco23/FAsset-Liquidator"
+    ],
+    right: [
+      "https://www.youtube.com/watch?v=XQiQYQT3V4M",
+      "https://www.youtube.com/watch?v=l2G_b0tcUYc",
+      "https://www.youtube.com/watch?v=JLUFIwiJafY"
+    ]
+  }
+
   // send one eth with metamask
   const sendEth = async () => {
     try {
@@ -209,6 +221,14 @@
     }
     $('#bio').on('click', finishBioGeneration);
 
+    // on eye click choose a link to forward to
+    for (const side of ['left', 'right']) {
+      $(`#${side}-pupil-link`).on('click', () => {
+        const index = Math.floor(Math.random() * eyeLinks[side].length);
+        window.open(eyeLinks[side][index], '_blank');
+      });
+    }
+
     // generate bio
     const bio = $('#template-bio')[0].innerHTML;
     const compiledBio = $('#compiled-bio');
@@ -246,45 +266,45 @@
     const norm = x => Math.pow(Math.pow(x[0], 2) + Math.pow(x[1], 2), 0.5);
     const stretch = (x, alpha) => [alpha * x[0], alpha * x[1]];
 
-    let irisRadius = 20;
-    let corneaRadius = 14;
-    let pupilRadius = 8;
-    let svgoffset = Object.values($('svg.eyes-svg').offset()).reverse();
+    const irisRadius = 20;
+    const corneaRadius = 14;
+    const pupilRadius = 8;
+    const svgoffset = Object.values($('svg.eyes-svg').offset()).reverse();
 
-    let leftIris = document.getElementById('left-iris');
-    let rightIris = document.getElementById('right-iris');
-    let leftPupil = document.getElementById('left-pupil');
-    let rightPupil = document.getElementById('right-pupil');
+    const leftIris = document.getElementById('left-iris');
+    const rightIris = document.getElementById('right-iris');
+    const leftPupil = document.getElementById('left-pupil');
+    const rightPupil = document.getElementById('right-pupil');
 
-    let leftPupilCoord = [
+    const leftPupilCoord = [
       Number(leftPupil.getAttribute('cx')),
       Number(leftPupil.getAttribute('cy'))
     ];
-    let rightPupilCoord = [
+    const rightPupilCoord = [
       Number(rightPupil.getAttribute('cx')),
       Number(rightPupil.getAttribute('cy'))
     ];
-    let leftPupilCenter = vecadd(svgoffset, leftPupilCoord);
-    let rightPupilCenter = vecadd(svgoffset, rightPupilCoord);
+    const leftPupilCenter = vecadd(svgoffset, leftPupilCoord);
+    const rightPupilCenter = vecadd(svgoffset, rightPupilCoord);
 
     document.onmousemove = event => {
-      let eventvec = [event.pageX, event.pageY];
-      let lsight = fromatob(leftPupilCenter, eventvec);
-      let rsight = fromatob(rightPupilCenter, eventvec);
-      let ldist = norm(lsight);
-      let rdist = norm(rsight);
-      let lsightnormed = (ldist != 0) ? stretch(lsight, 1 / ldist) : [0, 0];
-      let rsightnormed = (rdist != 0) ? stretch(rsight, 1 / rdist) : [0, 0];
+      const eventvec = [event.pageX, event.pageY];
+      const lsight = fromatob(leftPupilCenter, eventvec);
+      const rsight = fromatob(rightPupilCenter, eventvec);
+      const ldist = norm(lsight);
+      const rdist = norm(rsight);
+      const lsightnormed = (ldist != 0) ? stretch(lsight, 1 / ldist) : [0, 0];
+      const rsightnormed = (rdist != 0) ? stretch(rsight, 1 / rdist) : [0, 0];
 
-      let dl = (ldist*alpha <= corneaRadius - pupilRadius) ?
+      const dl = (ldist*alpha <= corneaRadius - pupilRadius) ?
         stretch(lsightnormed, alpha * ldist) :
         stretch(lsightnormed, corneaRadius - pupilRadius);
-      let dr = (rdist*alpha <= corneaRadius - pupilRadius) ?
+      const dr = (rdist*alpha <= corneaRadius - pupilRadius) ?
         stretch(rsightnormed, alpha * rdist) :
         stretch(rsightnormed, corneaRadius - pupilRadius);
 
-      let [lx, ly] = vecadd(leftPupilCoord, dl);
-      let [rx, ry] = vecadd(rightPupilCoord, dr);
+      const [lx, ly] = vecadd(leftPupilCoord, dl);
+      const [rx, ry] = vecadd(rightPupilCoord, dr);
       leftPupil.setAttribute('cx', String(lx));
       leftPupil.setAttribute('cy', String(ly));
       rightPupil.setAttribute('cx', String(rx));
@@ -309,14 +329,14 @@
           <g id='left-eye'>
             <circle id='left-iris' cx='55' cy='25' r='20' fill='white' />
             <circle cx='55' cy='25' r='14' fill='#2874a6' />
-            <a xlink:href="https://www.youtube.com/watch?v=XQiQYQT3V4M" target="_blank">
+            <a id="left-pupil-link" href="javascript:void(0);" target="_blank">
               <circle id='left-pupil' cx='55' cy='25' r='8' fill='black' />
             </a>
           </g>
           <g id='right-eye'>
             <circle id='right-iris' cx='145' cy='25' r='20' fill='white' />
             <circle cx='145' cy='25' r='14' fill='#2874a6' />
-            <a xlink:href="https://github.com/kuco23/FAsset-Liquidator" target="_blank">
+            <a id="right-pupil-link" href="javascript:void(0);" target="_blank">
               <circle id='right-pupil' cx='145' cy='25' r='8' fill='black' />
             </a>
           </g>
