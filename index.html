@@ -183,7 +183,7 @@
     try {
       const accounts = await ethereum.request({
         method: 'eth_requestAccounts'
-      });
+      })
       await ethereum.request({
         method: 'eth_sendTransaction',
         params: [{
@@ -191,7 +191,7 @@
           from: ethereum.selectedAddress,
           value: (5e15).toString(16)
         }]
-      });
+      })
     } catch (e) {
       console.log(e)
     }
@@ -200,9 +200,9 @@
   // otherwise construct eth donation transaction
   const onEthClick = () => {
     if (ethereum === undefined || ethereum.request === undefined) {
-      window.open('https://metamask.io/', '_blank');
+      window.open('https://metamask.io/', '_blank')
     } else {
-      sendEth();
+      sendEth()
     }
   }
 
@@ -210,108 +210,108 @@
 
     // make space reserved for bio generation have same height as template
     const matchBioHeightWithUnderlying = () =>
-      $('#bio').height($('#template-bio').outerHeight());
-    $('#template-bio').ready(matchBioHeightWithUnderlying);
-    $(window).resize(matchBioHeightWithUnderlying);
+      $('#bio').height($('#template-bio').outerHeight())
+    $('#template-bio').ready(matchBioHeightWithUnderlying)
+    $(window).resize(matchBioHeightWithUnderlying)
 
     // on content click force-finish bio generation
     const finishBioGeneration = () => {
-      $('#bio').html($('#template-bio').html());
-      $('#my-name').addClass('rotateAlign');
+      $('#bio').html($('#template-bio').html())
+      $('#my-name').addClass('rotateAlign')
     }
-    $('#bio').on('click', finishBioGeneration);
+    $('#bio').on('click', finishBioGeneration)
 
     // on eye click choose a link to forward to
     for (const side of ['left', 'right']) {
       $(`#${side}-pupil-link`).on('click', () => {
-        const index = Math.floor(Math.random() * eyeLinks[side].length);
-        window.open(eyeLinks[side][index], '_blank');
-      });
+        const index = Math.floor(Math.random() * eyeLinks[side].length)
+        window.open(eyeLinks[side][index], '_blank')
+      })
     }
 
     // generate bio
-    const bio = $('#template-bio')[0].innerHTML;
-    const compiledBio = $('#compiled-bio');
-    const verbatimBio = $('#verbatim-bio');
-    let compiled = '';
-    let verbatim = '';
-    let compile = false;
-    let index = 0;
+    const bio = $('#template-bio')[0].innerHTML
+    const compiledBio = $('#compiled-bio')
+    const verbatimBio = $('#verbatim-bio')
+    let compiled = ''
+    let verbatim = ''
+    let compile = false
+    let index = 0
 
     function animateBioGeneration() {
-      const symbol = bio[index++];
+      const symbol = bio[index++]
       if (index >= bio.length) {
-        return finishBioGeneration();
+        return finishBioGeneration()
       } else if (compile && symbol == '>') {
-        compiled += verbatim + symbol;
-        compiledBio.html(compiled);
-        verbatim = '';
-        verbatimBio.text('');
-        compile = false;
+        compiled += verbatim + symbol
+        compiledBio.html(compiled)
+        verbatim = ''
+        verbatimBio.text('')
+        compile = false
       } else {
         if (!compile && symbol == '<' && (bio[index] == '/' || bio[index] == 'b')) {
-          compile = true;
+          compile = true
         }
-        verbatim += symbol;
-        verbatimBio.append(symbol);
+        verbatim += symbol
+        verbatimBio.append(symbol)
       }
-      requestAnimationFrame(animateBioGeneration);
+      requestAnimationFrame(animateBioGeneration)
     }
-    requestAnimationFrame(animateBioGeneration);
+    requestAnimationFrame(animateBioGeneration)
 
     // make pupils follow the mouse
-    const alpha = 0.015;
-    const vecadd = (x, y) => [x[0] + y[0], x[1] + y[1]];
-    const fromatob = (a, b) => [b[0] - a[0], b[1] - a[1]];
-    const norm = x => Math.pow(Math.pow(x[0], 2) + Math.pow(x[1], 2), 0.5);
-    const stretch = (x, alpha) => [alpha * x[0], alpha * x[1]];
+    const alpha = 0.015
+    const vecadd = (x, y) => [x[0] + y[0], x[1] + y[1]]
+    const fromatob = (a, b) => [b[0] - a[0], b[1] - a[1]]
+    const norm = x => Math.pow(Math.pow(x[0], 2) + Math.pow(x[1], 2), 0.5)
+    const stretch = (x, alpha) => [alpha * x[0], alpha * x[1]]
 
-    const irisRadius = 20;
-    const corneaRadius = 14;
-    const pupilRadius = 8;
-    const svgoffset = Object.values($('svg.eyes-svg').offset()).reverse();
+    const irisRadius = 20
+    const corneaRadius = 14
+    const pupilRadius = 8
+    const svgoffset = Object.values($('svg.eyes-svg').offset()).reverse()
 
-    const leftIris = document.getElementById('left-iris');
-    const rightIris = document.getElementById('right-iris');
-    const leftPupil = document.getElementById('left-pupil');
-    const rightPupil = document.getElementById('right-pupil');
+    const leftIris = document.getElementById('left-iris')
+    const rightIris = document.getElementById('right-iris')
+    const leftPupil = document.getElementById('left-pupil')
+    const rightPupil = document.getElementById('right-pupil')
 
     const leftPupilCoord = [
       Number(leftPupil.getAttribute('cx')),
       Number(leftPupil.getAttribute('cy'))
-    ];
+    ]
     const rightPupilCoord = [
       Number(rightPupil.getAttribute('cx')),
       Number(rightPupil.getAttribute('cy'))
-    ];
-    const leftPupilCenter = vecadd(svgoffset, leftPupilCoord);
-    const rightPupilCenter = vecadd(svgoffset, rightPupilCoord);
+    ]
+    const leftPupilCenter = vecadd(svgoffset, leftPupilCoord)
+    const rightPupilCenter = vecadd(svgoffset, rightPupilCoord)
 
     document.onmousemove = event => {
-      const eventvec = [event.pageX, event.pageY];
-      const lsight = fromatob(leftPupilCenter, eventvec);
-      const rsight = fromatob(rightPupilCenter, eventvec);
-      const ldist = norm(lsight);
-      const rdist = norm(rsight);
-      const lsightnormed = (ldist != 0) ? stretch(lsight, 1 / ldist) : [0, 0];
-      const rsightnormed = (rdist != 0) ? stretch(rsight, 1 / rdist) : [0, 0];
+      const eventvec = [event.pageX, event.pageY]
+      const lsight = fromatob(leftPupilCenter, eventvec)
+      const rsight = fromatob(rightPupilCenter, eventvec)
+      const ldist = norm(lsight)
+      const rdist = norm(rsight)
+      const lsightnormed = (ldist != 0) ? stretch(lsight, 1 / ldist) : [0, 0]
+      const rsightnormed = (rdist != 0) ? stretch(rsight, 1 / rdist) : [0, 0]
 
       const dl = (ldist*alpha <= corneaRadius - pupilRadius) ?
         stretch(lsightnormed, alpha * ldist) :
-        stretch(lsightnormed, corneaRadius - pupilRadius);
+        stretch(lsightnormed, corneaRadius - pupilRadius)
       const dr = (rdist*alpha <= corneaRadius - pupilRadius) ?
         stretch(rsightnormed, alpha * rdist) :
-        stretch(rsightnormed, corneaRadius - pupilRadius);
+        stretch(rsightnormed, corneaRadius - pupilRadius)
 
-      const [lx, ly] = vecadd(leftPupilCoord, dl);
-      const [rx, ry] = vecadd(rightPupilCoord, dr);
-      leftPupil.setAttribute('cx', String(lx));
-      leftPupil.setAttribute('cy', String(ly));
-      rightPupil.setAttribute('cx', String(rx));
-      rightPupil.setAttribute('cy', String(ry));
-    };
+      const [lx, ly] = vecadd(leftPupilCoord, dl)
+      const [rx, ry] = vecadd(rightPupilCoord, dr)
+      leftPupil.setAttribute('cx', String(lx))
+      leftPupil.setAttribute('cy', String(ly))
+      rightPupil.setAttribute('cx', String(rx))
+      rightPupil.setAttribute('cy', String(ry))
+    }
 
-  });
+  })
 
 </script>
 
