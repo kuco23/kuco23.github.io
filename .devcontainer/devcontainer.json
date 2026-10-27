@@ -1,0 +1,35 @@
+{
+	"name": "${localWorkspaceFolderBasename}",
+    "dockerComposeFile": "docker-compose.yaml",
+    "service": "dev",
+    "workspaceFolder": "/workspaces/${localWorkspaceFolderBasename}",
+    "features": {
+        "ghcr.io/devcontainers/features/node:1": {
+            "version": "22"
+        }
+    },
+    "postCreateCommand": "npm install -g @anthropic-ai/claude-code",
+    "initializeCommand": ".devcontainer/initialize.sh",
+    "customizations": {
+        "vscode": {
+            "extensions": [
+                "mikestead.dotenv",
+                "eamodio.gitlens",
+                "usernamehw.errorlens",
+                "christian-kohler.path-intellisense",
+                "gruntfuggly.todo-tree",
+                "pkief.material-icon-theme",
+                "editorconfig.editorconfig",
+                "redhat.vscode-yaml",
+                "timonwong.shellcheck",
+                "anthropic.claude-code"
+            ],
+            "settings": {
+                "editor.insertSpaces": true,
+                "editor.detectIndentation": false,
+                "files.trimFinalNewlines": true,
+                "files.trimTrailingWhitespace": true
+            }
+        }
+    }
+}

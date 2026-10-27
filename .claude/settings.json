@@ -1,0 +1,49 @@
+{
+  "enabledPlugins": {
+    "superpowers@claude-plugins-official": true
+  },
+  "permissions": {
+    "allow": [
+      "Bash",
+      "Read",
+      "Edit",
+      "Write",
+      "Glob",
+      "Grep",
+      "WebFetch",
+      "Agent",
+      "Bash(ls:*)",
+      "Bash(cat:*)",
+      "Bash(cd:*)",
+      "Bash(pwd:*)",
+      "Bash(echo:*)",
+      "Bash(which:*)",
+      "Bash(env:*)",
+      "Bash(source:*)",
+      "Bash(head:*)",
+      "Bash(tail:*)",
+      "Bash(wc:*)",
+      "Bash(find:*)",
+      "Bash(tree:*)",
+      "Bash(grep:*)",
+      "Bash(rg:*)",
+      "Bash(mkdir:*)",
+      "Bash(cp:*)",
+      "Bash(touch:*)",
+      "Bash(diff:*)",
+      "Bash(sort:*)",
+      "Bash(uniq:*)",
+      "Bash(xargs:*)",
+      "Bash(git add:*)",
+      "Bash(git status:*)",
+      "Bash(git log:*)",
+      "Bash(git diff:*)",
+      "Bash(git branch:*)",
+      "Bash(git stash:*)"
+    ]
+  },
+  "attribution": {
+    "commit": "Co-Authored-By: Claude <noreply@anthropic.com>",
+    "pr": "Generated with Claude Code"
+  }
+}
