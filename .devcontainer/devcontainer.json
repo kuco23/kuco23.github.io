@@ -8,6 +8,13 @@
             "version": "22"
         }
     },
+    "forwardPorts": [8080],
+    "portsAttributes": {
+        "8080": {
+            "label": "site preview",
+            "onAutoForward": "notify"
+        }
+    },
     "postCreateCommand": "npm install -g @anthropic-ai/claude-code",
     "initializeCommand": ".devcontainer/initialize.sh",
     "customizations": {
