@@ -1,0 +1,436 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Nejc Ševerkar · Resume</title>
+  <meta name="description" content="Nejc Ševerkar: software developer and mathematician working on decentralized protocol infrastructure. Founder of StakeCore." />
+  <meta name="color-scheme" content="light only" />
+  <meta property="og:type" content="profile" />
+  <meta property="og:title" content="Nejc Ševerkar" />
+  <meta property="og:description" content="Software developer and mathematician working on decentralized protocol infrastructure." />
+  <meta property="og:url" content="https://kuco.io/resume/" />
+  <meta property="og:image" content="https://kuco.io/resume/photo.jpg" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,300..500;1,6..72,300..400&display=swap" />
+
+  <style>
+    :root {
+      --bg: #fdfcfa;
+      --fg: #2f2c28;
+      --muted: #6d6862;
+      --rule: #ded8d0;
+      --link: #2a6496;
+      --wash: #ebe6de;
+    }
+
+    *, *::before, *::after { box-sizing: border-box; }
+
+    html { background: var(--bg); }
+    body {
+      margin: 0;
+      background: var(--bg);
+      color: var(--fg);
+      font-family: 'Newsreader', Georgia, 'Times New Roman', serif;
+      font-weight: 350;
+      font-optical-sizing: auto;
+      font-size: 1.1875rem;
+      line-height: 1.6;
+      -webkit-text-size-adjust: 100%;
+      text-rendering: optimizeLegibility;
+    }
+
+    main {
+      max-width: 48rem;
+      margin: 0 auto;
+      padding: 2rem 1.25rem 6rem;
+    }
+
+    a { color: var(--link); text-decoration: none; }
+    a:hover, a:focus-visible { text-decoration: underline; text-underline-offset: 0.15em; }
+    a:focus-visible { outline: 1px dotted var(--link); outline-offset: 2px; }
+
+    h1, h2, h3, h4 { font-weight: 400; line-height: 1.2; text-wrap: balance; }
+    p { margin: 0 0 1rem; max-width: 62ch; }
+
+    .visually-hidden {
+      position: absolute; width: 1px; height: 1px; margin: -1px; padding: 0;
+      overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; border: 0;
+    }
+
+    /* top bar */
+    .top {
+      display: flex;
+      justify-content: flex-end;
+      font-size: 0.85rem;
+      letter-spacing: 0.06em;
+      color: var(--muted);
+      margin-bottom: 1.5rem;
+    }
+
+    /* identity */
+    .identity {
+      display: grid;
+      grid-template-columns: 1fr auto;
+      gap: 0 2.5rem;
+      align-items: start;
+    }
+    h1 {
+      margin: 0 0 0.35rem;
+      font-size: 2.6rem;
+      font-weight: 300;
+      letter-spacing: -0.015em;
+    }
+    .role {
+      margin: 0 0 1rem;
+      font-style: italic;
+      color: var(--muted);
+    }
+    .links {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.15rem 0;
+      margin: 0;
+      padding: 0;
+      list-style: none;
+      font-size: 1rem;
+    }
+    .links li + li::before { content: "·"; padding: 0 0.55em; color: var(--muted); }
+
+    .portrait {
+      position: relative;
+      width: 11rem;
+      aspect-ratio: 1;
+      max-width: 100%;
+      padding: 3px;
+      border: 1px solid var(--rule);
+      margin-top: 0.4rem;
+    }
+    .portrait .initials {
+      display: grid;
+      place-items: center;
+      width: 100%;
+      height: 100%;
+      background: var(--wash);
+      color: var(--muted);
+      font-size: 2.6rem;
+      font-weight: 300;
+      font-style: italic;
+    }
+    .portrait img {
+      position: absolute;
+      inset: 3px;
+      width: calc(100% - 6px);
+      height: calc(100% - 6px);
+      object-fit: cover;
+      display: block;
+    }
+
+    /* sections */
+    h2 {
+      margin: 3.25rem 0 1.1rem;
+      padding-top: 1.1rem;
+      border-top: 1px solid var(--rule);
+      font-size: 1.45rem;
+    }
+    .interests { color: var(--muted); }
+    .interests em { color: var(--fg); font-style: normal; }
+
+    /* timeline */
+    .timeline {
+      display: flex;
+      flex-direction: column;
+      gap: 2.5rem;
+      margin: 0;
+      padding: 0;
+      list-style: none;
+    }
+    .year > h3 {
+      margin: 0 0 0.85rem;
+      font-size: 1.6rem;
+      font-weight: 300;
+      color: var(--muted);
+      font-variant-numeric: lining-nums;
+    }
+    .entries {
+      display: flex;
+      flex-direction: column;
+      gap: 1.6rem;
+      margin: 0 0 0 0.65rem;
+      padding: 0.3rem 0 0.3rem 2.5rem;
+      list-style: none;
+      border-left: 1px solid var(--rule);
+    }
+    .entry { position: relative; }
+    .entry > .icon {
+      position: absolute;
+      top: 0;
+      left: -2.5rem;
+      transform: translateX(-50%);
+      display: grid;
+      place-items: center;
+      width: 2rem;
+      height: 2rem;
+      background: var(--bg);
+      color: var(--muted);
+    }
+    .entry > .icon svg { width: 1.15rem; height: 1.15rem; }
+    .entry h4 { margin: 0; font-size: 1.1875rem; font-weight: 450; }
+    .entry p { margin: 0.15rem 0 0; font-size: 1.05rem; }
+    .details {
+      margin: 0.2rem 0 0;
+      padding: 0;
+      list-style: none;
+      font-size: 0.95rem;
+      color: var(--muted);
+    }
+    .details li { display: inline; }
+    .details li + li::before { content: "·"; padding: 0 0.45em; }
+
+    footer {
+      margin-top: 4rem;
+      padding-top: 1rem;
+      border-top: 1px solid var(--rule);
+      font-size: 0.95rem;
+      color: var(--muted);
+    }
+
+    @media (max-width: 34rem) {
+      body { font-size: 1.0625rem; }
+      main { padding: 1.25rem 1rem 4rem; }
+      .identity { grid-template-columns: 1fr; }
+      .portrait { grid-row: 1; width: 8rem; margin: 0 0 1.25rem; }
+      h1 { font-size: 2.1rem; }
+      .entries { padding-left: 1.85rem; margin-left: 0.5rem; }
+      .entry > .icon { left: -1.85rem; }
+    }
+
+    @media print {
+      @page { margin: 15mm; }
+      body { font-size: 11pt; }
+      main { max-width: none; padding: 0; }
+      .top, footer { display: none; }
+      a { color: var(--fg); }
+      h2 { margin-top: 1.75rem; }
+      .timeline { gap: 1.25rem; }
+      .entries { gap: 0.9rem; }
+      .entry, .year > h3 { break-inside: avoid; break-after: avoid; }
+    }
+  </style>
+</head>
+
+<body>
+  <!-- icon set, referenced below with <use> -->
+  <svg width="0" height="0" style="position:absolute" aria-hidden="true">
+    <defs>
+      <symbol id="i-check" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M9 11l3 3 9-9"/><path d="M20 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/></symbol>
+      <symbol id="i-shield" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 21s7.5-3.5 7.5-9.5V5.5L12 3 4.5 5.5v6C4.5 17.5 12 21 12 21z"/><path d="M12 8v4.5"/><path d="M12 15.5v.01"/></symbol>
+      <symbol id="i-server" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="7" rx="1.5"/><rect x="3" y="13" width="18" height="7" rx="1.5"/><path d="M7 7.5h.01M7 16.5h.01"/></symbol>
+      <symbol id="i-database" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><ellipse cx="12" cy="5.5" rx="7.5" ry="2.5"/><path d="M4.5 5.5v13c0 1.4 3.4 2.5 7.5 2.5s7.5-1.1 7.5-2.5v-13"/><path d="M4.5 12c0 1.4 3.4 2.5 7.5 2.5s7.5-1.1 7.5-2.5"/></symbol>
+      <symbol id="i-bot" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="8" width="16" height="12" rx="2"/><path d="M12 8V4.5"/><circle cx="12" cy="3.5" r="1"/><path d="M9 13.5v.5M15 13.5v.5"/><path d="M9.5 17h5"/></symbol>
+      <symbol id="i-contract" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M14 3H7a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V8z"/><path d="M14 3v5h5"/><path d="M10 13l-2 2 2 2M14 13l2 2-2 2"/></symbol>
+      <symbol id="i-flask" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M9 3h6"/><path d="M10 3v6L4.5 18.5A1.7 1.7 0 0 0 6 21h12a1.7 1.7 0 0 0 1.5-2.5L14 9V3"/><path d="M7 15h10"/></symbol>
+      <symbol id="i-grad" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M2 9l10-5 10 5-10 5z"/><path d="M6 11v5c0 1.5 2.7 3 6 3s6-1.5 6-3v-5"/><path d="M22 9v5"/></symbol>
+      <symbol id="i-stake" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3l8 4.5-8 4.5-8-4.5z"/><path d="M4 12l8 4.5 8-4.5"/><path d="M4 16.5L12 21l8-4.5"/></symbol>
+    </defs>
+  </svg>
+
+  <main>
+    <nav class="top" aria-label="Site">
+      <a href="/">kuco.io</a>
+    </nav>
+
+    <header class="identity">
+      <div>
+        <h1>Nejc Ševerkar</h1>
+        <p class="role">Mathematician, developer, and infrastructure provider</p>
+        <ul class="links">
+          <li><a href="https://github.com/kuco23">GitHub</a></li>
+          <li><a href="https://linkedin.com/in/nejc-ševerkar-484b95234">LinkedIn</a></li>
+          <li><a href="https://medium.com/@nseverkar">Medium</a></li>
+          <li><a href="https://stakecore.org">StakeCore</a></li>
+        </ul>
+      </div>
+      <div class="portrait">
+        <div class="initials" aria-hidden="true">NŠ</div>
+        <img src="photo.jpg" width="600" height="600" alt="Nejc Ševerkar" onerror="this.remove()" />
+      </div>
+    </header>
+
+    <h2 id="about">About</h2>
+
+    <p>
+      I hold a Bachelor's degree in Financial Mathematics and a Master's degree in Pure Mathematics,
+      both from the <a href="https://www.fmf.uni-lj.si/">Faculty of Mathematics and Physics</a>, University of Ljubljana.
+    </p>
+    <p>
+      Besides my contract work at <a href="https://flare.network/">Flare</a>,
+      I run <a href="https://stakecore.org">StakeCore</a>, an infrastructure provider for decentralized protocols,
+      through my company Sarisoma d.o.o.
+    </p>
+    <p class="interests">
+      My interests include <em>cryptography</em>, <em>networking</em>, <em>decentralization</em>,
+      <em>communication protocols</em> and <em>website design</em>.
+    </p>
+
+    <h2 id="experience">Experience</h2>
+
+    <ol class="timeline">
+
+      <li class="year">
+        <h3>2026</h3>
+        <ol class="entries">
+          <li class="entry">
+            <span class="icon"><svg aria-hidden="true"><use href="#i-check"/></svg></span>
+            <h4>Quality assurance at Flare</h4>
+            <p>Took over quality assurance on Flare, with the goal of modernizing test automation using LLMs.</p>
+            <ul class="details">
+              <li>2026 – present</li>
+              <li><a href="https://flare.network/">Flare</a></li>
+            </ul>
+          </li>
+        </ol>
+      </li>
+
+      <li class="year">
+        <h3>2025</h3>
+        <ol class="entries">
+          <li class="entry">
+            <span class="icon"><svg aria-hidden="true"><use href="#i-shield"/></svg></span>
+            <h4>FAssets audit competition</h4>
+            <p>Led triage of the Immunefi audit competition for FAssets v1.1 and its Core Vault.</p>
+            <ul class="details">
+              <li>May – June 2025</li>
+              <li>Immunefi</li>
+              <li><a href="https://immunefi.com/audit-competition/audit-comp-flare-fassets/information/">Competition</a></li>
+            </ul>
+          </li>
+          <li class="entry">
+            <span class="icon"><svg aria-hidden="true"><use href="#i-server"/></svg></span>
+            <h4>Founded StakeCore</h4>
+            <p>Running validator and protocol signing services on Flare, Avalanche and Songbird.</p>
+            <ul class="details">
+              <li>2025 – present</li>
+              <li>Sarisoma d.o.o.</li>
+              <li><a href="https://stakecore.org">stakecore.org</a></li>
+              <li><a href="https://github.com/stakecore">GitHub</a></li>
+            </ul>
+          </li>
+        </ol>
+      </li>
+
+      <li class="year">
+        <h3>2024</h3>
+        <ol class="entries">
+          <li class="entry">
+            <span class="icon"><svg aria-hidden="true"><use href="#i-shield"/></svg></span>
+            <h4>FAssets bug bounty</h4>
+            <p>Led triage of the FAssets bug bounty program on Immunefi.</p>
+            <ul class="details">
+              <li>2024</li>
+              <li>Immunefi</li>
+              <li><a href="https://flare.network/news/flare-immunefi-launch-a-comprehensive-bug-bounty-program">Announcement</a></li>
+            </ul>
+          </li>
+          <li class="entry">
+            <span class="icon"><svg aria-hidden="true"><use href="#i-flask"/></svg></span>
+            <h4>FAssets open beta</h4>
+            <p>Led the open beta testing of the FAssets protocol on Flare's Coston2 testnet.</p>
+            <ul class="details">
+              <li>June 2024</li>
+              <li>Coston2</li>
+              <li><a href="https://flare.network/news/the-fassets-open-beta-is-live">Announcement</a></li>
+            </ul>
+          </li>
+          <li class="entry">
+            <span class="icon"><svg aria-hidden="true"><use href="#i-database"/></svg></span>
+            <h4>FAsset indexer</h4>
+            <p>Web3 indexing and API development for the FAssets protocol.</p>
+            <ul class="details">
+              <li>June 2024 – present</li>
+              <li>TypeScript</li>
+              <li><a href="https://github.com/flare-foundation/fasset-indexer">GitHub</a></li>
+            </ul>
+          </li>
+        </ol>
+      </li>
+
+      <li class="year">
+        <h3>2023</h3>
+        <ol class="entries">
+          <li class="entry">
+            <span class="icon"><svg aria-hidden="true"><use href="#i-bot"/></svg></span>
+            <h4>FAsset bots</h4>
+            <p>Web3 client development for the FAssets system. Development has since moved to a private repository.</p>
+            <ul class="details">
+              <li>August 2023 – 2024</li>
+              <li>TypeScript</li>
+              <li><a href="https://github.com/flare-foundation/fasset-bots">GitHub</a></li>
+            </ul>
+          </li>
+          <li class="entry">
+            <span class="icon"><svg aria-hidden="true"><use href="#i-contract"/></svg></span>
+            <h4>FAssets collateral pool</h4>
+            <p>Developed the collateral pool smart contracts for Flare's FAssets bridge.</p>
+            <ul class="details">
+              <li>2023</li>
+              <li>Solidity</li>
+              <li><a href="https://github.com/flare-foundation/fassets">GitHub</a></li>
+            </ul>
+          </li>
+          <li class="entry">
+            <span class="icon"><svg aria-hidden="true"><use href="#i-grad"/></svg></span>
+            <h4>Master's degree in Pure Mathematics</h4>
+            <p>Thesis: <em>Zero-knowledge proofs and their usage in decentralized systems</em>.</p>
+            <ul class="details">
+              <li>2023</li>
+              <li>Faculty of Mathematics and Physics, University of Ljubljana</li>
+              <li><a href="https://repozitorij.uni-lj.si/IzpisGradiva.php?id=143910">Thesis</a></li>
+            </ul>
+          </li>
+        </ol>
+      </li>
+
+      <li class="year">
+        <h3>2022</h3>
+        <ol class="entries">
+          <li class="entry">
+            <span class="icon"><svg aria-hidden="true"><use href="#i-stake"/></svg></span>
+            <h4>Flare stake tool</h4>
+            <p>Developed the first user interface for staking on Flare.</p>
+            <ul class="details">
+              <li>August 2022 – 2023</li>
+              <li>TypeScript</li>
+              <li><a href="https://github.com/flare-foundation/flare-stake-tool">GitHub</a></li>
+            </ul>
+          </li>
+        </ol>
+      </li>
+
+      <li class="year">
+        <h3>2020</h3>
+        <ol class="entries">
+          <li class="entry">
+            <span class="icon"><svg aria-hidden="true"><use href="#i-grad"/></svg></span>
+            <h4>Bachelor's degree in Financial Mathematics</h4>
+            <p>Thesis: <em>The Mandelbrot set and the DEM algorithm</em>.</p>
+            <ul class="details">
+              <li>2020</li>
+              <li>Faculty of Mathematics and Physics, University of Ljubljana</li>
+              <li><a href="https://repozitorij.uni-lj.si/IzpisGradiva.php?id=120178">Thesis</a></li>
+            </ul>
+          </li>
+        </ol>
+      </li>
+
+    </ol>
+
+    <footer>
+      I occasionally write on <a href="https://medium.com/@nseverkar">Medium</a>.
+      This page prints cleanly if you need a PDF.
+    </footer>
+  </main>
+</body>
+</html>
